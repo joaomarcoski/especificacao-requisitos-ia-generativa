@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 09:28:59,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-luna,0.4542,84.7,34438,5168,13335,1062,47773,2,0.005957,0.016002,0.005,0.026959,17,10,17,17

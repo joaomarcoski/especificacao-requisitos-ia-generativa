@@ -1,0 +1,1340 @@
+{
+  "sistema": "SLCCI Operational Production System",
+  "modelo": "gpt-5.6-sol",
+  "data_execucao": "2026-08-20 09:23:07",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 6.pdf ---\nSLCCI (Sea Level Climate Change Initiative)\nSo here's the deal — this is part of a bigger ESA effort, the Climate Change Initiative,\nwhere they're trying to finally make proper use of thirty-plus years of Earth observation\narchives instead of letting all that satellite data just sit there. There are about eleven of\nthese projects running in parallel, each one looking at a different climate variable, and ours\nis the sea level one. Basically the science side has already been doing the heavy lifting —\nbuilding the algorithms, validating them, running a kind of prototype production setup —\nand now we're at the point where somebody needs to take that prototype and turn it into\nsomething that actually runs operationally, day in day out, and can be handed over to the\npeople who need the data.\nWhat I picture happening is a system that pulls in altimetry data from a bunch of different\nsatellite missions, runs it through calibration and validation, cross-calibrates between\nmissions so everything is consistent, and spits out two kinds of products: one is like a\nper-mission track of measurements, and the other is a merged, gridded product that blends\nall the missions together into one consistent climate record. On top of that there needs to\nbe a proper archive, because reprocessing is going to happen again and again as\nalgorithms improve or new calibration methods come out, so we can't afford to lose the\nbaseline data or any of the intermediate stuff along the way.\nThe people using this thing day-to-day are going to be on two very different sides.\nInternally you've got the folks who actually run and maintain the production line —\nscientists who get pulled in when something needs deeper validation or when a new\nproduct has to be defined, people who just judge and sign off on product quality, people\nwho handle the catalog and metadata, and then the more operational crowd who monitor\nthe system, handle incidents, deal with user requests, that sort of thing. Externally, the\naudience is really the climate research community — people doing climate modelling work\nwho just want reliable, well-documented sea level data they can trust and build on. We're\nnot building this for the general public or commercial customers, it's a fairly specialized\nresearch crowd.\nOne thing I want to be upfront about: we don't need to worry about near-real-time delivery.\nThere's a whole separate world of oceanographic services that care about getting data out\nwithin hours for things like operational forecasting, and that's just not us — we're purely\nabout delayed-time and the long, reprocessed historical series for climate purposes, so\nanything geared at that fast-turnaround NRT use case can be dropped from consideration\nentirely. Similarly, all that formal IT service management process stuff, incident ticketing\nframeworks and so on, isn't something we need to bring in here, it just doesn't fit how this\nis going to be run.\nCost is a real concern too, this has to be something that's sustainable to operate long term,\nnot just a one-off build. And it has to be flexible — new satellite missions are coming online\n\nduring the life of the project and the algorithms themselves are going to keep changing as\nthe science matures, so whatever gets built can't be rigid, it needs to absorb new data\nsources and let people swap in improved processing logic without everything falling apart.\nThere's also a push to not reinvent the wheel — there's existing infrastructure out there\nalready doing something very similar for ocean data more broadly, and wherever it makes\nsense we'd rather lean on what's proven and working than build everything from a blank\npage. Quality and traceability of the data matter a lot too, since the whole point is feeding\ntrustworthy numbers into the international climate change conversation, so whatever\ncomes out the other end needs solid metadata and documentation attached, not just raw\nnumbers.",
+  "answer": "Sistema: SLCCI Operational Production System\n\nResumo executivo: The SLCCI Operational Production System operationalizes the Sea Level Climate Change Initiative prototype by ingesting satellite altimetry observations, applying controlled calibration and validation processes, cross-calibrating missions, and producing traceable delayed-time sea-level climate records. It delivers per-mission along-track products and merged gridded products while preserving source, intermediate, and historical product versions. The system supports scientific quality assessment, metadata management, operational monitoring, reprocessing, and controlled dissemination to the climate research community.\n\nEscopo: Operate a sustainable delayed-time production chain for generating, archiving, quality-controlling, cataloguing, and distributing satellite-derived sea-level climate products.\n  Em escopo: Ingestion of altimetry datasets from multiple satellite missions\n  Em escopo: Calibration and validation of mission data\n  Em escopo: Cross-calibration between satellite missions\n  Em escopo: Generation of per-mission along-track products\n  Em escopo: Generation of merged gridded sea-level products\n  Em escopo: Version-controlled reprocessing with updated algorithms or calibrations\n  Em escopo: Archiving of source, intermediate, and product datasets\n  Em escopo: Scientific quality assessment and product approval\n  Em escopo: Metadata, provenance, and documentation management\n  Em escopo: Cataloguing, search, and download of approved products\n  Em escopo: Production monitoring and failed-job recovery\n  Em escopo: Configuration of new missions and processing algorithms\n  Em escopo: Reuse or integration of suitable existing ocean-data infrastructure\n  Fora de escopo: Near-real-time data delivery — the initiative only addresses delayed-time climate products\n  Fora de escopo: Operational ocean forecasting — handled by separate oceanographic services\n  Fora de escopo: Products intended for the general public or commercial customers — the target audience is the climate research community\n  Fora de escopo: Formal IT service management and incident-ticketing frameworks — explicitly excluded from the operating model\n  Fora de escopo: Scientific development of new altimetry algorithms — algorithms are supplied and validated by scientific teams\n  Fora de escopo: Processing of climate variables other than sea level — covered by other Climate Change Initiative projects\n  Premissa: PA-01: Satellite missions or their data providers will supply accessible delayed-time altimetry datasets.\n  Premissa: PA-02: Scientific teams will provide validated algorithms, calibration parameters, and scientific acceptance tolerances.\n  Premissa: PA-03: Quality assessors will be available to review products before dissemination.\n  Premissa: PA-04: [INFERRED] Existing ocean-data infrastructure will expose interfaces or components suitable for reuse.\n  Premissa: PA-05: [INFERRED] Long-term storage capacity will be provisioned according to approved retention and cost plans.\n  Premissa: PA-06: [INFERRED] Climate researchers will have network access and compatible scientific tools for using distributed products.\n  Restrição: REST-01 (Operational): Processing and dissemination must use a delayed-time operating model.\n  Restrição: REST-02 (Scope): Near-real-time processing capabilities must not be included.\n  Restrição: REST-03 (Process): A formal IT service management or incident-ticketing framework must not be required.\n  Restrição: REST-04 (Economic): Annual operation must remain within the approved long-term operational budget [TBD].\n  Restrição: REST-05 (Technical): Suitable proven ocean-data infrastructure must be reused where technically and economically feasible.\n  Restrição: REST-06 (Scientific): Released products must conform to scientific validation and quality-approval rules.\n  Restrição: REST-07 (Evolution): The architecture must accommodate new satellite missions and algorithm versions.\n\nStakeholders:\n  STK-01 - ESA Climate Change Initiative Sponsor (Stakeholder externo): Sustainable operations, trustworthy climate records, controlled costs, and alignment with Climate Change Initiative objectives.\n  STK-02 - Production Operator (Usuário primário): Execute and monitor production and reprocessing jobs, diagnose failures, and recover interrupted processing.\n  STK-03 - Sea-Level Scientist (Usuário primário): Configure scientific processing, introduce validated algorithms, investigate anomalies, and define new products.\n  STK-04 - Product Quality Assessor (Usuário primário): Review validation evidence and approve or reject product releases.\n  STK-05 - Catalog and Metadata Manager (Usuário primário): Maintain searchable catalog records, metadata, provenance, and product documentation.\n  STK-06 - Operations and User Support Staff (Usuário secundário): Observe operational status, investigate service issues, and support specialist users without a formal ITSM framework.\n  STK-07 - Climate Researcher and Climate Modeller (Usuário primário): Find, evaluate, and download reliable, documented, traceable sea-level climate products.\n  STK-08 - Existing Ocean-Data Infrastructure Provider (Stakeholder externo): Receive compatible integration requests and preserve the operational integrity of reused infrastructure.\n\nRegras de negócio:\n  RN-001 - Delayed-time processing: Sea-level climate products are produced from delayed-time observations and historical reprocessing rather than near-real-time data streams.\n  RN-002 - Required product families: The initiative delivers per-mission along-track measurements and a merged gridded climate record.\n  RN-003 - Cross-mission consistency: Measurements from different satellite missions must be cross-calibrated before they contribute to a merged climate record.\n  RN-004 - Input integrity validation: A mission dataset must satisfy the defined completeness, format, and integrity controls before scientific processing.\n  RN-005 - Quality approval before release: A product may be disseminated only after an authorized quality assessor records an approval decision.\n  RN-006 - Preservation of production data: Source baseline data and intermediate processing results must be retained to support traceability and future reprocessing.\n  RN-007 - Immutable processing versions: Reprocessing creates a distinguishable product version and must not overwrite an existing historical version.\n  RN-008 - Mandatory provenance and documentation: Every distributable product must include metadata, processing provenance, quality status, and supporting documentation.\n  RN-009 - Specialist research audience: Distributed products are intended for climate researchers and climate-modelling activities rather than general-public or commercial services.\n  RN-010 - Controlled scientific evolution: A new mission or algorithm version may enter operational production only after its configuration and scientific validation have been approved [INFERRED].\n\nRequisitos funcionais:\n  RF-001 - Ingest mission dataset: The system must ingest delayed-time altimetry datasets from a configured satellite mission. [Must have]\n  RF-002 - Validate ingested dataset: The system must validate each ingested dataset against its configured format, completeness, checksum, and mandatory-field rules. [Must have]\n  RF-003 - Calibrate mission measurements: The system must apply the selected calibration configuration to mission measurements. [Must have]\n  RF-004 - Validate processed measurements: The system must evaluate processed measurements against the scientific validation checks associated with the selected processing configuration. [Must have]\n  RF-005 - Cross-calibrate missions: The system must cross-calibrate measurements from eligible satellite missions using the selected scientific configuration. [Must have]\n  RF-006 - Generate along-track product: The system must generate a versioned per-mission along-track sea-level product from successfully processed measurements. [Must have]\n  RF-007 - Generate merged gridded product: The system must generate a versioned gridded sea-level product from eligible cross-calibrated mission measurements. [Must have]\n  RF-008 - Archive source data: The system must archive each accepted source dataset without altering its accepted baseline content. [Must have]\n  RF-009 - Archive intermediate results: The system must archive the intermediate results designated by the active retention policy. [Must have]\n  RF-010 - Archive product versions: The system must archive each generated product as an immutable version. [Must have]\n  RF-011 - Record processing provenance: The system must record the source datasets, mission configurations, algorithm versions, calibration versions, execution identifier, and processing time for each product. [Must have]\n  RF-012 - Manage catalog metadata: The system must allow an authorized metadata manager to create and update catalog metadata for a product version. [Must have]\n  RF-013 - Associate product documentation: The system must associate version-specific scientific and user documentation with each distributable product. [Must have]\n  RF-014 - Submit product for assessment: The system must submit a generated product version and its validation evidence for quality assessment. [Must have]\n  RF-015 - Record quality decision: The system must allow an authorized quality assessor to approve or reject a submitted product version with a recorded rationale. [Must have]\n  RF-016 - Publish approved product: The system must publish a product version only when its recorded quality status is approved. [Must have]\n  RF-017 - Search product catalog: The system must allow climate researchers to search published products by mission, product family, spatial coverage, temporal coverage, and version. [Must have]\n  RF-018 - Download product package: The system must allow climate researchers to download a published product package containing data, metadata, and documentation. [Must have]\n  RF-019 - Monitor production jobs: The system must display the current status, processing stage, start time, elapsed time, and outcome of each production job. [Must have]\n  RF-020 - Notify processing failure: The system must notify configured operational recipients when a production job enters a failed state. [Should have]\n  RF-021 - Restart production job: The system must allow an authorized operator to restart a failed production job from its latest valid recovery point. [Must have]\n  RF-022 - Configure new mission: The system must allow an authorized scientist to register the data interface, validation rules, calibration configuration, and eligibility status of a new satellite mission. [Must have]\n  RF-023 - Register algorithm version: The system must allow an authorized scientist to register a versioned processing algorithm with its parameters, dependencies, validation status, and documentation. [Must have]\n  RF-024 - Initiate reprocessing: The system must allow an authorized operator to initiate reprocessing using selected source datasets and an approved processing configuration. [Must have]\n  RF-025 - Enforce role permissions: The system must restrict operational, scientific, quality-assessment, metadata-management, and publication functions according to the authenticated user's assigned role [INFERRED]. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Functional Suitability) - The system must produce results that satisfy 100% of approved scientific benchmark cases within their defined numerical tolerances [TBD]. | Métrica: 100% of benchmark cases pass; scientific tolerance values are [TBD].\n  RNF-002 (Performance Efficiency) - The system must complete processing of one representative mission-month dataset within 24 hours under the reference production configuration [TBD]. | Métrica: Elapsed processing time less than or equal to 24 hours for the reference dataset [TBD].\n  RNF-003 (Performance Efficiency) - The system must return catalog search results within 3 seconds at the 95th percentile for 100 concurrent users [TBD]. | Métrica: 95th-percentile response time less than or equal to 3 seconds with 100 concurrent users [TBD].\n  RNF-004 (Reliability) - The system must provide at least 99.5% monthly availability excluding approved maintenance periods [TBD]. | Métrica: Monthly availability greater than or equal to 99.5% [TBD].\n  RNF-005 (Reliability) - The system must store archived objects with annual durability of at least 99.999999999% and verify 100% of stored checksums during scheduled integrity scans [TBD]. | Métrica: Annual durability at least 99.999999999%; checksum verification coverage equals 100% [TBD].\n  RNF-006 (Security) - The system must reject 100% of attempts by unauthorized roles to invoke privileged production, approval, metadata, or publication operations [TBD]. | Métrica: 100% of negative authorization test cases are rejected and recorded [TBD].\n  RNF-007 (Compatibility) - The system must pass 100% of the approved interface conformance tests for each integrated mission source and reused infrastructure component [TBD]. | Métrica: 100% of approved interface conformance tests pass [TBD].\n  RNF-008 (Interaction Capability) - The system must enable at least 90% of trained operators to start and monitor a standard production job within 10 minutes without assistance [TBD]. | Métrica: At least 90% task completion within 10 minutes with zero critical errors [TBD].\n  RNF-009 (Maintainability) - The system must permit 100% of reference algorithm upgrades to be deployed without modification to the production orchestration core [TBD]. | Métrica: 100% of reference upgrade scenarios require zero orchestration-core source-code changes [TBD].\n  RNF-010 (Flexibility) - The system must enable a technically compatible satellite mission to be onboarded within 20 person-days without modifying the orchestration core [TBD]. | Métrica: Onboarding effort less than or equal to 20 person-days and zero orchestration-core changes [TBD].\n  RNF-011 (Functional Suitability) - The system must provide complete source-to-product provenance for 100% of published product versions. | Métrica: 100% of sampled published products identify all source datasets, configurations, algorithm versions, and quality decisions.\n  RNF-012 (Performance Efficiency) - The system must operate with annual infrastructure expenditure no greater than 105% of the approved annual budget [TBD]. | Métrica: Annual infrastructure expenditure less than or equal to 105% of the approved budget [TBD].\n\nHistórias de usuário:\n  HU-001 - Como production operator, quero ingest delayed-time altimetry data from a configured mission, para make the observations available to the production chain\n  HU-002 - Como sea-level scientist, quero configure a new satellite mission, para incorporate new observations without redesigning the production system\n  HU-003 - Como sea-level scientist, quero register a validated algorithm version, para apply improved scientific processing while preserving reproducibility\n  HU-004 - Como production operator, quero initiate a version-controlled reprocessing run, para regenerate the climate record using improved processing configurations\n  HU-005 - Como sea-level scientist, quero submit a generated product and its validation evidence for assessment, para obtain an independent quality decision\n  HU-006 - Como product quality assessor, quero approve or reject a product with a rationale, para prevent unverified climate data from being released\n  HU-007 - Como catalog and metadata manager, quero maintain product metadata and documentation, para make every climate product understandable and traceable\n  HU-008 - Como catalog and metadata manager, quero publish an approved product version, para make validated data available to climate researchers\n  HU-009 - Como climate researcher, quero search the product catalog using scientific criteria, para identify sea-level datasets suitable for my research\n  HU-010 - Como climate researcher, quero download a product with its metadata and documentation, para use a documented and traceable dataset in climate analysis\n  HU-011 - Como production operator, quero monitor production-job status and progress, para detect processing problems and maintain daily operations\n  HU-012 - Como production operator, quero restart a failed job from its latest valid recovery point, para restore production without repeating completed processing\n\nCasos de uso:\n  UC-001 - Ingest mission dataset | Ator: Production Operator\n    1. The actor selects a configured mission and requests ingestion.\n    2. The system retrieves the available delayed-time dataset.\n    3. The system validates format, completeness, mandatory fields, and checksum.\n    4. The system registers and archives the accepted dataset.\n    5. The system marks the dataset as available for processing.\n  UC-002 - Configure new satellite mission | Ator: Sea-Level Scientist\n    1. The actor creates a mission configuration.\n    2. The actor supplies source-interface, validation, calibration, and metadata definitions.\n    3. The system validates configuration completeness and interface conformance.\n    4. The actor records the scientific validation status.\n    5. The system stores the versioned mission configuration.\n  UC-003 - Register algorithm version | Ator: Sea-Level Scientist\n    1. The actor submits an algorithm package.\n    2. The actor supplies version, parameter, dependency, and documentation information.\n    3. The system validates package integrity and metadata completeness.\n    4. The actor assigns the approved scientific validation status.\n    5. The system stores the version and makes approved versions selectable.\n  UC-004 - Initiate reprocessing | Ator: Production Operator\n    1. The actor selects the temporal range and source datasets.\n    2. The actor selects approved mission, calibration, and algorithm versions.\n    3. The system validates configuration compatibility.\n    4. The system creates a new product-version identifier.\n    5. The system starts or queues the reprocessing job.\n  UC-005 - Submit product for quality assessment | Ator: Sea-Level Scientist\n    1. The actor selects a generated product version.\n    2. The system displays its validation evidence, metadata, and provenance.\n    3. The actor requests quality assessment.\n    4. The system checks submission completeness.\n    5. The system records the submission and marks the product as pending assessment.\n  UC-006 - Record product quality decision | Ator: Product Quality Assessor\n    1. The actor opens the pending product assessment.\n    2. The system presents validation evidence, metadata, provenance, and documentation.\n    3. The actor selects approval or rejection.\n    4. The actor enters a rationale.\n    5. The system records the decision, actor, and timestamp.\n  UC-007 - Maintain product metadata | Ator: Catalog and Metadata Manager\n    1. The actor selects a product version.\n    2. The system displays its catalog metadata and documentation.\n    3. The actor creates or updates the permitted metadata fields.\n    4. The actor associates version-specific documentation.\n    5. The system validates and saves the changes.\n  UC-008 - Publish approved product | Ator: Catalog and Metadata Manager\n    1. The actor selects an approved product version.\n    2. The system validates publication prerequisites.\n    3. The actor confirms publication.\n    4. The system publishes the catalog record and product package.\n    5. The system records the publication event.\n  UC-009 - Search product catalog | Ator: Climate Researcher\n    1. The actor opens the product catalog.\n    2. The actor specifies one or more scientific search criteria.\n    3. The system searches published product metadata.\n    4. The system displays matching versions and their quality status.\n    5. The actor opens a product record.\n  UC-010 - Download product package | Ator: Climate Researcher\n    1. The actor opens a published product record.\n    2. The system displays data, metadata, documentation, size, and checksum information.\n    3. The actor requests the download.\n    4. The system transfers the product package.\n    5. The system provides the package checksum.\n  UC-011 - Monitor production job | Ator: Production Operator\n    1. The actor opens the production-monitoring view.\n    2. The system lists active and recent jobs.\n    3. The actor selects a job.\n    4. The system displays its stage, status, start time, elapsed time, and outcome.\n    5. The system refreshes active-job information.\n  UC-012 - Restart failed production job | Ator: Production Operator\n    1. The actor opens a failed job.\n    2. The system displays the failure details and available recovery point.\n    3. The actor requests a restart.\n    4. The system validates input and configuration availability.\n    5. The system creates a linked recovery execution and resumes processing.\n\nCritérios de aceite:\n  CA-001 - Dado a configured mission with an available delayed-time dataset, quando an operator requests ingestion, então the system registers the dataset with a unique identifier and sets its ingestion status to received\n  CA-002 - Dado an ingested dataset with an invalid checksum or missing mandatory field, quando input validation is executed, então the system sets the dataset status to rejected, identifies every failed control, and prevents scientific processing\n  CA-003 - Dado an accepted dataset and a selected approved calibration configuration, quando mission processing starts, então the generated measurements identify the exact calibration version applied\n  CA-004 - Dado processed measurements and an associated validation profile, quando validation is executed, então the system records a pass or fail result for 100% of mandatory validation checks\n  CA-005 - Dado processed measurements from at least two eligible missions, quando cross-calibration is executed, então the output identifies all contributing missions and the cross-calibration configuration version\n  CA-006 - Dado successfully processed measurements for one mission, quando along-track product generation completes, então the system creates one versioned product associated with that mission and processing execution\n  CA-007 - Dado eligible cross-calibrated measurements and a configured grid, quando merged-product generation completes, então the system creates one versioned gridded product identifying every contributing mission\n  CA-008 - Dado an accepted source dataset, quando archiving completes, então the archived object's checksum equals the accepted dataset checksum\n  CA-009 - Dado a completed processing stage producing an intermediate designated for retention, quando the stage completes, então the intermediate is archived with its execution identifier, stage name, version, and checksum\n  CA-010 - Dado an archived product version, quando reprocessing generates another product for the same mission and period, então the system creates a different immutable version identifier and preserves the previous version\n  CA-011 - Dado a generated product version, quando its provenance record is retrieved, então the record identifies all source datasets, algorithm versions, calibration versions, mission configurations, execution identifier, and processing timestamp\n  CA-012 - Dado an authorized metadata manager editing a product record, quando the manager submits complete valid metadata, então the system saves a new metadata revision and records the editor and timestamp\n  CA-013 - Dado a product version and a supported documentation file, quando an authorized metadata manager associates the document, então the product record displays the document title, version, checksum, and retrieval link\n  CA-014 - Dado a generated product with complete validation evidence and provenance, quando a scientist submits it for assessment, então the system sets its quality status to pending assessment and records the submission timestamp\n  CA-015 - Dado an authorized assessor and a product pending assessment, quando the assessor submits an approval or rejection with a rationale, então the system records the decision, rationale, assessor identity, and timestamp as an immutable event\n  CA-016 - Dado a product whose quality status is not approved, quando publication is requested, então the system refuses publication and displays that quality approval is required\n  CA-017 - Dado published products from multiple missions, periods, and versions, quando a researcher supplies mission and temporal-coverage filters, então 100% of returned records satisfy both supplied filters\n  CA-018 - Dado a published product, quando a researcher completes its download, então the downloaded package contains data, metadata, documentation, and a checksum matching the catalog value\n  CA-019 - Dado an active production job, quando an operator opens its monitoring record, então the system displays its current stage, status, start time, elapsed time, and execution identifier\n  CA-020 - Dado a production job and at least one configured operational recipient, quando the job enters the failed state, então the system sends a notification containing the job identifier, failed stage, timestamp, and error identifier within 5 minutes [TBD]\n  CA-021 - Dado a failed job with a valid recovery point, quando an authorized operator requests restart, então the system creates a linked recovery execution beginning at that recovery point without altering the failed execution record\n  CA-022 - Dado complete interface, validation, calibration, and metadata definitions for a new mission, quando an authorized scientist saves the configuration, então the system assigns a unique version and records its eligibility status\n  CA-023 - Dado a valid algorithm package with complete dependencies and documentation, quando an authorized scientist registers the package, então the system stores it under a unique immutable version and records its validation status\n  CA-024 - Dado selected source data and a compatible approved processing configuration, quando an authorized operator initiates reprocessing, então the system creates a uniquely identified job and reserves a new product-version identifier\n  CA-025 - Dado an authenticated user without the quality-assessor role, quando the user attempts to approve a product, então the system rejects the operation, leaves the product status unchanged, and records the denied attempt\n\nGlossário:\n  SLCCI: Sea Level Climate Change Initiative, the sea-level project within ESA's Climate Change Initiative.\n  Altimetry data: Satellite observations used to derive sea-surface height and related sea-level measurements.\n  Delayed-time: Processing performed after observations and required auxiliary information are available, without near-real-time delivery obligations.\n  Near-real-time: Rapid processing and delivery within hours of observation for operational forecasting; excluded from this system.\n  Along-track product: A product containing geolocated sea-level measurements organized along the observation track of an individual satellite mission.\n  Merged gridded product: A spatially gridded sea-level climate record produced by combining eligible cross-calibrated observations from multiple missions.\n  Calibration: Application of corrections and parameters intended to align measurements with approved scientific references.\n  Cross-calibration: Adjustment and comparison of observations from multiple missions to create a consistent combined record.\n  Validation: Evaluation of data or products against defined scientific checks, reference datasets, and acceptance tolerances.\n  Reprocessing: Regeneration of historical products using a specified version of algorithms, calibration configurations, and source datasets.\n  Baseline data: Accepted source data preserved without alteration as the foundation for processing and reproducibility.\n  Intermediate result: A retained dataset produced between source ingestion and final product generation.\n  Provenance: Traceability information identifying the sources, configurations, algorithms, executions, and decisions that produced a data product.\n  Product version: An immutable identified instance of a product generated from a specific processing configuration and source-data selection.\n  Quality assessor: An authorized specialist responsible for reviewing evidence and recording product approval or rejection.\n  Climate record: A consistent long-term observational dataset suitable for climate analysis and modelling.\n  Recovery point: A validated persisted processing state from which an interrupted or failed job can resume.",
+  "contexts": [
+    "SLCCI (Sea Level Climate Change Initiative)\r\nSo here's the deal — this is part of a bigger ESA effort, the Climate Change Initiative,\r\nwhere they're trying to finally make proper use of thirty-plus years of Earth observation\r\narchives instead of letting all that satellite data just sit there. There are about eleven of\r\nthese projects running in parallel, each one looking at a different climate variable, and ours\r\nis the sea level one. Basically the science side has already been doing the heavy lifting —\r\nbuilding the algorithms, validating them, running a kind of prototype production setup —\r\nand now we're at the point where somebody needs to take that prototype and turn it into\r\nsomething that actually runs operationally, day in day out, and can be handed over to the\r\npeople who need the data.\r\nWhat I picture happening is a system that pulls in altimetry data from a bunch of different\r\nsatellite missions, runs it through calibration and validation, cross-calibrates between\r\nmissions so everything is consistent, and spits out two kinds of products: one is like a\r\nper-mission track of measurements, and the other is a merged, gridded product that blends\r\nall the missions together into one consistent climate record. On top of that there needs to\r\nbe a proper archive, because reprocessing is going to happen again and again as\r\nalgorithms improve or new calibration methods come out, so we can't afford to lose the\r\nbaseline data or any of the intermediate stuff along the way.\r\nThe people using this thing day-to-day are going to be on two very different sides.\r\nInternally you've got the folks who actually run and maintain the production line —\r\nscientists who get pulled in when something needs deeper validation or when a new\r\nproduct has to be defined, people who just judge and sign off on product quality, people\r\nwho handle the catalog and metadata, and then the more operational crowd who monitor\r\nthe system, handle incidents, deal with user requests, that sort of thing. Externally, the\r\naudience is really the climate research community — people doing climate modelling work\r\nwho just want reliable, well-documented sea level data they can trust and build on. We're\r\nnot building this for the general public or commercial customers, it's a fairly specialized\r\nresearch crowd.\r\nOne thing I want to be upfront about: we don't need to worry about near-real-time delivery.\r\nThere's a whole separate world of oceanographic services that care about getting data out\r\nwithin hours for things like operational forecasting, and that's just not us — we're purely\r\nabout delayed-time and the long, reprocessed historical series for climate purposes, so\r\nanything geared at that fast-turnaround NRT use case can be dropped from consideration\r\nentirely. Similarly, all that formal IT service management process stuff, incident ticketing\r\nframeworks and so on, isn't something we need to bring in here, it just doesn't fit how this\r\nis going to be run.\r\nCost is a real concern too, this has to be something that's sustainable to operate long term,\r\nnot just a one-off build. And it has to be flexible — new satellite missions are coming onlineduring the life of the project and the algorithms themselves are going to keep changing as\r\nthe science matures, so whatever gets built can't be rigid, it needs to absorb new data\r\nsources and let people swap in improved processing logic without everything falling apart.\r\nThere's also a push to not reinvent the wheel — there's existing infrastructure out there\r\nalready doing something very similar for ocean data more broadly, and wherever it makes\r\nsense we'd rather lean on what's proven and working than build everything from a blank\r\npage.",
+    "(2013). Metodología para la Especificación de \r\nRequerimientos de Software Basado en el Estándar IEEE 830-1998. In Tesis -\r\nUniversidad Politécnica Salesiana - Sede Cuenca.\r\nBoyarchuk, A., Pavlova, O., Bodnar, M., & Lopatto, I. (2020). Approach to the Analysis of \r\nSoftware Requirements Specification on its Structure Correctness. CEUR Workshop, 85–\r\n95. http://ceur-ws.org/Vol-2623/paper9.pdf\r\nCano, C., Melgar, A., Dávila, A., & Pessoa, M. (2015). Comparison of Software Process Models. \r\nA Systematic Literature Review. 41st Latin American Computing Conference - CLEI 2015, \r\n1–6. https://doi.org/10.1109/CLEI.2015.7360025\r\nChandra, V. (2015). Comparison between Various Software Development Methodologies. \r\nInternational Journal of Computer Applications, 131(9), 7–10. \r\nhttps://doi.org/10.5120/ijca2015907294\r\nChang, C. K. (2018). Situation Analytics — at the Dawn of a New Software Engineering \r\nParadigm. Science China - Information Sciences, 61(5), 1–14. \r\nhttps://doi.org/10.1007/s11432-017-9372-7\r\nDe Bellis, M., & Haapala, C. (1995). User-Centric Software Engineering. IEEE Expert, 10(1), \r\n34–41.\r\nForbrig, P. (2016). Continuous Requirements Engineering and Human-Centered Agile Software \r\nDevelopment. International Working Conference on Requirement Engineering Foundation \r\nfor Software Quality - REFSQ 2016, 1–11.\r\nGriselda Báez, M., & Barba Brunner, S. I. (2001). Metodología DoRCU para la Ingeniería de \r\nRequerimientos. WorkShop on Requirement Engineering, 1–13.\r\nGuida, G., & Lamperti, G. (2000). AMMETH: a Methodology for Requirements Analysis of \r\nAdvanced Human-System Interfaces. IEEE Transactions on Systems, Man, and \r\nCybernetics Part A:Systems and Humans., 30(3), 298–321. \r\nhttps://doi.org/10.1109/3468.844355\r\nHu, W., Carver, J. C., Anu, V., Walia, G., & Bradshaw, G. (2017). Defect Prevention in \r\nRequirements Using Human Error Information: An Empirical Study. International Working \r\nConference on Requirements Engineering: Foundation for Software Quality - REFSQ \r\n2017. In Lecture Notes in Computer Science, 10153 LNCS, 61–76. \r\nhttps://doi.org/10.1007/978-3-319-54045-0_5C2-12\r\nIEEE-CS. (2014). SWEBOK Guide V3.0 - Guide to the Software Engineering Body of \r\nKnowledge. In P. Bourque & R. Fairley (Eds.), IEEE.\r\nIEEE SA. (2011). IEEE SA Standards. Web EEE/ISO/IEC 29148-2011. \r\nhttps://standards.ieee.org/standard/29148-2011.html\r\nIkram, N., & Naz, S. (2015). Extreme Requirements Engineering (XRE).",
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "106 PART II Requirements development\r\nFIGURE 6-2 A portion of the organization chart for Contoso Pharmaceuticals.\r\nDocument the user classes and their characteristics, responsibilities, and physical locations in \r\nthe software requirements specification (SRS) or in a requirements plan for your project. Check that \r\ninformation against any information you might already have about stakeholder profiles in the vision \r\nand scope document to avoid conflicts and duplication. Include all pertinent information you have \r\nabout each user class, such as its relative or absolute size and which classes are favored. This will \r\nhelp the team prioritize change requests and conduct impact assessments later on. Estimates of \r\nthe volume and type of system transactions help the testers develop a usage profile for the system \r\nso that they can plan their verification activities. The project manager and business analyst of the \r\nChemical Tracking System discussed in earlier chapters identified the user classes and characteristics \r\nshown in Table 6-1.\r\nTABLE 6-1 User classes for the Chemical Tracking System\r\nName Number Description\r\nChemists \r\n(favored)\r\nApproximately \r\n1,000 located in \r\n6 buildings\r\nChemists will request chemicals from vendors and from the chemical \r\nstockroom. Each chemist will use the system several times per day, mainly for \r\nrequesting chemicals and tracking chemical containers into and out of the \r\nlaboratory. The chemists need to search vendor catalogs for specific chemical \r\nstructures imported from the tools they use for drawing structures.\r\nBuyers 5 Buyers in the purchasing department process chemical requests. They place \r\nand track orders with external vendors. They know little about chemistry and \r\nneed simple query facilities to search vendor catalogs. Buyers will not use \r\nthe system’s container-tracking features. Each buyer will use the system an \r\naverage of 25 times per day.\r\nChemical \r\nstockroom staff\r\n6 technicians, \r\n1 supervisor\r\nThe chemical stockroom staff manages an inventory of more than 500,000 \r\nchemical containers. They will supply containers from three stockrooms, \r\nrequest new chemicals from vendors, and track the movement of all \r\ncontainers into and out of the stockrooms. They are the only users of the \r\ninventory-reporting feature. Because of their high transaction volume, \r\nfeatures that are used only by the chemical stockroom staff must be \r\nautomated and efficient.\r\nHealth \r\nand Safety \r\nDepartment staff \r\n(favored)\r\n1 manager The Health and Safety Department staff will use the system only to generate \r\npredefined quarterly reports that comply with federal and state chemical \r\nusage and disposal reporting regulations. The Health and Safety Department \r\nmanager will request changes in the reports periodically as government \r\nregulations change. These report changes are of the highest priority, and \r\nimplementation will be time critical.",
+    "C2-11\r\ncomplete the SRS document (software requirements specifications); all but XRE also complete \r\nthe StRS (stakeholder requirements specifications) document; and neither covers the Concept \r\nof Operations item, nor the System Operational Systems; that are more related to the system \r\nlevel and less to the software level.\r\nACKNOWLEDGMENTS\r\nThis work is partially supported by Department of Engineering and the Software Engineering \r\nResearch and Development Group (GIDIS) from the Pontifical Catholic University of Peru \r\n(PUCP). The work is also funded by the Data Science and Technology Research Group \r\n(CITEC) of the National University of Moquegua (UNAM).\r\nREFERENCES\r\nAmbreen, T., Ikram, N., Usman, M., & Niazi, M. (2018). Empirical Research in Requirements \r\nEngineering: Trends and Opportunities. Requirements Engineering, 23(1), 63–95. \r\nhttps://doi.org/10.1007/s00766-016-0258-2\r\nAnu, V., Hu, W., Carver, J. C., Walia, G. S., & Bradshaw, G. (2018). Development of a Human \r\nError Taxonomy for Software Requirements: A Systematic Literature Review. Information \r\nand Software Technology, 103, 112–124. https://doi.org/10.1016/j.infsof.2018.06.011\r\nBeecham, S., Hall, T., & Rainer, A. (2005). Defining a Requirements Process Improvement \r\nModel. Software Quality Journal, 13, 247–279. https://doi.org/10.1007/s11219-005-1752-9\r\nBorja Buestán, C. D., & Cuji Torres, V. A. (2013). Metodología para la Especificación de \r\nRequerimientos de Software Basado en el Estándar IEEE 830-1998. In Tesis -\r\nUniversidad Politécnica Salesiana - Sede Cuenca.\r\nBoyarchuk, A., Pavlova, O., Bodnar, M., & Lopatto, I. (2020). Approach to the Analysis of \r\nSoftware Requirements Specification on its Structure Correctness. CEUR Workshop, 85–\r\n95. http://ceur-ws.org/Vol-2623/paper9.pdf\r\nCano, C., Melgar, A., Dávila, A., & Pessoa, M. (2015). Comparison of Software Process Models. \r\nA Systematic Literature Review. 41st Latin American Computing Conference - CLEI 2015, \r\n1–6. https://doi.org/10.1109/CLEI.2015.7360025\r\nChandra, V. (2015). Comparison between Various Software Development Methodologies. \r\nInternational Journal of Computer Applications, 131(9), 7–10. \r\nhttps://doi.org/10.5120/ijca2015907294\r\nChang, C. K. (2018). Situation Analytics — at the Dawn of a New Software Engineering \r\nParadigm. Science China - Information Sciences, 61(5), 1–14. \r\nhttps://doi.org/10.1007/s11432-017-9372-7\r\nDe Bellis, M., & Haapala, C. (1995). User-Centric Software Engineering. IEEE Expert, 10(1), \r\n34–41.\r\nForbrig, P. (2016). Continuous Requirements Engineering and Human-Centered Agile Software \r\nDevelopment.",
+    "Nível Fundamental | Syllabus ©IREB 21 | 50\r\n1. Os requisitos são classificados pelo seu tipo (1.1) em:\r\na) Requisitos funcionais\r\nb) Requisitos de qualidade\r\nc) Restrições\r\n2. Os requisitos funcionais concentram-se em diferentes aspectos da funcionalidade \r\nde um sistema:\r\na) Estrutura e dados\r\nb) Função e fluxo\r\nc) Estado e comportamento\r\n3. Finalmente, os requisitos só serão entendidos no contexto (Princípio 4 em 2):\r\na) Contexto do sistema, incluindo atores externos\r\nb) Limites do sistema e interfaces externas\r\nHá muitas relações e dependências entre os aspectos mencionados. Por exemplo, uma \r\nsolicitação emitida por um usuário (contexto) pode levar a uma transição de estado (estado \r\ne comportamento) que inicia ações em cadeia (função e fluxo) que requerem dados \r\n(estrutura e dados) para fornecer um resultado ao usuário (contexto) dentro de um intervalo \r\nde tempo (qualidade).\r\nAlguns produtos de trabalho focam em um aspecto específico e abstraem os outros \r\naspectos. Este é particularmente o caso dos modelos de requisitos (3.4). Outros produtos de \r\ntrabalho, como uma especificação dos requisitos do sistema, cobrem todos os aspectos \r\ncitados. Quando aspectos diferentes são documentados em produtos de trabalho \r\nseparados ou em capítulos separados do mesmo produto de trabalho, esses produtos de \r\ntrabalho ou capítulos de trabalho devem ser mantidos consistentes entre si.\r\n3.1.5 Diretrizes Gerais de Documentação (L1)\r\nIndependentemente das técnicas utilizadas, as seguintes diretrizes aplicam-se na criação \r\nde produtos de trabalho:\r\n▪ Selecionar um tipo de produto de trabalho que se adapte à finalidade pretendida.\r\n▪ Evitar a redundância referenciando o conteúdo em vez de repetir o mesmo conteúdo.\r\n▪ Assegurar que não existem inconsistências entre os produtos de trabalho, \r\nparticularmente quando cobrem aspectos diferentes.\r\n▪ Usar termos de forma consistente, conforme definido no glossário.\r\n▪ Estruturar produtos de trabalho de forma apropriada.\r\n3.1.6 Planejar os produtos de trabalho a serem utilizados \r\n(L1)\r\nCada cenário de projeto e cada domínio são diferentes, portanto, o conjunto de produtos de \r\ntrabalho resultante deve ser definido para cada empreendimento. Portanto, as seguintes \r\nquestões devem ser acordadas:\r\n▪ Em que produtos de trabalho devem ser registados os requisitos e para que fins?",
+    "6.3.3.6 Analyze stakeholder requirements. Define and perform activities related to classifying, reviewing and prioritizing the requirements, to \r\nvalidate them against the stakeholders.\r\n6.3.3.7 Manage the stakeholder needs and requirements definition Define and perform activities related to manage the stakeholder needs and requirements \r\ndefinition.\r\n6.4 System [System/Software] Requirements definition process Define and perform activities related to System/Software requirement definition.\r\n6.4.3.2 Prepare for [System/Software] Requirement Definitions Define and perform activities related to prepare for System/Software requirements definition.\r\n6.4.3.3 Define system[/software] requirements Define and perform activities related to define System/Software requirements.\r\n6.4.3.4 Analyze system[/software] requirements Define and perform activities related to analyze System/Software requirements.\r\n6.4.3.5 Manage system[/software] requirements Define and perform activities related to manage System/Software requirements.\r\nMaintain traceability of the system[/software] requirements. Define and perform activities related to maintain traceability of the System/Software requirements.\r\n6.5 Requirements engineering activities in other technical \r\nprocesses\r\nDefine and perform activities related to requirements in other technical processes.\r\n6.5.1 Requirements activities in architecture definition Define and perform activities related to requirements in the architecture definition phase.\r\n6.5.2 Requirements activities in verification Define and perform activities related to requirements in the verification phase.\r\n6.5.3 Requirements activities in validation Define and perform activities related to requirements in the validation phase.\r\n6.6 Requirements management Manage requirements (needs and change) and keep them consistent.\r\n9.3 Business requirement specification (BRS) Describe elements of Business requirements specification (BRS).\r\n9.4 Stakeholder requirements specif. (StRS) Describe elements of Stakeholder requirement specification (StRS).\r\n9.5 System requirements specification (SyRS) Describe elements of System requirement specification (SyRS).\r\n9.6 Software requirements specification (SRS) Describe elements of Software requirement specification (SRS).\r\nTable 2. Criteria description based on ISO29148 to compare UCMRE’s model",
+    ". . . . . . . . . . . . . . . . 372\r\nFrom requirements to designs and code. . . . . . . . . . . . . . . . . . . . . . . . . . . 373\r\nArchitecture and allocation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 373\r\nSoftware design. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374\r\nUser interface design. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375\r\nFrom requirements to tests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 377\r\nFrom requirements to success. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 379xviii Contents\r\nPART III REQUIREMENTS FOR SPECIFIC PROJECT CLASSES\r\nChapter 20 Agile projects 383\r\nLimitations of the waterfall. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384\r\nThe agile development approach. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 385\r\nEssential aspects of an agile approach to requirements. . . . . . . . . . . . . . 385\r\nCustomer involvement. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "(2017). The Applications of Natural \r\nLanguage Processing (NLP) for Software Requirement Engineering - A Systematic \r\nLiterature Review. ICISA 2017 Information Science and Applications. In Lecture Notes in \r\nElectrical Engineering, 424, 485–493. https://doi.org/10.1007/978-981-10-4154-9_56\r\nNiazi, M. (2005). An Instrument for Measuring the Maturity of Requirements Engineering \r\nProcess. Product Focused Software Process Improvement - PROFES 2005 . In Lecture \r\nNotes in Computer Science, 3547, 574–585. https://doi.org/10.1007/11497455_44\r\nNiazi, M., & Shastry, S. (2003). Critical Success Factors for the Improvement of Requirements \r\nEngineering Process. International Conference on Software Engineering Research and \r\nPractise, 433–439.\r\nNieva, A., Hardisty, A., & Jones, A. (2016). SCRAM–CK: Applying a Collaborative \r\nRequirements Engineering Process for Designing a Web Based e-Science Toolkit. \r\nRequirements Engineering, 21, 107–129. https://doi.org/10.1007/s00766-014-0212-0\r\nNorman, D. A., & Draper, S. W. (1987). User Centred System Design-New Perspectives on \r\nHuman/Computer Interaction. Journal of Educational Computing Research, 3(1), 129–134.\r\nNuseibeh, B., & Easterbrook, S. (2000). Requirements Engineering: A Roadmap. International \r\nConference on The Future of Software Engineering - ICSE 2000., 35–46. \r\nhttp://mcs.open.ac.uk/ban25/papers/sotar.re.pdf%5Cn./CitaviFiles/Nuseibeh2000.pdf\r\nPaez Cardenas, P., Arias Peralta, C. D., & Wanumen Silva, L. F. (2018). Metodología para \r\nElaboración de Requerimientos en Aplicaciones con Servicios Web. Revista Vínculos, \r\n15(2), 160–174. https://doi.org/10.14483/2322939x.13505\r\nPetersen, K., Vakkalanka, S., & Kuzniarz, L. (2015). Guidelines for Conducting Systematic \r\nMapping Studies in Software Engineering: An Update. Information and Software \r\nTechnology, 64, 1–18. https://doi.org/10.1016/j.infsof.2015.03.007\r\nSaleh, S. M., Rahman, M. A., & Asgor, K. A. (2017). Comparative Study on the Software \r\nMethodologies for Effective Software Development. International Journal of Scientific & \r\nEngineering Research, 8(4), 1018–1025.\r\nSelvyanti, D., & Bandung, Y. (2017). The Requirements Engineering Framework Based on ISO \r\n29148:2011 and Multi-View Modeling Framework. International Conference on Information \r\nTechnology Systems and Innovation - ICITSI 2017, 128–133. \r\nhttps://doi.org/10.1109/ICITSI.2017.8267930\r\nShafiq, M., Zhang, Q., & Akbar, M. A. (2019). Software Requirements Engineering Maturity C2-13\r\nModel (SREMM) in Offshore Software Development Outsourcing.",
+    "C2-10\r\n5 DISCUSSION AND CONCLUSIONS\r\nIn this study, an SMS has been carried out where five user-centric methodologies for \r\nrequirement engineering (UCMRE) were obtained: DoRCU, XRE, Ammeth, Borja and Paéz. \r\nThe SMS has followed a process based on the methodology based on Petersen (2015) in three\r\ndigital databases of interest for software engineering.\r\nSubsequently, considering the relevance of ISO 29148, a standard updated in 2018, process \r\nelements from this standard were used as criteria to compare the five UCMRE identified. This \r\ncomparison has made it possible to identify that DoRCU is the most aligned with ISO 29148, \r\nfollowed by, without an important distinction between them, Ammeth, Borja and Paéz; finally, \r\nXRE is the least aligned of the group of UCMRE evaluated. Likewise, it is observed that all \r\nId* Process element\r\nDoRCU\r\nXRE\r\nAMMETH\r\nBorja\r\nPáez\r\n6.2 Business or mission analysis process Y Y Y Y Y\r\n6.3 Stakeholder needs and requirements \r\ndefinition process --- --- --- --- ---\r\n6.3.3.2 Prepare for Stakeholder Needs and \r\nRequirements Definition Y - Y Y Y\r\nIdentify the stakeholders Y Y Y Y Y\r\nRequirements definition strategy Y - Y Y Y\r\n6.3.3.3 Define stakeholder needs Y - Y Y Y\r\nIdentify stakeholder needs. Y Y Y Y Y\r\nPrioritize and down-select needs. Y Y Y Y Y\r\n6.3.3.4 Develop the operational concept and other \r\nlife cycle concepts Y - Y Y Y\r\nIdentify the interaction between users and \r\nthe system. Y - Y Y Y\r\nIdentify the factors affecting interactions \r\nbetween users and the system. Y - Y Y -\r\n6.3.3.5 Transform stakeholder needs into \r\nstakeholder requirements Y Y Y Y Y\r\n6.3.3.6 Analyze stakeholder requirements. Y Y Y Y Y\r\n6.3.3.7 Manage the stakeholder needs and \r\nrequirements definition Y Y - Y Y\r\n6.4 System [System/Software] Requirements \r\ndefinition process --- --- --- --- ---\r\n6.4.3.2 Prepare for System [System/Software] \r\nRequirements Definition Y Y Y - Y\r\n6.4.3.3 Define system[/software] requirements Y Y Y Y Y\r\n6.4.3.4 Analyze system[/software] requirements Y Y Y Y Y\r\n6.4.3.5 Manage system[/software] requirements Y - Y Y -\r\nMaintain traceability of the system[/software] \r\nrequirements. Y Y Y - -\r\n6.5 Requirements engineering activities in other \r\ntechnical processes --- --- --- --- ---\r\n6.5.1 Requirements activities in architecture \r\ndefinition - - - Y -\r\n6.5.2 Requirements activities in verification Y Y Y Y Y\r\n6.5.3 Requirements activities in validation Y Y Y Y Y\r\n6.6 Requirements management Y Y Y Y Y\r\n9.3 Business requirement specification (BRS) Y - - - -\r\n9.4 Stakeholder requirements specification \r\n(StRS) Y - Y Y Y\r\n9.5 System requirements specification (SyRS) Y - - - -\r\n9.6 Software requirements specification (SRS) Y Y Y Y Y\r\nTotal 25 15 22 22 20\r\nTable 3. Comparison of processes / activities between ISO 29148 and UCMRE identified",
+    "Elicitação de Requisitos | Syllabus | ©IREB 41 | 43\r\nhttps://www.ireb.org/en/downloads/#cpre-foundation-level-syllabus-3-0. \r\nÚltima revisão em Fevereiro 2024.\r\n[IsNe2013]A. Ishizaka, P. Nemery: Análise de decisão multicritério. Métodos e software. John \r\nWiley & Sons, Ltd, Chichester, 2013.\r\n[ISO29148]ISO/IEC/IEEE29148:2011. Systems and software engineering – Life cycle \r\nprocesses – Requirements engineering, International Organization for \r\nStandardization, Geneva, 2011.\r\n[ISO9241-210] ISO9241-210:2010. Ergonomics of human-system interaction – Part 210: \r\nHuman-centred design for interactive systems, International Organization for \r\nStandardization, Geneva, 2010.\r\n[Jack2001] M. Jackson: Problem Frames - Análise e estruturação de problemas de \r\ndesenvolvimento de software. Addison-Wesley, Boston, 2001.\r\n[KaBa2012] C. Kaner, J. Bach: The Seven Basic Principles of the Context-Driven School. \r\nhttp://context-driven-testing.com/, 2012.\r\n[Kell1984] J. F. Kelley: An iterative design methodology for user friendly natural language \r\nin office information applications. ACM Transactions on Office Information \r\nSystems, março de 1984, 2:1, 26-41. Nova York, 1984.\r\n[Kell2002] H. Kellner: Kreativität im Projekt. Hanser Fachbuch, München, 2002.\r\n[Koes1964] A. Koestler: The Act of Creation. Penguin Books, Londres, 1964.\r\n[KoSo1998] G. Kotonya, I. Sommerville: Requirements Engineering: Processes and \r\nTechniques. Wiley Publishing, Hoboken, 1998.\r\n[KrSc2017] I. Kreß, A. Schwarz: To Brainstorm or Not to Brainstorm - Neuropsychological \r\nInsights on Creativity. Requirements Engineering Magazine Vol. 2017-02. \r\nhttps://re-magazine.ireb.org/issues/2017-02-staying-on-the-right-path/to￾brainstorm-or-not-to-brainstorm-neuropsychological-insights-on￾creativity/. Última revisão em Fevereiro de 2019.\r\n[Kuma2013] V. Kumar: 101 Design Methods – A Structured Approach for Driving Innovation \r\nin Your Organization. Wiley, 2013.\r\n[Kuni2003] M. Kuniavsky: Observing the User Experience: A Practioners's Guide to User \r\nResearch, Morgan Kaufmann, Burlington, 2003.\r\n[Lams2009] A. van Lamsweerde: Requirements Engineering: From System Goals to UML \r\nModels to Software Specifications. JohnWiley&Sons, Hoboken, 2009.\r\n[Laue2014] K. Lauenroth: O que significa dizer \"requisito\"? - An inquiry into the abilities of \r\nthe human mind and the meaning of the word “requirement”. Requirements \r\nEngineering Magazine Vol. 2014-01. http://re-magazine.ireb.org/issues/2014-1-\r\nlearning-to-fly/what-does-it-mean-to-say-requirement, 2014. Última revisão \r\nem Fevereiro de 2019.",
+    "C2-9\r\napply the use case diagrams; and, (v) the elaboration of a software requirements specification \r\ndocument under the structure of the standard. Fig. 5 shows Borja's proposal based on what is \r\nestablished in his proposal.\r\n4.5 Paez Methodology\r\nThe Paez´s methodology for requirements elaboration in web services applications (Paez \r\nCardenas et al., 2018) was validated by means of a survey applied to 2 software development \r\nteams using the Technology Acceptance Model (TAM). The Paez´s methodology (Paez \r\nCardenas et al., 2018) comprises 7 phases: soft requirements capture, elicitation, analysis, \r\nsemantic validation, specification, validation and verification. The methodology has the following \r\ncharacteristics (Paez Cardenas et al., 2018): (i) it is presented as an iterative process; (ii) it \r\nincorporates aspects related to System Soft Methodology; (iii) it is oriented to address the goals \r\nof the end users as well as that of the development team; and (iv) it employs a set of adaptable \r\nartifacts in the different stages. Fig. 6 shows Paez's proposal based on what is established in \r\nhis model.\r\n4.6 Comparison of Methodologies\r\nIn Table 3 shows the ISO 29148 processes and activities. The numbers in the item column \r\ncorrespond to the section of the process/activity within the Standard, followed by the description \r\ncolumn. The following columns correspond to the methodologies considered.\r\nFigure 5. Borja Methodology adapted from (Borja Buestán & Cuji Torres, 2013)\r\nFigure 6. Paez Methodology adapted from (Paez Cardenas et al., 2018)",
+    "International Working Conference on Requirement Engineering Foundation \r\nfor Software Quality - REFSQ 2016, 1–11.\r\nGriselda Báez, M., & Barba Brunner, S. I. (2001). Metodología DoRCU para la Ingeniería de \r\nRequerimientos. WorkShop on Requirement Engineering, 1–13.\r\nGuida, G., & Lamperti, G. (2000). AMMETH: a Methodology for Requirements Analysis of \r\nAdvanced Human-System Interfaces. IEEE Transactions on Systems, Man, and \r\nCybernetics Part A:Systems and Humans., 30(3), 298–321. \r\nhttps://doi.org/10.1109/3468.844355\r\nHu, W., Carver, J. C., Anu, V., Walia, G., & Bradshaw, G. (2017). Defect Prevention in \r\nRequirements Using Human Error Information: An Empirical Study. International Working \r\nConference on Requirements Engineering: Foundation for Software Quality - REFSQ \r\n2017. In Lecture Notes in Computer Science, 10153 LNCS, 61–76. \r\nhttps://doi.org/10.1007/978-3-319-54045-0_5C2-12\r\nIEEE-CS. (2014). SWEBOK Guide V3.0 - Guide to the Software Engineering Body of \r\nKnowledge. In P. Bourque & R. Fairley (Eds.), IEEE.\r\nIEEE SA. (2011). IEEE SA Standards. Web EEE/ISO/IEC 29148-2011. \r\nhttps://standards.ieee.org/standard/29148-2011.html\r\nIkram, N., & Naz, S. (2015). Extreme Requirements Engineering (XRE). Requirements \r\nEngineering in the Big Data Era. In Communications in Computer and Information \r\nScience, 558, 95–108. https://doi.org/10.1007/978-3-662-48634-4_7\r\nISO/IEC/IEEE. (2018). ISO/IEC/IEEE 29148:2018 Systems and Software Engineering — Life \r\nCycle Processes — Requirements Engineering. In ISO (2nd ed.). \r\nhttps://www.iso.org/standard/72089.html\r\nISO. (2019). ISO 9241-210: 2019 Ergonomics of Human-System Interaction — Part 210: \r\nHuman-Centred Design for Interactive Systems Ergonomie. 2do Edition. In ISO.\r\nJuárez-Ramírez, R. (2017). User-Centered Design and Adaptive Systems: Toward Improving \r\nUsability and Accessibility. Universal Access in the Information Society, 16, 361–363. \r\nhttps://doi.org/10.1007/s10209-016-0480-1\r\nKelly, J. C., Sherif, J. S., & Hops, J. (1992). Analysis of Defect Densities Found During Software \r\nInspections. NASA -15th Annual Software Engineering Workshop, 17(2), 111–117.\r\nMiotti, H. (2009). The Economic Impact of Standardization. Technological Change, Standards \r\nGrowth in France. In AFNOR.\r\nNazir, F., Butt, W. H., Anwar, M. W., & Khan Khattak, M. A. (2017). The Applications of Natural \r\nLanguage Processing (NLP) for Software Requirement Engineering - A Systematic \r\nLiterature Review. ICISA 2017 Information Science and Applications.",
+    "C2-7\r\nFor the comparative analysis, in this study, some process elements (activities and information \r\nitems) proposed in ISO 29148 were used as comparison criteria. In Table 2, every criterion is \r\nshortly described.\r\nIn order to compare the methodologies obtained in the SMS, the following activities were carried \r\nout: (i) a detailed review of the existing documentation of each methodology was performed; (ii) \r\na process diagram of each methodology including activities and deliverables was elaborated; \r\n(iii) criteria and a base structure for comparison of the methodologies was established from ISO \r\n29148; (iv) the ISO 29148 standard was carefully reviewed understanding what applies to the \r\nsoftware engineering context; (v) the similarity of the methodology with respect to the ISO \r\n29148 standard was analyzed and discussed in a qualitatively way.\r\n4 RESULTS\r\nThis section presents, in summary, the user-centric methodologies for requirement \r\nengineering (UCMRE) identified in the SMS and their comparison.\r\n4.1 DoRCU Methodology\r\nDoRCU, according to Griselda Báez & Barba Brunner ( 2001), has been developed in an \r\nacademic environment and validated in a project during a public health context in Cuba. It is \r\ncalled DoRCU for Documentation of User-Centered Requirements. The article presents the \r\nfollowing characteristics (Griselda Báez & Barba Brunner, 2001): (i) it consists of 4 stages: \r\nelicitation, analysis, specification and validation and certification of requirements; (ii) it describes \r\nan iterative process; (iii) it involves high user participation in all its stages; (iv) it prioritizes the \r\nsatisfaction of user needs; and (v) it is adaptable to other models (flexibility). Fig. 2 shows a \r\nrepresentation of DoRCU based on its proposal.\r\n4.2 XRE Methodology\r\nXRE, according to Ikram & Naz (2015), is based on an agile approach, from a survey of RE \r\nexperts around the world, on the valuable practices of Extreme Programming (XP) and Scrum. \r\nThe features noted are (Ikram & Naz, 2015): (i) it comprises the following activities Daily \r\nStandup Meeting, Sprint Planning, Initial/Product Planning Meeting, Sprint Review, Sprint \r\nRetrospective Meeting and Sprint Planning; (ii) it is described as an iterative and evolutionary \r\nprocess with ongoing communication; (iii) the role nature of an agile team is maintained, \r\nintegrating the user as part of the team; (iv) it employs graphical requirements management in \r\norder to maintain traceability and communication with users; and (v) the requirements document \r\nis adaptable to the needs. In Fig. 3, XRE has been represented based on what is established in \r\nits proposal.\r\nFigure 2. DoRCU Methodology adapted from (Griselda Báez & Barba Brunner, 2001)",
+    "118 PART II Requirements development\r\nNext steps\r\n■ Relate Figure 6-3 to the way you hear the voice of the user in your own environment. Do \r\nyou encounter any problems with your current communication links? Identify the shortest \r\nand most effective communication paths that you can use to elicit user requirements in \r\nthe future.\r\n■ Identify the different user classes for your project. Which ones are favored? Which, if any, \r\nare disfavored? Who would make a good product champion for each important user class? \r\nEven if the project is already underway, the team likely would benefit from having product \r\nchampions involved.\r\n■ Starting with Table 6-2, define the activities you would like your product champions to \r\nperform. Negotiate the specific contributions with each candidate product champion and \r\nhis or her manager.\r\n■ Determine who the decision makers are for requirements issues on your project. How well \r\ndoes your current decision-making approach work? Where does it break down? Are the \r\nright people making decisions? If not, who should be doing it? Suggest processes that the \r\ndecision makers should use for reaching agreement on requirements issues.",
+    "CHAPTER 6 Finding the voice of the user 107\r\nConsider building a catalog of user classes that recur across multiple applications. Defining user \r\nclasses at the enterprise level lets you reuse those user class descriptions in future projects. The next \r\nsystem you build might serve the needs of some new user classes, but it probably will also be used \r\nby user classes from your earlier systems. If you do include the user-class descriptions in the project’s \r\nSRS, you can incorporate entries from the reusable user-class catalog by reference and just write \r\ndescriptions of any new groups that are specific to that application.\r\nUser personas\r\nTo help bring your user classes to life, consider creating a persona for each one, a description of a \r\nrepresentative member of the user class (Cooper 2004; Leffingwell 2011). A persona is a description \r\nof a hypothetical, generic person who serves as a stand-in for a group of users having similar \r\ncharacteristics and needs. You can use personas to help you understand the requirements and to \r\ndesign the user experience to best meet the needs of specific user communities.\r\nA persona can serve as a placeholder when the BA doesn’t have an actual user representative \r\nat hand. Rather than having progress come to a halt, the BA can envision a persona performing \r\na particular task or try to assess what the persona’s preferences would be, thereby drafting a \r\nrequirements starting point to be confirmed when an actual user is available. Persona details for a \r\ncommercial customer include social and demographic characteristics and behaviors, preferences, \r\nannoyances, and similar information. Make sure the personas you create truly are representative of \r\ntheir user class, based on market, demographic, and ethnographic research.\r\nHere’s an example of a persona for one user class on the Chemical Tracking System:\r\nFred, 41, has been a chemist at Contoso Pharmaceuticals since he received his Ph.D. \r\n14 years ago. He doesn’t have much patience with computers. Fred usually works \r\non two projects at a time in related chemical areas. His lab contains approximately \r\n300 bottles of chemicals and gas cylinders. On an average day, he’ll need four new \r\nchemicals from the stockroom. Two of these will be commercial chemicals in stock, \r\none will need to be ordered, and one will come from the supply of proprietary Contoso \r\nchemical samples. On occasion, Fred will need a hazardous chemical that requires \r\nspecial training for safe handling. When he buys a chemical for the first time, Fred \r\nwants the material safety data sheet emailed to him automatically. Each year, Fred will \r\nsynthesize about 20 new proprietary chemicals to go into the stockroom. Fred wants \r\na report of his chemical usage for the previous month to be generated automatically \r\nand sent to him by email so that he can monitor his chemical exposure.\r\nAs the business analyst explores the chemists’ requirements, he can think about Fred as the archetype \r\nof this user class and ask himself, “What would Fred need to do?” Working with a persona makes the \r\nrequirements thought process more tangible than if you simply contemplate what a whole faceless \r\ngroup of people might want. Some people choose a random human face of the appropriate gender \r\nto make a persona seem even more real.108 PART II Requirements development\r\nDean Leffingwell (2011) suggests that you design the system to make it easy for the individual \r\ndescribed in your persona to use the application. That is, you focus on meeting that one (imaginary) \r\nperson’s needs. Provided you’ve created a persona that accurately represents the user class, this \r\nshould help you do a good job of satisfying the needs and expectations of the whole class.",
+    "Although English keywords were used, articles whose contents were also in Portuguese \r\nor Spanish were accepted. The inclusion criteria applied were: (i) refer to RE methodologies; (ii) \r\nare in the range 2000 to date; and, (iii) refer to user-centered. The exclusion criteria applied \r\nwere: (i) refer to RE techniques (ii) refer to secondary studies; (ii) are not accessible in the \r\ndatabases consulted. In addition, the contents were quickly reviewed and compliance with the \r\ncriteria was verified.\r\n3.1.2 SMS Performed\r\nThe selected databases were IEEE Xplore, Scopus and Web of Science. The query was carried \r\nout in April 2021, obtaining 4,463 studies. The selection process used inclusion and exclusion \r\ncriteria by stages, applied to titles, abstracts and content. In the title reading stage, 231 articles \r\nremained, in the abstract reading stage, 39 articles were selected, and finally, in the rapid \r\nreview of abstracts, 5 articles remained (see Table 1). In Section 4, every methodology \r\nidentified is described.\r\n3.2 Comparative Analysis\r\nThe comparison of methodologies is an activity that is carried out constantly as can be seen in \r\nthe studies of (Saleh et al., 2017), (Chandra, 2015), (Subbarayudu et al., 2017), (Cano et al., \r\n2015). In these studies, they stablishing, in all cases, the comparison criteria according to the \r\npurpose sought. In addition, literature research has been carried out on the characteristics of \r\nthe methodologies (Toro & Gálvez, 2016).\r\nId Study Author(s)\r\nS01 DoRCU Methodology for Requirement Engineering. G. Báez & B. Brunner\r\nS02 Extreme Requirement Engineering (XRE) N. Ikram & S. Naz\r\nS03 AMMETH: A Methodology for Requirements Analysis of \r\nAdvanced Human-System Interfaces\r\nG. Guida & G. Lamperti\r\nS04 Methodology for the Specification of Software \r\nRequirements Based on the IEEE 830-1998 Standard\r\nC. Borja & V. Cuji\r\nS05 Methodology for developing requirements in applications \r\nwith web services\r\nP. Páez, C. Arias & L. \r\nWanumen\r\nTable 1. Comparison of processes / activities between ISO 29148 and UCMRE",
+    "CHAPTER 6 Finding the voice of the user 113\r\nteam of five chemists from other parts of the company. They represented subclasses within the broad \r\nChemist user class. This hierarchical approach engaged additional users in requirements development \r\nwhile avoiding the expense of massive workshops or dozens of individual interviews. Don always \r\nstrove for consensus. However, he willingly made the necessary decisions when agreement wasn’t \r\nachieved so the project could move ahead. No backup team was necessary when the user class was \r\nsmall enough or cohesive enough that one individual truly could represent the group’s needs.1\r\nThe voiceless user class\r\nA business analyst at Humongous Insurance was delighted that an influential user, Rebecca, \r\nagreed to serve as product champion for the new claims processing system. Rebecca had many \r\nideas about the system features and user interface design. Thrilled to have the guidance of an \r\nexpert, the development team happily complied with her requests. After delivery, though, they \r\nwere shocked to receive many complaints about how hard the system was to use.\r\nRebecca was a power user. She specified usability requirements that were great for experts, \r\nbut the 90 percent of users who weren’t experts found the system unintuitive and difficult to \r\nlearn. The BA didn’t recognize that the claims processing system had at least two user classes. \r\nThe large group of non–power users was disenfranchised in the requirements and user interface \r\ndesign processes. Humongous paid the price in an expensive redesign. The BA should have \r\nengaged at least one more product champion to represent the large class of nonexpert users.\r\nSelling the product champion idea\r\nExpect to encounter resistance when you propose the idea of having product champions on your \r\nprojects. “The users are too busy.” “Management wants to make the decisions.” “They’ll slow us down.” \r\n“We can’t afford it.” “They’ll run amok and scope will explode.” “I don’t know what I’m supposed to \r\ndo as a product champion.” Some users won’t want to cooperate on a project that will make them \r\nchange how they work or might even threaten their jobs. Managers are sometimes reluctant to \r\ndelegate authority for requirements to ordinary users.\r\nSeparating business requirements from user requirements alleviates some of these discomforts. As \r\nan actual user, the product champion makes decisions at the user requirements level within the scope \r\nboundaries imposed by the business requirements. The management sponsor retains the authority \r\nto make decisions that affect the product vision, project scope, business-related priorities, schedule, \r\nor budget. Documenting and negotiating each product champion’s role and responsibilities give \r\ncandidate champions a comfort level about what they’re being asked to do. Remind management \r\nthat a product champion is a key contributor who can help the project achieve its business objectives.\r\n1 There’s an interesting coda to this story. Years after I worked on this project, a man in a class I was teaching said he \r\nhad worked at the company that Contoso Pharmaceuticals had contracted to build the Chemical Tracking System. The \r\ndevelopers found that the requirements specification we created using this product champion model provided a solid \r\nfoundation for the development work. The system was delivered successfully and was used at Contoso for many years.",
+    "14 years ago. He doesn’t have much patience with computers. Fred usually works \r\non two projects at a time in related chemical areas. His lab contains approximately \r\n300 bottles of chemicals and gas cylinders. On an average day, he’ll need four new \r\nchemicals from the stockroom. Two of these will be commercial chemicals in stock, \r\none will need to be ordered, and one will come from the supply of proprietary Contoso \r\nchemical samples. On occasion, Fred will need a hazardous chemical that requires \r\nspecial training for safe handling. When he buys a chemical for the first time, Fred \r\nwants the material safety data sheet emailed to him automatically. Each year, Fred will \r\nsynthesize about 20 new proprietary chemicals to go into the stockroom. Fred wants \r\na report of his chemical usage for the previous month to be generated automatically \r\nand sent to him by email so that he can monitor his chemical exposure.\r\nAs the business analyst explores the chemists’ requirements, he can think about Fred as the archetype \r\nof this user class and ask himself, “What would Fred need to do?” Working with a persona makes the \r\nrequirements thought process more tangible than if you simply contemplate what a whole faceless \r\ngroup of people might want. Some people choose a random human face of the appropriate gender \r\nto make a persona seem even more real.108 PART II Requirements development\r\nDean Leffingwell (2011) suggests that you design the system to make it easy for the individual \r\ndescribed in your persona to use the application. That is, you focus on meeting that one (imaginary) \r\nperson’s needs. Provided you’ve created a persona that accurately represents the user class, this \r\nshould help you do a good job of satisfying the needs and expectations of the whole class. As one \r\ncolleague related, “On a project for servicing coin-operated vending machines, I introduced Dolly the \r\nServiceperson and Ralph the Warehouse Supervisor. We wrote scenarios for them and they became \r\npart of the project team—virtually.”\r\nConnecting with user representatives\r\nEvery kind of project—corporate information systems, commercial applications, embedded systems, \r\nwebsites, contracted software—needs suitable representatives to provide the voice of the user. These \r\nusers should be involved throughout the development life cycle, not just in an isolated requirements \r\nphase at the beginning of the project. Each user class needs someone to speak for it.\r\nIt’s easiest to gain access to actual users when you’re developing applications for deployment \r\nwithin your own company. If you’re developing commercial software, you might engage people \r\nfrom your beta-testing or early-release sites to provide requirements input much earlier in the \r\ndevelopment process. (See the “External product champions” section later in this chapter). Consider \r\nsetting up focus groups of current users of your products or your competitors’ products. Instead of \r\njust guessing at what your users might want, ask some of them.\r\nOne company asked a focus group to perform certain tasks with various digital cameras and \r\ncomputers. The results indicated that the company’s camera software took too long to perform the \r\nmost common operation because of a design decision that was made to accommodate less likely \r\nscenarios as well. The company changed their next camera to reduce customer complaints about speed.\r\nBe sure that the focus group represents the kinds of users whose needs should drive your product \r\ndevelopment. Include both expert and less experienced customers. If your focus group represents \r\nonly early adopters or blue-sky thinkers, you might end up with many sophisticated and technically \r\ndifficult requirements that few customers find useful.\r\nFigure 6-3 illustrates some typical communication pathways that connect the voice of the user \r\nto the ear of the developer.",
+    "Perhaps there were some internal politics going on that weren’t apparent and there was a good reason \r\nfor Ruth to create a buffer between Jeremy and the actual users. After some discussion, though, it \r\nbecame clear that Ruth didn’t want any of her people involved directly with the project.\r\n“Okay,” Jeremy agreed reluctantly. “Maybe I can start by doing some document analysis and bring \r\nquestions I have to you. Can we set up a series of interviews for the next couple of weeks so I can \r\nunderstand the kinds of things you expect your scientists to be able to do with this new system?”\r\n“Sorry, I’m swamped right now,” Ruth told him. “I can give you a couple of hours in about three \r\nweeks to clarify things you’re unsure about. Just go ahead and start writing the requirements. When we \r\nmeet, then you can ask me any questions you still have. I hope that will let you get the ball rolling on \r\nthis project.”\r\nIf you share our conviction that customer involvement is a critical factor in delivering excellent \r\nsoftware, you will ensure that the business analyst (BA) and project manager for your project will \r\nwork hard to engage appropriate customer representatives from the outset. Success in software \r\nrequirements, and hence in software development, depends on getting the voice of the user close to \r\nthe ear of the developer. To find the voice of the user, take the following steps:\r\n■ Identify the different classes of users for your product.\r\n■ Select and work with individuals who represent each user class and other stakeholder groups.\r\n■ Agree on who the requirements decision makers are for your project.102 PART II Requirements development\r\nCustomer involvement is the best way to avoid the expectation gap described in Chapter 2, \r\n“Requirements from the customer’s perspective,” a mismatch between the product that customers \r\nexpect to receive and what developers build. It’s not enough simply to ask a few customers or their \r\nmanager what they want once or twice and then start coding. If developers build exactly what \r\ncustomers initially request, they’ll probably have to build it again because customers often don’t \r\nknow what they really need. In addition, the BAs might not be talking to the right people or asking \r\nthe right questions.\r\nThe features that users present as their “wants” don’t necessarily equate to the functionality they \r\nneed to perform their tasks with the new product. To gain a more accurate view of user needs, the \r\nbusiness analyst must collect a wide range of user input, analyze and clarify it, and specify just what \r\nneeds to be built to let users do their jobs. The BA has the lead responsibility for recording the new \r\nsystem’s necessary capabilities and properties and for communicating that information to other \r\nstakeholders. This is an iterative process that takes time. If you don’t invest the time to achieve this \r\nshared understanding—this common vision of the intended product—the certain outcomes are \r\nrework, missed deadlines, cost overruns, and customer dissatisfaction.\r\nUser classes\r\nPeople often talk about “the user” for a software system as though all users belong to a monolithic \r\ngroup with similar characteristics and needs. In reality, most products of any size appeal to a diversity \r\nof users with different expectations and goals. Rather than thinking of “the user” in singular, spend \r\nsome time identifying the multiple user classes and their roles and privileges for your product.\r\nClassifying users\r\nChapter 2 described many of the types of stakeholders that a project might have. As shown in \r\nFigure 6-1, a user class is a subset of the product’s users, which is a subset of the product’s customers, \r\nwhich is a subset of its stakeholders. An individual can belong to multiple user classes. For example, \r\nan application’s administrator might also interact with it as an ordinary user at times.",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193\r\n3. System features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 194\r\n4. Data requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195\r\n5. External interface requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . 196\r\n6. Quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197\r\n7. Internationalization and localization requirements. . . . . . . . . . . 198\r\n8. [Other requirements]. . . . . . . .",
+    "Externally, the\r\naudience is really the climate research community — people doing climate modelling work\r\nwho just want reliable, well-documented sea level data they can trust and build on. We're\r\nnot building this for the general public or commercial customers, it's a fairly specialized\r\nresearch crowd.\r\nOne thing I want to be upfront about: we don't need to worry about near-real-time delivery.\r\nThere's a whole separate world of oceanographic services that care about getting data out\r\nwithin hours for things like operational forecasting, and that's just not us — we're purely\r\nabout delayed-time and the long, reprocessed historical series for climate purposes, so\r\nanything geared at that fast-turnaround NRT use case can be dropped from consideration\r\nentirely. Similarly, all that formal IT service management process stuff, incident ticketing\r\nframeworks and so on, isn't something we need to bring in here, it just doesn't fit how this\r\nis going to be run.\r\nCost is a real concern too, this has to be something that's sustainable to operate long term,\r\nnot just a one-off build. And it has to be flexible — new satellite missions are coming onlineduring the life of the project and the algorithms themselves are going to keep changing as\r\nthe science matures, so whatever gets built can't be rigid, it needs to absorb new data\r\nsources and let people swap in improved processing logic without everything falling apart.\r\nThere's also a push to not reinvent the wheel — there's existing infrastructure out there\r\nalready doing something very similar for ocean data more broadly, and wherever it makes\r\nsense we'd rather lean on what's proven and working than build everything from a blank\r\npage. Quality and traceability of the data matter a lot too, since the whole point is feeding\r\ntrustworthy numbers into the international climate change conversation, so whatever\r\ncomes out the other end needs solid metadata and documentation attached, not just raw\r\nnumbers.",
+    "112 PART II Requirements development\r\nCategory Activities\r\nValidation and \r\nverification\r\n■ Review requirements specifications.\r\n■ Define acceptance criteria.\r\n■ Develop user acceptance tests from usage scenarios.\r\n■ Provide test data sets from the business.\r\n■ Perform beta testing or user acceptance testing.\r\nUser aids ■ Write portions of user documentation and help text.\r\n■ Contribute to training materials or tutorials.\r\n■ Demonstrate the system to peers.\r\nChange management ■ Evaluate and prioritize defect corrections and enhancement requests.\r\n■ Dynamically adjust the scope of future releases or iterations.\r\n■ Evaluate the impact of proposed changes on users and business processes.\r\n■ Participate in making change decisions.\r\nMultiple product champions\r\nOne person can rarely describe the needs for all users of an application. The Chemical Tracking \r\nSystem had four major user classes, so it needed four product champions selected from the internal \r\nuser community at Contoso Pharmaceuticals. Figure 6-4 illustrates how the project manager set up \r\na team of BAs and product champions to elicit the right requirements from the right sources. These \r\nchampions were not assigned full time, but each one spent several hours per week working on the \r\nproject. Three BAs worked with the four product champions to elicit, analyze, and document their \r\nrequirements. (One BA worked with two product champions because the Buyer and the Health and \r\nSafety Department user classes were small and had few requirements.) One of the BAs assembled all \r\nthe input into a unified SRS.\r\nFIGURE 6-4 Product champion model for the Chemical Tracking System.\r\nWe didn’t expect a single person to provide all the diverse requirements for the hundreds of \r\nchemists at Contoso. Don, the product champion for the Chemist user class, assembled a backup",
+    "394 PART III Requirements for specific project classes\r\nSRS described just the differences that the new version should exhibit compared to the previous \r\nversion. Nowhere was there a description of the original system. Consequently, everyone had a \r\ndifferent understanding of the current system’s capabilities. If you’re in this situation, document \r\nthe requirements for your project more thoroughly so that all the stakeholders—both present \r\nand future—understand what the system does.\r\nExpected challenges\r\nThe presence of an existing system leads to common challenges that both enhancement and \r\nreplacement projects will face, including the following:\r\n■ The changes made could degrade the performance to which users are accustomed.\r\n■ Little or no requirements documentation might be available for the existing system.\r\n■ Users who are familiar with how the system works today might not like the changes they are \r\nabout to encounter.\r\n■ You might unknowingly break or omit functionality that is vital to some stakeholder group.\r\n■ Stakeholders might take this opportunity to request new functionality that seems like a good \r\nidea but isn’t really needed to meet the business objectives.\r\nEven if there is existing documentation, it might not prove useful. For enhancement projects, \r\nthe documentation might not be up to date. If the documentation doesn’t match the existing \r\napplication’s reality, it is of limited use. For replacement systems, you also need to be wary of carrying \r\nforward all of the requirements, because some of the old functionality probably should not be \r\nmigrated.\r\nOne of the major issues in replacement projects is validating that the reasons for the replacement \r\nare sound. There need to be justifiable business objectives for the change. When existing systems \r\nare being completely replaced, organizational processes might also have to change, which makes it \r\nharder for people to accept a new system. The change in business processes, change in the software \r\nsystem, and learning curve of a new system can disrupt current operations.\r\nRequirements techniques when there is an existing system\r\nTable 21-1 describes the most important requirements development techniques to consider when \r\nworking on enhancement and replacement projects.CHAPTER 21 Enhancement and replacement projects 395\r\nTABLE 21-1 Valuable requirements techniques for enhancement and replacement projects\r\nTechnique Why it’s relevant\r\nCreate a feature tree to show \r\nchanges\r\n■ Show features being added.\r\n■ Identify features from the existing system that won’t be in the new system.\r\nIdentify user classes ■ Assess who is affected by the changes.\r\n■ Identify new user classes whose needs must be met.\r\nUnderstand business \r\nprocesses\r\n■ Understand how the current system is intertwined with stakeholders’ daily \r\njobs and the impacts of it changing.\r\n■ Define new business processes that might need to be created to align with \r\nnew features or a replacement system.\r\nDocument business rules ■ Record business rules that are currently embedded in code.\r\n■ Look for new business rules that need to be honored.\r\n■ Redesign the system to better handle volatile business rules that were expen￾sive to maintain.\r\nCreate use cases or user \r\nstories\r\n■ Understand what users must be able to do with the system.\r\n■ Understand how users expect new features to work.\r\n■ Prioritize functionality for the new system.\r\nCreate a context diagram ■ Identify and document external entities.\r\n■ Extend existing interfaces to support new features.\r\n■ Identify current interfaces that might need to be changed.\r\nCreate an ecosystem map ■ Look for other affected systems.\r\n■ Look for new, modified, and obsolete interfaces between systems.\r\nCreate a dialog map ■ See how new screens fit into the existing user interface.\r\n■ Show how the workflow screen navigation will change.\r\nCreate data models ■ Verify that the existing data model is sufficient or extend it for new features.\r\n■ Verify that all of the data entities and attributes are still needed.\r\n■ Consider what data has to be migrated, converted, corrected, archived, or \r\ndiscarded.\r\nSpecify quality attributes ■ Ensure that the new system is designed to fulfill quality expectations.",
+    ". . . . . . . . . . . . . . . . . . . . 149\r\nIdentifying use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157Contents xiii\r\nExploring use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 158\r\nValidating use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 160\r\nUse cases and functional requirements. . . . . . . . . . . . . . . . . . . . . . . 161\r\nUse case traps to avoid. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 163\r\nBenefits of usage-centric requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . 164\r\nChapter 9 Playing by the rules 167\r\nA business rules taxonomy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169\r\nFacts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    ". . . . . . . . . . . . . . . . . . 163\r\nBenefits of usage-centric requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . 164\r\nChapter 9 Playing by the rules 167\r\nA business rules taxonomy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169\r\nFacts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .170\r\nAction enablers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 171\r\nInferences. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nComputations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nAtomic business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174\r\nDocumenting business rules. . . . . . . . . . . .",
+    "If you’re replacing an old system, you have an opportunity to document \r\nthe requirements for the new one and to keep the requirements up to date with what you learn \r\nthroughout the project. Try to leave the requirements in better shape than you found them.\r\nWhich requirements should you specify?\r\nIt’s not always worth taking the time to generate a complete set of requirements for an entire \r\nproduction system. Many options lie between the two extremes of continuing forever with no \r\nrequirements documentation and reconstructing a perfect requirements set. Knowing why you’d like \r\nto have written requirements available lets you judge whether the cost of rebuilding all—or even \r\npart—of the specification is a sound investment.\r\nPerhaps your current system is a shapeless mass of history and mystery like the one in Figure 21-2. \r\nImagine that you’ve been asked to implement some new functionality in region A in this figure. \r\nBegin by recording the new requirements in a structured SRS or in a requirements management tool. \r\nWhen you add the new functionality, you’ll have to figure out how it interfaces to or fits in with the \r\nexisting system. The bridges in Figure 21-2 between region A and your current system represent these \r\ninterfaces. This analysis provides insight into the white portion of the current system, region B. In \r\naddition to the requirements for region A, this insight is the new knowledge you need to capture.CHAPTER 21 Enhancement and replacement projects 399\r\nFIGURE 21-2 Adding enhancement A to an ill-documented existing system provides some visibility into the \r\nB area.\r\nRarely do you need to document the entire existing system. Focus detailed requirements efforts \r\non the changes needed to meet the business objectives. If you’re replacing a system, start by \r\ndocumenting the areas prioritized as most important to achieve the business objectives or those that \r\npose the highest implementation risk. Any new requirements identified during the gap analysis will \r\nneed to be specified at the same level of precision and using the same techniques as you would for a \r\nnew system.\r\nLevel of detail\r\nOne of the biggest challenges is determining the appropriate level of detail at which to document \r\nrequirements gleaned from the existing system. For enhancements, defining requirements for the \r\nnew functionality alone might be sufficient. However, you will usually benefit from documenting all of \r\nthe functionality that closely relates to the enhancement, to ensure that the change fits in seamlessly \r\n(region B in Figure 21-2). You might want to create business processes, user requirements, and/or \r\nfunctional requirements for those related areas. For example, let’s say you are adding a discount code \r\nfeature to an existing shopping cart function, but you don’t have any documented requirements for \r\nthe shopping cart. You might be tempted to write just a single user story: “As a customer, I need to be \r\nable to enter a discount code so I can get the cheapest price for the product.” However, this user story \r\nalone lacks context, so consider capturing other user stories about shopping cart operations. That \r\ninformation could be valuable the next time you need to modify the shopping cart function.\r\nI worked with one team that was just beginning to develop the requirements for version 2 of \r\na major product with embedded software. They hadn’t done a good job on the requirements for \r\nversion 1, which was currently being implemented. The lead BA wondered, “Is it worth going back \r\nto improve the SRS for version 1?” The company anticipated that this product line would be a major \r\nrevenue generator for at least 10 years. They also planned to reuse some of the core requirements \r\nin several spin-off products. In this case, it made sense to improve the requirements documentation \r\nfor version 1 because it was the foundation for all subsequent development work in this product line.",
+    ".170\r\nAction enablers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 171\r\nInferences. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nComputations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nAtomic business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174\r\nDocumenting business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . .",
+    "1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.\r\nREQUISITO FUNCIONAL — Estrutura\r\nID: RF-NNN\r\nTítulo: [Nome curto e descritivo]\r\nDescrição: O sistema deve [verbo no infinitivo] [complemento completo e \r\npreciso].\r\nPrioridade: Must have | Should have | Could have | Won't have (MoSCoW)\r\nStakeholder (Origem): STK-NN\r\nRegra de Negócio associada: RN-NNN (ou 'N/A')\r\nObservações: [informações adicionais, como restrições de implementação]\r\nEXEMPLO — Requisitos Funcionais do SGP\r\nRF-001 | Autenticação de usuário\r\nO sistema deve permitir que o usuário realize login utilizando e-mail e senha previamente cadastrados.\r\nPrioridade: Must have | STK-01, STK-02 | N/A\r\nRF-002 | Bloqueio por tentativas excessivas\r\nO sistema deve bloquear temporariamente o acesso de um usuário por 15 minutos após 5 (cinco) tentativas \r\nconsecutivas de login malsucedidas.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Registro de pedido\r\nO sistema deve permitir que o vendedor registre um pedido contendo um ou mais produtos, com quantidade,\r\npreço unitário e desconto por item.\r\nPrioridade: Must have | STK-02 | RN-001, RN-002\r\nRF-004 | Notificação de confirmação\r\nO sistema deve enviar automaticamente um e-mail de confirmação ao cliente após a criação bem-sucedida \r\nde um pedido.Prioridade: Should have | STK-02 | N/A\r\nRF-005 | Aprovação de pedido de alto valor\r\nO sistema deve submeter para aprovação do gerente comercial todo pedido cujo valor total supere R$ \r\n10.000,00, impedindo a confirmação ao cliente até que a aprovação seja registrada.\r\nPrioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável.",
+    "Prioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável. Pode ser incluído se houver tempo e recursos.\r\n Won't have (this release) — Fora desta versão. Documentado para versão futura.\r\n2.5 Requisitos Não Funcionais (RNF)\r\nBase: ISO/IEC 25010:2023 — Modelo de Qualidade (9 características); ISO/IEC/IEEE 29148:2018 §9.6.14; SWEBOK v4.0 Cap. 1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.",
+    "→ Histórias de usuário são da perspectiva do usuário de negócio, não da equipe técnica.\r\n2.7 Casos de Uso (UC)\r\nBase: Sommerville (2016, cap. 4); Wiegers & Beatty (2013, cap. 8); Cockburn (2001) — Writing Effective Use Cases\r\nCasos de uso descrevem a interação entre um ator e o sistema para atingir um objetivo específico. \r\nEles complementam as histórias de usuário adicionando fluxos alternativos e de exceção, tornando\r\no comportamento do sistema completamente especificado.\r\nCASO DE USO — Template completo\r\nID: UC-NNN — [Nome do caso de uso]Ator principal: [quem inicia a interação]\r\nHU relacionada: HU-NNN\r\nPré-condição: [o que deve ser verdadeiro antes do início]\r\nPós-condição (sucesso): [estado do sistema após conclusão bem-sucedida]\r\nPós-condição (falha): [estado do sistema após falha]\r\nFLUXO PRINCIPAL (caminho feliz):\r\n 1. O ator [ação 1].\r\n 2. O sistema [resposta 2].\r\n 3. O ator [ação 3].\r\n 4. O sistema [resposta 4 — resultado final].\r\nFLUXOS ALTERNATIVOS:\r\n 2a. [Condição alternativa] → [o sistema faz Y]; retorna ao passo N.\r\nFLUXOS DE EXCEÇÃO:\r\n 2b. [Condição de erro] → [o sistema exibe mensagem Z e faz W] (ref. RN￾NNN, RF-NNN).\r\nEXEMPLO — UC-001 — Realizar login no sistema\r\nAtor principal: Vendedor (STK-02)\r\nHU relacionada: HU-001 | Pré-condição: Usuário possui cadastro ativo no sistema.\r\nPós-condição (sucesso): Usuário autenticado e redirecionado ao painel principal.\r\nPós-condição (falha): Usuário permanece na tela de login; tentativa é registrada.\r\nFLUXO PRINCIPAL:\r\n 1. O ator acessa a URL do sistema e visualiza a tela de login.\r\n 2. O ator informa e-mail e senha e clica em 'Entrar'.\r\n 3. O sistema valida as credenciais contra a base de usuários.\r\n 4. O sistema registra a data/hora do login e redireciona ao painel principal.\r\nFLUXOS ALTERNATIVOS:\r\n 3a. Credenciais inválidas (1ª a 4ª tentativa) → sistema exibe 'E-mail ou senha incorretos'; retorna ao passo \r\n2.\r\nFLUXOS DE EXCEÇÃO:\r\n 3b. 5ª tentativa com credenciais inválidas → sistema bloqueia o acesso por 15 minutos, exibe 'Conta \r\ntemporariamente bloqueada' e registra o evento no log de segurança (RN-003, RF-002).\r\n2.8 Critérios de Aceite (CA)\r\nBase: BABOK® v3 §10.1 — 'Acceptance and Evaluation Criteria'; Wiegers & Beatty (2013, cap. 10); North (2006) — \r\nBehavior-Driven Development (BDD)Critérios de aceite são as condições testáveis que definem quando um requisito ou história de \r\nusuário está completo e correto.",
+    "393\r\nCHAPTER 21\r\nEnhancement and replacement \r\nprojects\r\nMost of this book describes requirements development as though you are beginning a new software \r\nor system development project, sometimes called a green-field project. However, many organizations \r\ndevote much of their effort to enhancing or replacing existing information systems or building \r\nnew releases of established commercial products. Most of the practices described in this book are \r\nappropriate for enhancement and replacement projects. This chapter provides specific suggestions as \r\nto which practices are most relevant and how to use them.\r\nAn enhancement project is one in which new capabilities are added to an existing system. \r\nEnhancement projects might also involve correcting defects, adding new reports, and modifying \r\nfunctionality to comply with revised business rules or needs.\r\nA replacement (or reengineering) project replaces an existing application with a new custom-built \r\nsystem, a commercial off-the-shelf (COTS) system, or a hybrid of those. Replacement projects are \r\nmost commonly implemented to improve performance, cut costs (such as maintenance costs or \r\nlicense fees), take advantage of modern technologies, or meet regulatory requirements. If your \r\nreplacement project will involve a COTS solution, the guidance presented in Chapter 22, “Packaged \r\nsolution projects,” will also be helpful.\r\nReplacement and enhancement projects face some particular requirements issues. The original \r\ndevelopers who held all the critical information in their heads might be long gone. It’s tempting to \r\nclaim that a small enhancement doesn’t warrant writing any requirements. Developers might believe \r\nthat they don’t need detailed requirements if they are replacing an existing system’s functionality. \r\nThe approaches described in this chapter can help you to deal with the challenges of enhancing or \r\nreplacing an existing system to improve its ability to meet the organization’s current business needs.\r\nThe case of the missing spec\r\nThe requirements specification for the next release of a mature system often says, essentially, \r\n“The new system should do everything the old system does, except add these new features \r\nand fix those bugs.” A business analyst once received just such a specification for version 5 of \r\na major product. To find out exactly what the current release did, she looked at the SRS for \r\nversion 4. Unfortunately, it also said, in essence, “Version 4 should do everything that version 3 \r\ndoes, except add these new features and fix those bugs.” She followed the trail back, but every",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 322\r\nChapter 17 Validating the requirements 329\r\nValidation and verification. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 331\r\nReviewing requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 332\r\nThe inspection process. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 333\r\nDefect checklist. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 338\r\nRequirements review tips. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 339\r\nRequirements review challenges. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 340\r\nPrototyping requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 342\r\nTesting the requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 342\r\nValidating requirements with acceptance criteria. . . . . . . . . . . . . . . . . . . . 347\r\nAcceptance criteria. . . . . . . . . . . . . . . . . .",
+    "2 BACKGROUND\r\nThis section briefly describes ISO 29148 emphasizing the suggested process items with which \r\nthe axes of analysis are established and presents the relevant aspects of RE and the UC \r\nparadigm.\r\n2.1 ISO/IEC/IEEE 29148\r\nISO 29148 is a systems and software engineering standard that specifies the required \r\nprocesses to determine the product requirements (including services) of systems and software \r\nthroughout the life cycle (ISO/IEC/IEEE, 2018), (IEEE-CS, 2014). ISO 29148 is aligned with \r\nISO/IEC/IEEE 12207 standard for software life cycle processes and ISO/IEC/IEEE 15288 \r\nstandard for system life cycle processes (IEEE-CS, 2014). ISO 29148, in its first edition (2011), \r\nreplaced the IEEE 830-1998, IEEE 1233-1998 and IEEE 1362-1998 standards, also related to \r\nrequirements engineering (IEEE SA, 2011), becoming the main standard in RE by providing a \r\nmodel adaptable to different organizations (Selvyanti & Bandung, 2017). In 2018, the second \r\nedition was published, due to the need to adopt a framework oriented towards a more detailed C2-4\r\ntechnical approach (Ward et al., 2018), and in Boyarchuk et al. (2020) the importance of having \r\na structured process in RE to build a good software product is highlighted.\r\nISO 29148 establishes (ISO/IEC/IEEE, 2018): (i) a set of 3 main processes that are iteratively \r\nand recursively applied in the system and software life cycle (see Fig. 1); (ii) a set of 2 related \r\ntechnical processes; (iii) each main process is composed of activities with established \r\nobjectives to achieve a correct identification and good description of requirements; (iv) a set of 4 \r\ntypes of documents for requirements specification at business, stakeholder, system and \r\nsoftware levels; (v) the concept of operations and System operational concept; and, (vi) \r\nguidelines to manage the evolution of requirements.\r\n2.2 User-Centered Software Requirements\r\nThe user-centered software development approach (UCD), was stablished as a response to \r\nexisting software development schemes, which in practical terms can be noted, were focused \r\non the technical aspect of the software and associated hardware (De Bellis & Haapala, 1995), \r\n(Norman & Draper, 1987). The UCD gained some relevance with the publication of ISO \r\n13407:1999 Human-centred Design Processes for Interactive Systems (Juárez-Ramírez, 2017)\r\nand after that, when the stakeholders are included into ISO 9241-210:2010 Ergonomics of \r\nhuman-system interaction - Part 210: Human-centred Design for Interactive Systems (Vidal et \r\nal., 2012). Finally, the latest edition of the ISO 9241-210 standard is, recently, from 2019 (IEEE \r\nSA, 2011). In short, as pointed out by several authors (Juárez-Ramírez, 2017), (Forbrig, 2016), \r\n(Nieva et al., 2016), (Wanderley et al., 2014), and the ISO 13407 standard itself (ISO, 2019), \r\nRE should allow to reach an understanding of the needs, attitudes, motivations and behaviors of \r\nusers that are the basis for achieving successful products and services, with a wide margin of \r\nend-user satisfaction.\r\nFigure 1. Requirements Engineering Process set out in 29148:2018 adapted from \r\n(ISO/IEC/IEEE, 2018)"
+  ],
+  "ground_truth": "GABARITO — Project Scenario 6: SLCCI (Sea Level Climate Change Initiative)\nUse: \"ground_truth\" field for RAGAS (context_precision / context_recall).\nEach line is an atomic, checkable claim against the scenario text and the\nknowledge base — not a full SRS, just the set of facts a well-grounded SRS\nfor this scenario should be able to cover.\n\n- The system is part of ESA's Climate Change Initiative (CCI), one of about eleven parallel projects each covering a different climate variable.\n- The system must take an existing science prototype/production setup and turn it into an operational, day-to-day system.\n- The system ingests altimetry data from multiple satellite missions.\n- The system performs calibration, validation, and cross-calibration between missions.\n- The system produces two product types: a per-mission along-track product and a merged multi-mission gridded product.\n- The system must include an archive to preserve baseline and intermediate data, since reprocessing will happen repeatedly.\n- Internal users include scientists (deeper validation/product definition), quality reviewers who sign off on products, catalog/metadata staff, and operational staff (monitoring, incidents, user requests).\n- External users are the climate research community, not the general public or commercial customers.\n- Near-real-time (NRT) delivery is explicitly out of scope; the system is delayed-time / reprocessed-data only.\n- Formal IT service management processes and incident ticketing frameworks (e.g. ITIL-style) are explicitly out of scope.\n- The system must be cost-sustainable to operate long-term, not just a one-off build.\n- The system must be flexible enough to absorb new satellite missions and updated processing algorithms over time.\n- The system should reuse existing proven infrastructure rather than being built entirely from scratch.\n- Output data must include solid metadata and documentation to ensure quality and traceability.\n",
+  "rag_score": 0.4396,
+  "artefatos": {
+    "escopo": {
+      "descricao": "Operate a sustainable delayed-time production chain for generating, archiving, quality-controlling, cataloguing, and distributing satellite-derived sea-level climate products.",
+      "em_escopo": [
+        "Ingestion of altimetry datasets from multiple satellite missions",
+        "Calibration and validation of mission data",
+        "Cross-calibration between satellite missions",
+        "Generation of per-mission along-track products",
+        "Generation of merged gridded sea-level products",
+        "Version-controlled reprocessing with updated algorithms or calibrations",
+        "Archiving of source, intermediate, and product datasets",
+        "Scientific quality assessment and product approval",
+        "Metadata, provenance, and documentation management",
+        "Cataloguing, search, and download of approved products",
+        "Production monitoring and failed-job recovery",
+        "Configuration of new missions and processing algorithms",
+        "Reuse or integration of suitable existing ocean-data infrastructure"
+      ],
+      "fora_de_escopo": [
+        "Near-real-time data delivery — the initiative only addresses delayed-time climate products",
+        "Operational ocean forecasting — handled by separate oceanographic services",
+        "Products intended for the general public or commercial customers — the target audience is the climate research community",
+        "Formal IT service management and incident-ticketing frameworks — explicitly excluded from the operating model",
+        "Scientific development of new altimetry algorithms — algorithms are supplied and validated by scientific teams",
+        "Processing of climate variables other than sea level — covered by other Climate Change Initiative projects"
+      ],
+      "premissas": [
+        "PA-01: Satellite missions or their data providers will supply accessible delayed-time altimetry datasets.",
+        "PA-02: Scientific teams will provide validated algorithms, calibration parameters, and scientific acceptance tolerances.",
+        "PA-03: Quality assessors will be available to review products before dissemination.",
+        "PA-04: [INFERRED] Existing ocean-data infrastructure will expose interfaces or components suitable for reuse.",
+        "PA-05: [INFERRED] Long-term storage capacity will be provisioned according to approved retention and cost plans.",
+        "PA-06: [INFERRED] Climate researchers will have network access and compatible scientific tools for using distributed products."
+      ],
+      "restricoes": [
+        "REST-01 (Operational): Processing and dissemination must use a delayed-time operating model.",
+        "REST-02 (Scope): Near-real-time processing capabilities must not be included.",
+        "REST-03 (Process): A formal IT service management or incident-ticketing framework must not be required.",
+        "REST-04 (Economic): Annual operation must remain within the approved long-term operational budget [TBD].",
+        "REST-05 (Technical): Suitable proven ocean-data infrastructure must be reused where technically and economically feasible.",
+        "REST-06 (Scientific): Released products must conform to scientific validation and quality-approval rules.",
+        "REST-07 (Evolution): The architecture must accommodate new satellite missions and algorithm versions."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "ESA Climate Change Initiative Sponsor",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Sustainable operations, trustworthy climate records, controlled costs, and alignment with Climate Change Initiative objectives."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Production Operator",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Execute and monitor production and reprocessing jobs, diagnose failures, and recover interrupted processing."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Sea-Level Scientist",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Configure scientific processing, introduce validated algorithms, investigate anomalies, and define new products."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Product Quality Assessor",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Review validation evidence and approve or reject product releases."
+      },
+      {
+        "id": "STK-05",
+        "nome": "Catalog and Metadata Manager",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Maintain searchable catalog records, metadata, provenance, and product documentation."
+      },
+      {
+        "id": "STK-06",
+        "nome": "Operations and User Support Staff",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Observe operational status, investigate service issues, and support specialist users without a formal ITSM framework."
+      },
+      {
+        "id": "STK-07",
+        "nome": "Climate Researcher and Climate Modeller",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Find, evaluate, and download reliable, documented, traceable sea-level climate products."
+      },
+      {
+        "id": "STK-08",
+        "nome": "Existing Ocean-Data Infrastructure Provider",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receive compatible integration requests and preserve the operational integrity of reused infrastructure."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Delayed-time processing",
+        "descricao": "Sea-level climate products are produced from delayed-time observations and historical reprocessing rather than near-real-time data streams.",
+        "fonte": "SLCCI operational scope",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Required product families",
+        "descricao": "The initiative delivers per-mission along-track measurements and a merged gridded climate record.",
+        "fonte": "SLCCI scientific product definition",
+        "excecoes": "Additional product families may be defined through an approved scientific change."
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Cross-mission consistency",
+        "descricao": "Measurements from different satellite missions must be cross-calibrated before they contribute to a merged climate record.",
+        "fonte": "SLCCI scientific methodology",
+        "excecoes": "A mission excluded by an approved scientific decision does not contribute to the merged record."
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Input integrity validation",
+        "descricao": "A mission dataset must satisfy the defined completeness, format, and integrity controls before scientific processing.",
+        "fonte": "SLCCI production policy",
+        "excecoes": "A scientifically authorized partial dataset may be processed when its limitation is documented [INFERRED]."
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Quality approval before release",
+        "descricao": "A product may be disseminated only after an authorized quality assessor records an approval decision.",
+        "fonte": "SLCCI quality governance",
+        "excecoes": "Products explicitly marked as internal evaluation outputs must not be publicly disseminated [INFERRED]."
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Preservation of production data",
+        "descricao": "Source baseline data and intermediate processing results must be retained to support traceability and future reprocessing.",
+        "fonte": "SLCCI archive policy",
+        "excecoes": "Retention exceptions require an approved archive policy [TBD]."
+      },
+      {
+        "id": "RN-007",
+        "titulo": "Immutable processing versions",
+        "descricao": "Reprocessing creates a distinguishable product version and must not overwrite an existing historical version.",
+        "fonte": "SLCCI reprocessing policy",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-008",
+        "titulo": "Mandatory provenance and documentation",
+        "descricao": "Every distributable product must include metadata, processing provenance, quality status, and supporting documentation.",
+        "fonte": "SLCCI data-quality policy",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-009",
+        "titulo": "Specialist research audience",
+        "descricao": "Distributed products are intended for climate researchers and climate-modelling activities rather than general-public or commercial services.",
+        "fonte": "SLCCI dissemination scope",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-010",
+        "titulo": "Controlled scientific evolution",
+        "descricao": "A new mission or algorithm version may enter operational production only after its configuration and scientific validation have been approved [INFERRED].",
+        "fonte": "SLCCI scientific governance",
+        "excecoes": "Evaluation environments may execute unapproved configurations when outputs remain internal [INFERRED]."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Ingest mission dataset",
+        "descricao": "The system must ingest delayed-time altimetry datasets from a configured satellite mission.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Validate ingested dataset",
+        "descricao": "The system must validate each ingested dataset against its configured format, completeness, checksum, and mandatory-field rules.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Calibrate mission measurements",
+        "descricao": "The system must apply the selected calibration configuration to mission measurements.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-010"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Validate processed measurements",
+        "descricao": "The system must evaluate processed measurements against the scientific validation checks associated with the selected processing configuration.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Cross-calibrate missions",
+        "descricao": "The system must cross-calibrate measurements from eligible satellite missions using the selected scientific configuration.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Generate along-track product",
+        "descricao": "The system must generate a versioned per-mission along-track sea-level product from successfully processed measurements.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Generate merged gridded product",
+        "descricao": "The system must generate a versioned gridded sea-level product from eligible cross-calibrated mission measurements.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Archive source data",
+        "descricao": "The system must archive each accepted source dataset without altering its accepted baseline content.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Archive intermediate results",
+        "descricao": "The system must archive the intermediate results designated by the active retention policy.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Archive product versions",
+        "descricao": "The system must archive each generated product as an immutable version.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-007"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Record processing provenance",
+        "descricao": "The system must record the source datasets, mission configurations, algorithm versions, calibration versions, execution identifier, and processing time for each product.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Manage catalog metadata",
+        "descricao": "The system must allow an authorized metadata manager to create and update catalog metadata for a product version.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Associate product documentation",
+        "descricao": "The system must associate version-specific scientific and user documentation with each distributable product.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Submit product for assessment",
+        "descricao": "The system must submit a generated product version and its validation evidence for quality assessment.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Record quality decision",
+        "descricao": "The system must allow an authorized quality assessor to approve or reject a submitted product version with a recorded rationale.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Publish approved product",
+        "descricao": "The system must publish a product version only when its recorded quality status is approved.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "Search product catalog",
+        "descricao": "The system must allow climate researchers to search published products by mission, product family, spatial coverage, temporal coverage, and version.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-07",
+        "rn_associada": "RN-009"
+      },
+      {
+        "id": "RF-018",
+        "titulo": "Download product package",
+        "descricao": "The system must allow climate researchers to download a published product package containing data, metadata, and documentation.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-07",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-019",
+        "titulo": "Monitor production jobs",
+        "descricao": "The system must display the current status, processing stage, start time, elapsed time, and outcome of each production job.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-020",
+        "titulo": "Notify processing failure",
+        "descricao": "The system must notify configured operational recipients when a production job enters a failed state.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-021",
+        "titulo": "Restart production job",
+        "descricao": "The system must allow an authorized operator to restart a failed production job from its latest valid recovery point.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-022",
+        "titulo": "Configure new mission",
+        "descricao": "The system must allow an authorized scientist to register the data interface, validation rules, calibration configuration, and eligibility status of a new satellite mission.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-010"
+      },
+      {
+        "id": "RF-023",
+        "titulo": "Register algorithm version",
+        "descricao": "The system must allow an authorized scientist to register a versioned processing algorithm with its parameters, dependencies, validation status, and documentation.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-010"
+      },
+      {
+        "id": "RF-024",
+        "titulo": "Initiate reprocessing",
+        "descricao": "The system must allow an authorized operator to initiate reprocessing using selected source datasets and an approved processing configuration.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-007"
+      },
+      {
+        "id": "RF-025",
+        "titulo": "Enforce role permissions",
+        "descricao": "The system must restrict operational, scientific, quality-assessment, metadata-management, and publication functions according to the authenticated user's assigned role [INFERRED].",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-005"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Scientific processing conformity",
+        "categoria_iso25010": "Functional Suitability",
+        "descricao": "The system must produce results that satisfy 100% of approved scientific benchmark cases within their defined numerical tolerances [TBD].",
+        "metrica_aceitacao": "100% of benchmark cases pass; scientific tolerance values are [TBD].",
+        "metodo_verificacao": "Automated regression testing against approved reference datasets"
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Batch processing performance",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must complete processing of one representative mission-month dataset within 24 hours under the reference production configuration [TBD].",
+        "metrica_aceitacao": "Elapsed processing time less than or equal to 24 hours for the reference dataset [TBD].",
+        "metodo_verificacao": "Production-scale performance test"
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Catalog response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must return catalog search results within 3 seconds at the 95th percentile for 100 concurrent users [TBD].",
+        "metrica_aceitacao": "95th-percentile response time less than or equal to 3 seconds with 100 concurrent users [TBD].",
+        "metodo_verificacao": "Load testing"
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Operational availability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system must provide at least 99.5% monthly availability excluding approved maintenance periods [TBD].",
+        "metrica_aceitacao": "Monthly availability greater than or equal to 99.5% [TBD].",
+        "metodo_verificacao": "Availability monitoring report review"
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Archive durability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system must store archived objects with annual durability of at least 99.999999999% and verify 100% of stored checksums during scheduled integrity scans [TBD].",
+        "metrica_aceitacao": "Annual durability at least 99.999999999%; checksum verification coverage equals 100% [TBD].",
+        "metodo_verificacao": "Storage-service audit and automated integrity testing"
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Privileged access protection",
+        "categoria_iso25010": "Security",
+        "descricao": "The system must reject 100% of attempts by unauthorized roles to invoke privileged production, approval, metadata, or publication operations [TBD].",
+        "metrica_aceitacao": "100% of negative authorization test cases are rejected and recorded [TBD].",
+        "metodo_verificacao": "Automated authorization testing and security audit"
+      },
+      {
+        "id": "RNF-007",
+        "titulo": "Interface compatibility",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system must pass 100% of the approved interface conformance tests for each integrated mission source and reused infrastructure component [TBD].",
+        "metrica_aceitacao": "100% of approved interface conformance tests pass [TBD].",
+        "metodo_verificacao": "Integration and contract testing"
+      },
+      {
+        "id": "RNF-008",
+        "titulo": "Operational task usability",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "The system must enable at least 90% of trained operators to start and monitor a standard production job within 10 minutes without assistance [TBD].",
+        "metrica_aceitacao": "At least 90% task completion within 10 minutes with zero critical errors [TBD].",
+        "metodo_verificacao": "Moderated usability test"
+      },
+      {
+        "id": "RNF-009",
+        "titulo": "Algorithm maintainability",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "The system must permit 100% of reference algorithm upgrades to be deployed without modification to the production orchestration core [TBD].",
+        "metrica_aceitacao": "100% of reference upgrade scenarios require zero orchestration-core source-code changes [TBD].",
+        "metodo_verificacao": "Architecture review and deployment demonstration"
+      },
+      {
+        "id": "RNF-010",
+        "titulo": "Mission onboarding flexibility",
+        "categoria_iso25010": "Flexibility",
+        "descricao": "The system must enable a technically compatible satellite mission to be onboarded within 20 person-days without modifying the orchestration core [TBD].",
+        "metrica_aceitacao": "Onboarding effort less than or equal to 20 person-days and zero orchestration-core changes [TBD].",
+        "metodo_verificacao": "Timed onboarding exercise and code-difference review"
+      },
+      {
+        "id": "RNF-011",
+        "titulo": "Traceability completeness",
+        "categoria_iso25010": "Functional Suitability",
+        "descricao": "The system must provide complete source-to-product provenance for 100% of published product versions.",
+        "metrica_aceitacao": "100% of sampled published products identify all source datasets, configurations, algorithm versions, and quality decisions.",
+        "metodo_verificacao": "Automated metadata validation and manual traceability audit"
+      },
+      {
+        "id": "RNF-012",
+        "titulo": "Operational cost control",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must operate with annual infrastructure expenditure no greater than 105% of the approved annual budget [TBD].",
+        "metrica_aceitacao": "Annual infrastructure expenditure less than or equal to 105% of the approved budget [TBD].",
+        "metodo_verificacao": "Annual cost and resource-utilization audit"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "production operator",
+        "quero": "ingest delayed-time altimetry data from a configured mission",
+        "para": "make the observations available to the production chain",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "sea-level scientist",
+        "quero": "configure a new satellite mission",
+        "para": "incorporate new observations without redesigning the production system",
+        "rf_associado": "RF-022",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "sea-level scientist",
+        "quero": "register a validated algorithm version",
+        "para": "apply improved scientific processing while preserving reproducibility",
+        "rf_associado": "RF-023",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "production operator",
+        "quero": "initiate a version-controlled reprocessing run",
+        "para": "regenerate the climate record using improved processing configurations",
+        "rf_associado": "RF-024",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "sea-level scientist",
+        "quero": "submit a generated product and its validation evidence for assessment",
+        "para": "obtain an independent quality decision",
+        "rf_associado": "RF-014",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "product quality assessor",
+        "quero": "approve or reject a product with a rationale",
+        "para": "prevent unverified climate data from being released",
+        "rf_associado": "RF-015",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "catalog and metadata manager",
+        "quero": "maintain product metadata and documentation",
+        "para": "make every climate product understandable and traceable",
+        "rf_associado": "RF-012",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "catalog and metadata manager",
+        "quero": "publish an approved product version",
+        "para": "make validated data available to climate researchers",
+        "rf_associado": "RF-016",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "climate researcher",
+        "quero": "search the product catalog using scientific criteria",
+        "para": "identify sea-level datasets suitable for my research",
+        "rf_associado": "RF-017",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "climate researcher",
+        "quero": "download a product with its metadata and documentation",
+        "para": "use a documented and traceable dataset in climate analysis",
+        "rf_associado": "RF-018",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "production operator",
+        "quero": "monitor production-job status and progress",
+        "para": "detect processing problems and maintain daily operations",
+        "rf_associado": "RF-019",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-012",
+        "como": "production operator",
+        "quero": "restart a failed job from its latest valid recovery point",
+        "para": "restore production without repeating completed processing",
+        "rf_associado": "RF-021",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Ingest mission dataset",
+        "ator_principal": "Production Operator",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "The mission is active and its source interface is configured.",
+        "pos_condicao_sucesso": "The dataset is validated, registered, and archived as source baseline data.",
+        "pos_condicao_falha": "No dataset is released to scientific processing, and the failure is recorded.",
+        "fluxo_principal": [
+          "1. The actor selects a configured mission and requests ingestion.",
+          "2. The system retrieves the available delayed-time dataset.",
+          "3. The system validates format, completeness, mandatory fields, and checksum.",
+          "4. The system registers and archives the accepted dataset.",
+          "5. The system marks the dataset as available for processing."
+        ],
+        "fluxos_alternativos": [
+          "2a. No new dataset is available → the system records a no-data outcome and ends the operation."
+        ],
+        "fluxos_excecao": [
+          "3b. Validation fails → the system rejects the dataset, records the failed controls, and marks the ingestion as failed (ref. RN-004, RF-002)."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Configure new satellite mission",
+        "ator_principal": "Sea-Level Scientist",
+        "hu_relacionada": "HU-002",
+        "pre_condicao": "The actor is authorized and the mission interface specification is available.",
+        "pos_condicao_sucesso": "A versioned mission configuration is registered with its eligibility status.",
+        "pos_condicao_falha": "No active mission configuration is created.",
+        "fluxo_principal": [
+          "1. The actor creates a mission configuration.",
+          "2. The actor supplies source-interface, validation, calibration, and metadata definitions.",
+          "3. The system validates configuration completeness and interface conformance.",
+          "4. The actor records the scientific validation status.",
+          "5. The system stores the versioned mission configuration."
+        ],
+        "fluxos_alternativos": [
+          "4a. Scientific validation is pending → the system stores the mission as evaluation-only."
+        ],
+        "fluxos_excecao": [
+          "3b. Configuration validation fails → the system identifies each invalid or missing item and prevents activation (ref. RN-010, RF-022)."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Register algorithm version",
+        "ator_principal": "Sea-Level Scientist",
+        "hu_relacionada": "HU-003",
+        "pre_condicao": "The actor is authorized and the algorithm package and validation evidence are available.",
+        "pos_condicao_sucesso": "The algorithm is registered as an immutable version with a defined status.",
+        "pos_condicao_falha": "The algorithm version remains unavailable for operational processing.",
+        "fluxo_principal": [
+          "1. The actor submits an algorithm package.",
+          "2. The actor supplies version, parameter, dependency, and documentation information.",
+          "3. The system validates package integrity and metadata completeness.",
+          "4. The actor assigns the approved scientific validation status.",
+          "5. The system stores the version and makes approved versions selectable."
+        ],
+        "fluxos_alternativos": [
+          "4a. The algorithm is not approved → the system stores it as evaluation-only."
+        ],
+        "fluxos_excecao": [
+          "3b. Package validation fails → the system rejects registration and reports the validation errors (ref. RN-010, RF-023)."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Initiate reprocessing",
+        "ator_principal": "Production Operator",
+        "hu_relacionada": "HU-004",
+        "pre_condicao": "Required source datasets and an approved processing configuration are available.",
+        "pos_condicao_sucesso": "A uniquely identified reprocessing job is queued or started.",
+        "pos_condicao_falha": "No reprocessing job is started.",
+        "fluxo_principal": [
+          "1. The actor selects the temporal range and source datasets.",
+          "2. The actor selects approved mission, calibration, and algorithm versions.",
+          "3. The system validates configuration compatibility.",
+          "4. The system creates a new product-version identifier.",
+          "5. The system starts or queues the reprocessing job."
+        ],
+        "fluxos_alternativos": [
+          "5a. Production capacity is unavailable → the system queues the job and displays its queue position."
+        ],
+        "fluxos_excecao": [
+          "3b. The configuration is incomplete or incompatible → the system reports the conflicts and prevents execution (ref. RN-007, RN-010, RF-024)."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Submit product for quality assessment",
+        "ator_principal": "Sea-Level Scientist",
+        "hu_relacionada": "HU-005",
+        "pre_condicao": "The product has completed processing and validation evidence exists.",
+        "pos_condicao_sucesso": "The product status is set to pending quality assessment.",
+        "pos_condicao_falha": "The product remains unavailable for approval and publication.",
+        "fluxo_principal": [
+          "1. The actor selects a generated product version.",
+          "2. The system displays its validation evidence, metadata, and provenance.",
+          "3. The actor requests quality assessment.",
+          "4. The system checks submission completeness.",
+          "5. The system records the submission and marks the product as pending assessment."
+        ],
+        "fluxos_alternativos": [
+          "2a. The actor adds supplementary scientific notes before submitting."
+        ],
+        "fluxos_excecao": [
+          "4b. Mandatory evidence is missing → the system lists the missing evidence and rejects the submission (ref. RN-005, RF-014)."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Record product quality decision",
+        "ator_principal": "Product Quality Assessor",
+        "hu_relacionada": "HU-006",
+        "pre_condicao": "The product is pending assessment and the actor is authorized.",
+        "pos_condicao_sucesso": "An immutable approval or rejection decision is associated with the product.",
+        "pos_condicao_falha": "The product remains pending assessment.",
+        "fluxo_principal": [
+          "1. The actor opens the pending product assessment.",
+          "2. The system presents validation evidence, metadata, provenance, and documentation.",
+          "3. The actor selects approval or rejection.",
+          "4. The actor enters a rationale.",
+          "5. The system records the decision, actor, and timestamp."
+        ],
+        "fluxos_alternativos": [
+          "3a. Additional evidence is required → the actor returns the product for revision with an explanation."
+        ],
+        "fluxos_excecao": [
+          "4b. No rationale is provided → the system prevents decision submission and identifies the required field (ref. RN-005, RF-015)."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Maintain product metadata",
+        "ator_principal": "Catalog and Metadata Manager",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "A product version exists and the actor is authorized.",
+        "pos_condicao_sucesso": "Validated metadata and documentation are associated with the product version.",
+        "pos_condicao_falha": "The previous valid metadata remains effective.",
+        "fluxo_principal": [
+          "1. The actor selects a product version.",
+          "2. The system displays its catalog metadata and documentation.",
+          "3. The actor creates or updates the permitted metadata fields.",
+          "4. The actor associates version-specific documentation.",
+          "5. The system validates and saves the changes."
+        ],
+        "fluxos_alternativos": [
+          "4a. Documentation is unchanged → the actor confirms the existing version-specific association."
+        ],
+        "fluxos_excecao": [
+          "5b. Mandatory metadata is missing → the system rejects the update and identifies each missing field (ref. RN-008, RF-012)."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Publish approved product",
+        "ator_principal": "Catalog and Metadata Manager",
+        "hu_relacionada": "HU-008",
+        "pre_condicao": "The product is approved and has complete metadata, provenance, and documentation.",
+        "pos_condicao_sucesso": "The product is visible and downloadable through the catalog.",
+        "pos_condicao_falha": "The product remains unpublished.",
+        "fluxo_principal": [
+          "1. The actor selects an approved product version.",
+          "2. The system validates publication prerequisites.",
+          "3. The actor confirms publication.",
+          "4. The system publishes the catalog record and product package.",
+          "5. The system records the publication event."
+        ],
+        "fluxos_alternativos": [
+          "3a. The actor schedules publication for a future date → the system records the schedule."
+        ],
+        "fluxos_excecao": [
+          "2b. Approval or mandatory information is absent → the system prevents publication and lists the unmet prerequisites (ref. RN-005, RN-008, RF-016)."
+        ]
+      },
+      {
+        "id": "UC-009",
+        "nome": "Search product catalog",
+        "ator_principal": "Climate Researcher",
+        "hu_relacionada": "HU-009",
+        "pre_condicao": "The product catalog is available.",
+        "pos_condicao_sucesso": "Matching published product versions are displayed.",
+        "pos_condicao_falha": "No product data is modified.",
+        "fluxo_principal": [
+          "1. The actor opens the product catalog.",
+          "2. The actor specifies one or more scientific search criteria.",
+          "3. The system searches published product metadata.",
+          "4. The system displays matching versions and their quality status.",
+          "5. The actor opens a product record."
+        ],
+        "fluxos_alternativos": [
+          "4a. No product matches → the system displays zero results and preserves the entered criteria."
+        ],
+        "fluxos_excecao": [
+          "3b. The catalog query fails → the system displays an error identifier and allows the actor to retry (ref. RF-017)."
+        ]
+      },
+      {
+        "id": "UC-010",
+        "nome": "Download product package",
+        "ator_principal": "Climate Researcher",
+        "hu_relacionada": "HU-010",
+        "pre_condicao": "The selected product version is published.",
+        "pos_condicao_sucesso": "The complete product package is transferred to the actor.",
+        "pos_condicao_falha": "No incomplete package is represented as successfully downloaded.",
+        "fluxo_principal": [
+          "1. The actor opens a published product record.",
+          "2. The system displays data, metadata, documentation, size, and checksum information.",
+          "3. The actor requests the download.",
+          "4. The system transfers the product package.",
+          "5. The system provides the package checksum."
+        ],
+        "fluxos_alternativos": [
+          "3a. Multiple package formats are available → the actor selects one supported format."
+        ],
+        "fluxos_excecao": [
+          "4b. Transfer fails → the system reports the incomplete transfer and permits a new attempt (ref. RN-008, RF-018)."
+        ]
+      },
+      {
+        "id": "UC-011",
+        "nome": "Monitor production job",
+        "ator_principal": "Production Operator",
+        "hu_relacionada": "HU-011",
+        "pre_condicao": "At least one production or reprocessing job exists.",
+        "pos_condicao_sucesso": "The actor views the current state and execution details of the selected job.",
+        "pos_condicao_falha": "Existing job records remain unchanged.",
+        "fluxo_principal": [
+          "1. The actor opens the production-monitoring view.",
+          "2. The system lists active and recent jobs.",
+          "3. The actor selects a job.",
+          "4. The system displays its stage, status, start time, elapsed time, and outcome.",
+          "5. The system refreshes active-job information."
+        ],
+        "fluxos_alternativos": [
+          "2a. The actor filters jobs by mission, product, status, or execution period."
+        ],
+        "fluxos_excecao": [
+          "4b. Monitoring data is unavailable → the system marks the status as unknown and records the monitoring error (ref. RF-019)."
+        ]
+      },
+      {
+        "id": "UC-012",
+        "nome": "Restart failed production job",
+        "ator_principal": "Production Operator",
+        "hu_relacionada": "HU-012",
+        "pre_condicao": "A job is failed, the actor is authorized, and a valid recovery point exists.",
+        "pos_condicao_sucesso": "A recovery execution starts from the selected valid recovery point.",
+        "pos_condicao_falha": "The failed execution and archived data remain unchanged.",
+        "fluxo_principal": [
+          "1. The actor opens a failed job.",
+          "2. The system displays the failure details and available recovery point.",
+          "3. The actor requests a restart.",
+          "4. The system validates input and configuration availability.",
+          "5. The system creates a linked recovery execution and resumes processing."
+        ],
+        "fluxos_alternativos": [
+          "2a. No recovery point exists → the actor may request a complete rerun."
+        ],
+        "fluxos_excecao": [
+          "4b. Required inputs or configuration versions are unavailable → the system prevents restart and identifies the missing dependencies (ref. RF-021)."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Successful mission ingestion",
+        "dado": "a configured mission with an available delayed-time dataset",
+        "quando": "an operator requests ingestion",
+        "entao": "the system registers the dataset with a unique identifier and sets its ingestion status to received",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-001",
+        "titulo": "Dataset validation failure",
+        "dado": "an ingested dataset with an invalid checksum or missing mandatory field",
+        "quando": "input validation is executed",
+        "entao": "the system sets the dataset status to rejected, identifies every failed control, and prevents scientific processing",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-004",
+        "titulo": "Apply selected calibration",
+        "dado": "an accepted dataset and a selected approved calibration configuration",
+        "quando": "mission processing starts",
+        "entao": "the generated measurements identify the exact calibration version applied",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-005",
+        "titulo": "Execute scientific validation",
+        "dado": "processed measurements and an associated validation profile",
+        "quando": "validation is executed",
+        "entao": "the system records a pass or fail result for 100% of mandatory validation checks",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-004",
+        "titulo": "Cross-calibrate eligible missions",
+        "dado": "processed measurements from at least two eligible missions",
+        "quando": "cross-calibration is executed",
+        "entao": "the output identifies all contributing missions and the cross-calibration configuration version",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-004",
+        "titulo": "Generate along-track product",
+        "dado": "successfully processed measurements for one mission",
+        "quando": "along-track product generation completes",
+        "entao": "the system creates one versioned product associated with that mission and processing execution",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-004",
+        "titulo": "Generate merged gridded product",
+        "dado": "eligible cross-calibrated measurements and a configured grid",
+        "quando": "merged-product generation completes",
+        "entao": "the system creates one versioned gridded product identifying every contributing mission",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-001",
+        "titulo": "Preserve source baseline",
+        "dado": "an accepted source dataset",
+        "quando": "archiving completes",
+        "entao": "the archived object's checksum equals the accepted dataset checksum",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-004",
+        "titulo": "Archive designated intermediates",
+        "dado": "a completed processing stage producing an intermediate designated for retention",
+        "quando": "the stage completes",
+        "entao": "the intermediate is archived with its execution identifier, stage name, version, and checksum",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-004",
+        "titulo": "Prevent version overwrite",
+        "dado": "an archived product version",
+        "quando": "reprocessing generates another product for the same mission and period",
+        "entao": "the system creates a different immutable version identifier and preserves the previous version",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-007",
+        "titulo": "Complete provenance record",
+        "dado": "a generated product version",
+        "quando": "its provenance record is retrieved",
+        "entao": "the record identifies all source datasets, algorithm versions, calibration versions, mission configurations, execution identifier, and processing timestamp",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-007",
+        "titulo": "Validate catalog metadata",
+        "dado": "an authorized metadata manager editing a product record",
+        "quando": "the manager submits complete valid metadata",
+        "entao": "the system saves a new metadata revision and records the editor and timestamp",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-007",
+        "titulo": "Associate documentation",
+        "dado": "a product version and a supported documentation file",
+        "quando": "an authorized metadata manager associates the document",
+        "entao": "the product record displays the document title, version, checksum, and retrieval link",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-005",
+        "titulo": "Submit complete assessment package",
+        "dado": "a generated product with complete validation evidence and provenance",
+        "quando": "a scientist submits it for assessment",
+        "entao": "the system sets its quality status to pending assessment and records the submission timestamp",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-006",
+        "titulo": "Record quality decision",
+        "dado": "an authorized assessor and a product pending assessment",
+        "quando": "the assessor submits an approval or rejection with a rationale",
+        "entao": "the system records the decision, rationale, assessor identity, and timestamp as an immutable event",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-008",
+        "titulo": "Block unapproved publication",
+        "dado": "a product whose quality status is not approved",
+        "quando": "publication is requested",
+        "entao": "the system refuses publication and displays that quality approval is required",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017 / HU-009",
+        "titulo": "Filter catalog results",
+        "dado": "published products from multiple missions, periods, and versions",
+        "quando": "a researcher supplies mission and temporal-coverage filters",
+        "entao": "100% of returned records satisfy both supplied filters",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-018",
+        "rf_hu_ref": "RF-018 / HU-010",
+        "titulo": "Download complete product package",
+        "dado": "a published product",
+        "quando": "a researcher completes its download",
+        "entao": "the downloaded package contains data, metadata, documentation, and a checksum matching the catalog value",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-019",
+        "rf_hu_ref": "RF-019 / HU-011",
+        "titulo": "Display job status",
+        "dado": "an active production job",
+        "quando": "an operator opens its monitoring record",
+        "entao": "the system displays its current stage, status, start time, elapsed time, and execution identifier",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-020",
+        "rf_hu_ref": "RF-020 / HU-011",
+        "titulo": "Notify job failure",
+        "dado": "a production job and at least one configured operational recipient",
+        "quando": "the job enters the failed state",
+        "entao": "the system sends a notification containing the job identifier, failed stage, timestamp, and error identifier within 5 minutes [TBD]",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-021",
+        "rf_hu_ref": "RF-021 / HU-012",
+        "titulo": "Restart from recovery point",
+        "dado": "a failed job with a valid recovery point",
+        "quando": "an authorized operator requests restart",
+        "entao": "the system creates a linked recovery execution beginning at that recovery point without altering the failed execution record",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-022",
+        "rf_hu_ref": "RF-022 / HU-002",
+        "titulo": "Register mission configuration",
+        "dado": "complete interface, validation, calibration, and metadata definitions for a new mission",
+        "quando": "an authorized scientist saves the configuration",
+        "entao": "the system assigns a unique version and records its eligibility status",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-023",
+        "rf_hu_ref": "RF-023 / HU-003",
+        "titulo": "Register immutable algorithm version",
+        "dado": "a valid algorithm package with complete dependencies and documentation",
+        "quando": "an authorized scientist registers the package",
+        "entao": "the system stores it under a unique immutable version and records its validation status",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-024",
+        "rf_hu_ref": "RF-024 / HU-004",
+        "titulo": "Create versioned reprocessing job",
+        "dado": "selected source data and a compatible approved processing configuration",
+        "quando": "an authorized operator initiates reprocessing",
+        "entao": "the system creates a uniquely identified job and reserves a new product-version identifier",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-025",
+        "rf_hu_ref": "RF-025 / HU-006",
+        "titulo": "Reject unauthorized operation",
+        "dado": "an authenticated user without the quality-assessor role",
+        "quando": "the user attempts to approve a product",
+        "entao": "the system rejects the operation, leaves the product status unchanged, and records the denied attempt",
+        "metodo_verificacao": "Teste automatizado E2E"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "cenario_fonte": "Project Scenario 6.pdf",
+    "observacoes": "Cenario cientifico/tecnico, denso, mas com poucas metricas numericas explicitas — a maioria dos RNF fica [TBD] de proposito, coerente com o texto original (jargao cientifico sem quantificacao explicita). Nao confundir com um sistema NRT (near-real-time): o cenario exclui isso explicitamente. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+    "escopo": {
+      "em_escopo": [
+        "Ingesting altimetry data from multiple satellite missions",
+        "Calibration, validation, and cross-calibration between missions",
+        "Generating the per-mission along-track product",
+        "Generating the merged multi-mission gridded product",
+        "Archiving baseline and intermediate data to support repeated reprocessing",
+        "Workflows for scientists (deeper validation / product definition), quality reviewers (sign-off), catalog/metadata staff, and operational staff (monitoring, incidents, user requests)",
+        "Making data available to the climate research community (external users)",
+        "Metadata and documentation attached to each output product",
+        "Ability to absorb new satellite missions and updated processing algorithms over time"
+      ],
+      "fora_de_escopo": [
+        "Near-real-time (NRT) delivery — the system is exclusively for reprocessed/delayed-time data",
+        "Formal IT service management processes and incident ticketing frameworks (ITIL-style)",
+        "Serving the general public or commercial customers — the target audience is only the climate research community"
+      ],
+      "premissas": [
+        "PA-01: [INFERRED] Proven infrastructure already exists for broader ocean data that can be reused.",
+        "PA-02: The science (algorithms, validation, prototyping) has already been developed by another team; the project starts from an existing prototype, not from scratch."
+      ],
+      "restricoes": [
+        "REST-01 (Financial): The system must be financially sustainable for long-term operation, not just a one-off build.",
+        "REST-02 (Technological): The system should, wherever it makes sense, reuse already-proven infrastructure rather than being built entirely from scratch.",
+        "REST-03 (Organizational): The system is part of a larger ESA effort (Climate Change Initiative), with about eleven parallel projects covering different climate variables."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Scientists — brought in for deeper validation or definition of new products."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Quality reviewers — evaluate and sign off on generated products before release."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Catalog/metadata staff — maintain the product catalog and metadata."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "Operational staff — monitor the system, handle incidents, and respond to user requests."
+      },
+      {
+        "id": "STK-05",
+        "descricao": "Climate research community (external users) — researchers doing climate modelling who need reliable, well-documented sea level data."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "The system is one of about eleven parallel ESA Climate Change Initiative projects, each covering a different climate variable — this project covers sea level."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "Products must go through calibration, validation, and cross-calibration between missions before being considered consistent."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "Reprocessing happens repeatedly as algorithms and calibration methods evolve, so baseline and intermediate data must never be lost."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "The target audience is exclusively the climate research community — not the general public or commercial customers."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "Near-real-time (NRT) delivery use cases are explicitly excluded — the system only serves the reprocessed/delayed-time data flow."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "The system must ingest altimetry data from multiple satellite missions."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "The system must perform calibration and validation of ingested altimetry data."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "The system must perform cross-calibration between different satellite missions to ensure consistency."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "The system must generate the per-mission along-track product."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "The system must generate the merged multi-mission gridded product, blending data from multiple missions into a single climate record."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "The system must archive baseline and intermediate data to support future reprocessing without loss."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "The system must allow scientists to perform deeper validation or define new products when needed."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "The system must allow quality reviewers to evaluate and sign off on products before release."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "The system must maintain a catalog with metadata for generated products."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "The system must allow operational staff to monitor the system, handle incidents, and respond to user requests."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "The system must attach metadata and documentation to output data, ensuring quality and traceability."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "The system must support onboarding new satellite missions over time."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "The system must support swapping in updated processing algorithms without interrupting existing operations."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Flexibility",
+        "descricao": "The system must be flexible enough to absorb new satellite missions and updated processing algorithms over the life of the project, without requiring a full rebuild.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a numeric flexibility metric"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "The system should, wherever it makes sense, reuse already-proven infrastructure (existing for broader ocean data) rather than being built entirely from scratch.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a target reuse percentage"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system's archive must fully preserve baseline and intermediate data across successive reprocessing cycles, without loss.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a retention/backup policy"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "Output data must include metadata and documentation sufficient to ensure quality and traceability for the international climate change community.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a specific metadata standard/format"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "As a scientist, I want to perform deeper validation or define new products when needed, so that scientific quality is maintained as the system evolves."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "As a quality reviewer, I want to evaluate and approve products, so that only validated data is released."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "As a member of the catalog/metadata team, I want to maintain the product catalog and metadata, so that the data stays discoverable and well-documented."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "As a member of the operational staff, I want to monitor the system, handle incidents, and respond to user requests, so that day-to-day operations keep running."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "As a climate research community member, I want to access reliable, well-documented sea level data, so that I can trust it and build my research on it."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "As a system operator, I want to reprocess historical data when algorithms or calibration methods improve, without losing baseline or intermediate data, so that the climate record stays accurate over time."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Process satellite altimetry data — the system ingests data from multiple missions, calibrates and validates it, cross-calibrates between missions, and generates the per-mission and multi-mission gridded products."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Review and release product — a quality reviewer evaluates a newly generated product and approves it for release, or flags it for correction."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Reprocess historical data — an operator triggers reprocessing of archived baseline/intermediate data using an updated algorithm or calibration method, without losing prior data."
+      },
+      {
+        "id": "UC-04",
+        "descricao": "Onboard new satellite mission — an operator or scientist configures the system to ingest data from a newly available satellite mission."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-03",
+        "descricao": "Given altimetry data from two or more satellite missions, when cross-calibration is performed, then the resulting measurements are consistent across missions."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-06",
+        "descricao": "Given a reprocessing run using an updated algorithm, when processing completes, then the baseline and intermediate data from previous runs remain intact and accessible."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-08 / HU-02",
+        "descricao": "Given a newly generated product, when a quality reviewer evaluates it, then the product is approved for release or flagged for correction."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RF-11 / HU-05",
+        "descricao": "Given a released dataset, when a climate research community member accesses it, then the dataset includes metadata and documentation sufficient to trace its origin and processing history."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RF-12",
+        "descricao": "Given a new satellite mission becomes available, when it is onboarded, then that mission's data is processed without requiring a rebuild of the existing processing pipelines."
+      }
+    ]
+  }
+}

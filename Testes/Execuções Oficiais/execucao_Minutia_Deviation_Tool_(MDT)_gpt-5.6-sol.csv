@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 09:02:17,Minutia Deviation Tool (MDT),gpt-5.6-sol,0.6835,132.2,48601,4095,11345,2642,59946,3,0.224578,0.34035,0.0075,0.572427,15,8,15,15

@@ -1,0 +1,18 @@
+GABARITO — Project Scenario 4: MDT (Minutia Deviation Tool)
+Use: "ground_truth" field for RAGAS (context_precision / context_recall).
+Each line is an atomic, checkable claim against the scenario text and the
+knowledge base — not a full SRS, just the set of facts a well-grounded SRS
+for this scenario should be able to cover.
+
+- The tool lets a researcher open a pair of fingerprint files and view their minutiae points overlaid on the image.
+- Clicking a point on one print and the matching point on the other calculates and displays the spatial deviation between them.
+- Clicking an individual minutia shows its details: x/y position, angle, classification, and any annotations.
+- Marking/filtering deviation pairs and exporting the filtered minutiae is a nice-to-have, not required for the first version.
+- The core required flow is: open files, compare corresponding points, calculate deviation.
+- A session can be saved as a session file that can be reopened later.
+- A session can also be saved as a simple log file (table format, e.g. openable in Excel) listing the pairs and calculated deviations.
+- The tool must work entirely offline and locally; it must not require any network or server communication.
+- The intended users are biometrics researchers in academia, government labs, and industry, already familiar with minutiae and EBTS-type files.
+- The interface does not need to be simplified for non-expert users.
+- User accounts, per-user permissions, and security layers are explicitly out of scope.
+- This is a prototype/beta-stage tool, not intended for general release or for ongoing developer support after delivery.

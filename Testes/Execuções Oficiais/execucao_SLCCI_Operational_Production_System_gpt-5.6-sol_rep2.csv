@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 09:23:07,SLCCI Operational Production System,gpt-5.6-sol,0.4396,165.1,33106,4977,14924,2416,48030,2,0.143133,0.44772,0.005,0.595854,25,12,12,25

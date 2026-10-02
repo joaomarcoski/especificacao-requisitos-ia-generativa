@@ -1,0 +1,20 @@
+GABARITO — Project Scenario 9: Core Financial System (FFMIA Compliance Initiative)
+Use: "ground_truth" field for RAGAS (context_precision / context_recall).
+Each line is an atomic, checkable claim against the scenario text and the
+knowledge base — not a full SRS, just the set of facts a well-grounded SRS
+for this scenario should be able to cover.
+
+- The system must substantially comply with FFMIA (Federal Financial Management Improvement Act) requirements.
+- The general ledger is the central component; every other function depends on it.
+- The system must classify and track transactions by fund, program, organization, project, and cost center.
+- The system must prevent obligating or spending more than what was actually appropriated (funds control).
+- The system must process payments to vendors/payees and confirm that a payment reached the correct destination.
+- The system must record and track money owed to the agency (receivables) and follow up when payments are missed.
+- The system must support cost management: measuring what programs cost and what they produce.
+- The system must produce formal financial statements and reports for management, oversight bodies, and eventual public release.
+- Users include financial systems analysts, accountants, program managers, agency operations staff, and periodic auditors.
+- The system must be usable by non-technical finance staff, not only by IT staff.
+- The system must handle its workload without performance failure and integrate with other existing systems rather than operating in isolation.
+- The system must maintain a real audit trail and security controls over who can access what.
+- The system must provide adequate web access, rather than restricting users to a single terminal.
+- Optional "nice to have" features not mandated by law or regulation are deprioritized in favor of mandatory requirements in the first round.

@@ -1,0 +1,1424 @@
+{
+  "sistema": "GRD - Sistema de Gestão de Riscos de Desastres",
+  "modelo": "gpt-5.6-sol",
+  "data_execucao": "2026-08-20 08:43:48",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 1.pdf ---\nGRD - Sistema de Gestão de Riscos de Desastres\nOlha, a ideia desse projeto nasceu de uma dor bem concreta: a \ngente vem sofrendo com enchente, estiagem, granizo, esses \neventos climáticos extremos que de uns anos pra cá só \naumentaram, e a resposta do Estado a isso ainda é muito \nmanual, muito espalhada. Só em 2015 a gente teve um estrago \ngigantesco na economia por causa desses eventos, e a verdade é \nque a Defesa Civil e a Sala de Situação trabalham hoje com \nboletim, planilha, telefone, e-mail, cada um do seu jeito, sem \num sistema único que junte essa informação toda e ajude a \ntomar decisão rápido. A gente quer resolver isso com um \nsoftware de gestão de risco de desastres que dê inteligência \npra esse processo todo. \n \nPensando no que esse sistema precisa fazer: a primeira coisa é \nautomatizar o envio de avisos e alertas, porque hoje quando \nacontece alguma coisa - chuva forte, deslizamento, esse tipo \nde coisa - tem que avisar município, regional, às vezes a \nprópria imprensa, e isso devia sair quase automático por \ne-mail, SMS, no site da Defesa Civil, sem alguém ficando \nmontando isso manualmente. Outra coisa importante é ter onde \nos municípios e o Estado cadastrem os planos de contingência \ndeles - quais são as áreas que mais sofrem com esses eventos, \nquais recursos eles têm disponível (gente, veículo, material), \nquais abrigos podem ser usados, esse tipo de informação que \nhoje provavelmente está em documento separado e não conversa \ncom nada. \n \nTem também uma parte de gestão de incidente em si, no estilo \nde comando de operações, onde dá pra ver no mapa onde está \nacontecendo o quê, quais abrigos foram acionados, e acompanhar \nisso ao vivo, inclusive pelo celular dos agentes que estão em \ncampo. E não posso esquecer do controle de estoque: a gente \nrecebe muita doação, muito material de ajuda humanitária - \ncolchão, kit de higiene, cesta básica - e isso precisa ter \nrastreabilidade, saber o que entrou, o que saiu, pra onde foi, \nporque hoje rola bastante perda e falta de controle nesse \nfluxo. Junto com isso vem a prestação de contas dos municípios \nsobre o que receberam. \n \nQuem vai usar isso no dia a dia é a equipe da Sala de Situação \n(que tem meteorologista, engenheiro ambiental, esse pessoal \nque fica de olho nos modelos de previsão), a Defesa Civil \nestadual e as coordenadorias regionais, os próprios municípios \nque vão alimentar dados de plano de contingência, e em algum \nnível a imprensa e a população que recebem os alertas. Pode \nser que precise também de um aplicativo de celular pra esse \npessoal de campo registrar e consultar informação na hora, \nisso seria bem importante. \n \nUma coisa que também é importante, mesmo não sendo a parte \nmais vistosa do sistema: eu quero poder ajustar e configurar a \nmatriz de risco sem precisar chamar desenvolvedor pra cada \nmudancinha. O acesso tem que ser pelo login único do governo, \no SOEWEB, porque não faz sentido cada um ficar com senha \nseparada pra mais um sistema. Também quero que fique \nregistrado quem mexeu em quê e quando - inclusão e alteração \nde cada registro, com o responsável, a data/hora e de onde foi \nfeito - porque se algum dado for alterado errado, alguém vai \nperguntar depois quem fez isso. E não pode perder informação \nse cair a conexão ou a energia no meio do cadastro de alguém, \nisso tem que ficar protegido. E claro, tudo em português, tela \ne manual, sem essa de ficar traduzindo depois. \n \nAgora, tem coisa que não precisa ser nossa prioridade agora: a \nparte de integração profunda com o S2ID, que é o sistema \nfederal de informação de desastre, pode ficar pra depois ou \nser feita de forma mais simples no começo, já que depende de \ndefinir com calma o que dá pra puxar de lá. Visualização de \nmapa bonito com camada de dados geográfico complexo (tipo \nbacia hidrográfica, zoneamento ecológico, esse tanto de camada \ncartográfica) também não precisa vir logo de cara, isso pode \nevoluir depois que o núcleo do sistema estiver rodando. O foco \ninicial é ter esse fluxo de aviso/alerta, cadastro de plano de \ncontingência e controle de estoque funcionando bem, porque é \nisso que resolve a dor mais urgente, que é a demora e a \ndesorganização na resposta a esses eventos.",
+  "answer": "Sistema: GRD - Sistema de Gestão de Riscos de Desastres\n\nResumo executivo: O GRD centralizará informações e processos atualmente distribuídos em boletins, planilhas, telefone e e-mail, apoiando a prevenção e a resposta estadual a eventos como enchentes, estiagens, granizo e deslizamentos. O sistema automatizará alertas, estruturará planos de contingência, apoiará a gestão de incidentes e permitirá rastrear estoques de ajuda humanitária, reduzindo atrasos, perdas e desorganização operacional. \n\nEscopo: O GRD permite monitorar riscos, emitir alertas, manter planos de contingência, coordenar incidentes e controlar recursos de ajuda humanitária.\n  Em escopo: Emissão e distribuição automatizada de avisos e alertas\n  Em escopo: Cadastro de planos de contingência estaduais e municipais\n  Em escopo: Cadastro de áreas de risco, recursos e abrigos\n  Em escopo: Registro e acompanhamento de incidentes\n  Em escopo: Visualização geográfica básica de incidentes\n  Em escopo: Operação móvel para agentes de campo\n  Em escopo: Controle rastreável de estoque de ajuda humanitária\n  Em escopo: Prestação de contas municipal\n  Em escopo: Configuração administrativa da matriz de risco\n  Em escopo: Autenticação pelo SOEWEB\n  Em escopo: Auditoria de inclusões e alterações\n  Fora de escopo: Integração profunda e bidirecional com o S2ID — conteúdo e interfaces ainda dependem de definição\n  Fora de escopo: Camadas cartográficas complexas, como bacias hidrográficas e zoneamento ecológico — previstas para evolução posterior\n  Fora de escopo: Gestão financeira de recursos para desastres — não mencionada como necessidade do núcleo inicial\n  Fora de escopo: Previsão meteorológica própria — o sistema utilizará informações analisadas pela Sala de Situação\n  Premissa: PA-01: O SOEWEB disponibilizará mecanismo de autenticação integrável ao GRD.\n  Premissa: PA-02: Os serviços de e-mail, SMS e publicação no site da Defesa Civil estarão disponíveis para integração.\n  Premissa: PA-03: Municípios e órgãos estaduais indicarão responsáveis pela atualização dos planos de contingência.\n  Premissa: PA-04: [INFERIDO] Cada item de ajuda humanitária possuirá unidade de medida e identificação padronizadas.\n  Premissa: PA-05: [INFERIDO] Os agentes de campo utilizarão dispositivos móveis com navegador ou aplicativo compatível.\n  Restrição: REST-01 (Tecnológica): A autenticação dos usuários deve ocorrer exclusivamente por meio do SOEWEB.\n  Restrição: REST-02 (Idioma): Interfaces, mensagens e manuais devem ser disponibilizados em português.\n  Restrição: REST-03 (Continuidade): Dados em preenchimento devem ser protegidos contra interrupções de energia ou conexão.\n  Restrição: REST-04 (Escopo): A primeira versão deve priorizar alertas, planos de contingência e controle de estoque.\n  Restrição: REST-05 (Integração): A integração profunda com o S2ID está adiada até a definição dos dados e serviços disponíveis.\n\nStakeholders:\n  STK-01 - Equipe da Sala de Situação (Usuário primário): Analisar riscos, configurar alertas e acompanhar incidentes.\n  STK-02 - Defesa Civil Estadual (Usuário primário): Coordenar alertas, incidentes, planos, abrigos, estoques e prestações de contas.\n  STK-03 - Coordenadorias Regionais (Usuário primário): Acompanhar ocorrências e coordenar municípios de sua região.\n  STK-04 - Gestores Municipais de Defesa Civil (Usuário primário): Cadastrar planos de contingência, recursos, áreas de risco, abrigos e prestações de contas.\n  STK-05 - Agentes de campo (Usuário primário): Consultar incidentes e registrar informações operacionais por dispositivo móvel.\n  STK-06 - Equipe de logística e estoque (Usuário primário): Registrar entradas, saídas, saldos e destinos de materiais humanitários.\n  STK-07 - Administrador funcional do GRD (Usuário primário): Configurar a matriz de risco e consultar registros de auditoria.\n  STK-08 - Imprensa (Usuário secundário): Receber avisos públicos autorizados.\n  STK-09 - População (Usuário secundário): Receber alertas públicos claros e tempestivos.\n  STK-10 - SOEWEB (Stakeholder externo): Fornecer autenticação e identidade governamental.\n  STK-11 - Provedores de e-mail, SMS e site da Defesa Civil (Stakeholder externo): Receber e distribuir alertas gerados pelo GRD.\n\nRegras de negócio:\n  RN-001 - Classificação de risco: Todo evento monitorado deve ser classificado conforme a matriz de risco vigente.\n  RN-002 - Destinatários de alertas: Os destinatários e canais de um alerta devem ser determinados pela classificação, localização e abrangência do evento.\n  RN-003 - Composição do plano de contingência: O plano de contingência deve identificar áreas de risco, recursos disponíveis e abrigos utilizáveis.\n  RN-004 - Vinculação de abrigos: Todo acionamento de abrigo deve estar vinculado a um incidente e ao responsável pelo acionamento.\n  RN-005 - Rastreabilidade de estoque: Toda movimentação de ajuda humanitária deve identificar item, quantidade, origem ou destino, data, hora e responsável.\n  RN-006 - Prestação de contas municipal: Todo município que receber ajuda humanitária deve prestar contas dos materiais recebidos e de sua destinação.\n  RN-007 - Gestão da matriz de risco: Somente responsáveis autorizados podem alterar parâmetros da matriz de risco.\n  RN-008 - Responsabilização por alterações: Toda inclusão ou alteração de informação deve possuir autoria, data, hora e origem identificáveis.\n\nRequisitos funcionais:\n  RF-001 - Classificar evento: O sistema deve classificar cada evento conforme a matriz de risco vigente. [Must have]\n  RF-002 - Gerar alerta: O sistema deve gerar um alerta a partir dos dados de um evento classificado. [Must have]\n  RF-003 - Enviar alerta por e-mail: O sistema deve enviar alertas por e-mail aos destinatários selecionados. [Must have]\n  RF-004 - Enviar alerta por SMS: O sistema deve enviar alertas por SMS aos destinatários selecionados. [Must have]\n  RF-005 - Publicar alerta no site: O sistema deve publicar alertas autorizados no site da Defesa Civil. [Must have]\n  RF-006 - Selecionar destinatários: O sistema deve selecionar destinatários conforme a localização, abrangência e classificação do evento. [Must have]\n  RF-007 - Cadastrar plano de contingência: O sistema deve cadastrar planos de contingência estaduais e municipais. [Must have]\n  RF-008 - Cadastrar área de risco: O sistema deve cadastrar áreas de risco vinculadas a um plano de contingência. [Must have]\n  RF-009 - Cadastrar recurso: O sistema deve cadastrar recursos humanos, veículos e materiais disponíveis em um plano de contingência. [Must have]\n  RF-010 - Cadastrar abrigo: O sistema deve cadastrar abrigos utilizáveis em situações de desastre. [Must have]\n  RF-011 - Registrar incidente: O sistema deve registrar incidentes com tipo, localização, situação e responsável. [Should have]\n  RF-012 - Exibir incidente no mapa: O sistema deve exibir a localização dos incidentes em um mapa operacional básico. [Should have]\n  RF-013 - Acionar abrigo: O sistema deve registrar o acionamento de um abrigo para um incidente. [Should have]\n  RF-014 - Atualizar incidente em campo: O sistema deve permitir a atualização de incidentes por dispositivo móvel. [Should have]\n  RF-015 - Consultar incidente em campo: O sistema deve permitir a consulta de incidentes por dispositivo móvel. [Should have]\n  RF-016 - Registrar entrada de estoque: O sistema deve registrar entradas de materiais de ajuda humanitária. [Must have]\n  RF-017 - Registrar saída de estoque: O sistema deve registrar saídas de materiais de ajuda humanitária com o respectivo destino. [Must have]\n  RF-018 - Consultar rastreabilidade: O sistema deve consultar o histórico completo de movimentações de cada item de estoque. [Must have]\n  RF-019 - Apresentar saldo de estoque: O sistema deve apresentar o saldo atual de cada item de ajuda humanitária. [Must have]\n  RF-020 - Registrar prestação de contas: O sistema deve registrar a prestação de contas dos materiais recebidos por cada município. [Must have]\n  RF-021 - Configurar matriz de risco: O sistema deve permitir que administradores autorizados configurem os parâmetros da matriz de risco. [Should have]\n  RF-022 - Autenticar pelo SOEWEB: O sistema deve autenticar usuários por meio do SOEWEB. [Must have]\n  RF-023 - Registrar auditoria: O sistema deve registrar a autoria, data, hora e origem de cada inclusão ou alteração. [Must have]\n  RF-024 - Recuperar cadastro interrompido: O sistema deve recuperar os dados de um cadastro interrompido antes de sua conclusão. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Performance Efficiency) - O sistema deve iniciar a distribuição de um alerta em até 60 segundos após sua autorização. [TBD] | Métrica: Percentil 95 igual ou inferior a 60 segundos para 100 alertas simultâneos. [TBD]\n  RNF-002 (Performance Efficiency) - O sistema deve refletir atualizações de incidentes nos painéis em até 30 segundos. [TBD] | Métrica: 95% das atualizações exibidas em até 30 segundos. [TBD]\n  RNF-003 (Reliability) - O sistema deve manter disponibilidade mensal mínima de 99,5%. [TBD] | Métrica: Disponibilidade igual ou superior a 99,5% por mês, excluídas manutenções programadas. [TBD]\n  RNF-004 (Reliability) - O sistema deve preservar dados confirmados e recuperar rascunhos com perda máxima de 60 segundos de edição. [TBD] | Métrica: Zero perda de registros confirmados e perda máxima de 60 segundos em rascunhos. [TBD]\n  RNF-005 (Security) - O sistema deve manter trilha de auditoria para 100% das inclusões e alterações. | Métrica: 100% das operações auditáveis contendo usuário, data, hora e origem.\n  RNF-006 (Security) - O sistema deve criptografar 100% dos dados transmitidos utilizando TLS 1.2 ou superior. [TBD] | Métrica: 100% das conexões protegidas e rejeição de protocolos inferiores ao TLS 1.2. [TBD]\n  RNF-007 (Security) - O sistema deve impedir operações não autorizadas em 100% dos testes de permissão. [TBD] | Métrica: Zero acesso indevido em matriz de testes de perfis e permissões. [TBD]\n  RNF-008 (Compatibility) - O sistema deve concluir a autenticação pelo SOEWEB em até 5 segundos no percentil 95. [TBD] | Métrica: Percentil 95 igual ou inferior a 5 segundos e taxa de sucesso mínima de 99%. [TBD]\n  RNF-009 (Interaction Capability) - O sistema deve permitir concluir 100% das operações destinadas a agentes de campo em telas a partir de 360 por 640 pixels. [TBD] | Métrica: Zero bloqueios críticos nos fluxos móveis em resoluções a partir de 360 por 640 pixels. [TBD]\n  RNF-010 (Interaction Capability) - O sistema deve apresentar 100% das interfaces, mensagens e manuais em português. | Métrica: Zero texto funcional sem tradução para português.\n  RNF-011 (Safety) - O sistema deve sinalizar falhas de entrega de alertas em até 60 segundos após a resposta do canal externo. [TBD] | Métrica: 100% das falhas retornadas pelos canais registradas e sinalizadas em até 60 segundos. [TBD]\n  RNF-012 (Maintainability) - O sistema deve aplicar configurações da matriz de risco sem alteração de código ou nova implantação em 100% dos parâmetros disponibilizados. | Métrica: 100% dos parâmetros administrativos aplicados sem compilação ou implantação.\n\nHistórias de usuário:\n  HU-001 - Como analista da Sala de Situação, quero classificar um evento pela matriz de risco, para determinar o tratamento operacional adequado\n  HU-002 - Como analista da Sala de Situação, quero gerar um alerta a partir de um evento, para reduzir o tempo de preparação da comunicação\n  HU-003 - Como operador da Defesa Civil Estadual, quero enviar alertas por e-mail, para comunicar os destinatários institucionais\n  HU-004 - Como operador da Defesa Civil Estadual, quero enviar alertas por SMS, para alcançar destinatários por telefonia móvel\n  HU-005 - Como operador da Defesa Civil Estadual, quero publicar alertas no site institucional, para informar a imprensa e a população\n  HU-006 - Como analista da Sala de Situação, quero selecionar automaticamente os destinatários, para direcionar o alerta às áreas afetadas\n  HU-007 - Como gestor municipal de Defesa Civil, quero cadastrar o plano de contingência, para centralizar o planejamento de resposta municipal\n  HU-008 - Como gestor municipal de Defesa Civil, quero cadastrar áreas de risco, para identificar locais vulneráveis\n  HU-009 - Como gestor municipal de Defesa Civil, quero cadastrar os recursos disponíveis, para planejar a capacidade de resposta\n  HU-010 - Como gestor municipal de Defesa Civil, quero cadastrar abrigos, para planejar o acolhimento da população\n  HU-011 - Como operador da Defesa Civil Estadual, quero registrar um incidente, para coordenar sua resposta\n  HU-012 - Como coordenador regional, quero visualizar incidentes no mapa, para compreender sua distribuição geográfica\n  HU-013 - Como operador da Defesa Civil Estadual, quero registrar o acionamento de um abrigo, para acompanhar os recursos utilizados no incidente\n  HU-014 - Como agente de campo, quero atualizar um incidente pelo dispositivo móvel, para manter a coordenação informada\n  HU-015 - Como agente de campo, quero consultar incidentes pelo dispositivo móvel, para obter informações durante a operação\n  HU-016 - Como responsável pelo estoque, quero registrar a entrada de materiais, para manter o saldo atualizado\n  HU-017 - Como responsável pelo estoque, quero registrar a saída e o destino dos materiais, para controlar sua distribuição\n  HU-018 - Como responsável pelo estoque, quero consultar o histórico de movimentações, para rastrear cada item humanitário\n  HU-019 - Como responsável pelo estoque, quero consultar os saldos atuais, para identificar a disponibilidade de materiais\n  HU-020 - Como gestor municipal de Defesa Civil, quero registrar a prestação de contas, para comprovar a destinação dos materiais recebidos\n  HU-021 - Como administrador funcional do GRD, quero configurar a matriz de risco, para adequar os critérios sem depender de desenvolvimento\n  HU-022 - Como usuário governamental autorizado, quero entrar no GRD pelo SOEWEB, para utilizar a identidade única do governo\n  HU-023 - Como administrador funcional do GRD, quero consultar quem alterou cada registro, para apurar responsabilidades\n  HU-024 - Como usuário operacional, quero recuperar um cadastro interrompido, para evitar perda de trabalho\n\nCasos de uso:\n  UC-001 - Emitir alerta | Ator: Analista da Sala de Situação\n    1. O ator seleciona um evento.\n    2. O sistema apresenta os dados e destinatários calculados.\n    3. O ator confirma a emissão.\n    4. O sistema gera e distribui o alerta.\n  UC-002 - Cadastrar plano de contingência | Ator: Gestor municipal de Defesa Civil\n    1. O ator inicia um novo plano.\n    2. O sistema solicita os dados obrigatórios.\n    3. O ator informa os dados.\n    4. O sistema valida e salva o plano.\n  UC-003 - Registrar incidente | Ator: Operador da Defesa Civil Estadual\n    1. O ator informa tipo, localização e situação.\n    2. O sistema valida os dados.\n    3. O ator confirma o registro.\n    4. O sistema cria o incidente.\n  UC-004 - Acionar abrigo | Ator: Operador da Defesa Civil Estadual\n    1. O ator seleciona o incidente.\n    2. O ator seleciona um abrigo.\n    3. O sistema apresenta os dados do abrigo.\n    4. O ator confirma o acionamento.\n    5. O sistema registra o acionamento.\n  UC-005 - Atualizar incidente em campo | Ator: Agente de campo\n    1. O agente consulta o incidente no dispositivo móvel.\n    2. O agente informa a atualização.\n    3. O sistema salva a atualização.\n    4. O sistema disponibiliza a informação aos coordenadores.\n  UC-006 - Registrar entrada de estoque | Ator: Responsável pelo estoque\n    1. O ator seleciona o item.\n    2. O ator informa quantidade e origem.\n    3. O sistema valida a movimentação.\n    4. O sistema registra a entrada.\n  UC-007 - Registrar saída de estoque | Ator: Responsável pelo estoque\n    1. O ator seleciona o item.\n    2. O ator informa quantidade e destino.\n    3. O sistema verifica o saldo.\n    4. O sistema registra a saída.\n  UC-008 - Prestar contas de materiais | Ator: Gestor municipal de Defesa Civil\n    1. O ator seleciona os recebimentos.\n    2. O ator informa a destinação dos materiais.\n    3. O sistema valida as quantidades.\n    4. O sistema registra a prestação de contas.\n  UC-009 - Configurar matriz de risco | Ator: Administrador funcional do GRD\n    1. O ator acessa a matriz de risco.\n    2. O sistema apresenta os parâmetros vigentes.\n    3. O ator altera um parâmetro.\n    4. O sistema valida e aplica a configuração.\n  UC-010 - Autenticar pelo SOEWEB | Ator: Usuário governamental autorizado\n    1. O ator solicita acesso ao GRD.\n    2. O sistema redireciona a autenticação ao SOEWEB.\n    3. O SOEWEB valida a identidade.\n    4. O sistema inicia a sessão autorizada.\n  UC-011 - Consultar auditoria | Ator: Administrador funcional do GRD\n    1. O ator informa os filtros da consulta.\n    2. O sistema localiza os eventos.\n    3. O sistema apresenta autoria, data, hora e origem.\n  UC-012 - Recuperar cadastro interrompido | Ator: Usuário operacional\n    1. O ator retorna ao módulo após a interrupção.\n    2. O sistema identifica o rascunho.\n    3. O sistema oferece a recuperação.\n    4. O ator confirma.\n    5. O sistema restaura os dados.\n\nCritérios de aceite:\n  CA-001 - Dado um evento com dados obrigatórios preenchidos, quando o analista solicitar sua classificação, então o sistema deve atribuir uma classificação correspondente à matriz de risco vigente\n  CA-002 - Dado um evento classificado, quando o analista confirmar a emissão, então o sistema deve criar um alerta com identificador único e status 'Em distribuição'\n  CA-003 - Dado um alerta autorizado com destinatários de e-mail, quando a distribuição for iniciada, então o sistema deve registrar uma tentativa de envio por e-mail para 100% dos destinatários\n  CA-004 - Dado um alerta autorizado com destinatários de SMS, quando a distribuição for iniciada, então o sistema deve registrar uma tentativa de envio por SMS para 100% dos destinatários\n  CA-005 - Dado um alerta autorizado para divulgação pública, quando a publicação for confirmada, então o sistema deve publicar o alerta no site com status 'Publicado'\n  CA-006 - Dado um evento com localização, abrangência e classificação definidas, quando o alerta for preparado, então o sistema deve apresentar somente os grupos configurados para os critérios informados\n  CA-007 - Dado um gestor municipal autenticado, quando ele preencher os campos obrigatórios e confirmar, então o sistema deve salvar o plano com identificador único\n  CA-008 - Dado um plano de contingência existente, quando o gestor cadastrar uma área de risco, então o sistema deve vincular a área ao plano selecionado\n  CA-009 - Dado um plano de contingência existente, quando o gestor cadastrar um recurso, então o sistema deve registrar seu tipo, quantidade e disponibilidade\n  CA-010 - Dado um gestor municipal autenticado, quando ele informar os dados obrigatórios do abrigo, então o sistema deve salvar o abrigo com status de disponibilidade definido\n  CA-011 - Dado um operador autenticado, quando ele confirmar tipo, localização e situação, então o sistema deve criar o incidente com status 'Ativo'\n  CA-012 - Dado um incidente com coordenadas válidas, quando o mapa operacional for aberto, então o sistema deve apresentar um marcador correspondente ao incidente\n  CA-013 - Dado um incidente ativo e um abrigo disponível, quando o operador confirmar o acionamento, então o sistema deve vincular o abrigo ao incidente e registrar o responsável\n  CA-014 - Dado um agente autenticado em dispositivo móvel, quando ele enviar uma atualização de incidente, então o sistema deve registrar a atualização no incidente selecionado\n  CA-015 - Dado um agente autenticado em dispositivo móvel, quando ele selecionar um incidente, então o sistema deve apresentar seus dados operacionais atuais\n  CA-016 - Dado um item de estoque cadastrado, quando uma entrada válida for confirmada, então o sistema deve aumentar o saldo pela quantidade informada e registrar a origem\n  CA-017 - Dado um item com saldo suficiente, quando uma saída válida for confirmada, então o sistema deve reduzir o saldo pela quantidade informada e registrar o destino\n  CA-018 - Dado um item com movimentações registradas, quando o responsável consultar seu histórico, então o sistema deve apresentar 100% das entradas e saídas em ordem cronológica\n  CA-019 - Dado um item com entradas e saídas registradas, quando o saldo for consultado, então o sistema deve apresentar o total de entradas menos o total de saídas\n  CA-020 - Dado um município com materiais recebidos, quando o gestor informar a destinação e confirmar, então o sistema deve registrar a prestação com status 'Enviada'\n  CA-021 - Dado um administrador autorizado, quando ele alterar e confirmar um parâmetro válido, então o sistema deve aplicar o novo parâmetro sem implantação de software\n  CA-022 - Dado um usuário com identidade ativa no SOEWEB, quando a autenticação for aprovada, então o sistema deve iniciar uma sessão associada à identidade retornada pelo SOEWEB\n  CA-023 - Dado uma inclusão ou alteração confirmada, quando a operação for concluída, então o sistema deve registrar usuário, data, hora e origem em 100% das operações\n  CA-024 - Dado um cadastro interrompido por perda de conexão ou energia, quando o usuário retornar ao módulo, então o sistema deve oferecer um rascunho com perda máxima de 60 segundos de edição [TBD]\n\nGlossário:\n  Aviso: Comunicação preventiva sobre condição que requer atenção dos órgãos responsáveis.\n  Alerta: Comunicação de risco ou evento que demanda preparação ou ação dos destinatários.\n  Matriz de risco: Conjunto configurável de critérios utilizado para classificar a gravidade e a probabilidade de eventos.\n  Plano de contingência: Documento operacional que define áreas de risco, recursos, abrigos e ações de resposta.\n  Incidente: Ocorrência monitorada que demanda coordenação operacional da Defesa Civil.\n  Abrigo: Local cadastrado para acolhimento temporário da população afetada.\n  Ajuda humanitária: Material destinado ao atendimento de pessoas afetadas, como colchões, kits de higiene e cestas básicas.\n  Sala de Situação: Equipe responsável por acompanhar dados e modelos relacionados a riscos e eventos ambientais.\n  SOEWEB: Serviço governamental de autenticação única utilizado para acesso ao GRD.\n  S2ID: Sistema federal de informações sobre desastres cuja integração profunda está fora do escopo inicial.\n  Prestação de contas: Registro municipal da destinação dos materiais de ajuda humanitária recebidos.\n  Rascunho recuperável: Versão temporária de um cadastro preservada para continuidade após uma interrupção.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "[Derivado de: 'dentro da \r\nLGPD']\r\nRNF-003 (Reliability — Fault Tolerance):\r\nO sistema deve operar em modo offline com funcionalidade de criação de propostas, sincronizando \r\nautomaticamente com latência máxima de 30 segundos após reconexão. [Derivado de: 'funcionar quando \r\ninternet tiver ruim']\r\nRNF-004 (Compatibility — Interoperability):\r\nA integração com SAP deve ser bidirecional via API REST/JSON, sem modificações na configuração atual do \r\nSAP. [Derivado de: 'vira pedido automaticamente no SAP']\r\nRNF-005 (Flexibility — Installability):\r\nO sistema deve ser responsivo e funcional em dispositivos móveis (Android/iOS) sem necessidade de \r\naplicativo nativo. [Derivado de: 'usam no celular em campo']\r\nHistórias de Usuário\r\nHU-001: Como vendedor, quero criar propostas com preços atualizados automaticamente, para evitar erros \r\nde precificação e retrabalho.\r\nHU-002: Como diretora comercial, quero ver todas as propostas abertas em tempo real em um painel, para \r\nnão precisar ligar para cada vendedor para saber a situação.\r\nHU-003: Como vendedor, quero criar propostas no celular mesmo sem internet, para não perder \r\noportunidades quando estou em campo.\r\nCritérios de Aceite\r\nCA-001 (RF-001):\r\nDado que o vendedor está criando uma nova proposta,\r\nQuando selecionar um produto,\r\nEntão o sistema deve exibir o preço da tabela de preços com data de vigência atual, sem necessidade de \r\nconsulta manual.\r\nCA-002 (RF-002):\r\nDado que uma proposta com valor R$ 60.000,00 foi finalizada pelo vendedor,\r\nQuando clicar em 'Enviar ao cliente',\r\nEntão o sistema deve redirecionar para status 'Aguardando aprovação', notificar a diretora por e-mail e \r\nbloquear o envio até aprovação registrada.CA-003 (RF-006 / HU-003):\r\nDado que o vendedor está sem conexão à internet,\r\nQuando criar e salvar uma proposta no modo offline,\r\nEntão o sistema deve armazená-la localmente e sincronizá-la com o servidor em até 30 segundos após a \r\nreconexão, sem perda de dados.PARTE 6 — Protocolo de Extração: Passo a Passo para o Agente\r\nAo receber um documento de projeto, executar nesta ordem:\r\n1. PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5.",
+    "Tem também uma parte de gestão de incidente em si, no estilo \r\nde comando de operações, onde dá pra ver no mapa onde está \r\nacontecendo o quê, quais abrigos foram acionados, e acompanhar \r\nisso ao vivo, inclusive pelo celular dos agentes que estão em \r\ncampo. E não posso esquecer do controle de estoque: a gente \r\nrecebe muita doação, muito material de ajuda humanitária - \r\ncolchão, kit de higiene, cesta básica - e isso precisa ter \r\nrastreabilidade, saber o que entrou, o que saiu, pra onde foi, \r\nporque hoje rola bastante perda e falta de controle nesse \r\nfluxo. Junto com isso vem a prestação de contas dos municípios \r\nsobre o que receberam. Quem vai usar isso no dia a dia é a equipe da Sala de Situação \r\n(que tem meteorologista, engenheiro ambiental, esse pessoal \r\nque fica de olho nos modelos de previsão), a Defesa Civil \r\nestadual e as coordenadorias regionais, os próprios municípios \r\nque vão alimentar dados de plano de contingência, e em algum \r\nnível a imprensa e a população que recebem os alertas. Pode \r\nser que precise também de um aplicativo de celular pra esse \r\npessoal de campo registrar e consultar informação na hora, \r\nisso seria bem importante. \r\nUma coisa que também é importante, mesmo não sendo a parte \r\nmais vistosa do sistema: eu quero poder ajustar e configurar a \r\nmatriz de risco sem precisar chamar desenvolvedor pra cada \r\nmudancinha. O acesso tem que ser pelo login único do governo, \r\no SOEWEB, porque não faz sentido cada um ficar com senha \r\nseparada pra mais um sistema. Também quero que fique \r\nregistrado quem mexeu em quê e quando - inclusão e alteração \r\nde cada registro, com o responsável, a data/hora e de onde foi \r\nfeito - porque se algum dado for alterado errado, alguém vai \r\nperguntar depois quem fez isso. E não pode perder informação \r\nse cair a conexão ou a energia no meio do cadastro de alguém, \r\nisso tem que ficar protegido. E claro, tudo em português, tela \r\ne manual, sem essa de ficar traduzindo depois. \r\nAgora, tem coisa que não precisa ser nossa prioridade agora: a \r\nparte de integração profunda com o S2ID, que é o sistema \r\nfederal de informação de desastre, pode ficar pra depois ou \r\nser feita de forma mais simples no começo, já que depende de \r\ndefinir com calma o que dá pra puxar de lá. Visualização de \r\nmapa bonito com camada de dados geográfico complexo (tipo \r\nbacia hidrográfica, zoneamento ecológico, esse tanto de camada \r\ncartográfica) também não precisa vir logo de cara, isso pode \r\nevoluir depois que o núcleo do sistema estiver rodando. O foco \r\ninicial é ter esse fluxo de aviso/alerta, cadastro de plano de \r\ncontingência e controle de estoque funcionando bem, porque é \r\nisso que resolve a dor mais urgente, que é a demora e a \r\ndesorganização na resposta a esses eventos.",
+    "GRD - Sistema de Gestão de Riscos de Desastres\r\nOlha, a ideia desse projeto nasceu de uma dor bem concreta: a \r\ngente vem sofrendo com enchente, estiagem, granizo, esses \r\neventos climáticos extremos que de uns anos pra cá só \r\naumentaram, e a resposta do Estado a isso ainda é muito \r\nmanual, muito espalhada. Só em 2015 a gente teve um estrago \r\ngigantesco na economia por causa desses eventos, e a verdade é \r\nque a Defesa Civil e a Sala de Situação trabalham hoje com \r\nboletim, planilha, telefone, e-mail, cada um do seu jeito, sem \r\num sistema único que junte essa informação toda e ajude a \r\ntomar decisão rápido. A gente quer resolver isso com um \r\nsoftware de gestão de risco de desastres que dê inteligência \r\npra esse processo todo. \r\nPensando no que esse sistema precisa fazer: a primeira coisa é \r\nautomatizar o envio de avisos e alertas, porque hoje quando \r\nacontece alguma coisa - chuva forte, deslizamento, esse tipo \r\nde coisa - tem que avisar município, regional, às vezes a \r\nprópria imprensa, e isso devia sair quase automático por \r\ne-mail, SMS, no site da Defesa Civil, sem alguém ficando \r\nmontando isso manualmente. Outra coisa importante é ter onde \r\nos municípios e o Estado cadastrem os planos de contingência \r\ndeles - quais são as áreas que mais sofrem com esses eventos, \r\nquais recursos eles têm disponível (gente, veículo, material), \r\nquais abrigos podem ser usados, esse tipo de informação que \r\nhoje provavelmente está em documento separado e não conversa \r\ncom nada. \r\nTem também uma parte de gestão de incidente em si, no estilo \r\nde comando de operações, onde dá pra ver no mapa onde está \r\nacontecendo o quê, quais abrigos foram acionados, e acompanhar \r\nisso ao vivo, inclusive pelo celular dos agentes que estão em \r\ncampo. E não posso esquecer do controle de estoque: a gente \r\nrecebe muita doação, muito material de ajuda humanitária - \r\ncolchão, kit de higiene, cesta básica - e isso precisa ter \r\nrastreabilidade, saber o que entrou, o que saiu, pra onde foi, \r\nporque hoje rola bastante perda e falta de controle nesse \r\nfluxo. Junto com isso vem a prestação de contas dos municípios \r\nsobre o que receberam. Quem vai usar isso no dia a dia é a equipe da Sala de Situação \r\n(que tem meteorologista, engenheiro ambiental, esse pessoal \r\nque fica de olho nos modelos de previsão), a Defesa Civil \r\nestadual e as coordenadorias regionais, os próprios municípios \r\nque vão alimentar dados de plano de contingência, e em algum \r\nnível a imprensa e a população que recebem os alertas. Pode \r\nser que precise também de um aplicativo de celular pra esse \r\npessoal de campo registrar e consultar informação na hora, \r\nisso seria bem importante.",
+    "3\r\n\"WBMJBS\u0001PT\u00013JTDPT\r\n6.1\r\n\"OBMJTBS\u0001P\u0001\u0001\r\n&TUBEP\u0001\"UVBM\r\n5BSFGBT\r\n6.2\r\n%FGJOJS\u0001P\u0001&TUBEP\u0001\r\n'VUVSP\r\n6.4\r\n%FGJOJS\u0001B\u0001\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n3.2\r\n\"CPSEBHFN\u0001EF\u0001\r\n&OHBKBNFOUP\u0001EF\u0001\r\nStakeholder \r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n6.1 \r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001\"UVBM\r\n6.1\r\n3FRVJTJUPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n0CKFUJWPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n7BMPS\u00011PUFODJBM\r\n6.2\r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001'VUVSP\u0001\r\n6.3\u00013FTVMUBEPT\u0001\r\nEB\u0001\"OÈMJTF\u0001EF\u0001\r\n3JTDP\r\n6.4\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n6.4\r\n&TDPQP\u0001EB\u00014PMVÎÍP\r\n/FDFTTJEBEFT\r\n4.2\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\r\n(OÍP\u0001DPOGJSNBEPT\n\r\n&OUSBEB\r\n*OGMVÐODJBT\r\n(JOUFSOBT\r\u0001FYUFSOBT)\r\n4.3\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\u0001\r\n\tDPOGJSNBEPT\n\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT)Análise da Estratégia PE (6) AƵreas de Conhecimento do Padrão Essencial\r\n32\r\nAnalisar o Estado Atual PE (6.1)\r\nPropósito\r\nO objetivo de Analisar o Estado Atual é compreender as razões pelas quais \r\numa corporação precisa mudar algum aspecto de como ela funciona e o que \r\nseria direta ou indiretamente afetado pela mudança.\r\nDescrição\r\nAnalisar o Estado Atual compreende a necessidade do negócio e como ela se \r\nrelaciona com a maneira como a corporação funciona hoje. Define uma linha \r\nde base e contexto para a mudança.\r\nEntradas\r\n• Resultados de Elicitação: usado para definir e entender o estado atual.\r\n• Necessidades: o problema ou a oportunidade enfrentada por uma \r\ncorporação ou organização com frequência inicia um trabalho de análise \r\nde negócios para melhor entender essas necessidades.\r\nSaídas \r\n• Descrição do Estado Atual: o contexto do escopo, capacidades, recursos, \r\ndesempenho, cultura, dependências, infraestrutura, influências externas \r\nda corporação e relações significativas entre estes elementos.\r\n• Requisitos de Negócio: o problema, a oportunidade ou a restrição \r\ndefinida com base em um entendimento do estado atual.\r\nDefinir o Estado Futuro PE (6.2)\r\nPropósito\r\nO objetivo de Definir o Estado Futuro é determinar o conjunto de condições \r\nnecessárias para atender às necessidades do negócio.",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    "[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários? prazo? tipo de sistema?\r\n 3. Se não há dados suficientes: propor métrica razoável para o tipo de sistema e sinalizar como TBD\r\n 4. Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO.",
+    "Os requisitos \r\nfocam em entender que tipo de valor pode ser entregue se um requisito for \r\natendido. A natureza da representação pode ser um documento (ou conjunto \r\nde documentos), mas pode variar muito dependendo das circunstâncias. \r\nPara obter mais informações, consulte Requisitos e Designs.\r\nRisco\r\nRisco é o efeito da incerteza sobre o valor de uma mudança, de uma solução \r\nou de uma corporação. Os analistas de negócios colaboram com outros \r\nstakeholders para identificar, avaliar e priorizar riscos, e para lidar com esses \r\nriscos alterando a probabilidade das condições ou eventos que levam à \r\nincerteza: mitigando as consequências, removendo a fonte do risco, evitando \r\no risco completamente ao decidir não iniciar ou continuar com uma atividade \r\nque conduza ao risco, compartilhando o risco com outras partes, ou \r\naceitando ou mesmo aumentando o risco para lidar com uma oportunidade.\r\n1.5 Esquema de Classificação de Requisitos\r\nPara os propósitos do Guia BABOK®\r\n o seguinte esquema de classificação \r\ndescreve os requisitos:\r\n• Requisitos de negócios: declarações de metas, objetivos e resultados que \r\ndescrevem por que uma mudança foi iniciada. Podem se aplicar a toda \r\numa corporação, uma área de negócios ou uma iniciativa específica.\r\n• Requisitos de stakeholders: descrevem as necessidades dos \r\nstakeholders que devem ser atendidas para atingir os requisitos de \r\nnegócios. Podem servir como uma ponte entre os requisitos de negócios \r\ne os da solução.\r\n• Requisitos da solução: descrevem as capacidades e as qualidades de \r\numa solução que atenda aos requisitos dos stakeholders. Fornecem o \r\nnível apropriado de detalhes para permitir o desenvolvimento e a \r\nimplementação da solução. Os requisitos da solução podem ser divididos \r\nem duas subcategorias:\r\n• requisitos funcionais: descrevem as capacidades que uma solução \r\ndeve ter em termos do comportamento e das informações que a \r\nsolução gerenciará e\r\n• requisitos não-funcionais ou requisitos de qualidade de serviço: \r\nnão se relacionam diretamente com o comportamento de \r\nfuncionalidade da solução, mas sim às condições sob as quais a \r\nsolução deve permanecer eficaz ou qualidades que uma solução \r\ndeve ter.Stakeholders Conceitos Chave da Análise de Negócios\r\n8\r\n• Requisitos de transição: descrevem as capacidades que a solução deve \r\nter e as condições que a solução deve atender para facilitar a transição do \r\nestado atual para o estado futuro, mas que não serão necessárias após a \r\nconclusão da mudança. Eles se diferenciam de outros tipos de requisitos \r\nporque são de natureza temporária. Os requisitos de transição abordam \r\ntópicos como conversão de dados, treinamento e continuidade de \r\nnegócios.\r\n1.6 Stakeholders\r\nCada tarefa inclui uma lista de stakeholders que provavelmente participarão \r\nda execução dessa tarefa ou que serão afetados por ela.",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    "O gerenciamento de requisitos não termina quando uma solução é \r\nimplementada. Ao longo da vida de uma solução, os requisitos continuam a \r\nfornecer valor quando são gerenciados adequadamente.\r\nDentro da área de conhecimento Gerenciamento do Ciclo de Vida de \r\nRequisitos, o conceito de ciclo de vida é distinto da metodologia ou processo \r\nusado para controlar o trabalho de análise de negócios. O ciclo de vida refere￾se à existência de várias fases ou estados pelos quais os requisitos passam \r\ncomo parte de qualquer alteração. Os requisitos podem estar em vários \r\nestados ao mesmo tempo.\r\nA área de conhecimento Gerenciamento do Ciclo de Vida de Requisitos inclui \r\nas seguintes tarefas:\r\n• Rastrear os Requisitos\r\n• Manter os Requisitos\r\n• Priorizar os Requisitos\r\n• Avaliar as Mudanças de Requisitos\r\n• Aprovar os RequisitosAƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n25\r\nDiagrama de Entrada/Saída do Gerenciamento do Ciclo de Vida de Requisitos\r\n5BSFGBT\r\n4BÓEB\r\n5.3\r\n1SJPSJ[BS \u0001PT\r\n3FRVJTJUPT\u0001\r\n5.2\r\n.BOUFS\u0001PT\u0001\r\n3FRVJTJUPT\u0001\r\n5.1\r\n3BTUSFBS\u0001\u0001PT\r\n3FRVJTJUPT\r\n5.4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    "PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5. PASSO 5 — Extrair Requisitos Funcionais\r\n Para cada verbo de ação do sistema: criar um RF. Desdobrar genéricos ('gerenciar') em múltiplos RFs \r\natômicos. Referenciar RNs quando aplicável.\r\n6. PASSO 6 — Identificar e quantificar RNFs\r\n Varrer o documento inteiro por adjetivos de qualidade. Classificar cada um pela ISO 25010 e propor \r\nmétrica. Marcar [TBD] se necessário.\r\n7. PASSO 7 — Escrever Histórias de Usuário\r\n Para cada necessidade identificada por um stakeholder: escrever HU no formato Connextra. Vincular ao RF\r\ncorrespondente.\r\n8. PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7.",
+    "6. Security (Segurança)\r\n Confidentiality — dados acessíveis apenas por autorizados.\r\n Integrity — dados protegidos contra alteração não autorizada.\r\n Non-repudiation — ações não podem ser negadas.\r\n Accountability — ações rastreáveis ao usuário.\r\n Authenticity — identidade verificável.\r\n Resistance — proteção contra ataques.\r\nEXEMPLO — RNF — 6. Security\r\nO sistema deve registrar em log imutável toda ação de escrita (criação, edição, exclusão) com: ID do usuário, \r\ndata/hora UTC, IP de origem e estado anterior do registro (não-repúdio e accountability).\r\n7. Maintainability (Manutenibilidade)\r\n Modularity — componentes independentes com impacto isolado de mudanças.\r\n Reusability — componentes reutilizáveis em outros contextos.\r\n Analysability — facilidade de diagnóstico de falhas.\r\n Modifiability — facilidade de modificação sem introduzir defeitos. Testability — facilidade de criar critérios de teste.\r\nEXEMPLO — RNF — 7. Maintainability\r\nO sistema deve ter cobertura de testes automatizados de no mínimo 80% das linhas de código da camada de \r\nnegócio (domínio), medida com ferramenta de cobertura integrada ao pipeline CI/CD.\r\n8. Flexibility (Flexibilidade) — antes parte de 'Portabilidade'\r\n Adaptability — adaptável a diferentes ambientes sem ações além das previstas.\r\n Scalability — capacidade de lidar com crescimento de carga.\r\n Installability — instalável/desinstalável nos ambientes especificados.\r\n Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.",
+    "Nível Fundamental | Syllabus ©IREB 18 | 50\r\n3 Produtos de Trabalho e Práticas de \r\nDocumentação (L3)\r\nObjetivo: Entender o papel fundamental dos produtos de trabalho na ER e ser capaz de \r\ncriá-los\r\nDuração: 7 horas\r\nTermos: Produto de trabalho, produtos de trabalho em linguagem natural, produtos de\r\ntrabalho baseados em templates, produtos de trabalho baseados em modelos, \r\nglossário, critérios de qualidade, especificação de requisitos\r\nObjetivos Educacionais\r\nOE 3.1.1 Saber as características dos produtos de trabalho ER e enumerar os tipos de \r\nprodutos de trabalho frequentemente utilizados (L1)\r\nOE 3.1.2 Saber o uso de cada produto de trabalho e conhecer o seu tempo de vida útil (L1)\r\nOE 3.1.3 Explicar os diferentes níveis de abstração para os requisitos, incluindo como \r\nescolher os níveis apropriados e níveis de detalhe (L2)\r\nOE 3.1.4 Conhecer os aspectos a considerar nos produtos de trabalho e suas relações (L1)\r\nOE 3.1.5 Nomear as diretrizes gerais de documentação (L1)\r\nOE 3.1.6 Descrever por que vale a pena planejar o uso dos produtos de trabalho (L1)\r\nOE 3.2.1 Conhecer os produtos de trabalho em linguagem natural, suas vantagens e \r\ndesvantagens (L1)\r\nOE 3.2.2 Explicar as regras para escrever bons requisitos em linguagem natural (L2)\r\nOE 3.3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.",
+    "1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.\r\nRNF-002 | Criptografia em trânsito\r\nCaracterística: Security — Confidentiality\r\nO sistema deve criptografar todos os dados em trânsito utilizando TLS 1.2 ou superior.\r\nMétrica: 100% das conexões HTTPS; protocolo TLS < 1.2 recusado.\r\nVerificação: Teste com SSL Labs ou OWASP ZAP.\r\nRNF-003 | Disponibilidade\r\nCaracterística: Reliability — Availability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês, excluídas janelas de manutenção programadas \r\ne comunicadas com 48h de antecedência.\r\nMétrica: Máximo de 3,6 horas de indisponibilidade não planejada por mês.\r\nVerificação: Monitoramento com uptime tracking (ex.: UptimeRobot).\r\nRNF-004 | Armazenamento de senhas\r\nCaracterística: Security — Integrity\r\nO sistema deve armazenar senhas de usuário usando hash bcrypt com fator de custo mínimo 12; nenhuma \r\nsenha deve ser armazenada em texto plano.\r\nMétrica: Auditoria de código — zero ocorrências de senha em texto plano.\r\nVerificação: Revisão de código + teste de penetração.\r\nRNF-005 | Compatibilidade de navegadores\r\nCaracterística: Compatibility — Interoperability\r\nO sistema deve funcionar corretamente nos navegadores Chrome 120+, Firefox 115+, Edge 120+ e Safari 16+, \r\nem resoluções de tela a partir de 1024×768.\r\nMétrica: 0 erros críticos em suíte de testes cross-browser.\r\nVerificação: Testes automatizados com Selenium ou BrowserStack.ANTI-PADRÃO — RNF sem métrica (inválido)\r\nERRADO: 'RNF-006: O sistema deve ser seguro.'",
+    "Nível Fundamental | Syllabus ©IREB 35 | 50\r\nÉ útil distinguir entre diferentes tipos [Moor2014] de conflitos. Os seguintes tipos de conflito \r\nfrequentemente requerem a atenção do Engenheiro de Requisitos:\r\n▪ Conflito de temas\r\n▪ Conflito de dados\r\n▪ Conflito de interesses\r\n▪ Conflito de valor\r\n▪ Conflito de relacionamento\r\n▪ Conflito estrutural\r\nPara resolver conflitos com sucesso, técnicas comuns podem ser aplicadas:\r\n▪ Acordo (Agreement)\r\n▪ Compromisso (Compromise)\r\n▪ Votação (Voting)\r\n▪ Imposição (Overruling)\r\n▪ Análise de alternativas\r\nAlém disso, existem várias técnicas auxiliares, por exemplo:\r\n▪ \"Obter mais informações”\r\n▪ Pontos fortes e pontos fracos\r\n▪ Matriz de Decisão\r\n4.4 Validação dos Requisitos (L2)\r\nA validação dos requisitos é um passo importante para um sistema bem-sucedido (Princípio \r\n6 em 2). Garantir a qualidade dos requisitos no início reduzirá o desperdício de esforços \r\nposteriores. Validar os requisitos significa verificar os produtos de trabalho mais disponíveis, \r\nbem como os requisitos individuais que os mesmos exigem em termos de qualidade (ver 3.8\r\npara detalhes).\r\nAspectos importantes a serem considerados na validação dos requisitos são:\r\n▪ Envolvimento dos stakeholders certos\r\n▪ Separar a identificação e a correção de defeitos\r\n▪ Validar de diferentes perspectivas\r\n▪ Validações Adicionais\r\nExistem várias técnicas para validação (p. ex., [GiGr1993], [OleA2018]). Estas técnicas de \r\nvalidação são frequentemente classificadas em:\r\n▪ Técnicas de revisão, incluindo:\r\n▪ Walkthrough\r\n▪ Inspeção\r\n▪ Técnicas exploratórias, por exemplo:\r\n▪ Protótipos\r\n▪ Testes alfa e beta\r\n▪ Teste A/B [KoTh2017]",
+    "Nível Fundamental | Syllabus ©IREB 28 | 50\r\nexplicações adicionais - por exemplo, um glossário, condições de aceite, informações sobre \r\no projeto ou características da implementação técnica.\r\nOs requisitos também podem ser organizados em estruturas de documentação além dos \r\ndocumentos clássicos.\r\nOs documentos mais utilizados são:\r\n▪ Especificação de Requisitos dos Stakeholders\r\n▪ Especificação dos Requisitos de Usuários (um subconjunto de uma especificação \r\ndos requisitos dos stakeholders, abrangendo apenas os requisitos dos usuários)\r\n▪ Especificação dos Requisitos de Sistema\r\n▪ Especificação de Requisitos de Negócio\r\n▪ Documento de Visão\r\nEstruturas alternativas de documentação frequentemente utilizadas:\r\n▪ Backlog do produto\r\n▪ Backlog da sprint\r\n▪ Mapa de histórias\r\nTanto a seleção de uma estrutura de documentação como a organização interna da \r\nestrutura escolhida dependem de:\r\n▪ O processo de desenvolvimento escolhido (5)\r\n▪ O tipo de desenvolvimento e domínio\r\n▪ O contrato (um cliente pode prescrever o uso de uma determinada estrutura de \r\ndocumentação)\r\n▪ O tamanho do documento\r\nOs templates de documentos podem ajudar a estruturar uma especificação de requisitos. \r\nOs templates estão disponíveis na literatura [Vole2020], [RoRo2012] e em normas \r\n[ISO29148]. Os templates também podem ser reutilizados de projetos anteriores, similares \r\nou podem ser impostos por um cliente. Uma organização também pode decidir criar um \r\ntemplate como um padrão interno.\r\n3.7 Protótipos na Engenharia de Requisitos (L1)\r\nNa ER, os protótipos são um meio de especificar os requisitos através do exemplo e de \r\nvalidar os requisitos. Em particular, os protótipos podem ser usados se os stakeholders não \r\nquiserem escrever e revisar produtos de trabalho baseados em linguagem natural ou em \r\nmodelos.\r\nOs protótipos exploratórios [LiSZ1994] são usados para criar um entendimento comum, \r\nesclarecer requisitos ou validar requisitos em diferentes níveis de fidelidade. Eles são \r\ndescartados após o uso.\r\n▪ Wireframes são protótipos de baixa fidelidade construídos com materiais simples ou \r\nferramentas de esboço que servem principalmente para discutir e validar ideias de \r\ndesign e conceitos de interface com o usuário.",
+    "EXEMPLO — RNF — 3. Compatibility\r\nA API do sistema deve expor endpoints REST/JSON compatíveis com o padrão OpenAPI 3.0, permitindo \r\nintegração com o ERP legado via OAuth 2.0 sem modificações no ERP.4. Interaction Capability (Capacidade de Interação) — antes 'Usabilidade'\r\n Appropriateness Recognisability — usuário reconhece a adequação do sistema.\r\n Learnability — facilidade de aprendizado.\r\n Operability — facilidade de operação.\r\n User Error Protection — proteção contra erros do usuário.\r\n User Engagement — interface envolvente e motivadora.\r\n Inclusivity — acessível a pessoas com diferentes capacidades.\r\n User Assistance — suporte ao usuário.\r\n Self-Descriptiveness — interface autoexplicativa.\r\nEXEMPLO — RNF — 4. Interaction Capability\r\nUm usuário sem treinamento prévio deve ser capaz de registrar seu primeiro pedido completo em até 10 \r\nminutos. A interface deve seguir as diretrizes WCAG 2.1 nível AA.\r\n5. Reliability (Confiabilidade)\r\n Faultlessness — ausência de falhas em condições normais.\r\n Availability — proporção de tempo em que o sistema está operacional.\r\n Fault Tolerance — operação correta mesmo com falhas parciais.\r\n Recoverability — recuperação após falha.\r\nEXEMPLO — RNF — 5. Reliability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês (máx. 3,6h de downtime não planejado). Em \r\ncaso de falha crítica, o sistema deve restaurar a operação normal em até 4 horas (RTO = 4h).\r\n6. Security (Segurança)\r\n Confidentiality — dados acessíveis apenas por autorizados.\r\n Integrity — dados protegidos contra alteração não autorizada.\r\n Non-repudiation — ações não podem ser negadas.\r\n Accountability — ações rastreáveis ao usuário.\r\n Authenticity — identidade verificável.\r\n Resistance — proteção contra ataques.\r\nEXEMPLO — RNF — 6. Security\r\nO sistema deve registrar em log imutável toda ação de escrita (criação, edição, exclusão) com: ID do usuário, \r\ndata/hora UTC, IP de origem e estado anterior do registro (não-repúdio e accountability).\r\n7. Maintainability (Manutenibilidade)\r\n Modularity — componentes independentes com impacto isolado de mudanças.\r\n Reusability — componentes reutilizáveis em outros contextos.\r\n Analysability — facilidade de diagnóstico de falhas.\r\n Modifiability — facilidade de modificação sem introduzir defeitos. Testability — facilidade de criar critérios de teste.\r\nEXEMPLO — RNF — 7. Maintainability\r\nO sistema deve ter cobertura de testes automatizados de no mínimo 80% das linhas de código da camada de \r\nnegócio (domínio), medida com ferramenta de cobertura integrada ao pipeline CI/CD.\r\n8. Flexibility (Flexibilidade) — antes parte de 'Portabilidade'\r\n Adaptability — adaptável a diferentes ambientes sem ações além das previstas.\r\n Scalability — capacidade de lidar com crescimento de carga.\r\n Installability — instalável/desinstalável nos ambientes especificados.",
+    "Elicitação de Requisitos | Syllabus | ©IREB 25 | 43\r\nde ideias e fornecem técnicas adicionais ou combinadas para elaborar ideias e obter mais \r\ninsights para uma determinada ideia [Kuma2013]. As técnicas populares para esse fim \r\nincluem prototipagem (p. ex., maquetes), storyboards e cenários.\r\nCondições prévias para a criatividade\r\nA criatividade surge não por ordem, mas por acaso. É mais provável que a criatividade \r\nocorra quando todas as quatro condições prévias a seguir forem atendidas [KrSc2017]:\r\n▪ Chance – e, portanto, tempo – para que uma ideia surja\r\n▪ Conhecimento do assunto, o que aumenta as chances de uma ideia que faça a \r\ndiferença\r\n▪ Motivação, pois o nosso cérebro só pode ser criativo se houver um benefício direto \r\npara o seu dono\r\n▪ Segurança e proteção, pois ideias inúteis não devem ter consequências negativas\r\nAs técnicas de geração de ideias e de design ajudam em alguns ou em todos esses aspectos \r\na criar um ambiente adequado para o desenvolvimento de novas ideias e inovações.\r\n3.2.1 Brainstorming (L3)\r\nO brainstorming foi desenvolvido nas décadas de 1940 e 1950 por Alex F. Osborn \r\n[Osbo1979]. Como a maioria das técnicas de criatividade, o ponto crucial do brainstorming é \r\na separação entre a descoberta de ideias e a análise de ideias. É realizado em grupos de \r\ncerca de 5 a 10 pessoas e dura cerca de 20 minutos. Um moderador garante a condução \r\nordenada do brainstorming e a documentação das ideias.\r\nMuitas variantes diferentes evoluíram ao longo do tempo, por exemplo, paradoxo do \r\nbrainstorming, método 6-3-5, brainwriting.\r\n3.2.2 Técnicas de analogia (L2)\r\nAs técnicas de analogia (p. ex., a bissociação [Koes1964]) são técnicas que ajudam a ter \r\nideias para tópicos críticos e complexos. Eles usam analogias para apoiar o pensamento e \r\ngerar ideias. Seu sucesso ou fracasso é influenciado principalmente pela qualidade da \r\nanalogia. A relevância de sistemas semelhantes é discutida em 2.4.\r\n3.2.3 Prototipagem (L3)\r\nPrototipagem é um termo abrangente e refere-se à criação de vários tipos de amostras ou \r\nmodelos iniciais construídos para obter experiências ao vivo com um conceito ou processo.\r\nPara a elicitação de requisitos, o termo protótipo intencionalmente não se refere apenas à \r\nimplementação de protótipos em software. Em vez disso, também se refere a tudo que \r\npossa representar os requisitos de um sistema a ser desenvolvido (p. ex., esboço da \r\ninterface do usuário, maquete física, vídeo). O objetivo da prototipagem na elicitação de \r\nrequisitos é a simulação do novo sistema e a exploração dos requisitos por meio da \r\nestimulação de concordância e objeção ou esclarecimento e alteração.",
+    "Descrição\r\nDefinir as Opções de Solução identifica, explora e descreve diferentes \r\nmaneiras possíveis de atender a necessidade.\r\nEntradas\r\n• Estratégia de Mudança: descreve a abordagem que será seguida para a \r\ntransição para o estado futuro. Isso pode ter algum impacto nas decisões \r\nde design em termos do que é viável ou possível.\r\n• Requisitos (validados, priorizados): somente os requisitos validados são \r\nconsiderados nas opções de design. Conhecer as prioridades dos \r\nrequisitos ajuda na sugestão de opções de design razoáveis. Os \r\nrequisitos com as prioridades mais altas podem merecer mais peso na \r\nescolha dos componentes da solução para melhor atendê-los, em \r\ncomparação com os requisitos de prioridade mais baixa.\r\n• Arquitetura de Requisitos: o conjunto completo de requisitos e seus \r\nrelacionamentos é importante para definir as opções de design que \r\npodem abordar o conjunto holístico de requisitos.\r\nSaídas \r\n• Opções de Design: descrevem várias maneiras de satisfazer uma ou mais \r\nnecessidades em um contexto. Podem incluir uma abordagem de \r\nsolução, oportunidades potenciais de melhoria fornecidas pela opção e \r\nos componentes que definem a opção.\r\nAnalisar o Valor Potencial e Recomendar a Solução PE (7.6)\r\nPropósito\r\nO objetivo de Analisar o Valor Potencial e Recomendar a Solução é estimar o \r\nvalor potencial de cada opção de design e estabelecer qual é a mais \r\nadequada para atender os requisitos da corporação.\r\nDescrição\r\nAnalisar o Valor Potencial e Recomendar a Solução avalia o valor de negócio \r\nassociado a uma solução potencial e compara diferentes opções, incluindo as \r\ncompensações, para identificar e recomendar a opção de solução que \r\noferece o maior valor geral.\r\nEntradas\r\n• Valor Potencial: pode ser usado como uma referência contra a qual o \r\nvalor entregue por um design pode ser avaliado.\r\n• Opções de Design: precisam ser avaliadas e comparadas entre si para \r\nrecomendar uma opção para a solução.Avaliação da Solução PE (8) AƵreas de Conhecimento do Padrão Essencial\r\n40\r\nSaídas \r\n• Recomendação de Solução: identifica a solução sugerida mais apropriada \r\ncom base em uma avaliação de todas as opções de design definidas. A \r\nsolução recomendada deve maximizar o valor fornecido à corporação.\r\n2.6 Avaliação da Solução PE (8)\r\nA área de conhecimento Avaliação da Solução descreve as tarefas que os \r\nanalistas de negócios executam para avaliar o desempenho e o valor \r\nfornecido por uma solução em uso pela corporação e para recomendar a \r\nremoção de barreiras ou restrições que impeçam a plena realização do valor.\r\nEmbora possa haver algumas semelhanças com as atividades realizadas na \r\nAnálise da Estratégia ou Análise de Requisitos e Definição de Design, uma \r\ndistinção importante entre a área de conhecimento da Avaliação da Solução e \r\noutras áreas de conhecimento é a existência de uma solução real.",
+    "5)\r\nO escopo define com precisão o que será feito (IN) e o que NÃO será feito (OUT). A lista OUT é tão \r\nimportante quanto a lista IN — ela previne o scope creep, que é a principal causa de projetos \r\natrasados e acima do orçamento.\r\nESCOPO — Estrutura\r\nNome do sistema: [Nome]\r\nDescrição em uma frase: [O sistema X permite que Y faça Z.]\r\nEM ESCOPO (IN):\r\n • [Funcionalidade / módulo A]\r\n • [Funcionalidade / módulo B]\r\nFORA DE ESCOPO (OUT):\r\n • [Funcionalidade excluída A] — Motivo: [justificativa]\r\n • [Funcionalidade excluída B] — Motivo: [justificativa]\r\nPREMISSAS:\r\n • PA-01: [Fato assumido como verdadeiro — se mudar, gera risco]\r\nRESTRIÇÕES:\r\n • REST-01: [Limitação tecnológica, regulatória, de prazo ou orçamento]\r\nEXEMPLO — Sistema de Gestão de Pedidos\r\nNome: Sistema de Gestão de Pedidos (SGP)\r\nDescrição: O SGP permite que vendedores registrem pedidos, acompanhem status e gerem relatórios de \r\nvendas via interface web.\r\nEM ESCOPO (IN):\r\n • Cadastro e gerenciamento de clientes\r\n • Registro e acompanhamento de pedidos\r\n • Geração de relatórios de vendas\r\n • Notificação por e-mail ao cliente\r\nFORA DE ESCOPO (OUT):\r\n • Módulo de contabilidade fiscal — responsabilidade do sistema ERP existente • Aplicativo mobile — previsto para v2.0\r\nPREMISSAS:\r\n • PA-01: O cliente já possui infraestrutura de e-mail SMTP configurada.\r\nRESTRIÇÕES:\r\n • REST-01 (Tecnológica): Banco de dados obrigatoriamente PostgreSQL 14+ (infraestrutura existente).\r\n • REST-02 (Regulatória): Conformidade com LGPD (Lei 13.709/2018).\r\n • REST-03 (Prazo): MVP entregue em 90 dias.\r\n2.2 Stakeholders e Perfis de Usuário\r\nBase: BABOK® v3 §2 — 'Stakeholder Engagement'; Sommerville (2016, cap. 4)\r\nStakeholders são todas as partes com interesse no sistema: usuários diretos, gerentes, \r\npatrocinadores, equipes de suporte, auditores e sistemas externos. Identificar todos os \r\nstakeholders no início evita requisitos descobertos tarde no projeto.\r\nSTAKEHOLDER — Estrutura por entrada\r\nID: STK-NN\r\nNome / Papel: [nome ou papel genérico]\r\nTipo: Usuário primário | Usuário secundário | Stakeholder externo\r\nNível de acesso ao sistema: Total | Parcial | Nenhum\r\nPrincipais necessidades: [o que este perfil precisa que o sistema faça \r\npor ele]\r\nEXEMPLO — Stakeholders do SGP\r\nSTK-01 | Administrador do sistema | Usuário primário | Total\r\n Necessidades: configurar permissões, cadastrar usuários, auditar logs.\r\nSTK-02 | Vendedor | Usuário primário | Parcial\r\n Necessidades: registrar pedidos, consultar histórico de clientes, emitir orçamentos.\r\nSTK-03 | Cliente final | Usuário secundário | Nenhum (recebe notificações)\r\n Necessidades: receber confirmação de pedido por e-mail.",
+    "Nível Fundamental | Syllabus ©IREB 41 | 50\r\nProcesso de ER Orientado para o Produto: Iterativo, Exploratório e Orientado \r\npara o Mercado\r\nPrincipal aplicação:: Uma organização especifica e desenvolve software para \r\nvendê-lo ou distribuí-lo como um produto ou serviço\r\nProdutos de trabalho \r\ntípicos:\r\nBacklog do Produto, protótipos\r\nFluxo de informação \r\ntípico:\r\nInteração entre o Product Owner, marketing, engenheiros de \r\nrequisitos, designers digitais, desenvolvedores e (talvez) \r\nfeedback rápido de clientes/usuários\r\nNote que pode haver contextos de sistema e desenvolvimento onde nenhuma das \r\nconfigurações acima mencionadas se encaixe. Por exemplo, restrições regulatórias podem \r\nimpor a utilização de um processo que esteja em conformidade com determinadas normas, \r\ncomo a ISO/IEC/IEEE 29148 [ISO29148].\r\nAo configurar um processo da ER, recomendamos a utilização de um procedimento em \r\ncinco etapas:\r\n1. Analisar os fatores de influência (5.1)\r\n2. Avaliar os critérios de vertentes (5.2)\r\n3. Configurar o processo (5.3)\r\n4. Determinar produtos de trabalho (3)\r\n5. Selecione as práticas apropriadas",
+    "→ Histórias de usuário são da perspectiva do usuário de negócio, não da equipe técnica.\r\n2.7 Casos de Uso (UC)\r\nBase: Sommerville (2016, cap. 4); Wiegers & Beatty (2013, cap. 8); Cockburn (2001) — Writing Effective Use Cases\r\nCasos de uso descrevem a interação entre um ator e o sistema para atingir um objetivo específico. \r\nEles complementam as histórias de usuário adicionando fluxos alternativos e de exceção, tornando\r\no comportamento do sistema completamente especificado.\r\nCASO DE USO — Template completo\r\nID: UC-NNN — [Nome do caso de uso]Ator principal: [quem inicia a interação]\r\nHU relacionada: HU-NNN\r\nPré-condição: [o que deve ser verdadeiro antes do início]\r\nPós-condição (sucesso): [estado do sistema após conclusão bem-sucedida]\r\nPós-condição (falha): [estado do sistema após falha]\r\nFLUXO PRINCIPAL (caminho feliz):\r\n 1. O ator [ação 1].\r\n 2. O sistema [resposta 2].\r\n 3. O ator [ação 3].\r\n 4. O sistema [resposta 4 — resultado final].\r\nFLUXOS ALTERNATIVOS:\r\n 2a. [Condição alternativa] → [o sistema faz Y]; retorna ao passo N.\r\nFLUXOS DE EXCEÇÃO:\r\n 2b. [Condição de erro] → [o sistema exibe mensagem Z e faz W] (ref. RN￾NNN, RF-NNN).\r\nEXEMPLO — UC-001 — Realizar login no sistema\r\nAtor principal: Vendedor (STK-02)\r\nHU relacionada: HU-001 | Pré-condição: Usuário possui cadastro ativo no sistema.\r\nPós-condição (sucesso): Usuário autenticado e redirecionado ao painel principal.\r\nPós-condição (falha): Usuário permanece na tela de login; tentativa é registrada.\r\nFLUXO PRINCIPAL:\r\n 1. O ator acessa a URL do sistema e visualiza a tela de login.\r\n 2. O ator informa e-mail e senha e clica em 'Entrar'.\r\n 3. O sistema valida as credenciais contra a base de usuários.\r\n 4. O sistema registra a data/hora do login e redireciona ao painel principal.\r\nFLUXOS ALTERNATIVOS:\r\n 3a. Credenciais inválidas (1ª a 4ª tentativa) → sistema exibe 'E-mail ou senha incorretos'; retorna ao passo \r\n2.\r\nFLUXOS DE EXCEÇÃO:\r\n 3b. 5ª tentativa com credenciais inválidas → sistema bloqueia o acesso por 15 minutos, exibe 'Conta \r\ntemporariamente bloqueada' e registra o evento no log de segurança (RN-003, RF-002).\r\n2.8 Critérios de Aceite (CA)\r\nBase: BABOK® v3 §10.1 — 'Acceptance and Evaluation Criteria'; Wiegers & Beatty (2013, cap. 10); North (2006) — \r\nBehavior-Driven Development (BDD)Critérios de aceite são as condições testáveis que definem quando um requisito ou história de \r\nusuário está completo e correto.",
+    "Nível Fundamental | Syllabus ©IREB 40 | 50\r\n▪ Os processos de ER exploratórios são tipicamente também processos iterativos (e \r\nvice-versa).\r\n▪ Num processo orientado para o mercado, o feedback dos usuários é o único meio de \r\nvalidar se o produto irá realmente satisfazer as necessidades do segmento de \r\nusuários visados.\r\n▪ A vertente orientada para o mercado não se combina bem com as vertentes lineares \r\ne prescritivas.\r\n5.3 Configuração de um Processo de Engenharia de Requisitos \r\n(L3)\r\nNum contexto concreto de desenvolvimento do sistema, os responsáveis pela ER têm de \r\nconfigurar o processo da ER a ser aplicado. Com base em uma análise dos fatores de \r\ninfluência em 5.1, uma combinação adequada das vertentes do processo descritas em 5.2\r\npode ser usada [Glin2019]. A seguir, três combinações típicas são descritas.\r\nProcesso da ER participativo: Iterativo & Exploratório & Específico do Cliente\r\nPrincipal aplicação:: Fornecedor e cliente colaboram estreitamente; os \r\nstakeholders estão fortemente envolvidos tanto na ER como \r\nnos processos de desenvolvimento.\r\nProdutos de trabalho \r\ntípicos:\r\nBacklog do produto com histórias de usuários e/ou descrições \r\nde tarefas, protótipos\r\nFluxo de informação \r\ntípico:\r\nInteração contínua entre stakeholders, product owners, \r\nengenheiros de requisitos e desenvolvedores; pode incluir \r\nfeedback dos usuários\r\nProcesso da ER contratual: Tipicamente Linear (às vezes Iterativo) & \r\nPrescritivo & Específico para o Cliente\r\nPrincipal aplicação:: A especificação de requisitos constitui a base contratual para \r\no desenvolvimento de um sistema por pessoas não envolvidas \r\nna especificação e com pouca interação dos stakeholders \r\napós a fase de requisitos.\r\nProdutos de trabalho \r\ntípicos:\r\nEspecificação dos requisitos do sistema clássico, que consiste \r\nem requisitos e modelos baseados em linguagem natural\r\nFluxo de informação \r\ntípico:\r\nPrincipalmente dos stakeholders para os Engenheiros de \r\nRequisitos",
+    "Elicitação de Requisitos | Syllabus | ©IREB 33 | 43\r\nUm conflito de requisitos pode ser interpretado como um tipo especial de conflito social e é \r\ndefinido da seguinte forma: \"Um conflito na Engenharia de Requisitos (conflito de requisitos) \r\né uma incompatibilidade de requisitos, com base em uma percepção contraditória de dois \r\nou mais stakeholders.\" [RueA2014]. Há vários indicadores pelos quais os conflitos podem ser \r\ndetectados. Os indicadores podem ser observados na comunicação e na documentação.\r\nOs indicadores comumente encontrados na comunicação são:\r\n▪ Negação\r\n▪ Indiferença\r\n▪ Pedantismo\r\n▪ Questões de detalhes\r\n▪ Interpretação incorreta\r\n▪ Ocultação\r\n▪ Delegação\r\nOs indicadores comumente encontrados na documentação são:\r\n▪ Declarações contraditórias dos stakeholders\r\n▪ Resultados conflitantes da análise de documentos ou sistemas\r\n▪ Requisitos inconsistentes em detalhes\r\n▪ Uso inconsistente de termos na especificação\r\nA maioria dos conflitos tende a ser oculta e só pode ser detectada por meio do \r\nmonitoramento cuidadoso desses indicadores. Se um dos indicadores ocorrer, isso não \r\nsignifica que haja um conflito de requisitos. No entanto, o Engenheiro de Requisitos deve \r\nestar sempre atento. Na maioria das atividades de elicitação de requisitos, ele estimula os \r\nstakeholders a exporem suas posições com clareza, revelando, em alguns casos, problemas \r\ninesperados ou conflitos existentes.\r\n4.2 Análise de conflitos (L3)\r\nUma vez identificado um conflito, o Engenheiro de Requisitos deve esclarecer se o conflito \r\nidentificado é ou não um conflito de requisitos. Essa distinção é importante, pois a resolução \r\nde um conflito de requisitos é a principal responsabilidade do Engenheiro de Requisitos, \r\nenquanto outros conflitos devem ser resolvidos por outros participantes (p. ex., um gerente \r\nde projeto).\r\nA análise das características de um conflito de requisitos ajuda o Engenheiro de Requisitos a \r\nentender sua natureza. As seguintes características [RueA2014] de um conflito podem \r\najudar a entender sua natureza e a encontrar uma solução adequada:\r\n▪ Tipo de conflito\r\n▪ Assunto do conflito\r\n▪ Requisitos afetados\r\n▪ Stakeholders envolvidos\r\n▪ Opiniões das diversos stakeholders"
+  ],
+  "ground_truth": "GABARITO — Project Scenario 1: GRD (Sistema de Gestão de Riscos de Desastres)\nUso: campo \"ground_truth\" do RAGAS (context_precision / context_recall).\nCada linha é uma afirmação atômica, checável contra o texto do cenário e a\nbase de conhecimento — não é um SRS completo, é o conjunto de fatos que um\nSRS bem fundamentado para este cenário deveria conseguir cobrir.\n\n- O sistema deve automatizar o envio de avisos e alertas por e-mail, SMS e no site da Defesa Civil.\n- Os alertas devem avisar município, regional e, quando aplicável, a imprensa.\n- Municípios e o Estado devem poder cadastrar planos de contingência no sistema.\n- O plano de contingência inclui áreas de risco, recursos disponíveis (pessoal, veículo, material) e abrigos disponíveis.\n- O sistema deve ter um módulo de gestão de incidente em estilo comando de operações, com visualização em mapa.\n- A gestão de incidente deve ser acompanhável em tempo real, inclusive pelo celular de agentes em campo.\n- O sistema deve ter controle de estoque com rastreabilidade de doações e material de ajuda humanitária (o que entrou, o que saiu, para onde foi).\n- O sistema deve suportar a prestação de contas dos municípios sobre o que receberam.\n- Usuários do sistema incluem a equipe da Sala de Situação (meteorologista, engenheiro ambiental), a Defesa Civil estadual, as coordenadorias regionais, os municípios, a imprensa e a população.\n- Deve existir um aplicativo de celular para uso do pessoal de campo.\n- O sistema deve permitir parametrização e customização da matriz de risco (adaptabilidade), sem depender de desenvolvedor para cada mudança.\n- O acesso ao sistema deve ser controlado pelo login único do governo (SOEWEB).\n- O sistema deve manter auditoria: registro de quem fez, quando fez e de onde foi feita cada inclusão/alteração de registro.\n- O sistema deve ter tolerância a falhas, preservando a integridade dos dados em caso de queda de energia ou de conexão.\n- A interface (telas e manuais) deve estar em português do Brasil.\n- A integração profunda com o S2ID (sistema federal de informação de desastre) não é prioridade nesta fase.\n- A visualização de mapa com camadas geográficas complexas (bacia hidrográfica, zoneamento ecológico) não é prioridade nesta fase.\n",
+  "rag_score": 0.4221,
+  "artefatos": {
+    "escopo": {
+      "descricao": "O GRD permite monitorar riscos, emitir alertas, manter planos de contingência, coordenar incidentes e controlar recursos de ajuda humanitária.",
+      "em_escopo": [
+        "Emissão e distribuição automatizada de avisos e alertas",
+        "Cadastro de planos de contingência estaduais e municipais",
+        "Cadastro de áreas de risco, recursos e abrigos",
+        "Registro e acompanhamento de incidentes",
+        "Visualização geográfica básica de incidentes",
+        "Operação móvel para agentes de campo",
+        "Controle rastreável de estoque de ajuda humanitária",
+        "Prestação de contas municipal",
+        "Configuração administrativa da matriz de risco",
+        "Autenticação pelo SOEWEB",
+        "Auditoria de inclusões e alterações"
+      ],
+      "fora_de_escopo": [
+        "Integração profunda e bidirecional com o S2ID — conteúdo e interfaces ainda dependem de definição",
+        "Camadas cartográficas complexas, como bacias hidrográficas e zoneamento ecológico — previstas para evolução posterior",
+        "Gestão financeira de recursos para desastres — não mencionada como necessidade do núcleo inicial",
+        "Previsão meteorológica própria — o sistema utilizará informações analisadas pela Sala de Situação"
+      ],
+      "premissas": [
+        "PA-01: O SOEWEB disponibilizará mecanismo de autenticação integrável ao GRD.",
+        "PA-02: Os serviços de e-mail, SMS e publicação no site da Defesa Civil estarão disponíveis para integração.",
+        "PA-03: Municípios e órgãos estaduais indicarão responsáveis pela atualização dos planos de contingência.",
+        "PA-04: [INFERIDO] Cada item de ajuda humanitária possuirá unidade de medida e identificação padronizadas.",
+        "PA-05: [INFERIDO] Os agentes de campo utilizarão dispositivos móveis com navegador ou aplicativo compatível."
+      ],
+      "restricoes": [
+        "REST-01 (Tecnológica): A autenticação dos usuários deve ocorrer exclusivamente por meio do SOEWEB.",
+        "REST-02 (Idioma): Interfaces, mensagens e manuais devem ser disponibilizados em português.",
+        "REST-03 (Continuidade): Dados em preenchimento devem ser protegidos contra interrupções de energia ou conexão.",
+        "REST-04 (Escopo): A primeira versão deve priorizar alertas, planos de contingência e controle de estoque.",
+        "REST-05 (Integração): A integração profunda com o S2ID está adiada até a definição dos dados e serviços disponíveis."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Equipe da Sala de Situação",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Analisar riscos, configurar alertas e acompanhar incidentes."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Defesa Civil Estadual",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Coordenar alertas, incidentes, planos, abrigos, estoques e prestações de contas."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Coordenadorias Regionais",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Acompanhar ocorrências e coordenar municípios de sua região."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Gestores Municipais de Defesa Civil",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Cadastrar planos de contingência, recursos, áreas de risco, abrigos e prestações de contas."
+      },
+      {
+        "id": "STK-05",
+        "nome": "Agentes de campo",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Consultar incidentes e registrar informações operacionais por dispositivo móvel."
+      },
+      {
+        "id": "STK-06",
+        "nome": "Equipe de logística e estoque",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Registrar entradas, saídas, saldos e destinos de materiais humanitários."
+      },
+      {
+        "id": "STK-07",
+        "nome": "Administrador funcional do GRD",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Configurar a matriz de risco e consultar registros de auditoria."
+      },
+      {
+        "id": "STK-08",
+        "nome": "Imprensa",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receber avisos públicos autorizados."
+      },
+      {
+        "id": "STK-09",
+        "nome": "População",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receber alertas públicos claros e tempestivos."
+      },
+      {
+        "id": "STK-10",
+        "nome": "SOEWEB",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Fornecer autenticação e identidade governamental."
+      },
+      {
+        "id": "STK-11",
+        "nome": "Provedores de e-mail, SMS e site da Defesa Civil",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receber e distribuir alertas gerados pelo GRD."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Classificação de risco",
+        "descricao": "Todo evento monitorado deve ser classificado conforme a matriz de risco vigente.",
+        "fonte": "Sala de Situação e Defesa Civil Estadual",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Destinatários de alertas",
+        "descricao": "Os destinatários e canais de um alerta devem ser determinados pela classificação, localização e abrangência do evento.",
+        "fonte": "Defesa Civil Estadual",
+        "excecoes": "Alertas de teste não devem ser enviados à população."
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Composição do plano de contingência",
+        "descricao": "O plano de contingência deve identificar áreas de risco, recursos disponíveis e abrigos utilizáveis.",
+        "fonte": "Defesa Civil Estadual e municípios",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Vinculação de abrigos",
+        "descricao": "Todo acionamento de abrigo deve estar vinculado a um incidente e ao responsável pelo acionamento.",
+        "fonte": "Defesa Civil Estadual",
+        "excecoes": "Acionamentos realizados em simulações devem ser identificados como exercício."
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Rastreabilidade de estoque",
+        "descricao": "Toda movimentação de ajuda humanitária deve identificar item, quantidade, origem ou destino, data, hora e responsável.",
+        "fonte": "Área de logística da Defesa Civil",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Prestação de contas municipal",
+        "descricao": "Todo município que receber ajuda humanitária deve prestar contas dos materiais recebidos e de sua destinação.",
+        "fonte": "Defesa Civil Estadual",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-007",
+        "titulo": "Gestão da matriz de risco",
+        "descricao": "Somente responsáveis autorizados podem alterar parâmetros da matriz de risco.",
+        "fonte": "Sala de Situação e Defesa Civil Estadual",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-008",
+        "titulo": "Responsabilização por alterações",
+        "descricao": "Toda inclusão ou alteração de informação deve possuir autoria, data, hora e origem identificáveis.",
+        "fonte": "Defesa Civil Estadual",
+        "excecoes": "Nenhuma"
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Classificar evento",
+        "descricao": "O sistema deve classificar cada evento conforme a matriz de risco vigente.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Gerar alerta",
+        "descricao": "O sistema deve gerar um alerta a partir dos dados de um evento classificado.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Enviar alerta por e-mail",
+        "descricao": "O sistema deve enviar alertas por e-mail aos destinatários selecionados.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Enviar alerta por SMS",
+        "descricao": "O sistema deve enviar alertas por SMS aos destinatários selecionados.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Publicar alerta no site",
+        "descricao": "O sistema deve publicar alertas autorizados no site da Defesa Civil.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Selecionar destinatários",
+        "descricao": "O sistema deve selecionar destinatários conforme a localização, abrangência e classificação do evento.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Cadastrar plano de contingência",
+        "descricao": "O sistema deve cadastrar planos de contingência estaduais e municipais.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Cadastrar área de risco",
+        "descricao": "O sistema deve cadastrar áreas de risco vinculadas a um plano de contingência.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Cadastrar recurso",
+        "descricao": "O sistema deve cadastrar recursos humanos, veículos e materiais disponíveis em um plano de contingência.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Cadastrar abrigo",
+        "descricao": "O sistema deve cadastrar abrigos utilizáveis em situações de desastre.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Registrar incidente",
+        "descricao": "O sistema deve registrar incidentes com tipo, localização, situação e responsável.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Exibir incidente no mapa",
+        "descricao": "O sistema deve exibir a localização dos incidentes em um mapa operacional básico.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Acionar abrigo",
+        "descricao": "O sistema deve registrar o acionamento de um abrigo para um incidente.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Atualizar incidente em campo",
+        "descricao": "O sistema deve permitir a atualização de incidentes por dispositivo móvel.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Consultar incidente em campo",
+        "descricao": "O sistema deve permitir a consulta de incidentes por dispositivo móvel.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Registrar entrada de estoque",
+        "descricao": "O sistema deve registrar entradas de materiais de ajuda humanitária.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "Registrar saída de estoque",
+        "descricao": "O sistema deve registrar saídas de materiais de ajuda humanitária com o respectivo destino.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-018",
+        "titulo": "Consultar rastreabilidade",
+        "descricao": "O sistema deve consultar o histórico completo de movimentações de cada item de estoque.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-019",
+        "titulo": "Apresentar saldo de estoque",
+        "descricao": "O sistema deve apresentar o saldo atual de cada item de ajuda humanitária.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-020",
+        "titulo": "Registrar prestação de contas",
+        "descricao": "O sistema deve registrar a prestação de contas dos materiais recebidos por cada município.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-021",
+        "titulo": "Configurar matriz de risco",
+        "descricao": "O sistema deve permitir que administradores autorizados configurem os parâmetros da matriz de risco.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-07",
+        "rn_associada": "RN-007"
+      },
+      {
+        "id": "RF-022",
+        "titulo": "Autenticar pelo SOEWEB",
+        "descricao": "O sistema deve autenticar usuários por meio do SOEWEB.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-023",
+        "titulo": "Registrar auditoria",
+        "descricao": "O sistema deve registrar a autoria, data, hora e origem de cada inclusão ou alteração.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-07",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-024",
+        "titulo": "Recuperar cadastro interrompido",
+        "descricao": "O sistema deve recuperar os dados de um cadastro interrompido antes de sua conclusão.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Tempo de emissão de alertas",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve iniciar a distribuição de um alerta em até 60 segundos após sua autorização. [TBD]",
+        "metrica_aceitacao": "Percentil 95 igual ou inferior a 60 segundos para 100 alertas simultâneos. [TBD]",
+        "metodo_verificacao": "Teste de carga"
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Atualização operacional",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve refletir atualizações de incidentes nos painéis em até 30 segundos. [TBD]",
+        "metrica_aceitacao": "95% das atualizações exibidas em até 30 segundos. [TBD]",
+        "metodo_verificacao": "Teste de desempenho"
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Disponibilidade",
+        "categoria_iso25010": "Reliability",
+        "descricao": "O sistema deve manter disponibilidade mensal mínima de 99,5%. [TBD]",
+        "metrica_aceitacao": "Disponibilidade igual ou superior a 99,5% por mês, excluídas manutenções programadas. [TBD]",
+        "metodo_verificacao": "Monitoramento de disponibilidade"
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Proteção contra interrupções",
+        "categoria_iso25010": "Reliability",
+        "descricao": "O sistema deve preservar dados confirmados e recuperar rascunhos com perda máxima de 60 segundos de edição. [TBD]",
+        "metrica_aceitacao": "Zero perda de registros confirmados e perda máxima de 60 segundos em rascunhos. [TBD]",
+        "metodo_verificacao": "Teste de recuperação por interrupção de energia e conexão"
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Auditabilidade",
+        "categoria_iso25010": "Security",
+        "descricao": "O sistema deve manter trilha de auditoria para 100% das inclusões e alterações.",
+        "metrica_aceitacao": "100% das operações auditáveis contendo usuário, data, hora e origem.",
+        "metodo_verificacao": "Auditoria de logs e teste funcional automatizado"
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Criptografia em trânsito",
+        "categoria_iso25010": "Security",
+        "descricao": "O sistema deve criptografar 100% dos dados transmitidos utilizando TLS 1.2 ou superior. [TBD]",
+        "metrica_aceitacao": "100% das conexões protegidas e rejeição de protocolos inferiores ao TLS 1.2. [TBD]",
+        "metodo_verificacao": "Teste de penetração"
+      },
+      {
+        "id": "RNF-007",
+        "titulo": "Controle de acesso",
+        "categoria_iso25010": "Security",
+        "descricao": "O sistema deve impedir operações não autorizadas em 100% dos testes de permissão. [TBD]",
+        "metrica_aceitacao": "Zero acesso indevido em matriz de testes de perfis e permissões. [TBD]",
+        "metodo_verificacao": "Teste de autorização"
+      },
+      {
+        "id": "RNF-008",
+        "titulo": "Interoperabilidade com SOEWEB",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "O sistema deve concluir a autenticação pelo SOEWEB em até 5 segundos no percentil 95. [TBD]",
+        "metrica_aceitacao": "Percentil 95 igual ou inferior a 5 segundos e taxa de sucesso mínima de 99%. [TBD]",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "RNF-009",
+        "titulo": "Operação móvel",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "O sistema deve permitir concluir 100% das operações destinadas a agentes de campo em telas a partir de 360 por 640 pixels. [TBD]",
+        "metrica_aceitacao": "Zero bloqueios críticos nos fluxos móveis em resoluções a partir de 360 por 640 pixels. [TBD]",
+        "metodo_verificacao": "Teste cross-device"
+      },
+      {
+        "id": "RNF-010",
+        "titulo": "Idioma português",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "O sistema deve apresentar 100% das interfaces, mensagens e manuais em português.",
+        "metrica_aceitacao": "Zero texto funcional sem tradução para português.",
+        "metodo_verificacao": "Revisão manual"
+      },
+      {
+        "id": "RNF-011",
+        "titulo": "Confirmação de falha de entrega",
+        "categoria_iso25010": "Safety",
+        "descricao": "O sistema deve sinalizar falhas de entrega de alertas em até 60 segundos após a resposta do canal externo. [TBD]",
+        "metrica_aceitacao": "100% das falhas retornadas pelos canais registradas e sinalizadas em até 60 segundos. [TBD]",
+        "metodo_verificacao": "Teste de integração com simulação de falhas"
+      },
+      {
+        "id": "RNF-012",
+        "titulo": "Alteração da matriz sem implantação",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "O sistema deve aplicar configurações da matriz de risco sem alteração de código ou nova implantação em 100% dos parâmetros disponibilizados.",
+        "metrica_aceitacao": "100% dos parâmetros administrativos aplicados sem compilação ou implantação.",
+        "metodo_verificacao": "Teste funcional e auditoria do processo de implantação"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "analista da Sala de Situação",
+        "quero": "classificar um evento pela matriz de risco",
+        "para": "determinar o tratamento operacional adequado",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "analista da Sala de Situação",
+        "quero": "gerar um alerta a partir de um evento",
+        "para": "reduzir o tempo de preparação da comunicação",
+        "rf_associado": "RF-002",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "operador da Defesa Civil Estadual",
+        "quero": "enviar alertas por e-mail",
+        "para": "comunicar os destinatários institucionais",
+        "rf_associado": "RF-003",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "operador da Defesa Civil Estadual",
+        "quero": "enviar alertas por SMS",
+        "para": "alcançar destinatários por telefonia móvel",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "operador da Defesa Civil Estadual",
+        "quero": "publicar alertas no site institucional",
+        "para": "informar a imprensa e a população",
+        "rf_associado": "RF-005",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "analista da Sala de Situação",
+        "quero": "selecionar automaticamente os destinatários",
+        "para": "direcionar o alerta às áreas afetadas",
+        "rf_associado": "RF-006",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "gestor municipal de Defesa Civil",
+        "quero": "cadastrar o plano de contingência",
+        "para": "centralizar o planejamento de resposta municipal",
+        "rf_associado": "RF-007",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "gestor municipal de Defesa Civil",
+        "quero": "cadastrar áreas de risco",
+        "para": "identificar locais vulneráveis",
+        "rf_associado": "RF-008",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "gestor municipal de Defesa Civil",
+        "quero": "cadastrar os recursos disponíveis",
+        "para": "planejar a capacidade de resposta",
+        "rf_associado": "RF-009",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "gestor municipal de Defesa Civil",
+        "quero": "cadastrar abrigos",
+        "para": "planejar o acolhimento da população",
+        "rf_associado": "RF-010",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "operador da Defesa Civil Estadual",
+        "quero": "registrar um incidente",
+        "para": "coordenar sua resposta",
+        "rf_associado": "RF-011",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-012",
+        "como": "coordenador regional",
+        "quero": "visualizar incidentes no mapa",
+        "para": "compreender sua distribuição geográfica",
+        "rf_associado": "RF-012",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-013",
+        "como": "operador da Defesa Civil Estadual",
+        "quero": "registrar o acionamento de um abrigo",
+        "para": "acompanhar os recursos utilizados no incidente",
+        "rf_associado": "RF-013",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-014",
+        "como": "agente de campo",
+        "quero": "atualizar um incidente pelo dispositivo móvel",
+        "para": "manter a coordenação informada",
+        "rf_associado": "RF-014",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-015",
+        "como": "agente de campo",
+        "quero": "consultar incidentes pelo dispositivo móvel",
+        "para": "obter informações durante a operação",
+        "rf_associado": "RF-015",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-016",
+        "como": "responsável pelo estoque",
+        "quero": "registrar a entrada de materiais",
+        "para": "manter o saldo atualizado",
+        "rf_associado": "RF-016",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-017",
+        "como": "responsável pelo estoque",
+        "quero": "registrar a saída e o destino dos materiais",
+        "para": "controlar sua distribuição",
+        "rf_associado": "RF-017",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-018",
+        "como": "responsável pelo estoque",
+        "quero": "consultar o histórico de movimentações",
+        "para": "rastrear cada item humanitário",
+        "rf_associado": "RF-018",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-019",
+        "como": "responsável pelo estoque",
+        "quero": "consultar os saldos atuais",
+        "para": "identificar a disponibilidade de materiais",
+        "rf_associado": "RF-019",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-020",
+        "como": "gestor municipal de Defesa Civil",
+        "quero": "registrar a prestação de contas",
+        "para": "comprovar a destinação dos materiais recebidos",
+        "rf_associado": "RF-020",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-021",
+        "como": "administrador funcional do GRD",
+        "quero": "configurar a matriz de risco",
+        "para": "adequar os critérios sem depender de desenvolvimento",
+        "rf_associado": "RF-021",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-022",
+        "como": "usuário governamental autorizado",
+        "quero": "entrar no GRD pelo SOEWEB",
+        "para": "utilizar a identidade única do governo",
+        "rf_associado": "RF-022",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-023",
+        "como": "administrador funcional do GRD",
+        "quero": "consultar quem alterou cada registro",
+        "para": "apurar responsabilidades",
+        "rf_associado": "RF-023",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-024",
+        "como": "usuário operacional",
+        "quero": "recuperar um cadastro interrompido",
+        "para": "evitar perda de trabalho",
+        "rf_associado": "RF-024",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Emitir alerta",
+        "ator_principal": "Analista da Sala de Situação",
+        "hu_relacionada": "HU-002",
+        "pre_condicao": "O evento está cadastrado e classificado.",
+        "pos_condicao_sucesso": "O alerta está registrado e encaminhado aos canais selecionados.",
+        "pos_condicao_falha": "O alerta permanece pendente e a falha é registrada.",
+        "fluxo_principal": [
+          "1. O ator seleciona um evento.",
+          "2. O sistema apresenta os dados e destinatários calculados.",
+          "3. O ator confirma a emissão.",
+          "4. O sistema gera e distribui o alerta."
+        ],
+        "fluxos_alternativos": [
+          "3a. O ator altera os destinatários permitidos → o sistema atualiza a prévia e retorna ao passo 3."
+        ],
+        "fluxos_excecao": [
+          "4a. Um canal está indisponível → o sistema registra a falha e sinaliza o canal afetado (ref. RN-002, RF-002)."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Cadastrar plano de contingência",
+        "ator_principal": "Gestor municipal de Defesa Civil",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "O ator está autenticado e vinculado ao município.",
+        "pos_condicao_sucesso": "O plano está cadastrado.",
+        "pos_condicao_falha": "Nenhum plano incompleto é publicado.",
+        "fluxo_principal": [
+          "1. O ator inicia um novo plano.",
+          "2. O sistema solicita os dados obrigatórios.",
+          "3. O ator informa os dados.",
+          "4. O sistema valida e salva o plano."
+        ],
+        "fluxos_alternativos": [
+          "3a. O ator salva como rascunho → o sistema mantém o plano com status 'Rascunho'."
+        ],
+        "fluxos_excecao": [
+          "4a. Faltam dados obrigatórios → o sistema identifica os campos pendentes (ref. RN-003, RF-007)."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Registrar incidente",
+        "ator_principal": "Operador da Defesa Civil Estadual",
+        "hu_relacionada": "HU-011",
+        "pre_condicao": "O ator está autenticado.",
+        "pos_condicao_sucesso": "O incidente está ativo e disponível para acompanhamento.",
+        "pos_condicao_falha": "O incidente não é ativado.",
+        "fluxo_principal": [
+          "1. O ator informa tipo, localização e situação.",
+          "2. O sistema valida os dados.",
+          "3. O ator confirma o registro.",
+          "4. O sistema cria o incidente."
+        ],
+        "fluxos_alternativos": [
+          "2a. Existe incidente semelhante na localização → o sistema alerta o ator e permite consultar o registro existente."
+        ],
+        "fluxos_excecao": [
+          "2b. A localização é inválida → o sistema solicita sua correção (ref. RF-011)."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Acionar abrigo",
+        "ator_principal": "Operador da Defesa Civil Estadual",
+        "hu_relacionada": "HU-013",
+        "pre_condicao": "Existe um incidente ativo e um abrigo cadastrado.",
+        "pos_condicao_sucesso": "O abrigo está vinculado ao incidente como acionado.",
+        "pos_condicao_falha": "O estado do abrigo permanece inalterado.",
+        "fluxo_principal": [
+          "1. O ator seleciona o incidente.",
+          "2. O ator seleciona um abrigo.",
+          "3. O sistema apresenta os dados do abrigo.",
+          "4. O ator confirma o acionamento.",
+          "5. O sistema registra o acionamento."
+        ],
+        "fluxos_alternativos": [
+          "3a. O abrigo já está acionado → o sistema apresenta o incidente relacionado."
+        ],
+        "fluxos_excecao": [
+          "5a. O incidente foi encerrado → o sistema rejeita o acionamento (ref. RN-004, RF-013)."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Atualizar incidente em campo",
+        "ator_principal": "Agente de campo",
+        "hu_relacionada": "HU-014",
+        "pre_condicao": "O agente está autenticado e o incidente está ativo.",
+        "pos_condicao_sucesso": "A atualização está vinculada ao incidente.",
+        "pos_condicao_falha": "A atualização permanece como rascunho recuperável.",
+        "fluxo_principal": [
+          "1. O agente consulta o incidente no dispositivo móvel.",
+          "2. O agente informa a atualização.",
+          "3. O sistema salva a atualização.",
+          "4. O sistema disponibiliza a informação aos coordenadores."
+        ],
+        "fluxos_alternativos": [
+          "3a. A conexão está indisponível → o sistema mantém os dados como rascunho."
+        ],
+        "fluxos_excecao": [
+          "3b. A sessão expirou → o sistema preserva o rascunho e solicita nova autenticação (ref. RF-014, RF-024)."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Registrar entrada de estoque",
+        "ator_principal": "Responsável pelo estoque",
+        "hu_relacionada": "HU-016",
+        "pre_condicao": "O ator está autenticado e o item está identificado.",
+        "pos_condicao_sucesso": "A entrada está registrada e o saldo foi atualizado.",
+        "pos_condicao_falha": "O saldo permanece inalterado.",
+        "fluxo_principal": [
+          "1. O ator seleciona o item.",
+          "2. O ator informa quantidade e origem.",
+          "3. O sistema valida a movimentação.",
+          "4. O sistema registra a entrada."
+        ],
+        "fluxos_alternativos": [
+          "1a. O item não existe → o ator solicita seu cadastro antes de continuar."
+        ],
+        "fluxos_excecao": [
+          "3a. A quantidade é inválida → o sistema rejeita a movimentação (ref. RN-005, RF-016)."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Registrar saída de estoque",
+        "ator_principal": "Responsável pelo estoque",
+        "hu_relacionada": "HU-017",
+        "pre_condicao": "Existe saldo disponível para o item.",
+        "pos_condicao_sucesso": "A saída e o destino estão registrados.",
+        "pos_condicao_falha": "O saldo permanece inalterado.",
+        "fluxo_principal": [
+          "1. O ator seleciona o item.",
+          "2. O ator informa quantidade e destino.",
+          "3. O sistema verifica o saldo.",
+          "4. O sistema registra a saída."
+        ],
+        "fluxos_alternativos": [
+          "3a. O saldo é exatamente igual à quantidade solicitada → o sistema registra a saída e zera o saldo."
+        ],
+        "fluxos_excecao": [
+          "3b. O saldo é insuficiente → o sistema rejeita a saída e informa o saldo disponível (ref. RN-005, RF-017)."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Prestar contas de materiais",
+        "ator_principal": "Gestor municipal de Defesa Civil",
+        "hu_relacionada": "HU-020",
+        "pre_condicao": "O município possui materiais recebidos registrados.",
+        "pos_condicao_sucesso": "A prestação de contas está registrada.",
+        "pos_condicao_falha": "A prestação permanece pendente.",
+        "fluxo_principal": [
+          "1. O ator seleciona os recebimentos.",
+          "2. O ator informa a destinação dos materiais.",
+          "3. O sistema valida as quantidades.",
+          "4. O sistema registra a prestação de contas."
+        ],
+        "fluxos_alternativos": [
+          "2a. Parte dos materiais ainda não foi destinada → o sistema mantém a quantidade restante como pendente."
+        ],
+        "fluxos_excecao": [
+          "3a. A quantidade informada supera a recebida → o sistema rejeita o registro (ref. RN-006, RF-020)."
+        ]
+      },
+      {
+        "id": "UC-009",
+        "nome": "Configurar matriz de risco",
+        "ator_principal": "Administrador funcional do GRD",
+        "hu_relacionada": "HU-021",
+        "pre_condicao": "O ator possui permissão administrativa.",
+        "pos_condicao_sucesso": "A nova configuração está vigente e auditada.",
+        "pos_condicao_falha": "A configuração anterior permanece vigente.",
+        "fluxo_principal": [
+          "1. O ator acessa a matriz de risco.",
+          "2. O sistema apresenta os parâmetros vigentes.",
+          "3. O ator altera um parâmetro.",
+          "4. O sistema valida e aplica a configuração."
+        ],
+        "fluxos_alternativos": [
+          "3a. O ator cancela a edição → o sistema descarta as alterações."
+        ],
+        "fluxos_excecao": [
+          "4a. O parâmetro é inválido → o sistema rejeita a alteração (ref. RN-007, RF-021)."
+        ]
+      },
+      {
+        "id": "UC-010",
+        "nome": "Autenticar pelo SOEWEB",
+        "ator_principal": "Usuário governamental autorizado",
+        "hu_relacionada": "HU-022",
+        "pre_condicao": "O usuário possui identidade ativa no SOEWEB.",
+        "pos_condicao_sucesso": "O usuário está autenticado no GRD.",
+        "pos_condicao_falha": "O usuário permanece sem acesso.",
+        "fluxo_principal": [
+          "1. O ator solicita acesso ao GRD.",
+          "2. O sistema redireciona a autenticação ao SOEWEB.",
+          "3. O SOEWEB valida a identidade.",
+          "4. O sistema inicia a sessão autorizada."
+        ],
+        "fluxos_alternativos": [
+          "3a. O SOEWEB solicita autenticação adicional → o ator conclui a validação e retorna ao passo 3."
+        ],
+        "fluxos_excecao": [
+          "3b. A autenticação é recusada → o sistema não inicia a sessão (ref. RF-022)."
+        ]
+      },
+      {
+        "id": "UC-011",
+        "nome": "Consultar auditoria",
+        "ator_principal": "Administrador funcional do GRD",
+        "hu_relacionada": "HU-023",
+        "pre_condicao": "O ator possui permissão de auditoria.",
+        "pos_condicao_sucesso": "Os eventos de auditoria correspondentes são apresentados.",
+        "pos_condicao_falha": "Nenhuma informação restrita é apresentada.",
+        "fluxo_principal": [
+          "1. O ator informa os filtros da consulta.",
+          "2. O sistema localiza os eventos.",
+          "3. O sistema apresenta autoria, data, hora e origem."
+        ],
+        "fluxos_alternativos": [
+          "2a. Nenhum evento é localizado → o sistema apresenta resultado vazio."
+        ],
+        "fluxos_excecao": [
+          "1a. O ator não possui permissão → o sistema bloqueia a consulta (ref. RN-008, RF-023)."
+        ]
+      },
+      {
+        "id": "UC-012",
+        "nome": "Recuperar cadastro interrompido",
+        "ator_principal": "Usuário operacional",
+        "hu_relacionada": "HU-024",
+        "pre_condicao": "Existe um rascunho associado ao usuário.",
+        "pos_condicao_sucesso": "O cadastro é restaurado para continuação.",
+        "pos_condicao_falha": "O sistema informa que não existe rascunho recuperável.",
+        "fluxo_principal": [
+          "1. O ator retorna ao módulo após a interrupção.",
+          "2. O sistema identifica o rascunho.",
+          "3. O sistema oferece a recuperação.",
+          "4. O ator confirma.",
+          "5. O sistema restaura os dados."
+        ],
+        "fluxos_alternativos": [
+          "4a. O ator descarta o rascunho → o sistema inicia um cadastro vazio."
+        ],
+        "fluxos_excecao": [
+          "2a. O rascunho está corrompido → o sistema informa a impossibilidade de recuperação e registra a falha (ref. RF-024)."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Classificação pela matriz vigente",
+        "dado": "um evento com dados obrigatórios preenchidos",
+        "quando": "o analista solicitar sua classificação",
+        "entao": "o sistema deve atribuir uma classificação correspondente à matriz de risco vigente",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-002",
+        "titulo": "Geração do alerta",
+        "dado": "um evento classificado",
+        "quando": "o analista confirmar a emissão",
+        "entao": "o sistema deve criar um alerta com identificador único e status 'Em distribuição'",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-003",
+        "titulo": "Envio por e-mail",
+        "dado": "um alerta autorizado com destinatários de e-mail",
+        "quando": "a distribuição for iniciada",
+        "entao": "o sistema deve registrar uma tentativa de envio por e-mail para 100% dos destinatários",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-004",
+        "titulo": "Envio por SMS",
+        "dado": "um alerta autorizado com destinatários de SMS",
+        "quando": "a distribuição for iniciada",
+        "entao": "o sistema deve registrar uma tentativa de envio por SMS para 100% dos destinatários",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-005",
+        "titulo": "Publicação institucional",
+        "dado": "um alerta autorizado para divulgação pública",
+        "quando": "a publicação for confirmada",
+        "entao": "o sistema deve publicar o alerta no site com status 'Publicado'",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-006",
+        "titulo": "Seleção de destinatários",
+        "dado": "um evento com localização, abrangência e classificação definidas",
+        "quando": "o alerta for preparado",
+        "entao": "o sistema deve apresentar somente os grupos configurados para os critérios informados",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-007",
+        "titulo": "Cadastro do plano",
+        "dado": "um gestor municipal autenticado",
+        "quando": "ele preencher os campos obrigatórios e confirmar",
+        "entao": "o sistema deve salvar o plano com identificador único",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-008",
+        "titulo": "Vinculação da área de risco",
+        "dado": "um plano de contingência existente",
+        "quando": "o gestor cadastrar uma área de risco",
+        "entao": "o sistema deve vincular a área ao plano selecionado",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-009",
+        "titulo": "Cadastro de recurso",
+        "dado": "um plano de contingência existente",
+        "quando": "o gestor cadastrar um recurso",
+        "entao": "o sistema deve registrar seu tipo, quantidade e disponibilidade",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-010",
+        "titulo": "Cadastro de abrigo",
+        "dado": "um gestor municipal autenticado",
+        "quando": "ele informar os dados obrigatórios do abrigo",
+        "entao": "o sistema deve salvar o abrigo com status de disponibilidade definido",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-011",
+        "titulo": "Registro do incidente",
+        "dado": "um operador autenticado",
+        "quando": "ele confirmar tipo, localização e situação",
+        "entao": "o sistema deve criar o incidente com status 'Ativo'",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-012",
+        "titulo": "Exibição no mapa",
+        "dado": "um incidente com coordenadas válidas",
+        "quando": "o mapa operacional for aberto",
+        "entao": "o sistema deve apresentar um marcador correspondente ao incidente",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-013",
+        "titulo": "Acionamento de abrigo",
+        "dado": "um incidente ativo e um abrigo disponível",
+        "quando": "o operador confirmar o acionamento",
+        "entao": "o sistema deve vincular o abrigo ao incidente e registrar o responsável",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-014",
+        "titulo": "Atualização móvel",
+        "dado": "um agente autenticado em dispositivo móvel",
+        "quando": "ele enviar uma atualização de incidente",
+        "entao": "o sistema deve registrar a atualização no incidente selecionado",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-015",
+        "titulo": "Consulta móvel",
+        "dado": "um agente autenticado em dispositivo móvel",
+        "quando": "ele selecionar um incidente",
+        "entao": "o sistema deve apresentar seus dados operacionais atuais",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-016",
+        "titulo": "Entrada de material",
+        "dado": "um item de estoque cadastrado",
+        "quando": "uma entrada válida for confirmada",
+        "entao": "o sistema deve aumentar o saldo pela quantidade informada e registrar a origem",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017 / HU-017",
+        "titulo": "Saída de material",
+        "dado": "um item com saldo suficiente",
+        "quando": "uma saída válida for confirmada",
+        "entao": "o sistema deve reduzir o saldo pela quantidade informada e registrar o destino",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-018",
+        "rf_hu_ref": "RF-018 / HU-018",
+        "titulo": "Histórico rastreável",
+        "dado": "um item com movimentações registradas",
+        "quando": "o responsável consultar seu histórico",
+        "entao": "o sistema deve apresentar 100% das entradas e saídas em ordem cronológica",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-019",
+        "rf_hu_ref": "RF-019 / HU-019",
+        "titulo": "Saldo atualizado",
+        "dado": "um item com entradas e saídas registradas",
+        "quando": "o saldo for consultado",
+        "entao": "o sistema deve apresentar o total de entradas menos o total de saídas",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-020",
+        "rf_hu_ref": "RF-020 / HU-020",
+        "titulo": "Prestação de contas",
+        "dado": "um município com materiais recebidos",
+        "quando": "o gestor informar a destinação e confirmar",
+        "entao": "o sistema deve registrar a prestação com status 'Enviada'",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-021",
+        "rf_hu_ref": "RF-021 / HU-021",
+        "titulo": "Configuração sem desenvolvimento",
+        "dado": "um administrador autorizado",
+        "quando": "ele alterar e confirmar um parâmetro válido",
+        "entao": "o sistema deve aplicar o novo parâmetro sem implantação de software",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-022",
+        "rf_hu_ref": "RF-022 / HU-022",
+        "titulo": "Login único",
+        "dado": "um usuário com identidade ativa no SOEWEB",
+        "quando": "a autenticação for aprovada",
+        "entao": "o sistema deve iniciar uma sessão associada à identidade retornada pelo SOEWEB",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-023",
+        "rf_hu_ref": "RF-023 / HU-023",
+        "titulo": "Registro de auditoria",
+        "dado": "uma inclusão ou alteração confirmada",
+        "quando": "a operação for concluída",
+        "entao": "o sistema deve registrar usuário, data, hora e origem em 100% das operações",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-024",
+        "rf_hu_ref": "RF-024 / HU-024",
+        "titulo": "Recuperação de rascunho",
+        "dado": "um cadastro interrompido por perda de conexão ou energia",
+        "quando": "o usuário retornar ao módulo",
+        "entao": "o sistema deve oferecer um rascunho com perda máxima de 60 segundos de edição [TBD]",
+        "metodo_verificacao": "Teste de recuperação"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "GRD - Sistema de Gestão de Riscos de Desastres",
+    "cenario_fonte": "Project Scenario 1.pdf",
+    "observacoes": "Rico em RF, mas quase sem RNF numericamente mensuravel no texto original — os 4 RNF abaixo sao reais (tolerancia a falhas, SSO, auditoria, flexibilidade da matriz de risco) mas ficam com metrica [TBD] por falta de numero explicito no cenario. Isso e esperado, nao e erro do gabarito.",
+    "escopo": {
+      "em_escopo": [
+        "Envio automatizado de alertas por e-mail, SMS e site da Defesa Civil",
+        "Cadastro de planos de contingência por municípios e Estado (áreas de risco, recursos, abrigos)",
+        "Módulo de gestão de incidente em estilo comando de operações, com mapa e acompanhamento em tempo real (inclusive via celular de agentes em campo)",
+        "Controle de estoque de doações e material de ajuda humanitária, com rastreabilidade",
+        "Prestação de contas dos municípios sobre o material recebido",
+        "Aplicativo de celular para o pessoal de campo",
+        "Parametrização/customização da matriz de risco sem depender de desenvolvedor",
+        "Login único do governo (SOEWEB)",
+        "Auditoria de inclusões/alterações de registro (quem, quando, onde)",
+        "Tolerância a falhas, preservando dados em caso de queda de energia ou conexão"
+      ],
+      "fora_de_escopo": [
+        "Integração profunda com o S2ID (sistema federal de informação de desastre) — não é prioridade nesta fase",
+        "Visualização de mapa com camadas geográficas complexas (bacia hidrográfica, zoneamento ecológico) — não é prioridade nesta fase"
+      ],
+      "premissas": [
+        "PA-01: O governo já possui um sistema de login único (SOEWEB) disponível para integração.",
+        "PA-02: [INFERIDO] Os municípios têm acesso à internet para cadastrar planos de contingência e consultar o sistema."
+      ],
+      "restricoes": [
+        "REST-01 (Idioma): A interface (telas e manuais) deve estar em português do Brasil.",
+        "REST-02 (Segurança): O acesso deve ser feito exclusivamente pelo login único do governo (SOEWEB).",
+        "REST-03 (Escopo): Integração com o S2ID e camadas cartográficas complexas ficam fora do escopo inicial."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Equipe da Sala de Situação (meteorologista, engenheiro ambiental) — monitora modelos de previsão climática."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Defesa Civil estadual — coordena a resposta central a eventos climáticos e o disparo de alertas."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Coordenadorias regionais — recebem alertas e coordenam a resposta em nível regional."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "Municípios — cadastram planos de contingência, recebem doações e prestam contas do que receberam."
+      },
+      {
+        "id": "STK-05",
+        "descricao": "Imprensa — recebe alertas quando aplicável, para divulgação pública."
+      },
+      {
+        "id": "STK-06",
+        "descricao": "População — recebe os alertas emitidos pelo sistema."
+      },
+      {
+        "id": "STK-07",
+        "descricao": "Agentes de campo — usam o aplicativo de celular para registrar e consultar informações em tempo real durante um incidente."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "Alertas devem ser enviados automaticamente por e-mail, SMS e no site da Defesa Civil, sem montagem manual."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "Alertas devem avisar município, regional e, quando aplicável, a imprensa."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "O plano de contingência de um município ou do Estado inclui áreas de risco, recursos disponíveis (pessoal, veículo, material) e abrigos disponíveis."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "Municípios devem prestar contas sobre o material de ajuda humanitária recebido."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "Mudanças na matriz de risco devem poder ser feitas sem depender de um desenvolvedor."
+      },
+      {
+        "id": "RN-006",
+        "descricao": "Toda inclusão ou alteração de registro deve ser auditada, registrando quem fez, quando fez e de onde foi feita."
+      },
+      {
+        "id": "RN-007",
+        "descricao": "O acesso ao sistema é controlado exclusivamente pelo login único do governo (SOEWEB), sem senha própria separada."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "O sistema deve automatizar o envio de alertas por e-mail, SMS e no site da Defesa Civil."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "O sistema deve direcionar os alertas a município, regional e, quando aplicável, à imprensa."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "O sistema deve permitir que municípios e o Estado cadastrem planos de contingência."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "O sistema deve registrar, dentro do plano de contingência, as áreas de risco, os recursos disponíveis (pessoal, veículo, material) e os abrigos disponíveis."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "O sistema deve fornecer um módulo de gestão de incidente em estilo comando de operações, com visualização em mapa."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "O sistema deve permitir o acompanhamento em tempo real da gestão de incidente, inclusive pelo celular de agentes em campo."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "O sistema deve indicar no mapa quais abrigos foram acionados durante um incidente."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "O sistema deve controlar o estoque de doações e material de ajuda humanitária, com rastreabilidade de entrada, saída e destino."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "O sistema deve suportar a prestação de contas dos municípios sobre o material recebido."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "O sistema deve fornecer um aplicativo de celular para o pessoal de campo registrar e consultar informações."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "O sistema deve permitir a parametrização/customização da matriz de risco sem exigir intervenção de um desenvolvedor."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "O sistema deve controlar o acesso via login único do governo (SOEWEB)."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "O sistema deve registrar auditoria de quem fez, quando fez e de onde foi feita cada inclusão/alteração de registro."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Reliability",
+        "descricao": "O sistema deve ter tolerância a falhas, preservando a integridade dos dados em caso de queda de energia ou de conexão durante um cadastro.",
+        "metrica_aceitacao": "[TBD] — cenário não define RPO/RTO numérico, só exige 'não perder informação'"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Flexibility",
+        "descricao": "A matriz de risco deve poder ser parametrizada/customizada por um usuário de negócio, sem depender de um desenvolvedor para cada mudança.",
+        "metrica_aceitacao": "[TBD] — cenário não define métrica numérica, é verificável qualitativamente (alteração sem código)"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Security",
+        "descricao": "O acesso ao sistema deve ser controlado exclusivamente pelo login único do governo (SOEWEB), sem senha própria separada.",
+        "metrica_aceitacao": "100% dos acessos autenticados via SOEWEB"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Security",
+        "descricao": "Toda inclusão ou alteração de registro deve manter log de auditoria com responsável, data/hora e origem.",
+        "metrica_aceitacao": "100% das operações de escrita auditadas"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "Como membro da equipe da Sala de Situação, quero acompanhar alertas e o mapa de incidentes, para monitorar eventos climáticos extremos em tempo real."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "Como Defesa Civil estadual, quero disparar alertas automáticos por e-mail, SMS e site, para avisar municípios e regionais rapidamente."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "Como representante de um município, quero cadastrar meu plano de contingência (áreas de risco, recursos, abrigos), para estar preparado para eventos climáticos."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "Como representante de um município, quero prestar contas sobre o material humanitário recebido, para manter transparência no uso dos recursos."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "Como agente de campo, quero registrar e consultar informações pelo celular, para atuar em tempo real durante um incidente."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "Como gestor, quero ajustar a matriz de risco sem depender de um desenvolvedor, para adaptar o sistema rapidamente a novas necessidades."
+      },
+      {
+        "id": "HU-07",
+        "descricao": "Como auditor/gestor, quero consultar quem alterou um registro, quando e de onde, para investigar inconsistências quando necessário."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Emitir alerta — a Defesa Civil identifica um evento (chuva forte, deslizamento) e o sistema envia automaticamente alertas por e-mail, SMS e site aos destinatários relevantes (município, regional, imprensa)."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Cadastrar plano de contingência — um município ou o Estado cadastra áreas de risco, recursos disponíveis e abrigos."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Gerenciar incidente — a equipe de comando visualiza o incidente no mapa, aciona abrigos e acompanha a situação em tempo real, inclusive via celular dos agentes de campo."
+      },
+      {
+        "id": "UC-04",
+        "descricao": "Controlar estoque de doações — a equipe registra entrada e saída de material de ajuda humanitária, associando o destino de cada item."
+      },
+      {
+        "id": "UC-05",
+        "descricao": "Prestar contas — um município presta contas do material de ajuda humanitária recebido."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-01",
+        "descricao": "Dado um evento climático identificado, quando o alerta é disparado, então o sistema envia automaticamente notificações por e-mail, SMS e no site da Defesa Civil, sem montagem manual."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-08",
+        "descricao": "Dado um item de ajuda humanitária recebido, quando ele é registrado no estoque, então o sistema rastreia sua entrada, saída e destino."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RNF-01",
+        "descricao": "Dado um cadastro em andamento, quando há queda de energia ou de conexão, então os dados já inseridos não são perdidos."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RNF-03",
+        "descricao": "Dado um usuário tentando acessar o sistema, quando ele se autentica, então o acesso só é concedido via login único do governo (SOEWEB)."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RF-13",
+        "descricao": "Dado um registro incluído ou alterado, quando a operação é concluída, então o sistema registra quem fez, quando fez e de onde foi feita."
+      }
+    ]
+  }
+}

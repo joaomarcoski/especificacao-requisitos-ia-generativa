@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 09:20:11,SLCCI Operational Sea Level Production System,gpt-5.6-sol,0.5092,160.5,34298,4095,14386,2729,48684,2,0.153062,0.43158,0.005,0.589642,22,10,22,22

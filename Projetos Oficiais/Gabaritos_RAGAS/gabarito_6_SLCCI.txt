@@ -1,0 +1,20 @@
+GABARITO — Project Scenario 6: SLCCI (Sea Level Climate Change Initiative)
+Use: "ground_truth" field for RAGAS (context_precision / context_recall).
+Each line is an atomic, checkable claim against the scenario text and the
+knowledge base — not a full SRS, just the set of facts a well-grounded SRS
+for this scenario should be able to cover.
+
+- The system is part of ESA's Climate Change Initiative (CCI), one of about eleven parallel projects each covering a different climate variable.
+- The system must take an existing science prototype/production setup and turn it into an operational, day-to-day system.
+- The system ingests altimetry data from multiple satellite missions.
+- The system performs calibration, validation, and cross-calibration between missions.
+- The system produces two product types: a per-mission along-track product and a merged multi-mission gridded product.
+- The system must include an archive to preserve baseline and intermediate data, since reprocessing will happen repeatedly.
+- Internal users include scientists (deeper validation/product definition), quality reviewers who sign off on products, catalog/metadata staff, and operational staff (monitoring, incidents, user requests).
+- External users are the climate research community, not the general public or commercial customers.
+- Near-real-time (NRT) delivery is explicitly out of scope; the system is delayed-time / reprocessed-data only.
+- Formal IT service management processes and incident ticketing frameworks (e.g. ITIL-style) are explicitly out of scope.
+- The system must be cost-sustainable to operate long-term, not just a one-off build.
+- The system must be flexible enough to absorb new satellite missions and updated processing algorithms over time.
+- The system should reuse existing proven infrastructure rather than being built entirely from scratch.
+- Output data must include solid metadata and documentation to ensure quality and traceability.

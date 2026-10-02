@@ -1,0 +1,1267 @@
+{
+  "sistema": "BECS (Book E-Commerce System)",
+  "modelo": "gpt-5.6-luna",
+  "data_execucao": "2026-08-20 09:50:38",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 8.pdf ---\nBECS (Book E-Commerce System)\nSo basically what we're trying to do is get books selling \nonline instead of however you guys are doing it now, just a \nsimple site where people can come in, look through what's \navailable, throw a few books in a cart and check out. Nothing \ncrazy, I just want it to actually work and not be a headache \nto keep up with. Right now I think it's all kind of manual or \nscattered and there's no real way for someone to just browse \nand buy without someone in the middle handling it, so that's \nthe itch we're trying to scratch here. \n \nAnybody coming to the site should be able to just make an \naccount, that's it, no big verification process or anything, \nand once they're in they can search for books and see title, \nauthor, price, add stuff to their cart and go through \ncheckout. Keep the search simple, just matching on the title \nand it has to be exact, nothing fancy like partial matches or \nletting people search by author, that's more than we need \nright now. Some of these people might want to sign up to get \nnotified about promotions and deals, so let's call those folks \nmembers, and they're the ones who can use promo codes when \nthey check out. I picture this being pretty bare-bones in \nterms of who can buy what, like one copy of each book per \norder is plenty, we don't need people stacking ten copies of \nthe same thing in their cart. \n \nOn my side of things, I need a way to manage the inventory, \nbasically a login that lets me add new books, edit prices, see \nhow much stock I've got, that kind of stuff. I also want the \nsystem to ping me, like an email or something, whenever a book \nis running low so I don't get caught without stock, unless \nI've told it not to bother for that particular book because \nmaybe I'm discontinuing it. And I want to be able to set up \nthese percentage-off promotions every now and then and have it \njust email all the members automatically when I create one. \n \nOne thing I want to be upfront about, we don't need to \nactually process real credit cards or handle real money \nmovement right now, just collect the card number as part of \nthe checkout flow and spit out a receipt and keep a log of \nwhat was purchased, who bought it, when. The real payment \nprocessing piece is something for way later, not part of this. \nSame with security stuff, I know that sounds bad, but honestly \nfor what we need right now I'm not worried about encryption or \npeople forgetting passwords or whatever, that's not a \npriority, let's not spend time building password recovery or \nanything like that for now. \n \nThere's only going to be one person managing the store, me \nbasically, so don't worry about building out roles for \nmultiple managers or anything fancy like that, and a manager \nshould never also be a regular customer account, those are two \nseparate hats. It just needs to run somewhere people can get \nto it through a normal browser, nothing exotic on the \ntechnical side, just something stable that people in here can \npull up and use without issues.",
+  "answer": "Sistema: BECS (Book E-Commerce System)\n\nResumo executivo: BECS is a browser-based book e-commerce system that replaces scattered or manual sales activities with an online catalog, customer accounts, shopping cart, checkout, inventory management, promotions, and purchase records. The system enables customers to browse and purchase books directly while allowing the store manager to maintain inventory and communicate promotions to members.\n\nEscopo: The system shall enable customers to browse, select, and purchase books online while supporting inventory and promotion management by one store manager.\n  Em escopo: Customer account registration and login\n  Em escopo: Book catalog browsing and exact-title search\n  Em escopo: Book details display\n  Em escopo: Shopping cart management\n  Em escopo: Checkout with card-number collection\n  Em escopo: Receipt generation and purchase record storage\n  Em escopo: Member registration for promotional notifications\n  Em escopo: Promo-code application by members\n  Em escopo: Inventory and price management by the store manager\n  Em escopo: Low-stock notifications with per-book suppression\n  Em escopo: Percentage-off promotion creation\n  Em escopo: Automatic promotional emails to members\n  Fora de escopo: Real credit-card authorization or money movement — explicitly excluded from the current version\n  Fora de escopo: Encryption and advanced security controls — explicitly excluded from the current version\n  Fora de escopo: Password recovery — explicitly excluded from the current version\n  Fora de escopo: Multiple manager roles — only one manager is required\n  Fora de escopo: A manager account also functioning as a customer account — the account types must remain separate\n  Fora de escopo: Partial-title search — the scenario requires exact-title matching only\n  Fora de escopo: Author-based search — excluded from the current version\n  Premissa: PA-01: Customers have access to a standard web browser.\n  Premissa: PA-02: An email delivery mechanism is available for manager alerts and member notifications. [INFERIDO]\n  Premissa: PA-03: Book prices, stock quantities, and promotion percentages are maintained by the store manager.\n  Premissa: PA-04: The manager is represented by a single manager account.\n  Restrição: REST-01 (Pagamento): The system shall collect card numbers during checkout but shall not process payments or transfer money.\n  Restrição: REST-02 (Segurança): Encryption, password recovery, and advanced security controls are excluded from version v0.1.\n  Restrição: REST-03 (Acesso): Manager and customer accounts shall be separate account types.\n  Restrição: REST-04 (Plataforma): The system shall be accessible through a standard web browser.\n  Restrição: REST-05 (Gestão): The system shall support one store manager only.\n\nStakeholders:\n  STK-01 - Customer (Usuário primário): Create an account, log in, browse available books, search by exact title, view book information, manage a cart, and complete checkout.\n  STK-02 - Member (Usuário primário): Receive promotional notifications and apply valid promotional codes during checkout.\n  STK-03 - Store Manager (Usuário secundário): Log in separately, manage books, prices, stock, low-stock notification preferences, and percentage-off promotions.\n  STK-04 - Email Delivery Service (Stakeholder externo): Receive and deliver low-stock alerts and promotional messages generated by the system.\n\nRegras de negócio:\n  RN-001 - Exact-title search: A book search matches only a complete book title and does not match partial titles or author names.\n  RN-002 - Single-copy order limit: A customer may purchase no more than one copy of each distinct book in a single order.\n  RN-003 - Member promotional eligibility: Only members may use promotional codes during checkout.\n  RN-004 - Percentage-off promotion: A promotion applies a percentage discount defined by the store manager to eligible purchases.\n  RN-005 - Low-stock notification suppression: A low-stock notification shall not be sent for a book when the store manager has disabled notifications for that book.\n  RN-006 - Separate account types: A manager account and a customer account are distinct account types and may not represent the same account.\n  RN-007 - Single manager: The store is managed by one manager account.\n  RN-008 - Checkout card-number collection: The card number is collected as checkout information without authorizing a payment or transferring money.\n\nRequisitos funcionais:\n  RF-001 - Customer account registration: The system shall allow a visitor to create a customer account. [Must have]\n  RF-002 - Customer login: The system shall authenticate a customer using the credentials registered for the customer account. [Must have]\n  RF-003 - Member registration: The system shall allow a customer to register as a member. [Should have]\n  RF-004 - Book catalog browsing: The system shall display the books available for purchase. [Must have]\n  RF-005 - Exact-title book search: The system shall return books whose complete title exactly matches the submitted search title. [Must have]\n  RF-006 - Book information display: The system shall display the title, author, and price of a selected book. [Must have]\n  RF-007 - Add book to cart: The system shall add a selected available book to the customer's cart. [Must have]\n  RF-008 - Cart contents display: The system shall display the books currently stored in the customer's cart. [Must have]\n  RF-009 - Duplicate-book prevention: The system shall prevent a customer from adding a second copy of the same book to an order. [Must have]\n  RF-010 - Checkout initiation: The system shall initiate checkout for a customer with a non-empty cart. [Must have]\n  RF-011 - Card-number collection: The system shall collect a card number during checkout. [Must have]\n  RF-012 - Promotion-code validation: The system shall validate a promotional code submitted during checkout. [Must have]\n  RF-013 - Percentage discount application: The system shall apply the percentage discount associated with a valid promotional code to the checkout total. [Must have]\n  RF-014 - Order creation: The system shall create an order containing the books confirmed during checkout. [Must have]\n  RF-015 - Receipt generation: The system shall generate a receipt after an order is created. [Must have]\n  RF-016 - Purchase-log storage: The system shall store the purchased books, buyer, and purchase date for each order. [Must have]\n  RF-017 - Manager login: The system shall authenticate the store manager through a manager account. [Must have]\n  RF-018 - Book creation: The system shall allow the store manager to add a book to the catalog. [Must have]\n  RF-019 - Book-price editing: The system shall allow the store manager to edit the price of a cataloged book. [Must have]\n  RF-020 - Stock-level consultation: The system shall display the current stock quantity for each cataloged book to the store manager. [Must have]\n  RF-021 - Low-stock threshold configuration: The system shall allow the store manager to configure a low-stock threshold for a book. [Should have]\n  RF-022 - Low-stock notification suppression: The system shall allow the store manager to disable low-stock notifications for a selected book. [Should have]\n  RF-023 - Low-stock alert dispatch: The system shall send an email alert to the store manager when a book reaches its configured low-stock threshold. [Should have]\n  RF-024 - Promotion creation: The system shall allow the store manager to create a promotion with a percentage discount. [Should have]\n  RF-025 - Member promotion notification: The system shall email all members when the store manager creates a promotion. [Should have]\n\nRequisitos não funcionais:\n  RNF-001 (Performance Efficiency) - The system shall respond to catalog and book-search requests within 2 seconds. | Métrica: At least 95% of catalog and search requests shall complete within 2 seconds under [TBD] simultaneous users.\n  RNF-002 (Performance Efficiency) - The system shall complete checkout submission within 3 seconds. | Métrica: At least 95% of checkout submissions shall complete within 3 seconds under [TBD] simultaneous users.\n  RNF-003 (Compatibility) - The system shall operate correctly in the current versions of Chrome, Firefox, Edge, and Safari. | Métrica: Zero critical defects in the principal customer and manager workflows on the four supported browsers. Supported version range: [TBD].\n  RNF-004 (Reliability) - The system shall maintain monthly availability of at least 99%. | Métrica: Maximum of 7.2 hours of unplanned unavailability per calendar month. [TBD: confirm target]\n  RNF-005 (Interaction Capability) - The system shall allow a customer without prior training to complete a purchase using the catalog, cart, and checkout workflows. | Métrica: At least 4 of 5 representative customers shall complete the workflow within 10 minutes without assistance. [TBD: validate target]\n  RNF-006 (Functional Suitability) - The system shall preserve the purchased books, buyer, and purchase date exactly as recorded at order creation. | Métrica: 100% of test orders shall contain the correct books, buyer, and purchase date.\n  RNF-007 (Maintainability) - The system shall provide technical documentation for installation, configuration, and operation. | Métrica: Documentation shall cover 100% of installation, configuration, manager-operation, and email-configuration procedures. [TBD: approve documentation checklist]\n\nHistórias de usuário:\n  HU-001 - Como visitor, quero create a customer account, para access the purchasing features\n  HU-002 - Como customer, quero log in to my account, para use my shopping and checkout session\n  HU-003 - Como customer, quero register as a member, para receive promotions and use promotional codes\n  HU-004 - Como customer, quero browse available books, para choose a book to purchase\n  HU-005 - Como customer, quero search for a book by its exact title, para find the required book\n  HU-006 - Como customer, quero view a book's title, author, and price, para decide whether to purchase it\n  HU-007 - Como customer, quero add an available book to my cart, para prepare my order\n  HU-008 - Como customer, quero view my cart contents, para review the books selected for checkout\n  HU-009 - Como customer, quero be prevented from adding duplicate copies of a book, para comply with the one-copy-per-order limit\n  HU-010 - Como customer, quero submit my cart for checkout, para complete an order\n  HU-011 - Como customer, quero provide my card number during checkout, para submit the required checkout information\n  HU-012 - Como member, quero apply a valid promotional code, para receive the applicable discount\n  HU-013 - Como member, quero have the percentage discount applied to my order, para pay the discounted order total\n  HU-014 - Como customer, quero create an order and receive a receipt, para have confirmation of my purchase\n  HU-015 - Como store manager, quero manage books, stock, prices, and promotions, para operate the online store\n\nCasos de uso:\n  UC-001 - Create customer account | Ator: Visitor\n    1. The visitor opens the registration form.\n    2. The visitor submits the required account information.\n    3. The system validates the information.\n    4. The system creates a customer account.\n  UC-002 - Log in as customer | Ator: Customer\n    1. The customer submits registered credentials.\n    2. The system validates the credentials.\n    3. The system creates an authenticated customer session.\n  UC-003 - Browse catalog | Ator: Customer\n    1. The customer opens the catalog.\n    2. The system retrieves available books.\n    3. The system displays the available books.\n  UC-004 - Search book by exact title | Ator: Customer\n    1. The customer enters a complete book title.\n    2. The customer submits the search.\n    3. The system compares the submitted title with catalog titles.\n    4. The system displays exact matches.\n  UC-005 - Add book to cart | Ator: Customer\n    1. The customer selects an available book.\n    2. The customer selects the add-to-cart action.\n    3. The system adds the book with quantity one.\n    4. The system displays the updated cart state.\n  UC-006 - Complete checkout | Ator: Customer\n    1. The customer starts checkout.\n    2. The system displays the cart summary.\n    3. The customer submits the card number.\n    4. The system creates the order without processing a payment.\n    5. The system generates a receipt.\n    6. The system stores the purchase record.\n  UC-007 - Apply promotional code | Ator: Member\n    1. The member enters a promotional code during checkout.\n    2. The system validates the member status and code.\n    3. The system applies the associated percentage discount.\n    4. The system displays the adjusted total.\n  UC-008 - Log in as manager | Ator: Store Manager\n    1. The manager submits manager credentials.\n    2. The system validates the credentials.\n    3. The system opens the manager session.\n  UC-009 - Manage book inventory | Ator: Store Manager\n    1. The manager opens inventory management.\n    2. The manager adds a book, edits a price, or views stock.\n    3. The system validates the operation.\n    4. The system saves or displays the requested information.\n  UC-010 - Configure low-stock notifications | Ator: Store Manager\n    1. The manager selects a book.\n    2. The manager enters a threshold or disables notifications.\n    3. The system validates the setting.\n    4. The system saves the setting.\n  UC-011 - Send low-stock alert | Ator: Email Delivery Service\n    1. The system detects that a book reached its threshold.\n    2. The system verifies that notifications are enabled for the book.\n    3. The system sends an alert to the manager's email address.\n  UC-012 - Create promotion | Ator: Store Manager\n    1. The manager opens promotion management.\n    2. The manager enters the promotion code and percentage.\n    3. The system validates the promotion data.\n    4. The system creates the promotion.\n  UC-013 - Notify members of promotion | Ator: Email Delivery Service\n    1. The system detects creation of a promotion.\n    2. The system retrieves all members.\n    3. The system sends the promotion message to each member.\n\nCritérios de aceite:\n  CA-001 - Dado A visitor has provided valid required registration data, quando the visitor submits the registration form, então the system creates exactly one customer account and confirms its creation\n  CA-002 - Dado A customer account exists with registered credentials, quando the customer submits valid credentials, então the system creates an authenticated customer session\n  CA-003 - Dado An authenticated customer is not currently a member, quando the customer submits the member-registration action, então the system marks the customer account as a member\n  CA-004 - Dado At least one book is available, quando the customer opens the catalog, então the system displays every available book in the catalog result\n  CA-005 - Dado The catalog contains a book titled exactly \"The Example Book\", quando the customer searches for \"The Example Book\", então the system returns that book and does not return books with only partial-title or author matches\n  CA-006 - Dado A cataloged book exists, quando the customer selects the book, então the system displays its title, author, and price\n  CA-007 - Dado A book has available stock, quando the customer selects Add to Cart, então the book appears in the cart with quantity 1\n  CA-008 - Dado The customer has added two distinct books, quando the customer opens the cart, então the system displays both books and their quantities\n  CA-009 - Dado A book is already in the customer's cart with quantity 1, quando the customer attempts to add the same book again, então the system keeps the quantity at 1 and displays the one-copy limit message\n  CA-010 - Dado The customer is authenticated and the cart contains at least one book, quando the customer selects Checkout, então the system displays the checkout form and cart summary\n  CA-011 - Dado The customer is on the checkout form, quando the customer enters a card number, então the system records the card number as checkout information without initiating payment processing\n  CA-012 - Dado The authenticated customer is a member and a valid promotional code exists, quando the member submits the code during checkout, então the system accepts the code and identifies its percentage discount\n  CA-013 - Dado A valid percentage promotional code has been accepted, quando the checkout total is calculated, então the displayed total is reduced by the percentage defined by the promotion\n  CA-014 - Dado The checkout data is valid and all selected books remain available, quando the customer confirms checkout, então the system creates exactly one order containing the selected books\n  CA-015 - Dado An order has been created successfully, quando order creation completes, então the system generates a receipt containing the order details\n  CA-016 - Dado An order has been created, quando the system stores the order, então the purchase log contains the purchased books, buyer, and purchase date\n  CA-017 - Dado The configured manager account exists, quando the manager submits valid manager credentials, então the system grants management access without converting the account into a customer account\n  CA-018 - Dado The manager is authenticated and has entered valid book data, quando the manager saves the new book, então the system adds exactly one book to the catalog\n  CA-019 - Dado A cataloged book exists and the manager is authenticated, quando the manager saves a valid new price, então the system displays the updated price for that book\n  CA-020 - Dado A cataloged book has a recorded stock quantity, quando the manager opens inventory details, então the system displays the recorded stock quantity for the book\n  CA-021 - Dado The manager is authenticated and has selected a cataloged book, quando the manager saves a valid low-stock threshold, então the system stores the threshold for that book\n  CA-022 - Dado The manager is authenticated and has selected a cataloged book, quando the manager disables low-stock notifications, então the system stores the disabled setting for that book\n  CA-023 - Dado A book has reached its threshold and notifications are enabled, quando the system evaluates the book's stock level, então the system submits one low-stock email alert to the manager\n  CA-024 - Dado The manager is authenticated and has entered a valid percentage discount, quando the manager saves the promotion, então the system creates one promotion with the configured percentage\n  CA-025 - Dado A promotion has been created and three members have registered email addresses, quando promotion creation completes, então the system submits one promotional email for each of the three members\n\nGlossário:\n  Book: A catalog item that may be viewed and purchased through BECS.\n  Customer: A person with a customer account who browses books and places orders.\n  Member: A customer who has registered to receive promotions and use promotional codes.\n  Store Manager: The single person responsible for managing the catalog, inventory, prices, notifications, and promotions.\n  Promotion: A percentage-off commercial offer created by the store manager.\n  Promotional code: A code associated with a promotion and submitted by an eligible member during checkout.\n  Low-stock threshold: The stock quantity at or below which the system may notify the manager.\n  Receipt: A document or system output summarizing an order after creation.\n  Purchase log: The stored record of purchased books, buyer, and purchase date.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "2ª ed. Geneva: ISO, \r\n2023. A edição 2023 substituiu a de 2011 e acrescentou a característica Safety.\r\nA ISO/IEC 25010:2023 define 9 características de qualidade do produto. Todo RNF deve ser \r\nclassificado em uma dessas características. A seguir, cada característica com seus sub-atributos e \r\nexemplo de RNF.\r\n1. Functional Suitability (Adequação Funcional)\r\n Functional Completeness — o sistema oferece todas as funções necessárias.\r\n Functional Correctness — as funções produzem os resultados corretos.\r\n Functional Appropriateness — as funções facilitam a realização das tarefas.\r\nEXEMPLO — RNF — 1. Functional Suitability\r\nO sistema deve calcular o imposto sobre o valor do pedido aplicando corretamente a alíquota de ICMS \r\nvigente para o estado de destino, conforme tabela oficial CONFAZ, com variação máxima de R$ 0,01 em \r\nrelação ao valor de referência da Receita Estadual.\r\n2. Performance Efficiency (Eficiência de Desempenho)\r\n Time Behaviour — tempo de resposta e throughput.\r\n Resource Utilisation — uso de CPU, memória, rede.\r\n Capacity — limites máximos suportados.\r\nEXEMPLO — RNF — 2. Performance Efficiency\r\nO sistema deve processar no mínimo 200 pedidos por minuto sob carga de 1.000 usuários simultâneos, com \r\ntempo de resposta inferior a 2 segundos no percentil 95.\r\n3. Compatibility (Compatibilidade)\r\n Co-existence — coexiste com outros sistemas sem degradação.\r\n Interoperability — troca dados com outros sistemas.\r\nEXEMPLO — RNF — 3. Compatibility\r\nA API do sistema deve expor endpoints REST/JSON compatíveis com o padrão OpenAPI 3.0, permitindo \r\nintegração com o ERP legado via OAuth 2.0 sem modificações no ERP.4. Interaction Capability (Capacidade de Interação) — antes 'Usabilidade'\r\n Appropriateness Recognisability — usuário reconhece a adequação do sistema.\r\n Learnability — facilidade de aprendizado.\r\n Operability — facilidade de operação.\r\n User Error Protection — proteção contra erros do usuário.\r\n User Engagement — interface envolvente e motivadora.\r\n Inclusivity — acessível a pessoas com diferentes capacidades.\r\n User Assistance — suporte ao usuário.\r\n Self-Descriptiveness — interface autoexplicativa.\r\nEXEMPLO — RNF — 4. Interaction Capability\r\nUm usuário sem treinamento prévio deve ser capaz de registrar seu primeiro pedido completo em até 10 \r\nminutos. A interface deve seguir as diretrizes WCAG 2.1 nível AA.\r\n5. Reliability (Confiabilidade)\r\n Faultlessness — ausência de falhas em condições normais.\r\n Availability — proporção de tempo em que o sistema está operacional.\r\n Fault Tolerance — operação correta mesmo com falhas parciais.\r\n Recoverability — recuperação após falha.\r\nEXEMPLO — RNF — 5. Reliability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês (máx. 3,6h de downtime não planejado). Em \r\ncaso de falha crítica, o sistema deve restaurar a operação normal em até 4 horas (RTO = 4h).",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    "[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários? prazo? tipo de sistema?\r\n 3. Se não há dados suficientes: propor métrica razoável para o tipo de sistema e sinalizar como TBD\r\n 4. Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO.",
+    "1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.\r\nRNF-002 | Criptografia em trânsito\r\nCaracterística: Security — Confidentiality\r\nO sistema deve criptografar todos os dados em trânsito utilizando TLS 1.2 ou superior.\r\nMétrica: 100% das conexões HTTPS; protocolo TLS < 1.2 recusado.\r\nVerificação: Teste com SSL Labs ou OWASP ZAP.\r\nRNF-003 | Disponibilidade\r\nCaracterística: Reliability — Availability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês, excluídas janelas de manutenção programadas \r\ne comunicadas com 48h de antecedência.\r\nMétrica: Máximo de 3,6 horas de indisponibilidade não planejada por mês.\r\nVerificação: Monitoramento com uptime tracking (ex.: UptimeRobot).\r\nRNF-004 | Armazenamento de senhas\r\nCaracterística: Security — Integrity\r\nO sistema deve armazenar senhas de usuário usando hash bcrypt com fator de custo mínimo 12; nenhuma \r\nsenha deve ser armazenada em texto plano.\r\nMétrica: Auditoria de código — zero ocorrências de senha em texto plano.\r\nVerificação: Revisão de código + teste de penetração.\r\nRNF-005 | Compatibilidade de navegadores\r\nCaracterística: Compatibility — Interoperability\r\nO sistema deve funcionar corretamente nos navegadores Chrome 120+, Firefox 115+, Edge 120+ e Safari 16+, \r\nem resoluções de tela a partir de 1024×768.\r\nMétrica: 0 erros críticos em suíte de testes cross-browser.\r\nVerificação: Testes automatizados com Selenium ou BrowserStack.ANTI-PADRÃO — RNF sem métrica (inválido)\r\nERRADO: 'RNF-006: O sistema deve ser seguro.'",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193\r\n3. System features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 194\r\n4. Data requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195\r\n5. External interface requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . 196\r\n6. Quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197\r\n7. Internationalization and localization requirements. . . . . . . . . . . 198\r\n8. [Other requirements]. . . . . . . .",
+    "6.3.3.6 Analyze stakeholder requirements. Define and perform activities related to classifying, reviewing and prioritizing the requirements, to \r\nvalidate them against the stakeholders.\r\n6.3.3.7 Manage the stakeholder needs and requirements definition Define and perform activities related to manage the stakeholder needs and requirements \r\ndefinition.\r\n6.4 System [System/Software] Requirements definition process Define and perform activities related to System/Software requirement definition.\r\n6.4.3.2 Prepare for [System/Software] Requirement Definitions Define and perform activities related to prepare for System/Software requirements definition.\r\n6.4.3.3 Define system[/software] requirements Define and perform activities related to define System/Software requirements.\r\n6.4.3.4 Analyze system[/software] requirements Define and perform activities related to analyze System/Software requirements.\r\n6.4.3.5 Manage system[/software] requirements Define and perform activities related to manage System/Software requirements.\r\nMaintain traceability of the system[/software] requirements. Define and perform activities related to maintain traceability of the System/Software requirements.\r\n6.5 Requirements engineering activities in other technical \r\nprocesses\r\nDefine and perform activities related to requirements in other technical processes.\r\n6.5.1 Requirements activities in architecture definition Define and perform activities related to requirements in the architecture definition phase.\r\n6.5.2 Requirements activities in verification Define and perform activities related to requirements in the verification phase.\r\n6.5.3 Requirements activities in validation Define and perform activities related to requirements in the validation phase.\r\n6.6 Requirements management Manage requirements (needs and change) and keep them consistent.\r\n9.3 Business requirement specification (BRS) Describe elements of Business requirements specification (BRS).\r\n9.4 Stakeholder requirements specif. (StRS) Describe elements of Stakeholder requirement specification (StRS).\r\n9.5 System requirements specification (SyRS) Describe elements of System requirement specification (SyRS).\r\n9.6 Software requirements specification (SRS) Describe elements of Software requirement specification (SRS).\r\nTable 2. Criteria description based on ISO29148 to compare UCMRE’s model",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    "→ Impreciso. O que é 'perder dados'?\r\nREFORMULAR como: 'O sistema deve persistir todos os dados de pedido mesmo em caso de falha \r\nde conexão, retomando a gravação quando a conexão for restabelecida.'\r\nAÇÃO: transformar negação em afirmação positiva e verificável.\r\nCópia literal de linguagem informal\r\nERRADO: RF-010: 'O sistema tem que ser tipo um CRM mas mais simples.'\r\nA linguagem do documento de entrada nunca deve ir direto para o SRS.\r\nAÇÃO: reformular sempre no padrão 'O sistema deve [verbo] [complemento].'\r\nRNF sem categoria ou sem métrica\r\nExtrair 'o sistema deve ser seguro' e deixar assim é inválido pela ISO 29148.\r\nAÇÃO: identificar a categoria ISO 25010 e propor métrica mínima, marcando [TBD] se o dado \r\npreciso não estiver no documento.\r\nConfundir processo atual com requisito do novo sistema\r\nTexto descreve como o processo É HOJE, não como deveria ser.\r\n'Hoje o vendedor imprime o pedido e manda por fax' → isso é o estado atual.\r\nO requisito é derivado da MELHORIA desejada, não da cópia do processo ruim.\r\nAÇÃO: identificar a dor/ineficiência → transformar em HU do novo sistema.Stakeholder implícito ignorado\r\nTexto menciona 'o sistema enviará relatório para a contabilidade' — mas 'contabilidade' não foi \r\nlistada como stakeholder. É um usuário secundário implícito.\r\nAÇÃO: varrer o documento inteiro por menções a papéis, departamentos e sistemas externos — \r\ntodos são stakeholders potenciais.\r\nRNF de conformidade ignorado\r\nDocumentos de setores regulados (saúde, financeiro, governo) contêm exigências legais que geram \r\nRNFs obrigatórios. 'Conforme LGPD', 'de acordo com a Resolução CMN 4.658' → sempre extrair \r\ncomo RNF de conformidade com alta prioridade.\r\nAÇÃO: toda menção a lei, norma, resolução ou certificação gera pelo menos um RNF.PARTE 5 — Extração Completa: Do Texto Bruto ao SRS\r\nEsta parte mostra a extração completa de um texto de entrada informal (e-mail + ata de reunião) \r\npara o conjunto de artefatos SRS.\r\n5.1 Documento de Entrada (simulação de e-mail + notas)\r\n--- INÍCIO DO DOCUMENTO DE ENTRADA ---\r\nDe: Maria Silva (Diretora Comercial)\r\nPara: Equipe de TI\r\nAssunto: Sistema de controle de propostas comerciais\r\nPessoal, precisamos urgente de um sistema para controlar nossas propostas. Hoje tudo é feito em planilha e a gente \r\nperde o controle — às vezes mandamos proposta com preço errado porque a tabela foi atualizada mas o vendedor não \r\nsabia.",
+    "PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7. ISO/IEC/IEEE 29148:2018. Systems and software engineering — Life cycle processes — Requirements \r\nengineering. Geneva: ISO, 2018.\r\n8. ISO/IEC 25010:2023. SQuaRE — Product quality model. Geneva: ISO, 2023.",
+    "Só \r\no gerente pode aprovar pedidos acima de R$ 10.000.'\r\nRF-001: O sistema deve permitir que o vendedor registre pedidos com múltiplos itens em uma única \r\noperação.\r\nRF-002: O sistema deve calcular automaticamente o valor total do pedido aplicando os descontos informados\r\npor item.\r\nRF-003: O sistema deve enviar e-mail de confirmação ao cliente após a criação bem-sucedida de um pedido.\r\nRF-004: O sistema deve restringir a aprovação de pedidos com valor > R$ 10.000,00 ao perfil de gerente \r\ncomercial (RN-001).\r\nATENÇÃO — Não copiar o texto do documento diretamente como RF. Todo RF deve ser reformulado no \r\npadrão: 'O sistema deve [verbo no infinitivo] [complemento verificável].'\r\nCOMO DESDOBRAR UM RF GENÉRICO:\r\n Texto original: 'O sistema deve gerenciar clientes.' → Isso são pelo menos 4 RFs distintos:\r\n RF-010: O sistema deve permitir o cadastro de novos clientes.\r\n RF-011: O sistema deve permitir a edição dos dados de clientes existentes.\r\n RF-012: O sistema deve permitir a consulta de clientes por nome ou CPF.\r\n RF-013: O sistema deve permitir a inativação de clientes.\r\n2.5 Requisitos Não Funcionais (RNF) — Identificar e Quantificar\r\nRNFs são os mais difíceis de identificar porque frequentemente aparecem como ADJETIVOS VAGOS\r\nno texto ('rápido', 'seguro', 'fácil'). A tarefa do agente é: (1) detectar o adjetivo, (2) identificar a \r\ncategoria ISO 25010, (3) propor uma métrica razoável baseada no contexto do projeto.\r\n[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários?",
+    "112 PART II Requirements development\r\nCategory Activities\r\nValidation and \r\nverification\r\n■ Review requirements specifications.\r\n■ Define acceptance criteria.\r\n■ Develop user acceptance tests from usage scenarios.\r\n■ Provide test data sets from the business.\r\n■ Perform beta testing or user acceptance testing.\r\nUser aids ■ Write portions of user documentation and help text.\r\n■ Contribute to training materials or tutorials.\r\n■ Demonstrate the system to peers.\r\nChange management ■ Evaluate and prioritize defect corrections and enhancement requests.\r\n■ Dynamically adjust the scope of future releases or iterations.\r\n■ Evaluate the impact of proposed changes on users and business processes.\r\n■ Participate in making change decisions.\r\nMultiple product champions\r\nOne person can rarely describe the needs for all users of an application. The Chemical Tracking \r\nSystem had four major user classes, so it needed four product champions selected from the internal \r\nuser community at Contoso Pharmaceuticals. Figure 6-4 illustrates how the project manager set up \r\na team of BAs and product champions to elicit the right requirements from the right sources. These \r\nchampions were not assigned full time, but each one spent several hours per week working on the \r\nproject. Three BAs worked with the four product champions to elicit, analyze, and document their \r\nrequirements. (One BA worked with two product champions because the Buyer and the Health and \r\nSafety Department user classes were small and had few requirements.) One of the BAs assembled all \r\nthe input into a unified SRS.\r\nFIGURE 6-4 Product champion model for the Chemical Tracking System.\r\nWe didn’t expect a single person to provide all the diverse requirements for the hundreds of \r\nchemists at Contoso. Don, the product champion for the Chemist user class, assembled a backup",
+    "BECS (Book E-Commerce System)\r\nSo basically what we're trying to do is get books selling \r\nonline instead of however you guys are doing it now, just a \r\nsimple site where people can come in, look through what's \r\navailable, throw a few books in a cart and check out. Nothing \r\ncrazy, I just want it to actually work and not be a headache \r\nto keep up with. Right now I think it's all kind of manual or \r\nscattered and there's no real way for someone to just browse \r\nand buy without someone in the middle handling it, so that's \r\nthe itch we're trying to scratch here. \r\nAnybody coming to the site should be able to just make an \r\naccount, that's it, no big verification process or anything, \r\nand once they're in they can search for books and see title, \r\nauthor, price, add stuff to their cart and go through \r\ncheckout. Keep the search simple, just matching on the title \r\nand it has to be exact, nothing fancy like partial matches or \r\nletting people search by author, that's more than we need \r\nright now. Some of these people might want to sign up to get \r\nnotified about promotions and deals, so let's call those folks \r\nmembers, and they're the ones who can use promo codes when \r\nthey check out. I picture this being pretty bare-bones in \r\nterms of who can buy what, like one copy of each book per \r\norder is plenty, we don't need people stacking ten copies of \r\nthe same thing in their cart. \r\nOn my side of things, I need a way to manage the inventory, \r\nbasically a login that lets me add new books, edit prices, see \r\nhow much stock I've got, that kind of stuff. I also want the \r\nsystem to ping me, like an email or something, whenever a book \r\nis running low so I don't get caught without stock, unless \r\nI've told it not to bother for that particular book because \r\nmaybe I'm discontinuing it. And I want to be able to set up \r\nthese percentage-off promotions every now and then and have it \r\njust email all the members automatically when I create one. \r\nOne thing I want to be upfront about, we don't need to \r\nactually process real credit cards or handle real money \r\nmovement right now, just collect the card number as part of \r\nthe checkout flow and spit out a receipt and keep a log of what was purchased, who bought it, when. The real payment \r\nprocessing piece is something for way later, not part of this. \r\nSame with security stuff, I know that sounds bad, but honestly \r\nfor what we need right now I'm not worried about encryption or \r\npeople forgetting passwords or whatever, that's not a \r\npriority, let's not spend time building password recovery or \r\nanything like that for now. \r\nThere's only going to be one person managing the store, me \r\nbasically, so don't worry about building out roles for \r\nmultiple managers or anything fancy like that, and a manager \r\nshould never also be a regular customer account, those are two \r\nseparate hats. It just needs to run somewhere people can get \r\nto it through a normal browser, nothing exotic on the \r\ntechnical side, just something stable that people in here can \r\npull up and use without issues.",
+    "1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.\r\nREQUISITO FUNCIONAL — Estrutura\r\nID: RF-NNN\r\nTítulo: [Nome curto e descritivo]\r\nDescrição: O sistema deve [verbo no infinitivo] [complemento completo e \r\npreciso].\r\nPrioridade: Must have | Should have | Could have | Won't have (MoSCoW)\r\nStakeholder (Origem): STK-NN\r\nRegra de Negócio associada: RN-NNN (ou 'N/A')\r\nObservações: [informações adicionais, como restrições de implementação]\r\nEXEMPLO — Requisitos Funcionais do SGP\r\nRF-001 | Autenticação de usuário\r\nO sistema deve permitir que o usuário realize login utilizando e-mail e senha previamente cadastrados.\r\nPrioridade: Must have | STK-01, STK-02 | N/A\r\nRF-002 | Bloqueio por tentativas excessivas\r\nO sistema deve bloquear temporariamente o acesso de um usuário por 15 minutos após 5 (cinco) tentativas \r\nconsecutivas de login malsucedidas.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Registro de pedido\r\nO sistema deve permitir que o vendedor registre um pedido contendo um ou mais produtos, com quantidade,\r\npreço unitário e desconto por item.\r\nPrioridade: Must have | STK-02 | RN-001, RN-002\r\nRF-004 | Notificação de confirmação\r\nO sistema deve enviar automaticamente um e-mail de confirmação ao cliente após a criação bem-sucedida \r\nde um pedido.Prioridade: Should have | STK-02 | N/A\r\nRF-005 | Aprovação de pedido de alto valor\r\nO sistema deve submeter para aprovação do gerente comercial todo pedido cujo valor total supere R$ \r\n10.000,00, impedindo a confirmação ao cliente até que a aprovação seja registrada.\r\nPrioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável.",
+    "106 PART II Requirements development\r\nFIGURE 6-2 A portion of the organization chart for Contoso Pharmaceuticals.\r\nDocument the user classes and their characteristics, responsibilities, and physical locations in \r\nthe software requirements specification (SRS) or in a requirements plan for your project. Check that \r\ninformation against any information you might already have about stakeholder profiles in the vision \r\nand scope document to avoid conflicts and duplication. Include all pertinent information you have \r\nabout each user class, such as its relative or absolute size and which classes are favored. This will \r\nhelp the team prioritize change requests and conduct impact assessments later on. Estimates of \r\nthe volume and type of system transactions help the testers develop a usage profile for the system \r\nso that they can plan their verification activities. The project manager and business analyst of the \r\nChemical Tracking System discussed in earlier chapters identified the user classes and characteristics \r\nshown in Table 6-1.\r\nTABLE 6-1 User classes for the Chemical Tracking System\r\nName Number Description\r\nChemists \r\n(favored)\r\nApproximately \r\n1,000 located in \r\n6 buildings\r\nChemists will request chemicals from vendors and from the chemical \r\nstockroom. Each chemist will use the system several times per day, mainly for \r\nrequesting chemicals and tracking chemical containers into and out of the \r\nlaboratory. The chemists need to search vendor catalogs for specific chemical \r\nstructures imported from the tools they use for drawing structures.\r\nBuyers 5 Buyers in the purchasing department process chemical requests. They place \r\nand track orders with external vendors. They know little about chemistry and \r\nneed simple query facilities to search vendor catalogs. Buyers will not use \r\nthe system’s container-tracking features. Each buyer will use the system an \r\naverage of 25 times per day.\r\nChemical \r\nstockroom staff\r\n6 technicians, \r\n1 supervisor\r\nThe chemical stockroom staff manages an inventory of more than 500,000 \r\nchemical containers. They will supply containers from three stockrooms, \r\nrequest new chemicals from vendors, and track the movement of all \r\ncontainers into and out of the stockrooms. They are the only users of the \r\ninventory-reporting feature. Because of their high transaction volume, \r\nfeatures that are used only by the chemical stockroom staff must be \r\nautomated and efficient.\r\nHealth \r\nand Safety \r\nDepartment staff \r\n(favored)\r\n1 manager The Health and Safety Department staff will use the system only to generate \r\npredefined quarterly reports that comply with federal and state chemical \r\nusage and disposal reporting regulations. The Health and Safety Department \r\nmanager will request changes in the reports periodically as government \r\nregulations change. These report changes are of the highest priority, and \r\nimplementation will be time critical.",
+    "Descrição\r\nAvaliar as Limitações da Corporação investiga questões fora do escopo de \r\numa solução que podem estar impedindo a corporação de obter o valor total \r\nque uma solução é capaz de prover.\r\nEntradas\r\n• Descrição do Estado Atual: o ambiente interno atual da solução, \r\nincluindo os fatores ambientais, culturais e internos que influenciam as \r\nlimitações da solução.\r\n• Solução Implementada (externa) (ou Construída) : uma solução \r\nexistente. A solução pode ou não estar em uso operacional; pode ser um \r\nprotótipo. A solução deve ser utilizada de alguma forma para ser avaliada.\r\n• Análise de Desempenho da Solução: resultados da análise das medições \r\ncoletadas e recomendações para solucionar lacunas de desempenho e \r\nalavancar oportunidades para melhorar o valor.Avaliação da Solução PE (8) AƵreas de Conhecimento do Padrão Essencial\r\n44\r\nSaídas \r\n• Limitação da Corporação: uma descrição das limitações atuais da \r\ncorporação, incluindo o modo como o desempenho da solução está \r\nimpactando a corporação.\r\nRecomendar as Ações para Aumentar o Valor da Solução PE \r\n(8.5)\r\nPropósito\r\nO propósito de Recomendar as Ações para Aumentar o Valor da Solução é \r\nentender os fatores que criam diferenças entre valor potencial e valor real e \r\nrecomendar um curso de ação para alinhá-los.\r\nDescrição\r\nRecomendar as Ações para Aumentar o Valor da Solução identifica e define \r\nações que a corporação pode adotar para aumentar o valor que pode ser \r\nentregue por uma solução.\r\nEntradas\r\n• Limitação da Corporação: uma descrição das limitações atuais da \r\ncorporação, incluindo como o desempenho da solução a está afetando.\r\n• Limitação da Solução: uma descrição das limitações atuais da solução, \r\nincluindo restrições e defeitos.\r\nSaídas \r\n• Ações Recomendadas: recomendação sobre o que deve ser feito para \r\nmelhorar o valor da solução dentro da corporação.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+  ],
+  "ground_truth": "GABARITO — Project Scenario 8: BECS (Book E-Commerce System)\nUse: \"ground_truth\" field for RAGAS (context_precision / context_recall).\nEach line is an atomic, checkable claim against the scenario text and the\nknowledge base — not a full SRS, just the set of facts a well-grounded SRS\nfor this scenario should be able to cover.\n\n- Any visitor can create an account with no verification process.\n- Logged-in users can search for books by title only, with an exact match (no partial matches, no search by author).\n- Users can view a book's title, author, and price, add it to a cart, and check out.\n- Only one copy of each book can be purchased per order.\n- Members (a subset of registered users) can apply promo codes at checkout.\n- The manager (a single login-based account) can add books, edit prices, and view stock levels.\n- The system must automatically notify the manager by email when a book's stock is low, unless notifications are disabled for that specific book.\n- The manager can create percentage-off promotions; creating one automatically emails all members.\n- The system does not process real credit card payments; it only collects a card number, produces a receipt, and logs the purchase (item, buyer, timestamp).\n- Encryption and password recovery are explicitly out of scope for this version.\n- There is only one manager account; no multi-manager roles are needed.\n- A manager account must never also be a regular customer account.\n- The system must run as a normal browser-accessible web application, with no exotic technical requirements.\n",
+  "rag_score": 0.4143,
+  "artefatos": {
+    "escopo": {
+      "descricao": "The system shall enable customers to browse, select, and purchase books online while supporting inventory and promotion management by one store manager.",
+      "em_escopo": [
+        "Customer account registration and login",
+        "Book catalog browsing and exact-title search",
+        "Book details display",
+        "Shopping cart management",
+        "Checkout with card-number collection",
+        "Receipt generation and purchase record storage",
+        "Member registration for promotional notifications",
+        "Promo-code application by members",
+        "Inventory and price management by the store manager",
+        "Low-stock notifications with per-book suppression",
+        "Percentage-off promotion creation",
+        "Automatic promotional emails to members"
+      ],
+      "fora_de_escopo": [
+        "Real credit-card authorization or money movement — explicitly excluded from the current version",
+        "Encryption and advanced security controls — explicitly excluded from the current version",
+        "Password recovery — explicitly excluded from the current version",
+        "Multiple manager roles — only one manager is required",
+        "A manager account also functioning as a customer account — the account types must remain separate",
+        "Partial-title search — the scenario requires exact-title matching only",
+        "Author-based search — excluded from the current version"
+      ],
+      "premissas": [
+        "PA-01: Customers have access to a standard web browser.",
+        "PA-02: An email delivery mechanism is available for manager alerts and member notifications. [INFERIDO]",
+        "PA-03: Book prices, stock quantities, and promotion percentages are maintained by the store manager.",
+        "PA-04: The manager is represented by a single manager account."
+      ],
+      "restricoes": [
+        "REST-01 (Pagamento): The system shall collect card numbers during checkout but shall not process payments or transfer money.",
+        "REST-02 (Segurança): Encryption, password recovery, and advanced security controls are excluded from version v0.1.",
+        "REST-03 (Acesso): Manager and customer accounts shall be separate account types.",
+        "REST-04 (Plataforma): The system shall be accessible through a standard web browser.",
+        "REST-05 (Gestão): The system shall support one store manager only."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Customer",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Create an account, log in, browse available books, search by exact title, view book information, manage a cart, and complete checkout."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Member",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Receive promotional notifications and apply valid promotional codes during checkout."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Store Manager",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Total",
+        "necessidades": "Log in separately, manage books, prices, stock, low-stock notification preferences, and percentage-off promotions."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Email Delivery Service",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receive and deliver low-stock alerts and promotional messages generated by the system."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Exact-title search",
+        "descricao": "A book search matches only a complete book title and does not match partial titles or author names.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Single-copy order limit",
+        "descricao": "A customer may purchase no more than one copy of each distinct book in a single order.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Member promotional eligibility",
+        "descricao": "Only members may use promotional codes during checkout.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Percentage-off promotion",
+        "descricao": "A promotion applies a percentage discount defined by the store manager to eligible purchases.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Eligibility and validity-period rules are not specified. [TBD]"
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Low-stock notification suppression",
+        "descricao": "A low-stock notification shall not be sent for a book when the store manager has disabled notifications for that book.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Separate account types",
+        "descricao": "A manager account and a customer account are distinct account types and may not represent the same account.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-007",
+        "titulo": "Single manager",
+        "descricao": "The store is managed by one manager account.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-008",
+        "titulo": "Checkout card-number collection",
+        "descricao": "The card number is collected as checkout information without authorizing a payment or transferring money.",
+        "fonte": "Documento de cenário",
+        "excecoes": "Nenhuma"
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Customer account registration",
+        "descricao": "The system shall allow a visitor to create a customer account.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Customer login",
+        "descricao": "The system shall authenticate a customer using the credentials registered for the customer account.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Member registration",
+        "descricao": "The system shall allow a customer to register as a member.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Book catalog browsing",
+        "descricao": "The system shall display the books available for purchase.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Exact-title book search",
+        "descricao": "The system shall return books whose complete title exactly matches the submitted search title.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Book information display",
+        "descricao": "The system shall display the title, author, and price of a selected book.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Add book to cart",
+        "descricao": "The system shall add a selected available book to the customer's cart.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Cart contents display",
+        "descricao": "The system shall display the books currently stored in the customer's cart.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Duplicate-book prevention",
+        "descricao": "The system shall prevent a customer from adding a second copy of the same book to an order.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Checkout initiation",
+        "descricao": "The system shall initiate checkout for a customer with a non-empty cart.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Card-number collection",
+        "descricao": "The system shall collect a card number during checkout.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Promotion-code validation",
+        "descricao": "The system shall validate a promotional code submitted during checkout.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Percentage discount application",
+        "descricao": "The system shall apply the percentage discount associated with a valid promotional code to the checkout total.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Order creation",
+        "descricao": "The system shall create an order containing the books confirmed during checkout.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Receipt generation",
+        "descricao": "The system shall generate a receipt after an order is created.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Purchase-log storage",
+        "descricao": "The system shall store the purchased books, buyer, and purchase date for each order.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "Manager login",
+        "descricao": "The system shall authenticate the store manager through a manager account.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-006, RN-007"
+      },
+      {
+        "id": "RF-018",
+        "titulo": "Book creation",
+        "descricao": "The system shall allow the store manager to add a book to the catalog.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-019",
+        "titulo": "Book-price editing",
+        "descricao": "The system shall allow the store manager to edit the price of a cataloged book.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-020",
+        "titulo": "Stock-level consultation",
+        "descricao": "The system shall display the current stock quantity for each cataloged book to the store manager.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-021",
+        "titulo": "Low-stock threshold configuration",
+        "descricao": "The system shall allow the store manager to configure a low-stock threshold for a book.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-022",
+        "titulo": "Low-stock notification suppression",
+        "descricao": "The system shall allow the store manager to disable low-stock notifications for a selected book.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-023",
+        "titulo": "Low-stock alert dispatch",
+        "descricao": "The system shall send an email alert to the store manager when a book reaches its configured low-stock threshold.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-024",
+        "titulo": "Promotion creation",
+        "descricao": "The system shall allow the store manager to create a promotion with a percentage discount.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-025",
+        "titulo": "Member promotion notification",
+        "descricao": "The system shall email all members when the store manager creates a promotion.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-004"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Browser response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system shall respond to catalog and book-search requests within 2 seconds.",
+        "metrica_aceitacao": "At least 95% of catalog and search requests shall complete within 2 seconds under [TBD] simultaneous users.",
+        "metodo_verificacao": "Teste de carga"
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Checkout response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system shall complete checkout submission within 3 seconds.",
+        "metrica_aceitacao": "At least 95% of checkout submissions shall complete within 3 seconds under [TBD] simultaneous users.",
+        "metodo_verificacao": "Teste de desempenho"
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Browser compatibility",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system shall operate correctly in the current versions of Chrome, Firefox, Edge, and Safari.",
+        "metrica_aceitacao": "Zero critical defects in the principal customer and manager workflows on the four supported browsers. Supported version range: [TBD].",
+        "metodo_verificacao": "Teste cross-browser"
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Operational availability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system shall maintain monthly availability of at least 99%.",
+        "metrica_aceitacao": "Maximum of 7.2 hours of unplanned unavailability per calendar month. [TBD: confirm target]",
+        "metodo_verificacao": "Monitoramento de disponibilidade"
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Customer task completion",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "The system shall allow a customer without prior training to complete a purchase using the catalog, cart, and checkout workflows.",
+        "metrica_aceitacao": "At least 4 of 5 representative customers shall complete the workflow within 10 minutes without assistance. [TBD: validate target]",
+        "metodo_verificacao": "Teste de usabilidade"
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Purchase-record correctness",
+        "categoria_iso25010": "Functional Suitability",
+        "descricao": "The system shall preserve the purchased books, buyer, and purchase date exactly as recorded at order creation.",
+        "metrica_aceitacao": "100% of test orders shall contain the correct books, buyer, and purchase date.",
+        "metodo_verificacao": "Teste funcional e inspeção de dados"
+      },
+      {
+        "id": "RNF-007",
+        "titulo": "Maintainability documentation",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "The system shall provide technical documentation for installation, configuration, and operation.",
+        "metrica_aceitacao": "Documentation shall cover 100% of installation, configuration, manager-operation, and email-configuration procedures. [TBD: approve documentation checklist]",
+        "metodo_verificacao": "Revisão manual"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "visitor",
+        "quero": "create a customer account",
+        "para": "access the purchasing features",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "customer",
+        "quero": "log in to my account",
+        "para": "use my shopping and checkout session",
+        "rf_associado": "RF-002",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "customer",
+        "quero": "register as a member",
+        "para": "receive promotions and use promotional codes",
+        "rf_associado": "RF-003",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-004",
+        "como": "customer",
+        "quero": "browse available books",
+        "para": "choose a book to purchase",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "customer",
+        "quero": "search for a book by its exact title",
+        "para": "find the required book",
+        "rf_associado": "RF-005",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "customer",
+        "quero": "view a book's title, author, and price",
+        "para": "decide whether to purchase it",
+        "rf_associado": "RF-006",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "customer",
+        "quero": "add an available book to my cart",
+        "para": "prepare my order",
+        "rf_associado": "RF-007",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "customer",
+        "quero": "view my cart contents",
+        "para": "review the books selected for checkout",
+        "rf_associado": "RF-008",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "customer",
+        "quero": "be prevented from adding duplicate copies of a book",
+        "para": "comply with the one-copy-per-order limit",
+        "rf_associado": "RF-009",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "customer",
+        "quero": "submit my cart for checkout",
+        "para": "complete an order",
+        "rf_associado": "RF-010",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "customer",
+        "quero": "provide my card number during checkout",
+        "para": "submit the required checkout information",
+        "rf_associado": "RF-011",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-012",
+        "como": "member",
+        "quero": "apply a valid promotional code",
+        "para": "receive the applicable discount",
+        "rf_associado": "RF-012",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-013",
+        "como": "member",
+        "quero": "have the percentage discount applied to my order",
+        "para": "pay the discounted order total",
+        "rf_associado": "RF-013",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-014",
+        "como": "customer",
+        "quero": "create an order and receive a receipt",
+        "para": "have confirmation of my purchase",
+        "rf_associado": "RF-014",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-015",
+        "como": "store manager",
+        "quero": "manage books, stock, prices, and promotions",
+        "para": "operate the online store",
+        "rf_associado": "RF-018",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Create customer account",
+        "ator_principal": "Visitor",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "The visitor is not authenticated.",
+        "pos_condicao_sucesso": "A customer account is created.",
+        "pos_condicao_falha": "No account is created and validation feedback is displayed.",
+        "fluxo_principal": [
+          "1. The visitor opens the registration form.",
+          "2. The visitor submits the required account information.",
+          "3. The system validates the information.",
+          "4. The system creates a customer account."
+        ],
+        "fluxos_alternativos": [
+          "3a. The visitor registers as a member; the system marks the account as a member."
+        ],
+        "fluxos_excecao": [
+          "3b. Required or duplicate information is invalid; the system rejects the submission and displays a validation message."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Log in as customer",
+        "ator_principal": "Customer",
+        "hu_relacionada": "HU-002",
+        "pre_condicao": "A customer account exists.",
+        "pos_condicao_sucesso": "The customer is authenticated.",
+        "pos_condicao_falha": "The customer remains unauthenticated.",
+        "fluxo_principal": [
+          "1. The customer submits registered credentials.",
+          "2. The system validates the credentials.",
+          "3. The system creates an authenticated customer session."
+        ],
+        "fluxos_alternativos": [],
+        "fluxos_excecao": [
+          "2a. The credentials are invalid; the system denies access and displays an error message."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Browse catalog",
+        "ator_principal": "Customer",
+        "hu_relacionada": "HU-004",
+        "pre_condicao": "The catalog contains zero or more books.",
+        "pos_condicao_sucesso": "The available books are displayed.",
+        "pos_condicao_falha": "The system displays an empty-catalog message.",
+        "fluxo_principal": [
+          "1. The customer opens the catalog.",
+          "2. The system retrieves available books.",
+          "3. The system displays the available books."
+        ],
+        "fluxos_alternativos": [
+          "3a. No books are available; the system displays that no books are currently available."
+        ],
+        "fluxos_excecao": []
+      },
+      {
+        "id": "UC-004",
+        "nome": "Search book by exact title",
+        "ator_principal": "Customer",
+        "hu_relacionada": "HU-005",
+        "pre_condicao": "The customer is viewing the catalog.",
+        "pos_condicao_sucesso": "The system displays books whose complete titles exactly match the submitted title.",
+        "pos_condicao_falha": "No matching book is displayed.",
+        "fluxo_principal": [
+          "1. The customer enters a complete book title.",
+          "2. The customer submits the search.",
+          "3. The system compares the submitted title with catalog titles.",
+          "4. The system displays exact matches."
+        ],
+        "fluxos_alternativos": [
+          "4a. No exact match exists; the system displays a no-results message."
+        ],
+        "fluxos_excecao": [
+          "3a. The search is empty; the system requests a title."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Add book to cart",
+        "ator_principal": "Customer",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "The selected book is available for purchase.",
+        "pos_condicao_sucesso": "The selected book is present in the cart with quantity one.",
+        "pos_condicao_falha": "The cart remains unchanged.",
+        "fluxo_principal": [
+          "1. The customer selects an available book.",
+          "2. The customer selects the add-to-cart action.",
+          "3. The system adds the book with quantity one.",
+          "4. The system displays the updated cart state."
+        ],
+        "fluxos_alternativos": [],
+        "fluxos_excecao": [
+          "3a. The book is already in the cart; the system rejects the action and displays the one-copy limit message.",
+          "3b. The book is out of stock; the system rejects the action and displays an unavailable message."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Complete checkout",
+        "ator_principal": "Customer",
+        "hu_relacionada": "HU-014",
+        "pre_condicao": "The customer is authenticated and the cart is not empty.",
+        "pos_condicao_sucesso": "An order and receipt are created, and the purchase is recorded.",
+        "pos_condicao_falha": "No order is created and the cart remains available for correction.",
+        "fluxo_principal": [
+          "1. The customer starts checkout.",
+          "2. The system displays the cart summary.",
+          "3. The customer submits the card number.",
+          "4. The system creates the order without processing a payment.",
+          "5. The system generates a receipt.",
+          "6. The system stores the purchase record."
+        ],
+        "fluxos_alternativos": [
+          "3a. The customer submits a promotional code; the system validates and applies the discount when permitted."
+        ],
+        "fluxos_excecao": [
+          "3b. The card number is missing; the system rejects checkout and requests the card number.",
+          "4a. A selected book is no longer available; the system rejects order creation and identifies the unavailable book."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Apply promotional code",
+        "ator_principal": "Member",
+        "hu_relacionada": "HU-012",
+        "pre_condicao": "The member is authenticated and has a non-empty cart.",
+        "pos_condicao_sucesso": "The valid percentage discount is reflected in the checkout total.",
+        "pos_condicao_falha": "The checkout total remains unchanged.",
+        "fluxo_principal": [
+          "1. The member enters a promotional code during checkout.",
+          "2. The system validates the member status and code.",
+          "3. The system applies the associated percentage discount.",
+          "4. The system displays the adjusted total."
+        ],
+        "fluxos_alternativos": [],
+        "fluxos_excecao": [
+          "2a. The actor is not a member; the system rejects the code.",
+          "2b. The code is invalid; the system rejects the code and displays a validation message."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Log in as manager",
+        "ator_principal": "Store Manager",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "The manager account exists.",
+        "pos_condicao_sucesso": "The manager is authenticated with management access.",
+        "pos_condicao_falha": "The actor remains without management access.",
+        "fluxo_principal": [
+          "1. The manager submits manager credentials.",
+          "2. The system validates the credentials.",
+          "3. The system opens the manager session."
+        ],
+        "fluxos_alternativos": [],
+        "fluxos_excecao": [
+          "2a. The credentials are invalid; the system denies access and displays an error message."
+        ]
+      },
+      {
+        "id": "UC-009",
+        "nome": "Manage book inventory",
+        "ator_principal": "Store Manager",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "The manager is authenticated.",
+        "pos_condicao_sucesso": "The requested book or price data is saved or displayed.",
+        "pos_condicao_falha": "The catalog remains unchanged.",
+        "fluxo_principal": [
+          "1. The manager opens inventory management.",
+          "2. The manager adds a book, edits a price, or views stock.",
+          "3. The system validates the operation.",
+          "4. The system saves or displays the requested information."
+        ],
+        "fluxos_alternativos": [
+          "2a. The manager selects a different inventory operation; the system displays the corresponding form."
+        ],
+        "fluxos_excecao": [
+          "3a. Required book data is invalid; the system rejects the operation and displays a validation message."
+        ]
+      },
+      {
+        "id": "UC-010",
+        "nome": "Configure low-stock notifications",
+        "ator_principal": "Store Manager",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "The manager is authenticated and the book exists.",
+        "pos_condicao_sucesso": "The book's threshold or notification-suppression setting is saved.",
+        "pos_condicao_falha": "The previous notification setting remains active.",
+        "fluxo_principal": [
+          "1. The manager selects a book.",
+          "2. The manager enters a threshold or disables notifications.",
+          "3. The system validates the setting.",
+          "4. The system saves the setting."
+        ],
+        "fluxos_alternativos": [],
+        "fluxos_excecao": [
+          "3a. The threshold is invalid; the system rejects it and displays a validation message."
+        ]
+      },
+      {
+        "id": "UC-011",
+        "nome": "Send low-stock alert",
+        "ator_principal": "Email Delivery Service",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "A book reaches its configured threshold and notifications are enabled.",
+        "pos_condicao_sucesso": "A low-stock alert is submitted to the email delivery service.",
+        "pos_condicao_falha": "No alert is sent or the failed dispatch is recorded. [TBD]",
+        "fluxo_principal": [
+          "1. The system detects that a book reached its threshold.",
+          "2. The system verifies that notifications are enabled for the book.",
+          "3. The system sends an alert to the manager's email address."
+        ],
+        "fluxos_alternativos": [
+          "2a. Notifications are disabled for the book; the system does not send an alert."
+        ],
+        "fluxos_excecao": [
+          "3a. Email dispatch fails; the system records the failure. [TBD]"
+        ]
+      },
+      {
+        "id": "UC-012",
+        "nome": "Create promotion",
+        "ator_principal": "Store Manager",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "The manager is authenticated.",
+        "pos_condicao_sucesso": "A promotion with a percentage discount is created.",
+        "pos_condicao_falha": "No promotion is created.",
+        "fluxo_principal": [
+          "1. The manager opens promotion management.",
+          "2. The manager enters the promotion code and percentage.",
+          "3. The system validates the promotion data.",
+          "4. The system creates the promotion."
+        ],
+        "fluxos_alternativos": [],
+        "fluxos_excecao": [
+          "3a. The percentage or code is invalid; the system rejects the promotion and displays a validation message."
+        ]
+      },
+      {
+        "id": "UC-013",
+        "nome": "Notify members of promotion",
+        "ator_principal": "Email Delivery Service",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "A promotion has been created and members have registered email addresses.",
+        "pos_condicao_sucesso": "A promotional email is submitted for every member.",
+        "pos_condicao_falha": "Failed deliveries are recorded. [TBD]",
+        "fluxo_principal": [
+          "1. The system detects creation of a promotion.",
+          "2. The system retrieves all members.",
+          "3. The system sends the promotion message to each member."
+        ],
+        "fluxos_alternativos": [
+          "2a. No members exist; the system completes the operation without sending messages."
+        ],
+        "fluxos_excecao": [
+          "3a. A delivery fails; the system records the failed recipient. [TBD]"
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Customer account creation",
+        "dado": "A visitor has provided valid required registration data",
+        "quando": "the visitor submits the registration form",
+        "entao": "the system creates exactly one customer account and confirms its creation",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-002",
+        "titulo": "Customer authentication",
+        "dado": "A customer account exists with registered credentials",
+        "quando": "the customer submits valid credentials",
+        "entao": "the system creates an authenticated customer session",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-003",
+        "titulo": "Member registration",
+        "dado": "An authenticated customer is not currently a member",
+        "quando": "the customer submits the member-registration action",
+        "entao": "the system marks the customer account as a member",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-004",
+        "titulo": "Catalog display",
+        "dado": "At least one book is available",
+        "quando": "the customer opens the catalog",
+        "entao": "the system displays every available book in the catalog result",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-005",
+        "titulo": "Exact-title search",
+        "dado": "The catalog contains a book titled exactly \"The Example Book\"",
+        "quando": "the customer searches for \"The Example Book\"",
+        "entao": "the system returns that book and does not return books with only partial-title or author matches",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-006",
+        "titulo": "Book details",
+        "dado": "A cataloged book exists",
+        "quando": "the customer selects the book",
+        "entao": "the system displays its title, author, and price",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-007",
+        "titulo": "Add available book",
+        "dado": "A book has available stock",
+        "quando": "the customer selects Add to Cart",
+        "entao": "the book appears in the cart with quantity 1",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-008",
+        "titulo": "Cart display",
+        "dado": "The customer has added two distinct books",
+        "quando": "the customer opens the cart",
+        "entao": "the system displays both books and their quantities",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-009",
+        "titulo": "One-copy limit",
+        "dado": "A book is already in the customer's cart with quantity 1",
+        "quando": "the customer attempts to add the same book again",
+        "entao": "the system keeps the quantity at 1 and displays the one-copy limit message",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-010",
+        "titulo": "Checkout initiation",
+        "dado": "The customer is authenticated and the cart contains at least one book",
+        "quando": "the customer selects Checkout",
+        "entao": "the system displays the checkout form and cart summary",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-011",
+        "titulo": "Card-number collection",
+        "dado": "The customer is on the checkout form",
+        "quando": "the customer enters a card number",
+        "entao": "the system records the card number as checkout information without initiating payment processing",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-012",
+        "titulo": "Promotional-code validation",
+        "dado": "The authenticated customer is a member and a valid promotional code exists",
+        "quando": "the member submits the code during checkout",
+        "entao": "the system accepts the code and identifies its percentage discount",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-013",
+        "titulo": "Discount application",
+        "dado": "A valid percentage promotional code has been accepted",
+        "quando": "the checkout total is calculated",
+        "entao": "the displayed total is reduced by the percentage defined by the promotion",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-014",
+        "titulo": "Order creation",
+        "dado": "The checkout data is valid and all selected books remain available",
+        "quando": "the customer confirms checkout",
+        "entao": "the system creates exactly one order containing the selected books",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-014",
+        "titulo": "Receipt generation",
+        "dado": "An order has been created successfully",
+        "quando": "order creation completes",
+        "entao": "the system generates a receipt containing the order details",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-014",
+        "titulo": "Purchase log",
+        "dado": "An order has been created",
+        "quando": "the system stores the order",
+        "entao": "the purchase log contains the purchased books, buyer, and purchase date",
+        "metodo_verificacao": "Teste de integração e inspeção de dados"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017 / HU-015",
+        "titulo": "Manager authentication",
+        "dado": "The configured manager account exists",
+        "quando": "the manager submits valid manager credentials",
+        "entao": "the system grants management access without converting the account into a customer account",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-018",
+        "rf_hu_ref": "RF-018 / HU-015",
+        "titulo": "Book creation",
+        "dado": "The manager is authenticated and has entered valid book data",
+        "quando": "the manager saves the new book",
+        "entao": "the system adds exactly one book to the catalog",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-019",
+        "rf_hu_ref": "RF-019 / HU-015",
+        "titulo": "Price editing",
+        "dado": "A cataloged book exists and the manager is authenticated",
+        "quando": "the manager saves a valid new price",
+        "entao": "the system displays the updated price for that book",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-020",
+        "rf_hu_ref": "RF-020 / HU-015",
+        "titulo": "Stock consultation",
+        "dado": "A cataloged book has a recorded stock quantity",
+        "quando": "the manager opens inventory details",
+        "entao": "the system displays the recorded stock quantity for the book",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-021",
+        "rf_hu_ref": "RF-021 / HU-015",
+        "titulo": "Threshold configuration",
+        "dado": "The manager is authenticated and has selected a cataloged book",
+        "quando": "the manager saves a valid low-stock threshold",
+        "entao": "the system stores the threshold for that book",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-022",
+        "rf_hu_ref": "RF-022 / HU-015",
+        "titulo": "Notification suppression",
+        "dado": "The manager is authenticated and has selected a cataloged book",
+        "quando": "the manager disables low-stock notifications",
+        "entao": "the system stores the disabled setting for that book",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-023",
+        "rf_hu_ref": "RF-023 / HU-015",
+        "titulo": "Low-stock alert",
+        "dado": "A book has reached its threshold and notifications are enabled",
+        "quando": "the system evaluates the book's stock level",
+        "entao": "the system submits one low-stock email alert to the manager",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-024",
+        "rf_hu_ref": "RF-024 / HU-015",
+        "titulo": "Promotion creation",
+        "dado": "The manager is authenticated and has entered a valid percentage discount",
+        "quando": "the manager saves the promotion",
+        "entao": "the system creates one promotion with the configured percentage",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-025",
+        "rf_hu_ref": "RF-025 / HU-015",
+        "titulo": "Member promotion notification",
+        "dado": "A promotion has been created and three members have registered email addresses",
+        "quando": "promotion creation completes",
+        "entao": "the system submits one promotional email for each of the three members",
+        "metodo_verificacao": "Teste de integração"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "BECS (Book E-Commerce System)",
+    "cenario_fonte": "Project Scenario 8.pdf",
+    "observacoes": "Cenario deliberadamente raso em RNF (poucos atributos de qualidade mensuraveis no texto original) e explicito sobre exclusoes (pagamento real, criptografia, recuperacao de senha). Interpretacao: busca/carrinho/checkout exigem conta criada (\"once they're in they can search...\"), mesma leitura usada no gabarito RAGAS (Testes/Gabaritos/gabarito_8_BECS.txt).",
+    "escopo": {
+      "em_escopo": [
+        "Account creation for any visitor, with no verification process",
+        "Book search by exact title match (logged-in users)",
+        "Viewing book title, author, and price",
+        "Shopping cart with a limit of one copy per book per order",
+        "Checkout flow that collects a card number, generates a receipt, and logs the purchase",
+        "Member signup to receive promotion notifications and use promo codes at checkout",
+        "Manager login to manage inventory (add books, edit prices, view stock)",
+        "Automatic low-stock email alert to the manager, with per-book opt-out",
+        "Manager-created percentage-off promotions with automatic email to all members"
+      ],
+      "fora_de_escopo": [
+        "Real credit card / payment processing — deferred to a later phase",
+        "Encryption — not a priority for this version",
+        "Password recovery — not a priority for this version",
+        "Multiple manager accounts or manager roles — only one manager",
+        "Partial/fuzzy search or search by author — title search is exact-match only",
+        "Multiple copies of the same book per order — limited to one"
+      ],
+      "premissas": [
+        "PA-01: Only one person will operate the manager account for the store."
+      ],
+      "restricoes": [
+        "REST-01 (Tecnica): The system must be usable through a normal web browser, with no exotic client-side requirements."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Store Manager — the single account responsible for managing inventory (add books, edit prices, view stock) and creating promotions; must never also be a regular customer account."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Visitor — anyone arriving at the site who can create an account with no verification process."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Registered User / Customer — logged-in user who can search for books, add them to a cart, and check out."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "Member — a registered user who opted in to promotion notifications; the only type of user who can apply promo codes at checkout."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "A cart may contain at most one copy of each distinct book per order."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "A manager account must never also function as a regular customer account."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "Only members (not all registered users) can apply promo codes at checkout."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "The low-stock email alert to the manager is suppressed for a given book if the manager has disabled notifications for that specific book."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "Creating a new percentage-off promotion automatically triggers an email to all members."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "The system must allow any visitor to create an account with no verification process."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "The system must allow logged-in users to search for books by title using an exact match only (no partial match, no search by author)."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "The system must display each book's title, author, and price."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "The system must allow users to add a book to their shopping cart."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "The system must prevent a user from adding more than one copy of the same book to their cart in a single order."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "The system must allow users to complete checkout for the items in their cart."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "The system must allow a registered user to sign up as a member to receive promotion notifications."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "The system must allow members to apply a promo code during checkout."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "The system must provide a login for the manager, separate from customer accounts."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "The system must allow the manager to add new books to the inventory."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "The system must allow the manager to edit the price of existing books."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "The system must allow the manager to view current stock levels."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "The system must send an email notification to the manager when a book's stock is low, unless notifications are disabled for that book."
+      },
+      {
+        "id": "RF-14",
+        "descricao": "The system must allow the manager to create percentage-off promotions."
+      },
+      {
+        "id": "RF-15",
+        "descricao": "The system must automatically email all members when a new promotion is created."
+      },
+      {
+        "id": "RF-16",
+        "descricao": "The system must collect a card number during checkout without processing an actual payment."
+      },
+      {
+        "id": "RF-17",
+        "descricao": "The system must generate a receipt after checkout."
+      },
+      {
+        "id": "RF-18",
+        "descricao": "The system must log each purchase, including the item, the buyer, and the timestamp."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system must be usable through a standard web browser, with no exotic or non-standard client-side requirements.",
+        "metrica_aceitacao": "[TBD] — cenário não define métrica numérica; único RNF defensável neste cenário, o restante do texto só descreve exclusões (segurança/criptografia) tratadas em fora_de_escopo, não como atributo de qualidade a cumprir"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "As a visitor, I want to create an account with no verification process, so that I can start using the site quickly."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "As a registered user, I want to search for a book by its exact title, so that I can find the book I'm looking for."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "As a registered user, I want to view a book's title, author, and price, so that I can decide whether to buy it."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "As a registered user, I want to add a book to my cart, so that I can purchase it later."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "As a registered user, I want to check out my cart, so that I can complete my purchase."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "As a member, I want to apply a promo code at checkout, so that I can get a discount."
+      },
+      {
+        "id": "HU-07",
+        "descricao": "As the manager, I want to add new books and edit their prices, so that I can keep the catalog up to date."
+      },
+      {
+        "id": "HU-08",
+        "descricao": "As the manager, I want to be notified when a book's stock is low, so that I can restock in time."
+      },
+      {
+        "id": "HU-09",
+        "descricao": "As the manager, I want to create percentage-off promotions, so that I can attract more sales."
+      },
+      {
+        "id": "HU-10",
+        "descricao": "As a member, I want to receive an email when a new promotion is created, so that I know about current deals."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Search and Purchase Book — a logged-in user searches for a book by exact title, adds it to the cart, and completes checkout."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Manage Inventory — the manager logs in and adds new books, edits prices, or views current stock levels."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Create Promotion — the manager creates a percentage-off promotion, and the system automatically emails all members."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-02 / HU-02",
+        "descricao": "Given a logged-in user, when they search for a book title that exactly matches an existing book, then the system returns that book with its title, author, and price."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-05 / HU-04",
+        "descricao": "Given a user already has one copy of a book in their cart, when they try to add another copy of the same book, then the system prevents the second copy from being added."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-08 / HU-06",
+        "descricao": "Given a member is at checkout with a valid promo code, when they apply the code, then the system applies the corresponding discount."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RF-13 / HU-08",
+        "descricao": "Given a book's stock drops below the defined threshold and notifications are enabled for that book, when the stock update occurs, then the system sends an email to the manager."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RF-14 / RF-15 / HU-09",
+        "descricao": "Given the manager creates a new percentage-off promotion, when the promotion is saved, then the system automatically sends an email to all members."
+      }
+    ]
+  }
+}

@@ -1,0 +1,1374 @@
+{
+  "sistema": "Unified University Inventory System (UUIS)",
+  "modelo": "gpt-5.6-luna",
+  "data_execucao": "2026-08-20 08:45:24",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 2.pdf ---\nUnified University Inventory System (UUIS)\nSo basically right now we've got no single way of tracking \neverything the university owns across the faculties — \ncomputers, furniture, software licenses, rooms, even who's \nsitting where — and it's all over the place depending on which \ndepartment you ask. Each faculty kind of does its own thing \nwith spreadsheets or whatever old system they inherited, and \nnobody at the university level can just look something up and \ntrust the answer. We want to build one system that everybody \nlogs into, students, staff, IT people, deans, whoever, and \ndepending on who they are they can see and manage the stuff \nthat's relevant to them, but it's all sitting in one place \ninstead of scattered everywhere. \n \nThe way I picture it, once someone logs in (and for the people \nwith more access we probably want something extra like a voice \ncheck, not just a password) they land on a menu where they can \nlook up people, assets, locations and licenses, add new ones, \nedit them, get rid of stuff that's no longer around. Nothing \nshould ever really disappear though, more like get marked as \ninactive so we keep history. People should also be able to \nlump assets or rooms into groups, like all the printers on a \nfloor, or split things into subgroups, and bring in old data \nfrom CSV files from whatever system they're using today \ninstead of typing everything from scratch. \n \nThere's also this whole request and approval thing that \nmatters a lot to us. If someone wants to move an item, report \nsomething broken, or just ask for a new asset, they should be \nable to submit that and it goes up to whoever's one level \nabove them to approve or deny it, and if they say no they need \nto actually explain why. The exception is the people at the \nvery top, university-level admins basically, their requests \njust go through automatically since there's nobody above to \ncheck them. Speaking of levels, this is kind of the backbone \nof the whole thing: department, faculty, university, and then \na base user level, and what you can see and touch depends on \nwhere you sit, a faculty admin can reach into all the \ndepartments under them but a department admin only sees their \nown patch. \n \nWe also want decent search, both a quick one where you just \ntype something and a more detailed one where you can filter by \ndifferent fields and combine conditions, plus some basic \nreporting, like comparing how many chairs or computers a room \nhas against its supposed capacity. And everything anyone does \nin the system needs to get logged somewhere so if there's ever \na question about who changed what, someone with the right \npermission can pull that up. \n \nA couple more things that matter even if they're not the \nflashy part. We can't have more than about two hundred people \nhammering the system at the same time, so it needs to hold up \nunder that kind of load without falling over. If nobody \ntouches it for half an hour, just log them out automatically, \nwe don't want sessions sitting open forever. And if something \ncrashes or a connection drops halfway through someone entering \ndata, whatever they hadn't saved yet needs to come back to \nthem when they log back in instead of just vanishing, losing \nsomeone's work because the system hiccuped would be a \nnightmare. On the security side, everything going over the \nnetwork needs to be encrypted properly, and let's put a \nCAPTCHA on anything automated so bots can't just hammer the \nlogin. \n \nThings like managing permissions themselves, creating new \nroles, tweaking what each role can do, that's more of an \nadmin-only corner of the system and honestly not the part \nwe're most excited about, it just needs to exist so the \nhigher-ups can keep control. Multiple languages and that kind \nof polish, plus the heavier department and faculty specific \nfunctions, those can wait for a later version, we're fine if \nversion one is English-only and covers the main stuff for now. \nWhat we really care about for this first round is getting \npeople, assets, locations and licenses all visible and \nmanageable in one web system that anyone in the university can \nlog into through a browser without needing anything special \ninstalled.",
+  "answer": "Sistema: Unified University Inventory System (UUIS)\n\nResumo executivo: The Unified University Inventory System (UUIS) is a browser-based university-wide system for centralizing and managing people, assets, locations, software licenses, occupancy assignments, requests, approvals, searches, reports, and audit records. It replaces fragmented spreadsheets and legacy departmental systems with a single controlled source of inventory information, improving visibility, accountability, and administrative decision-making. \n\nEscopo: The UUIS must provide centralized browser-based management of university people, assets, locations, software licenses, requests, approvals, searches, reports, and audit records.\n  Em escopo: User authentication and role-based access control\n  Em escopo: Management of people, assets, locations, software licenses, and occupancy assignments\n  Em escopo: Inactive status and historical preservation of records\n  Em escopo: Asset and location grouping with subgroups\n  Em escopo: CSV data import\n  Em escopo: Requests for asset movement, failures, and new assets\n  Em escopo: Hierarchical approval and denial workflows\n  Em escopo: Quick and advanced search\n  Em escopo: Room capacity comparison reports\n  Em escopo: Audit logging and authorized audit consultation\n  Em escopo: Browser-based access without special local installation\n  Em escopo: English-language version 1\n  Fora de escopo: Multiple-language support — explicitly deferred to a later version\n  Fora de escopo: Advanced department-specific functions — explicitly deferred to a later version\n  Fora de escopo: Advanced faculty-specific functions — explicitly deferred to a later version\n  Fora de escopo: Advanced administrative permission customization — limited to the minimum capability required for higher-level administrators [INFERRED]\n  Premissa: PA-01: University users will access the system through a modern web browser [INFERRED].\n  Premissa: PA-02: Existing departmental data can be provided in CSV format.\n  Premissa: PA-03: Organizational hierarchy data for departments, faculties, and the university will be available for configuration [INFERRED].\n  Premissa: PA-04: Voice verification for privileged users will rely on an available voice-authentication capability [INFERRED].\n  Restrição: REST-01 (Deployment): Version 1 must be accessible through a web browser without requiring special software installation.\n  Restrição: REST-02 (Language): Version 1 must be English-only.\n  Restrição: REST-03 (Capacity): The system must support approximately 200 concurrent users.\n  Restrição: REST-04 (Scope): Advanced department- and faculty-specific functions are deferred to a later version.\n\nStakeholders:\n  STK-01 - Student (Usuário primário): Access relevant people, assets, locations, licenses, and submit applicable requests.\n  STK-02 - University staff member (Usuário primário): Consult inventory information and submit operational requests.\n  STK-03 - IT staff member (Usuário primário): Manage assets, licenses, locations, assignments, imports, requests, and operational records.\n  STK-04 - Department administrator (Usuário primário): Manage and consult information within the administrator's department and process subordinate requests.\n  STK-05 - Faculty administrator or dean (Usuário primário): Consult and manage information across departments belonging to the faculty and approve subordinate requests.\n  STK-06 - University-level administrator (Usuário primário): Manage university-wide information, roles, permissions, requests, audit records, and configuration.\n  STK-07 - University management (Stakeholder externo): Obtain reliable university-wide inventory information for oversight and decision-making [INFERIDO].\n  STK-08 - Legacy departmental data owners (Stakeholder externo): Provide historical inventory data in CSV format for migration.\n\nRegras de negócio:\n  RN-001 - Organizational access hierarchy: The organizational levels are base user, department, faculty, and university. Access scope is determined by the user's organizational level.\n  RN-002 - Department visibility boundary: A department administrator may access information belonging to that administrator's department only.\n  RN-003 - Faculty visibility boundary: A faculty administrator may access information belonging to all departments within that faculty.\n  RN-004 - Historical preservation: Records that are no longer active must remain available for historical consultation and must not be physically removed from institutional records.\n  RN-005 - Hierarchical request approval: A request must be submitted to the approver one organizational level above the requester.\n  RN-006 - Mandatory denial justification: A denied request must include an explanation for the denial.\n  RN-007 - Room capacity comparison: Room inventory reporting must compare the quantity of specified asset types assigned to a room with the room's stated capacity.\n  RN-008 - Auditability: Every action performed in the system must be attributable to the acting user and retained for authorized consultation.\n\nRequisitos funcionais:\n  RF-001 - User authentication: The system must authenticate registered users using their credentials. [Must have]\n  RF-002 - Privileged voice verification: The system must request an additional voice verification factor for privileged users [INFERRED]. [Should have]\n  RF-003 - CAPTCHA protection: The system must require CAPTCHA validation for automated access attempts to the login function. [Must have]\n  RF-004 - People management: The system must allow authorized users to create, view, update, and inactivate person records. [Must have]\n  RF-005 - Asset management: The system must allow authorized users to create, view, update, and inactivate asset records. [Must have]\n  RF-006 - Location management: The system must allow authorized users to create, view, update, and inactivate location records. [Must have]\n  RF-007 - Software license management: The system must allow authorized users to create, view, update, and inactivate software license records. [Must have]\n  RF-008 - Occupancy assignment: The system must allow authorized users to associate a person with a location or assigned position. [Must have]\n  RF-009 - Grouping: The system must allow authorized users to create groups of assets or locations. [Should have]\n  RF-010 - Subgrouping: The system must allow authorized users to create subgroups within asset or location groups. [Should have]\n  RF-011 - CSV import: The system must import eligible people, asset, location, and license records from CSV files. [Must have]\n  RF-012 - Asset movement request: The system must allow an authorized requester to submit an asset movement request. [Must have]\n  RF-013 - Failure report request: The system must allow an authorized requester to submit an asset failure report. [Must have]\n  RF-014 - New asset request: The system must allow an authorized requester to submit a new asset request. [Must have]\n  RF-015 - Request approval: The system must allow the designated approver to approve a submitted request. [Must have]\n  RF-016 - Request denial: The system must allow the designated approver to deny a submitted request with a mandatory explanation. [Must have]\n  RF-017 - Automatic university approval: The system must automatically approve requests submitted by university-level administrators. [Must have]\n  RF-018 - Role-based visibility: The system must restrict displayed records according to the authenticated user's organizational scope. [Must have]\n  RF-019 - Quick search: The system must allow users to search people, assets, locations, and licenses using a general search term. [Must have]\n  RF-020 - Advanced search: The system must allow users to search inventory records using multiple field filters combined by conditions. [Should have]\n  RF-021 - Room capacity report: The system must generate a report comparing room capacity with quantities of selected asset types assigned to each room. [Should have]\n  RF-022 - Audit log consultation: The system must allow authorized users to consult records of actions performed in the system. [Must have]\n  RF-023 - Role management: The system must allow university-level administrators to create and modify roles and their permissions. [Should have]\n  RF-024 - Unsaved data recovery: The system must restore unsaved user-entered data after a connection failure or system crash when the user logs in again. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Performance Efficiency) - The system must support 200 concurrent authenticated users without service failure. | Métrica: At least 200 concurrent users during a 60-minute load test, with no more than 1% failed transactions.\n  RNF-002 (Security) - The system must automatically terminate an inactive authenticated session after 30 minutes. | Métrica: 100% of test sessions with no activity for 30 minutes are invalidated within 60 seconds.\n  RNF-003 (Security) - The system must encrypt 100% of application traffic using TLS 1.2 or higher. | Métrica: 100% of HTTP requests are redirected to HTTPS and TLS versions below 1.2 are rejected. [TBD: confirm institutional cryptographic baseline].\n  RNF-004 (Security) - The system must record the authenticated user, action, target record, timestamp, and result for every auditable operation. | Métrica: 100% of sampled create, update, inactivate, import, approval, denial, and role-management operations contain all five required fields.\n  RNF-005 (Reliability) - The system must preserve recoverable unsaved data after a connection failure or application crash. | Métrica: At least 99% of unsaved test entries are restored after simulated failure and re-login. Recovery time: [TBD] seconds.\n  RNF-006 (Compatibility) - The system must operate through a supported web browser without requiring installation of local application software. | Métrica: All Must have use cases pass on the two latest versions of Chrome, Edge, and Firefox. [TBD: confirm supported browser matrix].\n  RNF-007 (Performance Efficiency) - The system must return quick and advanced search results within an objective response-time limit. | Métrica: Search results are displayed within 3 seconds for at least 95% of requests under 200 concurrent users. [TBD: validate target].\n  RNF-008 (Interaction Capability) - The system must present version 1 user-interface labels, messages, and help text in English. | Métrica: 100% of tested version 1 screens and system messages are displayed in English.\n\nHistórias de usuário:\n  HU-001 - Como university user, quero log in to the UUIS, para access inventory information according to my permissions\n  HU-002 - Como university administrator, quero complete an additional voice verification, para protect privileged access\n  HU-003 - Como university administrator, quero require CAPTCHA for automated login attempts, para reduce automated abuse of authentication\n  HU-004 - Como IT staff member, quero manage person records, para keep university people information current\n  HU-005 - Como IT staff member, quero manage asset records, para maintain a reliable university inventory\n  HU-006 - Como IT staff member, quero manage location records, para identify where university resources are located\n  HU-007 - Como IT staff member, quero manage software license records, para maintain visibility of university licenses\n  HU-008 - Como IT staff member, quero assign people to locations or positions, para record who is sitting where\n  HU-009 - Como IT staff member, quero group assets or locations, para organize inventory by operational context\n  HU-010 - Como IT staff member, quero create subgroups, para represent more detailed inventory structures\n  HU-011 - Como legacy data owner, quero import records from CSV files, para migrate existing departmental data without re-entering it manually\n  HU-012 - Como staff member, quero submit an asset movement request, para request an authorized change of location\n  HU-013 - Como staff member, quero report an asset failure, para ensure that a damaged asset is handled\n  HU-014 - Como staff member, quero request a new asset, para obtain a needed university resource\n  HU-015 - Como department administrator, quero approve submitted requests, para control changes within my organizational scope\n  HU-016 - Como department administrator, quero deny a request with an explanation, para communicate the reason for rejection\n  HU-017 - Como university-level administrator, quero have my requests approved automatically, para avoid approval by a nonexistent higher organizational level\n  HU-018 - Como faculty administrator, quero see records within my authorized organizational scope, para manage the departments under my faculty\n  HU-019 - Como university user, quero perform a quick search, para find a relevant record using a general term\n  HU-020 - Como IT staff member, quero combine multiple search filters, para locate records using detailed conditions\n  HU-021 - Como faculty administrator, quero generate room capacity comparison reports, para identify differences between room capacity and assigned assets\n  HU-022 - Como university-level administrator, quero consult audit records, para determine who changed what and when\n  HU-023 - Como university-level administrator, quero manage roles and permissions, para maintain administrative control over access\n  HU-024 - Como university staff member, quero recover unsaved data after a failure, para avoid losing my work\n\nCasos de uso:\n  UC-001 - Authenticate user | Ator: University user\n    1. The user enters valid credentials.\n    2. The system validates the credentials.\n    3. The system establishes an authenticated session.\n    4. The system displays the authorized menu.\n  UC-002 - Manage inventory record | Ator: IT staff member\n    1. The actor selects an inventory entity.\n    2. The actor enters or changes record data.\n    3. The system validates the data.\n    4. The system saves the record.\n    5. The system records the action in the audit log.\n  UC-003 - Import CSV data | Ator: IT staff member\n    1. The actor selects the CSV import function.\n    2. The actor uploads a CSV file.\n    3. The system validates the file structure and records.\n    4. The system imports valid records.\n    5. The system presents an import summary.\n  UC-004 - Submit request | Ator: University staff member\n    1. The actor selects a request type.\n    2. The actor enters the required request details.\n    3. The system validates the request.\n    4. The system identifies the applicable approval level.\n    5. The system records the request.\n  UC-005 - Approve or deny request | Ator: Department administrator\n    1. The actor opens a pending request.\n    2. The system displays the request details.\n    3. The actor selects approve or deny.\n    4. The system records the decision.\n    5. The system updates the request status.\n  UC-006 - Search inventory | Ator: University user\n    1. The actor enters a search term.\n    2. The system searches eligible people, assets, locations, and licenses.\n    3. The system filters results according to the actor's scope.\n    4. The system displays matching records.\n  UC-007 - Generate room capacity report | Ator: Faculty administrator\n    1. The actor selects one or more rooms.\n    2. The actor selects an asset type.\n    3. The system calculates the assigned quantity for each room.\n    4. The system compares quantity with room capacity.\n    5. The system displays the report.\n  UC-008 - Consult audit log | Ator: University-level administrator\n    1. The actor opens the audit function.\n    2. The actor enters optional filters.\n    3. The system retrieves matching audit records.\n    4. The system displays the actor, action, target, timestamp, and result.\n  UC-009 - Manage roles and permissions | Ator: University-level administrator\n    1. The actor opens role management.\n    2. The actor selects or creates a role.\n    3. The actor assigns permissions.\n    4. The system validates the configuration.\n    5. The system saves the configuration.\n  UC-010 - Recover unsaved data | Ator: University staff member\n    1. The actor logs in after a failure.\n    2. The system identifies recoverable unsaved data.\n    3. The system presents the recovered draft.\n    4. The actor reviews or continues the draft.\n\nCritérios de aceite:\n  CA-001 - Dado A registered user has valid credentials., quando The user submits the login form., então The system establishes an authenticated session and displays the user's authorized menu.\n  CA-002 - Dado A privileged user has entered valid credentials., quando The user submits the login form., então The system requests voice verification before granting privileged access.\n  CA-003 - Dado An automated login attempt is detected., quando The login request is submitted., então The system requires successful CAPTCHA validation before processing authentication.\n  CA-004 - Dado An authorized IT staff member is viewing people records., quando The member creates, updates, or inactivates a person record., então The system saves the requested state and preserves the record history.\n  CA-005 - Dado An authorized IT staff member is viewing asset records., quando The member creates, updates, or inactivates an asset record., então The system saves the requested state and retains the asset record for historical consultation.\n  CA-006 - Dado An authorized IT staff member is viewing location records., quando The member creates, updates, or inactivates a location record., então The system saves the requested state and retains the location record.\n  CA-007 - Dado An authorized IT staff member is viewing license records., quando The member creates, updates, or inactivates a license record., então The system saves the requested state and retains the license record.\n  CA-008 - Dado An authorized user has an existing person and location record., quando The user associates the person with the location., então The system stores the association and displays it in the relevant records.\n  CA-009 - Dado An authorized user has eligible asset or location records., quando The user creates a group and assigns records to it., então The system displays the group with its assigned records.\n  CA-010 - Dado An authorized user has an existing group., quando The user creates a subgroup within that group., então The system displays the subgroup as a child of the selected group.\n  CA-011 - Dado An authorized user has a CSV file containing supported records., quando The user uploads the file and confirms the import., então The system imports valid records and presents an import summary.\n  CA-012 - Dado A staff member is authenticated and has an asset movement request to submit., quando The member submits the completed request., então The system records the request with status 'Pending approval' unless the requester is a university-level administrator.\n  CA-013 - Dado A staff member is authenticated and has identified a failed asset., quando The member submits the failure report., então The system records the report and routes it to the applicable approver.\n  CA-014 - Dado A staff member is authenticated and has entered the required new asset request data., quando The member submits the request., então The system records the request and assigns the correct approval status.\n  CA-015 - Dado A pending request is assigned to the authenticated approver., quando The approver selects 'Approve'., então The system changes the request status to 'Approved' and records the decision.\n  CA-016 - Dado A pending request is assigned to the authenticated approver., quando The approver selects 'Deny' without entering an explanation., então The system prevents the denial and displays a mandatory explanation message.\n  CA-017 - Dado The requester is a university-level administrator., quando The requester submits a valid request., então The system assigns status 'Approved' without creating a pending approval task.\n  CA-018 - Dado A faculty administrator is authenticated., quando The administrator searches for inventory records., então The system displays records from the administrator's faculty departments and excludes records outside that scope.\n  CA-019 - Dado An authenticated user enters a search term., quando The user submits the quick search., então The system displays matching people, assets, locations, or licenses within the user's authorized scope.\n  CA-020 - Dado An authenticated user selects at least two search filters., quando The user submits the advanced search., então The system displays only records satisfying the combined filter conditions.\n  CA-021 - Dado A faculty administrator selects a room and an asset type., quando The administrator generates the report., então The system displays the room capacity, assigned asset quantity, and comparison result.\n  CA-022 - Dado A university-level administrator is authorized to consult audit records., quando The administrator searches for an action., então The system displays the acting user, action, target record, timestamp, and result.\n  CA-023 - Dado A university-level administrator is authenticated., quando The administrator saves a valid role-permission configuration., então The system persists the configuration and records the change in the audit log.\n  CA-024 - Dado A user entered data that was not submitted before a simulated connection failure., quando The user logs in again., então The system presents the recoverable draft for review or continuation.\n\nGlossário:\n  UUIS: Unified University Inventory System, the centralized system specified in this document.\n  Asset: A university-owned physical or logical item, such as a computer, printer, furniture item, or software license.\n  Location: A university place or position where assets or people may be assigned.\n  Inactive record: A record that is no longer operationally active but remains stored for historical consultation.\n  Organizational scope: The set of university departments, faculties, or university-wide records a user is authorized to access.\n  University-level administrator: An administrator whose organizational scope covers the entire university.\n  Faculty administrator: An administrator whose scope covers a faculty and its subordinate departments.\n  Department administrator: An administrator whose scope is limited to one department.\n  Request: A submitted demand for asset movement, failure reporting, or acquisition of a new asset.\n  Approver: The authorized person one organizational level above the requester who decides a request.\n  Audit log: A chronological record of actions performed in the system, including actor, action, target, timestamp, and result.\n  CAPTCHA: A challenge used to distinguish human interaction from automated access attempts.\n  CSV: Comma-Separated Values file format used to import legacy inventory data.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "Unified University Inventory System (UUIS)\r\nSo basically right now we've got no single way of tracking \r\neverything the university owns across the faculties — \r\ncomputers, furniture, software licenses, rooms, even who's \r\nsitting where — and it's all over the place depending on which \r\ndepartment you ask. Each faculty kind of does its own thing \r\nwith spreadsheets or whatever old system they inherited, and \r\nnobody at the university level can just look something up and \r\ntrust the answer. We want to build one system that everybody \r\nlogs into, students, staff, IT people, deans, whoever, and \r\ndepending on who they are they can see and manage the stuff \r\nthat's relevant to them, but it's all sitting in one place \r\ninstead of scattered everywhere. \r\nThe way I picture it, once someone logs in (and for the people \r\nwith more access we probably want something extra like a voice \r\ncheck, not just a password) they land on a menu where they can \r\nlook up people, assets, locations and licenses, add new ones, \r\nedit them, get rid of stuff that's no longer around. Nothing \r\nshould ever really disappear though, more like get marked as \r\ninactive so we keep history. People should also be able to \r\nlump assets or rooms into groups, like all the printers on a \r\nfloor, or split things into subgroups, and bring in old data \r\nfrom CSV files from whatever system they're using today \r\ninstead of typing everything from scratch. \r\nThere's also this whole request and approval thing that \r\nmatters a lot to us. If someone wants to move an item, report \r\nsomething broken, or just ask for a new asset, they should be \r\nable to submit that and it goes up to whoever's one level \r\nabove them to approve or deny it, and if they say no they need \r\nto actually explain why. The exception is the people at the \r\nvery top, university-level admins basically, their requests \r\njust go through automatically since there's nobody above to \r\ncheck them. Speaking of levels, this is kind of the backbone \r\nof the whole thing: department, faculty, university, and then \r\na base user level, and what you can see and touch depends on \r\nwhere you sit, a faculty admin can reach into all the \r\ndepartments under them but a department admin only sees their \r\nown patch. We also want decent search, both a quick one where you just \r\ntype something and a more detailed one where you can filter by \r\ndifferent fields and combine conditions, plus some basic \r\nreporting, like comparing how many chairs or computers a room \r\nhas against its supposed capacity. And everything anyone does \r\nin the system needs to get logged somewhere so if there's ever \r\na question about who changed what, someone with the right \r\npermission can pull that up. \r\nA couple more things that matter even if they're not the \r\nflashy part. We can't have more than about two hundred people \r\nhammering the system at the same time, so it needs to hold up \r\nunder that kind of load without falling over. If nobody \r\ntouches it for half an hour, just log them out automatically, \r\nwe don't want sessions sitting open forever. And if something \r\ncrashes or a connection drops halfway through someone entering \r\ndata, whatever they hadn't saved yet needs to come back to \r\nthem when they log back in instead of just vanishing, losing \r\nsomeone's work because the system hiccuped would be a \r\nnightmare. On the security side, everything going over the \r\nnetwork needs to be encrypted properly, and let's put a \r\nCAPTCHA on anything automated so bots can't just hammer the \r\nlogin.",
+    "2ª ed. Geneva: ISO, \r\n2023. A edição 2023 substituiu a de 2011 e acrescentou a característica Safety.\r\nA ISO/IEC 25010:2023 define 9 características de qualidade do produto. Todo RNF deve ser \r\nclassificado em uma dessas características. A seguir, cada característica com seus sub-atributos e \r\nexemplo de RNF.\r\n1. Functional Suitability (Adequação Funcional)\r\n Functional Completeness — o sistema oferece todas as funções necessárias.\r\n Functional Correctness — as funções produzem os resultados corretos.\r\n Functional Appropriateness — as funções facilitam a realização das tarefas.\r\nEXEMPLO — RNF — 1. Functional Suitability\r\nO sistema deve calcular o imposto sobre o valor do pedido aplicando corretamente a alíquota de ICMS \r\nvigente para o estado de destino, conforme tabela oficial CONFAZ, com variação máxima de R$ 0,01 em \r\nrelação ao valor de referência da Receita Estadual.\r\n2. Performance Efficiency (Eficiência de Desempenho)\r\n Time Behaviour — tempo de resposta e throughput.\r\n Resource Utilisation — uso de CPU, memória, rede.\r\n Capacity — limites máximos suportados.\r\nEXEMPLO — RNF — 2. Performance Efficiency\r\nO sistema deve processar no mínimo 200 pedidos por minuto sob carga de 1.000 usuários simultâneos, com \r\ntempo de resposta inferior a 2 segundos no percentil 95.\r\n3. Compatibility (Compatibilidade)\r\n Co-existence — coexiste com outros sistemas sem degradação.\r\n Interoperability — troca dados com outros sistemas.\r\nEXEMPLO — RNF — 3. Compatibility\r\nA API do sistema deve expor endpoints REST/JSON compatíveis com o padrão OpenAPI 3.0, permitindo \r\nintegração com o ERP legado via OAuth 2.0 sem modificações no ERP.4. Interaction Capability (Capacidade de Interação) — antes 'Usabilidade'\r\n Appropriateness Recognisability — usuário reconhece a adequação do sistema.\r\n Learnability — facilidade de aprendizado.\r\n Operability — facilidade de operação.\r\n User Error Protection — proteção contra erros do usuário.\r\n User Engagement — interface envolvente e motivadora.\r\n Inclusivity — acessível a pessoas com diferentes capacidades.\r\n User Assistance — suporte ao usuário.\r\n Self-Descriptiveness — interface autoexplicativa.\r\nEXEMPLO — RNF — 4. Interaction Capability\r\nUm usuário sem treinamento prévio deve ser capaz de registrar seu primeiro pedido completo em até 10 \r\nminutos. A interface deve seguir as diretrizes WCAG 2.1 nível AA.\r\n5. Reliability (Confiabilidade)\r\n Faultlessness — ausência de falhas em condições normais.\r\n Availability — proporção de tempo em que o sistema está operacional.\r\n Fault Tolerance — operação correta mesmo com falhas parciais.\r\n Recoverability — recuperação após falha.\r\nEXEMPLO — RNF — 5. Reliability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês (máx. 3,6h de downtime não planejado). Em \r\ncaso de falha crítica, o sistema deve restaurar a operação normal em até 4 horas (RTO = 4h).",
+    "3\r\n\"WBMJBS\u0001PT\u00013JTDPT\r\n6.1\r\n\"OBMJTBS\u0001P\u0001\u0001\r\n&TUBEP\u0001\"UVBM\r\n5BSFGBT\r\n6.2\r\n%FGJOJS\u0001P\u0001&TUBEP\u0001\r\n'VUVSP\r\n6.4\r\n%FGJOJS\u0001B\u0001\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n3.2\r\n\"CPSEBHFN\u0001EF\u0001\r\n&OHBKBNFOUP\u0001EF\u0001\r\nStakeholder \r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n6.1 \r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001\"UVBM\r\n6.1\r\n3FRVJTJUPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n0CKFUJWPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n7BMPS\u00011PUFODJBM\r\n6.2\r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001'VUVSP\u0001\r\n6.3\u00013FTVMUBEPT\u0001\r\nEB\u0001\"OÈMJTF\u0001EF\u0001\r\n3JTDP\r\n6.4\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n6.4\r\n&TDPQP\u0001EB\u00014PMVÎÍP\r\n/FDFTTJEBEFT\r\n4.2\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\r\n(OÍP\u0001DPOGJSNBEPT\n\r\n&OUSBEB\r\n*OGMVÐODJBT\r\n(JOUFSOBT\r\u0001FYUFSOBT)\r\n4.3\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\u0001\r\n\tDPOGJSNBEPT\n\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT)Análise da Estratégia PE (6) AƵreas de Conhecimento do Padrão Essencial\r\n32\r\nAnalisar o Estado Atual PE (6.1)\r\nPropósito\r\nO objetivo de Analisar o Estado Atual é compreender as razões pelas quais \r\numa corporação precisa mudar algum aspecto de como ela funciona e o que \r\nseria direta ou indiretamente afetado pela mudança.\r\nDescrição\r\nAnalisar o Estado Atual compreende a necessidade do negócio e como ela se \r\nrelaciona com a maneira como a corporação funciona hoje. Define uma linha \r\nde base e contexto para a mudança.\r\nEntradas\r\n• Resultados de Elicitação: usado para definir e entender o estado atual.\r\n• Necessidades: o problema ou a oportunidade enfrentada por uma \r\ncorporação ou organização com frequência inicia um trabalho de análise \r\nde negócios para melhor entender essas necessidades.\r\nSaídas \r\n• Descrição do Estado Atual: o contexto do escopo, capacidades, recursos, \r\ndesempenho, cultura, dependências, infraestrutura, influências externas \r\nda corporação e relações significativas entre estes elementos.\r\n• Requisitos de Negócio: o problema, a oportunidade ou a restrição \r\ndefinida com base em um entendimento do estado atual.\r\nDefinir o Estado Futuro PE (6.2)\r\nPropósito\r\nO objetivo de Definir o Estado Futuro é determinar o conjunto de condições \r\nnecessárias para atender às necessidades do negócio.",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    "112 PART II Requirements development\r\nCategory Activities\r\nValidation and \r\nverification\r\n■ Review requirements specifications.\r\n■ Define acceptance criteria.\r\n■ Develop user acceptance tests from usage scenarios.\r\n■ Provide test data sets from the business.\r\n■ Perform beta testing or user acceptance testing.\r\nUser aids ■ Write portions of user documentation and help text.\r\n■ Contribute to training materials or tutorials.\r\n■ Demonstrate the system to peers.\r\nChange management ■ Evaluate and prioritize defect corrections and enhancement requests.\r\n■ Dynamically adjust the scope of future releases or iterations.\r\n■ Evaluate the impact of proposed changes on users and business processes.\r\n■ Participate in making change decisions.\r\nMultiple product champions\r\nOne person can rarely describe the needs for all users of an application. The Chemical Tracking \r\nSystem had four major user classes, so it needed four product champions selected from the internal \r\nuser community at Contoso Pharmaceuticals. Figure 6-4 illustrates how the project manager set up \r\na team of BAs and product champions to elicit the right requirements from the right sources. These \r\nchampions were not assigned full time, but each one spent several hours per week working on the \r\nproject. Three BAs worked with the four product champions to elicit, analyze, and document their \r\nrequirements. (One BA worked with two product champions because the Buyer and the Health and \r\nSafety Department user classes were small and had few requirements.) One of the BAs assembled all \r\nthe input into a unified SRS.\r\nFIGURE 6-4 Product champion model for the Chemical Tracking System.\r\nWe didn’t expect a single person to provide all the diverse requirements for the hundreds of \r\nchemists at Contoso. Don, the product champion for the Chemist user class, assembled a backup",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193\r\n3. System features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 194\r\n4. Data requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195\r\n5. External interface requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . 196\r\n6. Quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197\r\n7. Internationalization and localization requirements. . . . . . . . . . . 198\r\n8. [Other requirements]. . . . . . . .",
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "106 PART II Requirements development\r\nFIGURE 6-2 A portion of the organization chart for Contoso Pharmaceuticals.\r\nDocument the user classes and their characteristics, responsibilities, and physical locations in \r\nthe software requirements specification (SRS) or in a requirements plan for your project. Check that \r\ninformation against any information you might already have about stakeholder profiles in the vision \r\nand scope document to avoid conflicts and duplication. Include all pertinent information you have \r\nabout each user class, such as its relative or absolute size and which classes are favored. This will \r\nhelp the team prioritize change requests and conduct impact assessments later on. Estimates of \r\nthe volume and type of system transactions help the testers develop a usage profile for the system \r\nso that they can plan their verification activities. The project manager and business analyst of the \r\nChemical Tracking System discussed in earlier chapters identified the user classes and characteristics \r\nshown in Table 6-1.\r\nTABLE 6-1 User classes for the Chemical Tracking System\r\nName Number Description\r\nChemists \r\n(favored)\r\nApproximately \r\n1,000 located in \r\n6 buildings\r\nChemists will request chemicals from vendors and from the chemical \r\nstockroom. Each chemist will use the system several times per day, mainly for \r\nrequesting chemicals and tracking chemical containers into and out of the \r\nlaboratory. The chemists need to search vendor catalogs for specific chemical \r\nstructures imported from the tools they use for drawing structures.\r\nBuyers 5 Buyers in the purchasing department process chemical requests. They place \r\nand track orders with external vendors. They know little about chemistry and \r\nneed simple query facilities to search vendor catalogs. Buyers will not use \r\nthe system’s container-tracking features. Each buyer will use the system an \r\naverage of 25 times per day.\r\nChemical \r\nstockroom staff\r\n6 technicians, \r\n1 supervisor\r\nThe chemical stockroom staff manages an inventory of more than 500,000 \r\nchemical containers. They will supply containers from three stockrooms, \r\nrequest new chemicals from vendors, and track the movement of all \r\ncontainers into and out of the stockrooms. They are the only users of the \r\ninventory-reporting feature. Because of their high transaction volume, \r\nfeatures that are used only by the chemical stockroom staff must be \r\nautomated and efficient.\r\nHealth \r\nand Safety \r\nDepartment staff \r\n(favored)\r\n1 manager The Health and Safety Department staff will use the system only to generate \r\npredefined quarterly reports that comply with federal and state chemical \r\nusage and disposal reporting regulations. The Health and Safety Department \r\nmanager will request changes in the reports periodically as government \r\nregulations change. These report changes are of the highest priority, and \r\nimplementation will be time critical.",
+    "Nível Fundamental | Syllabus ©IREB 21 | 50\r\n1. Os requisitos são classificados pelo seu tipo (1.1) em:\r\na) Requisitos funcionais\r\nb) Requisitos de qualidade\r\nc) Restrições\r\n2. Os requisitos funcionais concentram-se em diferentes aspectos da funcionalidade \r\nde um sistema:\r\na) Estrutura e dados\r\nb) Função e fluxo\r\nc) Estado e comportamento\r\n3. Finalmente, os requisitos só serão entendidos no contexto (Princípio 4 em 2):\r\na) Contexto do sistema, incluindo atores externos\r\nb) Limites do sistema e interfaces externas\r\nHá muitas relações e dependências entre os aspectos mencionados. Por exemplo, uma \r\nsolicitação emitida por um usuário (contexto) pode levar a uma transição de estado (estado \r\ne comportamento) que inicia ações em cadeia (função e fluxo) que requerem dados \r\n(estrutura e dados) para fornecer um resultado ao usuário (contexto) dentro de um intervalo \r\nde tempo (qualidade).\r\nAlguns produtos de trabalho focam em um aspecto específico e abstraem os outros \r\naspectos. Este é particularmente o caso dos modelos de requisitos (3.4). Outros produtos de \r\ntrabalho, como uma especificação dos requisitos do sistema, cobrem todos os aspectos \r\ncitados. Quando aspectos diferentes são documentados em produtos de trabalho \r\nseparados ou em capítulos separados do mesmo produto de trabalho, esses produtos de \r\ntrabalho ou capítulos de trabalho devem ser mantidos consistentes entre si.\r\n3.1.5 Diretrizes Gerais de Documentação (L1)\r\nIndependentemente das técnicas utilizadas, as seguintes diretrizes aplicam-se na criação \r\nde produtos de trabalho:\r\n▪ Selecionar um tipo de produto de trabalho que se adapte à finalidade pretendida.\r\n▪ Evitar a redundância referenciando o conteúdo em vez de repetir o mesmo conteúdo.\r\n▪ Assegurar que não existem inconsistências entre os produtos de trabalho, \r\nparticularmente quando cobrem aspectos diferentes.\r\n▪ Usar termos de forma consistente, conforme definido no glossário.\r\n▪ Estruturar produtos de trabalho de forma apropriada.\r\n3.1.6 Planejar os produtos de trabalho a serem utilizados \r\n(L1)\r\nCada cenário de projeto e cada domínio são diferentes, portanto, o conjunto de produtos de \r\ntrabalho resultante deve ser definido para cada empreendimento. Portanto, as seguintes \r\nquestões devem ser acordadas:\r\n▪ Em que produtos de trabalho devem ser registados os requisitos e para que fins?",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    "→ Impreciso. O que é 'perder dados'?\r\nREFORMULAR como: 'O sistema deve persistir todos os dados de pedido mesmo em caso de falha \r\nde conexão, retomando a gravação quando a conexão for restabelecida.'\r\nAÇÃO: transformar negação em afirmação positiva e verificável.\r\nCópia literal de linguagem informal\r\nERRADO: RF-010: 'O sistema tem que ser tipo um CRM mas mais simples.'\r\nA linguagem do documento de entrada nunca deve ir direto para o SRS.\r\nAÇÃO: reformular sempre no padrão 'O sistema deve [verbo] [complemento].'\r\nRNF sem categoria ou sem métrica\r\nExtrair 'o sistema deve ser seguro' e deixar assim é inválido pela ISO 29148.\r\nAÇÃO: identificar a categoria ISO 25010 e propor métrica mínima, marcando [TBD] se o dado \r\npreciso não estiver no documento.\r\nConfundir processo atual com requisito do novo sistema\r\nTexto descreve como o processo É HOJE, não como deveria ser.\r\n'Hoje o vendedor imprime o pedido e manda por fax' → isso é o estado atual.\r\nO requisito é derivado da MELHORIA desejada, não da cópia do processo ruim.\r\nAÇÃO: identificar a dor/ineficiência → transformar em HU do novo sistema.Stakeholder implícito ignorado\r\nTexto menciona 'o sistema enviará relatório para a contabilidade' — mas 'contabilidade' não foi \r\nlistada como stakeholder. É um usuário secundário implícito.\r\nAÇÃO: varrer o documento inteiro por menções a papéis, departamentos e sistemas externos — \r\ntodos são stakeholders potenciais.\r\nRNF de conformidade ignorado\r\nDocumentos de setores regulados (saúde, financeiro, governo) contêm exigências legais que geram \r\nRNFs obrigatórios. 'Conforme LGPD', 'de acordo com a Resolução CMN 4.658' → sempre extrair \r\ncomo RNF de conformidade com alta prioridade.\r\nAÇÃO: toda menção a lei, norma, resolução ou certificação gera pelo menos um RNF.PARTE 5 — Extração Completa: Do Texto Bruto ao SRS\r\nEsta parte mostra a extração completa de um texto de entrada informal (e-mail + ata de reunião) \r\npara o conjunto de artefatos SRS.\r\n5.1 Documento de Entrada (simulação de e-mail + notas)\r\n--- INÍCIO DO DOCUMENTO DE ENTRADA ---\r\nDe: Maria Silva (Diretora Comercial)\r\nPara: Equipe de TI\r\nAssunto: Sistema de controle de propostas comerciais\r\nPessoal, precisamos urgente de um sistema para controlar nossas propostas. Hoje tudo é feito em planilha e a gente \r\nperde o controle — às vezes mandamos proposta com preço errado porque a tabela foi atualizada mas o vendedor não \r\nsabia.",
+    ".170\r\nAction enablers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 171\r\nInferences. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nComputations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nAtomic business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174\r\nDocumenting business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . .",
+    ". . . . . . . . . . . . . . . . . . 163\r\nBenefits of usage-centric requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . 164\r\nChapter 9 Playing by the rules 167\r\nA business rules taxonomy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169\r\nFacts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .170\r\nAction enablers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 171\r\nInferences. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nComputations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nAtomic business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174\r\nDocumenting business rules. . . . . . . . . . . .",
+    "[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários? prazo? tipo de sistema?\r\n 3. Se não há dados suficientes: propor métrica razoável para o tipo de sistema e sinalizar como TBD\r\n 4. Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO.",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    "Nível Fundamental | Syllabus ©IREB 18 | 50\r\n3 Produtos de Trabalho e Práticas de \r\nDocumentação (L3)\r\nObjetivo: Entender o papel fundamental dos produtos de trabalho na ER e ser capaz de \r\ncriá-los\r\nDuração: 7 horas\r\nTermos: Produto de trabalho, produtos de trabalho em linguagem natural, produtos de\r\ntrabalho baseados em templates, produtos de trabalho baseados em modelos, \r\nglossário, critérios de qualidade, especificação de requisitos\r\nObjetivos Educacionais\r\nOE 3.1.1 Saber as características dos produtos de trabalho ER e enumerar os tipos de \r\nprodutos de trabalho frequentemente utilizados (L1)\r\nOE 3.1.2 Saber o uso de cada produto de trabalho e conhecer o seu tempo de vida útil (L1)\r\nOE 3.1.3 Explicar os diferentes níveis de abstração para os requisitos, incluindo como \r\nescolher os níveis apropriados e níveis de detalhe (L2)\r\nOE 3.1.4 Conhecer os aspectos a considerar nos produtos de trabalho e suas relações (L1)\r\nOE 3.1.5 Nomear as diretrizes gerais de documentação (L1)\r\nOE 3.1.6 Descrever por que vale a pena planejar o uso dos produtos de trabalho (L1)\r\nOE 3.2.1 Conhecer os produtos de trabalho em linguagem natural, suas vantagens e \r\ndesvantagens (L1)\r\nOE 3.2.2 Explicar as regras para escrever bons requisitos em linguagem natural (L2)\r\nOE 3.3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.",
+    "Nível Fundamental | Syllabus ©IREB 11 | 50\r\n▪ Restrições são requisitos que limitam o espaço da solução além do que é necessário \r\npara atender aos requisitos funcionais e de qualidade.\r\n1.2 Engenharia de Requisitos: Porquê (L2)\r\nA ER adequada agrega valor no processo de desenvolvimento e evolução de um sistema:\r\n▪ Reduzindo o risco de desenvolver o sistema errado\r\n▪ Melhorando a compreensão do problema\r\n▪ Sendo base na estimativa de esforço e custo de desenvolvimento\r\n▪ Sendo pré-requisito no teste de sistema\r\nSintomas típicos de uma ER inadequada são requisitos não especificados, sem clareza ou \r\nincorretos. Isto é particularmente devido a:\r\n▪ Pressa para construção do sistema\r\n▪ Problemas de comunicação entre stakeholders\r\n▪ O pressuposto de que os requisitos são evidentes por si mesmos\r\n▪ Capacitação e competências inadequadas na ER\r\n1.3 Engenharia de Requisitos: Onde (L2)\r\nA ER pode ser aplicada aos requisitos de qualquer sistema. No entanto, a aplicação \r\ndominante da ER hoje é basicamente em sistemas nas quais o software desempenha um \r\npapel importante. Tais sistemas normalmente consistem em componentes de software, \r\nelementos físicos e organizacionais.\r\nOs requisitos podem ocorrer como:\r\n▪ Requisitos do sistema - o que um sistema deve fazer\r\n▪ Requisitos de stakeholders - o que os stakeholders querem de sua perspectiva\r\n▪ Requisitos de usuário - o que os usuários querem de sua perspectiva\r\n▪ Requisitos de domínio - propriedades de domínio necessárias\r\n▪ Requisitos de negócio - metas de negócio, objetivos, e necessidades de uma \r\norganização\r\n1.4 Engenharia de Requisitos: Como (L1)\r\nAs principais tarefas na ER são a elicitação (4.2), documentação (3), validação (4.4) e \r\ngerenciamento (6) de requisitos. O uso de ferramentas (7) pode ajudar a realizar estas \r\ntarefas. A análise de requisitos e a resolução de conflitos de requisitos (4.3) são \r\nconsiderados parte da elicitação. Para executar corretamente as atividades da ER, um \r\nprocesso da ER deve ser adaptado a partir de um leque de possibilidades (5).",
+    "[Derivado de: 'dentro da \r\nLGPD']\r\nRNF-003 (Reliability — Fault Tolerance):\r\nO sistema deve operar em modo offline com funcionalidade de criação de propostas, sincronizando \r\nautomaticamente com latência máxima de 30 segundos após reconexão. [Derivado de: 'funcionar quando \r\ninternet tiver ruim']\r\nRNF-004 (Compatibility — Interoperability):\r\nA integração com SAP deve ser bidirecional via API REST/JSON, sem modificações na configuração atual do \r\nSAP. [Derivado de: 'vira pedido automaticamente no SAP']\r\nRNF-005 (Flexibility — Installability):\r\nO sistema deve ser responsivo e funcional em dispositivos móveis (Android/iOS) sem necessidade de \r\naplicativo nativo. [Derivado de: 'usam no celular em campo']\r\nHistórias de Usuário\r\nHU-001: Como vendedor, quero criar propostas com preços atualizados automaticamente, para evitar erros \r\nde precificação e retrabalho.\r\nHU-002: Como diretora comercial, quero ver todas as propostas abertas em tempo real em um painel, para \r\nnão precisar ligar para cada vendedor para saber a situação.\r\nHU-003: Como vendedor, quero criar propostas no celular mesmo sem internet, para não perder \r\noportunidades quando estou em campo.\r\nCritérios de Aceite\r\nCA-001 (RF-001):\r\nDado que o vendedor está criando uma nova proposta,\r\nQuando selecionar um produto,\r\nEntão o sistema deve exibir o preço da tabela de preços com data de vigência atual, sem necessidade de \r\nconsulta manual.\r\nCA-002 (RF-002):\r\nDado que uma proposta com valor R$ 60.000,00 foi finalizada pelo vendedor,\r\nQuando clicar em 'Enviar ao cliente',\r\nEntão o sistema deve redirecionar para status 'Aguardando aprovação', notificar a diretora por e-mail e \r\nbloquear o envio até aprovação registrada.CA-003 (RF-006 / HU-003):\r\nDado que o vendedor está sem conexão à internet,\r\nQuando criar e salvar uma proposta no modo offline,\r\nEntão o sistema deve armazená-la localmente e sincronizá-la com o servidor em até 30 segundos após a \r\nreconexão, sem perda de dados.PARTE 6 — Protocolo de Extração: Passo a Passo para o Agente\r\nAo receber um documento de projeto, executar nesta ordem:\r\n1. PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5.",
+    "The exception is the people at the \r\nvery top, university-level admins basically, their requests \r\njust go through automatically since there's nobody above to \r\ncheck them. Speaking of levels, this is kind of the backbone \r\nof the whole thing: department, faculty, university, and then \r\na base user level, and what you can see and touch depends on \r\nwhere you sit, a faculty admin can reach into all the \r\ndepartments under them but a department admin only sees their \r\nown patch. We also want decent search, both a quick one where you just \r\ntype something and a more detailed one where you can filter by \r\ndifferent fields and combine conditions, plus some basic \r\nreporting, like comparing how many chairs or computers a room \r\nhas against its supposed capacity. And everything anyone does \r\nin the system needs to get logged somewhere so if there's ever \r\na question about who changed what, someone with the right \r\npermission can pull that up. \r\nA couple more things that matter even if they're not the \r\nflashy part. We can't have more than about two hundred people \r\nhammering the system at the same time, so it needs to hold up \r\nunder that kind of load without falling over. If nobody \r\ntouches it for half an hour, just log them out automatically, \r\nwe don't want sessions sitting open forever. And if something \r\ncrashes or a connection drops halfway through someone entering \r\ndata, whatever they hadn't saved yet needs to come back to \r\nthem when they log back in instead of just vanishing, losing \r\nsomeone's work because the system hiccuped would be a \r\nnightmare. On the security side, everything going over the \r\nnetwork needs to be encrypted properly, and let's put a \r\nCAPTCHA on anything automated so bots can't just hammer the \r\nlogin. \r\nThings like managing permissions themselves, creating new \r\nroles, tweaking what each role can do, that's more of an \r\nadmin-only corner of the system and honestly not the part \r\nwe're most excited about, it just needs to exist so the \r\nhigher-ups can keep control. Multiple languages and that kind \r\nof polish, plus the heavier department and faculty specific \r\nfunctions, those can wait for a later version, we're fine if \r\nversion one is English-only and covers the main stuff for now. \r\nWhat we really care about for this first round is getting \r\npeople, assets, locations and licenses all visible and \r\nmanageable in one web system that anyone in the university can \r\nlog into through a browser without needing anything special \r\ninstalled.",
+    ". . . . . . . . . . . . . . . . . . . . 149\r\nIdentifying use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157Contents xiii\r\nExploring use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 158\r\nValidating use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 160\r\nUse cases and functional requirements. . . . . . . . . . . . . . . . . . . . . . . 161\r\nUse case traps to avoid. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 163\r\nBenefits of usage-centric requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . 164\r\nChapter 9 Playing by the rules 167\r\nA business rules taxonomy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169\r\nFacts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.\r\nREQUISITO FUNCIONAL — Estrutura\r\nID: RF-NNN\r\nTítulo: [Nome curto e descritivo]\r\nDescrição: O sistema deve [verbo no infinitivo] [complemento completo e \r\npreciso].\r\nPrioridade: Must have | Should have | Could have | Won't have (MoSCoW)\r\nStakeholder (Origem): STK-NN\r\nRegra de Negócio associada: RN-NNN (ou 'N/A')\r\nObservações: [informações adicionais, como restrições de implementação]\r\nEXEMPLO — Requisitos Funcionais do SGP\r\nRF-001 | Autenticação de usuário\r\nO sistema deve permitir que o usuário realize login utilizando e-mail e senha previamente cadastrados.\r\nPrioridade: Must have | STK-01, STK-02 | N/A\r\nRF-002 | Bloqueio por tentativas excessivas\r\nO sistema deve bloquear temporariamente o acesso de um usuário por 15 minutos após 5 (cinco) tentativas \r\nconsecutivas de login malsucedidas.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Registro de pedido\r\nO sistema deve permitir que o vendedor registre um pedido contendo um ou mais produtos, com quantidade,\r\npreço unitário e desconto por item.\r\nPrioridade: Must have | STK-02 | RN-001, RN-002\r\nRF-004 | Notificação de confirmação\r\nO sistema deve enviar automaticamente um e-mail de confirmação ao cliente após a criação bem-sucedida \r\nde um pedido.Prioridade: Should have | STK-02 | N/A\r\nRF-005 | Aprovação de pedido de alto valor\r\nO sistema deve submeter para aprovação do gerente comercial todo pedido cujo valor total supere R$ \r\n10.000,00, impedindo a confirmação ao cliente até que a aprovação seja registrada.\r\nPrioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável.",
+    "Mudanças também podem causar necessidades ao reduzir ou \r\naumentar o valor entregue por soluções existentes.\r\nSolução\r\nUma forma especı́fica de satisfazer uma ou mais necessidades em um \r\ncontexto.\r\nUma solução satisfaz uma necessidade por meio da resolução de um \r\nproblema enfrentado pelos stakeholders ou habilitando os stakeholders \r\na aproveitar uma oportunidade.\r\nStakeholder\r\nUm grupo ou indivı́duo com uma relação com a mudança, com a \r\nnecessidade, ou com a solução.\r\nOs stakeholders são frequentemente definidos em termos de interesse, \r\nimpacto e influência sobre a mudança. Os stakeholders são agrupados \r\ncom base em sua relação com as necessidades, mudanças e soluções.\r\nValor\r\nO quanto algo vale a pena, sua importância ou utilidade para um \r\nstakeholder dentro de um contexto.\r\nValor pode ser visto como retornos potenciais ou realizados, ganhos e \r\nmelhorias. Também é possıvel haver uma diminuiça ́ ̃o no valor sob a \r\nforma de perdas, riscos e custos.\r\nValor pode ser tangıvel ou intangı ́ vel. Valor tangı ́ vel e ́ ́ diretamente \r\nmensurável. Valor tangıvel muitas vezes t ́ em um componente \r\nmonetário significativo. Valor intangıvel e ́ ́ medido indiretamente. Valor \r\nintangıvel muitas vezes tem um componente motivacional significativo, ́\r\ncomo o da reputação de uma companhia ou moral do funcionário.\r\nEm alguns casos, o valor pode ser avaliado em termos absolutos, mas \r\nem muitos casos é avaliado em termos relativos: uma opção de solução \r\né mais valiosa do que outra, na perspectiva de um determinado \r\nconjunto de stakeholders.\r\nContexto\r\nAs circunstâncias que influenciam, são influenciadas e proporcionam \r\ncompreensão da mudança.\r\nAs mudanças ocorrem dentro de um contexto. O contexto é tudo que é\r\nrelevante para a mudança que está dentro do ambiente. O contexto pode \r\nincluir atitudes, comportamentos, crenças, concorrentes, cultura, \r\ndemografia, metas, governos, infraestrutura, idiomas, perdas, \r\nprocessos, produtos, projetos, vendas, estações do ano, terminologia, \r\ntecnologia, clima, e quaisquer outros elementos que atendam à\r\ndefinição.",
+    "C2-10\r\n5 DISCUSSION AND CONCLUSIONS\r\nIn this study, an SMS has been carried out where five user-centric methodologies for \r\nrequirement engineering (UCMRE) were obtained: DoRCU, XRE, Ammeth, Borja and Paéz. \r\nThe SMS has followed a process based on the methodology based on Petersen (2015) in three\r\ndigital databases of interest for software engineering.\r\nSubsequently, considering the relevance of ISO 29148, a standard updated in 2018, process \r\nelements from this standard were used as criteria to compare the five UCMRE identified. This \r\ncomparison has made it possible to identify that DoRCU is the most aligned with ISO 29148, \r\nfollowed by, without an important distinction between them, Ammeth, Borja and Paéz; finally, \r\nXRE is the least aligned of the group of UCMRE evaluated. Likewise, it is observed that all \r\nId* Process element\r\nDoRCU\r\nXRE\r\nAMMETH\r\nBorja\r\nPáez\r\n6.2 Business or mission analysis process Y Y Y Y Y\r\n6.3 Stakeholder needs and requirements \r\ndefinition process --- --- --- --- ---\r\n6.3.3.2 Prepare for Stakeholder Needs and \r\nRequirements Definition Y - Y Y Y\r\nIdentify the stakeholders Y Y Y Y Y\r\nRequirements definition strategy Y - Y Y Y\r\n6.3.3.3 Define stakeholder needs Y - Y Y Y\r\nIdentify stakeholder needs. Y Y Y Y Y\r\nPrioritize and down-select needs. Y Y Y Y Y\r\n6.3.3.4 Develop the operational concept and other \r\nlife cycle concepts Y - Y Y Y\r\nIdentify the interaction between users and \r\nthe system. Y - Y Y Y\r\nIdentify the factors affecting interactions \r\nbetween users and the system. Y - Y Y -\r\n6.3.3.5 Transform stakeholder needs into \r\nstakeholder requirements Y Y Y Y Y\r\n6.3.3.6 Analyze stakeholder requirements. Y Y Y Y Y\r\n6.3.3.7 Manage the stakeholder needs and \r\nrequirements definition Y Y - Y Y\r\n6.4 System [System/Software] Requirements \r\ndefinition process --- --- --- --- ---\r\n6.4.3.2 Prepare for System [System/Software] \r\nRequirements Definition Y Y Y - Y\r\n6.4.3.3 Define system[/software] requirements Y Y Y Y Y\r\n6.4.3.4 Analyze system[/software] requirements Y Y Y Y Y\r\n6.4.3.5 Manage system[/software] requirements Y - Y Y -\r\nMaintain traceability of the system[/software] \r\nrequirements. Y Y Y - -\r\n6.5 Requirements engineering activities in other \r\ntechnical processes --- --- --- --- ---\r\n6.5.1 Requirements activities in architecture \r\ndefinition - - - Y -\r\n6.5.2 Requirements activities in verification Y Y Y Y Y\r\n6.5.3 Requirements activities in validation Y Y Y Y Y\r\n6.6 Requirements management Y Y Y Y Y\r\n9.3 Business requirement specification (BRS) Y - - - -\r\n9.4 Stakeholder requirements specification \r\n(StRS) Y - Y Y Y\r\n9.5 System requirements specification (SyRS) Y - - - -\r\n9.6 Software requirements specification (SRS) Y Y Y Y Y\r\nTotal 25 15 22 22 20\r\nTable 3. Comparison of processes / activities between ISO 29148 and UCMRE identified",
+    "If developers build exactly what \r\ncustomers initially request, they’ll probably have to build it again because customers often don’t \r\nknow what they really need. In addition, the BAs might not be talking to the right people or asking \r\nthe right questions.\r\nThe features that users present as their “wants” don’t necessarily equate to the functionality they \r\nneed to perform their tasks with the new product. To gain a more accurate view of user needs, the \r\nbusiness analyst must collect a wide range of user input, analyze and clarify it, and specify just what \r\nneeds to be built to let users do their jobs. The BA has the lead responsibility for recording the new \r\nsystem’s necessary capabilities and properties and for communicating that information to other \r\nstakeholders. This is an iterative process that takes time. If you don’t invest the time to achieve this \r\nshared understanding—this common vision of the intended product—the certain outcomes are \r\nrework, missed deadlines, cost overruns, and customer dissatisfaction.\r\nUser classes\r\nPeople often talk about “the user” for a software system as though all users belong to a monolithic \r\ngroup with similar characteristics and needs. In reality, most products of any size appeal to a diversity \r\nof users with different expectations and goals. Rather than thinking of “the user” in singular, spend \r\nsome time identifying the multiple user classes and their roles and privileges for your product.\r\nClassifying users\r\nChapter 2 described many of the types of stakeholders that a project might have. As shown in \r\nFigure 6-1, a user class is a subset of the product’s users, which is a subset of the product’s customers, \r\nwhich is a subset of its stakeholders. An individual can belong to multiple user classes. For example, \r\nan application’s administrator might also interact with it as an ordinary user at times. A product’s \r\nusers might differ—among other ways—in the following respects, and you can group users into a \r\nnumber of distinct user classes based on these sorts of differences:\r\n■ Their access privilege or security levels (such as ordinary user, guest user, administrator)\r\n■ The tasks they perform during their business operations\r\n■ The features they use\r\n■ The frequency with which they use the product\r\n■ Their application domain experience and computer systems expertise\r\n■ The platforms they will be using (desktop PCs, laptop PCs, tablets, smartphones, specialized \r\ndevices)CHAPTER 6 Finding the voice of the user 103\r\n■ Their native language\r\n■ Whether they will interact with the system directly or indirectly\r\nFIGURE 6-1 A hierarchy of stakeholders, customers, users, and user classes.\r\nIt’s tempting to group users into classes based on their geographical location or the kind of \r\ncompany they work in. One company that creates software used in the banking industry initially \r\nconsidered distinguishing users based on whether they worked in a large commercial bank, a small \r\ncommercial bank, a savings and loan institution, or a credit union. These distinctions really represent \r\ndifferent market segments, though, not different user classes.\r\nA better way to identify user classes is to think about the tasks that various users will perform with \r\nthe system. All of those types of financial institutions will have tellers, employees who process loan \r\napplications, business bankers, and so forth. The individuals who perform such activities—whether \r\nthey are job titles or simply roles—will have similar functional needs for the system across all of the \r\nfinancial institutions. Tellers all have to do more or less the same things, business bankers do more or \r\nless the same things, and so on. More logical user class names for a banking system therefore might \r\ninclude teller, loan officer, business banker, and branch manager. You might discover additional user \r\nclasses by thinking of possible use cases, user stories, and process flows and who might perform them.",
+    "396 PART III Requirements for specific project classes\r\nPrioritizing by using business objectives\r\nEnhancement projects are undertaken to add new capabilities to an existing application. It’s easy \r\nto get caught up in the excitement and start adding unnecessary capabilities. To combat this risk \r\nof gold-plating, trace requirements back to business objectives to ensure that the new features are \r\nneeded and to select the highest-impact features to implement first. You also might need to prioritize \r\nenhancement requests against the correction of defects that had been reported against the old \r\nsystem.\r\nAlso be wary of letting unnecessary new functionality slip into replacement projects. The main \r\nfocus of replacement projects is to migrate existing functionality. However, customers might imagine \r\nthat if you are developing a new system anyway, it is easy to add lots of new capabilities right away. \r\nMany replacement projects have collapsed because of the weight of uncontrolled scope growth. \r\nYou’re usually better off building a stable first release and adding more features through subsequent \r\nenhancement projects, provided the first release allows users to do their jobs.\r\nReplacement projects often originate when stakeholders want to add functionality to an existing \r\nsystem that is too inflexible to support the growth or has technology limitations. However, there needs \r\nto be a clear business objective to justify implementing an expensive new system (Devine 2008). Use \r\nthe anticipated cost savings from a new system (such as through reduced maintenance of an old, \r\nclunky system) plus the value of the new desired functionality to justify a system replacement project.\r\nAlso look for existing functionality that doesn’t need to be retained in a replacement system. Don’t \r\nreplicate the existing system’s shortcomings or miss an opportunity to update a system to suit new \r\nbusiness needs and processes. For example, the BA might ask users, “Do you use <a particular menu \r\noption>?” If you consistently hear “I never do that,” then maybe it isn’t needed in the replacement \r\nsystem. Look for usage data that shows what screens, functions, or data entities are rarely accessed \r\nin the current system. Even the existing functionality has to map to current and anticipated business \r\nobjectives to warrant re-implementing it in the new system.\r\nTrap Don’t let stakeholders get away with saying “I have it today, so I need it in the new \r\nsystem” as a default method of justifying requirements.\r\nMind the gap\r\nA gap analysis is a comparison of functionality between an existing system and a desired new system. \r\nA gap analysis can be expressed in different ways, including use cases, user stories, or features. When \r\nenhancing an existing system, perform a gap analysis to make sure you understand why it isn’t \r\ncurrently meeting your business objectives.\r\nGap analysis for a replacement project entails understanding existing functionality and discovering \r\nthe desired new functionality (see Figure 21-1). Identify user requirements for the existing system that \r\nstakeholders want to have re-implemented in the new system. Also, elicit new user requirements that \r\nthe existing system does not address. Consider any change requests that were never implemented CHAPTER 21 Enhancement and replacement projects 397\r\nin the existing system. Prioritize the existing user requirements and the new ones together. Prioritize \r\nclosing the gaps using business objectives as described in the previous section or the other \r\nprioritization techniques presented in Chapter 16, “First things first: Setting requirement priorities.”\r\nFIGURE 21-1 When you are replacing an existing system, some requirements will be implemented unchanged, \r\nsome will be modified, some will be discarded, and some new requirements might be added.\r\nMaintaining performance levels\r\nExisting systems set user expectations for performance and throughput. Stakeholders almost \r\nalways have key performance indicators (KPIs) for existing processes that they will want to maintain \r\nin the new system.",
+    "Nível Fundamental | Syllabus ©IREB 50 | 50\r\n[LiSZ1994] H. Lichter, M. Schneider-Hufschmidt, H. Zullighoven: Prototyping in Industrial \r\nSoftware Projects – Bridging the Gap Between Theory and Practice. IEEE \r\nTransactions on Software Engineering 1994, 20 (11): 825–832.\r\n[MFeA2019] D. Méndez Fernández, X. Franch, N. Seyff, M. Felderer, M. Glinz, M. Kalinowski, \r\nA. Volgelsang, S. Wagner, S. Bühne, K. Lauenroth: Do We Preach What We \r\nPractice? Investigating the Practical Relevance of Requirements Engineering \r\nSyllabi - The IREB Case. CIbSE 2019: 476-487.\r\n[Moor2014] C. W. Moore: The Mediation Process – Practical Strategies for Resolving \r\nConflicts, 4th edition. John Wiley & Sons, Hoboken, 2014.\r\n[MWHN2009] A. Mavin, P. Wilkinson, A. Harwood, and M. Novak: Easy Approach to \r\nRequirements Syntax (EARS). 17th IEEE International Requirements \r\nEngineering Conference (RE'09), Atlanta, Georgia, 2009. 317–322.\r\n[OleA2018] K. Olsen et al.: Certified Tester, Foundation Level Syllabus - Version 2018. \r\nInternational Software Testing Qualifications Board, 2018.\r\n[OMG2013] Object Management Group: Business Process Model and Notation (BPMN), \r\nversion 2.0.2. OMG document formal/2013-12-09 \r\nhttp://www.omg.org/spec/BPMN. Última visita Julho de 2020.\r\n[OMG2017] Object Management Group: OMG Unified Modeling Language (OMG UML), \r\nversion 2.5.1. OMG document formal/2017-12-05. \r\nhttps://www.omg.org/spec/UML/About-UML/. Última visita Julho de 2020.\r\n[OMG2019] Object Management Group: OMG Systems Modeling Language (OMG \r\nSysML™), Version 1.6. OMG Document formal/19-11-01.\r\nhttps://www.omg.org/spec/SysML/. Última visita em Janeiro de 2022.\r\n[Osbo1979] A. F. Osborn: Applied Imagination, 3rd revised edition. Charles Scribner´s Sons, \r\nNew York, 1979.\r\n[RoRo2012] S. Robertson and J. Robertson: Mastering the Requirements Process, 3rd \r\nedition. Addison-Wesley, Boston, 2012.\r\n[Rupp2014] C. Rupp: Requirements-Engineering und Management, 6. Auflage. Hanser, \r\nMünchen, 2014. (in German).\r\n[Sdsc2012] Stanford d.school: An Introduction to Design Thinking. Hasso Plattner Institute \r\nof Design, Stanford, 2012. https://dschool￾old.stanford.edu/groups/designresources/wiki/36873. Última visita Julho de \r\n2020.\r\n[vLam2009] Axel van Lamsweerde: Requirements Engineering: From System Goals to UML \r\nModels to Software Specifications. Chichester: John Wiley & Sons, 2009.\r\n[Vole2020] Volere: Requirements Resources. https://www.volere.org. Última visita Julho de \r\n2020.",
+    "Nível Fundamental | Syllabus ©IREB 27 | 50\r\natingir um objetivo, atores que querem atingir um objetivo e obstáculos que impedem a \r\nrealização de um objetivo.\r\nEm SysML [OMG2019], os diagramas de definição de blocos podem ser adaptados para \r\nexpressar diagramas de contexto usando blocos estereotipados para o sistema e atores. Os \r\ndiagramas de definição de blocos também podem ser usados para modelar a estrutura de \r\num sistema em termos das entidades conceituais do sistema e das relações entre elas.\r\nOs modelos de histórias de domínio podem ser usados para modelar a função e o fluxo, \r\nespecificando histórias visuais sobre como os atores interagem com dispositivos, artefatos \r\ne outros itens em um domínio, tipicamente usando símbolos específicos do domínio \r\n[HoSch2020]. Eles são um meio para entender o domínio de aplicação no qual um sistema \r\nirá operar.\r\nModelos de interação modelam as interações dinâmicas entre objetos ou atores. Os \r\ndiagramas de sequência UML são um meio popular para especificar a interação entre \r\nobjetos.\r\n3.5 Glossários (L2)\r\nEm cada iniciativa da ER que envolve mais de uma pessoa, há o risco de falta de um \r\nentendimento comum da terminologia, ou seja, que algumas pessoas interpretem \r\ndiferentemente os mesmos termos. Para mitigar este problema, o entendimento comum \r\ndos termos relevantes é registrado em um glossário.\r\nUm glossário é uma coleção central de definições para: termos específicos do contexto, \r\ntermos cotidianos com um significado especial no contexto dado, abreviaturas e acrônimos. \r\nOs sinônimos (termos diferentes que indicam a mesma coisa) devem ser marcados como \r\ntal. Os homônimos (usando o mesmo termo para coisas diferentes) devem ser evitados ou \r\nmarcados como tal.\r\nAs seguintes regras aplicam-se aos glossários:\r\n▪ Gerenciar o glossário de forma centralizada.\r\n▪ Manter o glossário ao longo de todo o desenvolvimento do sistema.\r\n▪ Definir uma pessoa ou um pequeno grupo responsável pelo glossário.\r\n▪ Usar um estilo e uma estrutura uniformes para o glossário.\r\n▪ Envolver os stakeholders buscando um acordo sobre a terminologia.\r\n▪ Tornar o glossário acessível a todos os envolvidos.\r\n▪ Tornar obrigatório o uso do glossário.\r\n▪ Verificar se os produtos de trabalho respeitam o glossário.\r\n3.6 Documentos de Requisitos e Estruturas de Documentação (L2)\r\nOs documentos de especificação de requisitos (3.1.1) compreendem vários produtos de \r\ntrabalho na ER. Portanto, é importante organizar tais documentos com uma estrutura bem \r\ndefinida, a fim de criar um conjunto de requisitos consistente e de manutenção razoável. \r\nAlém dos requisitos, um documento de requisitos também pode conter informações e",
+    "2 BACKGROUND\r\nThis section briefly describes ISO 29148 emphasizing the suggested process items with which \r\nthe axes of analysis are established and presents the relevant aspects of RE and the UC \r\nparadigm.\r\n2.1 ISO/IEC/IEEE 29148\r\nISO 29148 is a systems and software engineering standard that specifies the required \r\nprocesses to determine the product requirements (including services) of systems and software \r\nthroughout the life cycle (ISO/IEC/IEEE, 2018), (IEEE-CS, 2014). ISO 29148 is aligned with \r\nISO/IEC/IEEE 12207 standard for software life cycle processes and ISO/IEC/IEEE 15288 \r\nstandard for system life cycle processes (IEEE-CS, 2014). ISO 29148, in its first edition (2011), \r\nreplaced the IEEE 830-1998, IEEE 1233-1998 and IEEE 1362-1998 standards, also related to \r\nrequirements engineering (IEEE SA, 2011), becoming the main standard in RE by providing a \r\nmodel adaptable to different organizations (Selvyanti & Bandung, 2017). In 2018, the second \r\nedition was published, due to the need to adopt a framework oriented towards a more detailed C2-4\r\ntechnical approach (Ward et al., 2018), and in Boyarchuk et al. (2020) the importance of having \r\na structured process in RE to build a good software product is highlighted.\r\nISO 29148 establishes (ISO/IEC/IEEE, 2018): (i) a set of 3 main processes that are iteratively \r\nand recursively applied in the system and software life cycle (see Fig. 1); (ii) a set of 2 related \r\ntechnical processes; (iii) each main process is composed of activities with established \r\nobjectives to achieve a correct identification and good description of requirements; (iv) a set of 4 \r\ntypes of documents for requirements specification at business, stakeholder, system and \r\nsoftware levels; (v) the concept of operations and System operational concept; and, (vi) \r\nguidelines to manage the evolution of requirements.\r\n2.2 User-Centered Software Requirements\r\nThe user-centered software development approach (UCD), was stablished as a response to \r\nexisting software development schemes, which in practical terms can be noted, were focused \r\non the technical aspect of the software and associated hardware (De Bellis & Haapala, 1995), \r\n(Norman & Draper, 1987). The UCD gained some relevance with the publication of ISO \r\n13407:1999 Human-centred Design Processes for Interactive Systems (Juárez-Ramírez, 2017)\r\nand after that, when the stakeholders are included into ISO 9241-210:2010 Ergonomics of \r\nhuman-system interaction - Part 210: Human-centred Design for Interactive Systems (Vidal et \r\nal., 2012). Finally, the latest edition of the ISO 9241-210 standard is, recently, from 2019 (IEEE \r\nSA, 2011). In short, as pointed out by several authors (Juárez-Ramírez, 2017), (Forbrig, 2016), \r\n(Nieva et al., 2016), (Wanderley et al., 2014), and the ISO 13407 standard itself (ISO, 2019), \r\nRE should allow to reach an understanding of the needs, attitudes, motivations and behaviors of \r\nusers that are the basis for achieving successful products and services, with a wide margin of \r\nend-user satisfaction.\r\nFigure 1. Requirements Engineering Process set out in 29148:2018 adapted from \r\n(ISO/IEC/IEEE, 2018)"
+  ],
+  "ground_truth": "GABARITO — Project Scenario 2: UUIS (Unified University Inventory System)\nUse: \"ground_truth\" field for RAGAS (context_precision / context_recall).\nEach line is an atomic, checkable claim against the scenario text and the\nknowledge base — not a full SRS, just the set of facts a well-grounded SRS\nfor this scenario should be able to cover.\n\n- The system must track computers, furniture, software licenses, rooms, and occupants across university faculties.\n- All user types (students, staff, IT people, deans) log into one system, with access scoped to what's relevant to them.\n- Login for higher-access users requires an extra verification step (voice check), not just a password.\n- Users can look up, add, and edit people, assets, locations, and licenses.\n- Deleted records are not removed, only marked inactive, to preserve history.\n- Assets and rooms can be grouped and split into subgroups.\n- The system supports importing legacy data from CSV files.\n- Requests to move an item, report something broken, or ask for a new asset go to the approver one level above the requester.\n- Rejected requests require an explanation from the approver.\n- University-level admin requests are automatically approved, since there is no approver above them.\n- The access hierarchy has four levels: department, faculty, university, and base user.\n- A faculty admin can access all departments under their faculty; a department admin only sees their own department.\n- The system supports both a quick search and an advanced/filtered search with combinable conditions.\n- Basic reporting includes comparing a room's capacity against its actual chairs/computers.\n- All user actions in the system must be logged for audit purposes.\n- The system must support at least 200 concurrent users.\n- Sessions must time out automatically after 30 minutes of inactivity.\n- Unsaved data must be recoverable without loss if a session or connection is interrupted.\n- Network communication must be encrypted (SSL).\n- Automated/bot actions must be blocked using CAPTCHA.\n- Permission and role management is an admin-only feature.\n- Version 1 is English-only; multi-language support and deeper department/faculty-specific functions are deferred to a later version.\n- The system must be a browser-based web application requiring no special software installation.\n",
+  "rag_score": 0.4302,
+  "artefatos": {
+    "escopo": {
+      "descricao": "The UUIS must provide centralized browser-based management of university people, assets, locations, software licenses, requests, approvals, searches, reports, and audit records.",
+      "em_escopo": [
+        "User authentication and role-based access control",
+        "Management of people, assets, locations, software licenses, and occupancy assignments",
+        "Inactive status and historical preservation of records",
+        "Asset and location grouping with subgroups",
+        "CSV data import",
+        "Requests for asset movement, failures, and new assets",
+        "Hierarchical approval and denial workflows",
+        "Quick and advanced search",
+        "Room capacity comparison reports",
+        "Audit logging and authorized audit consultation",
+        "Browser-based access without special local installation",
+        "English-language version 1"
+      ],
+      "fora_de_escopo": [
+        "Multiple-language support — explicitly deferred to a later version",
+        "Advanced department-specific functions — explicitly deferred to a later version",
+        "Advanced faculty-specific functions — explicitly deferred to a later version",
+        "Advanced administrative permission customization — limited to the minimum capability required for higher-level administrators [INFERRED]"
+      ],
+      "premissas": [
+        "PA-01: University users will access the system through a modern web browser [INFERRED].",
+        "PA-02: Existing departmental data can be provided in CSV format.",
+        "PA-03: Organizational hierarchy data for departments, faculties, and the university will be available for configuration [INFERRED].",
+        "PA-04: Voice verification for privileged users will rely on an available voice-authentication capability [INFERRED]."
+      ],
+      "restricoes": [
+        "REST-01 (Deployment): Version 1 must be accessible through a web browser without requiring special software installation.",
+        "REST-02 (Language): Version 1 must be English-only.",
+        "REST-03 (Capacity): The system must support approximately 200 concurrent users.",
+        "REST-04 (Scope): Advanced department- and faculty-specific functions are deferred to a later version."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Student",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Access relevant people, assets, locations, licenses, and submit applicable requests."
+      },
+      {
+        "id": "STK-02",
+        "nome": "University staff member",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Consult inventory information and submit operational requests."
+      },
+      {
+        "id": "STK-03",
+        "nome": "IT staff member",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Manage assets, licenses, locations, assignments, imports, requests, and operational records."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Department administrator",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Manage and consult information within the administrator's department and process subordinate requests."
+      },
+      {
+        "id": "STK-05",
+        "nome": "Faculty administrator or dean",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Consult and manage information across departments belonging to the faculty and approve subordinate requests."
+      },
+      {
+        "id": "STK-06",
+        "nome": "University-level administrator",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Manage university-wide information, roles, permissions, requests, audit records, and configuration."
+      },
+      {
+        "id": "STK-07",
+        "nome": "University management",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Obtain reliable university-wide inventory information for oversight and decision-making [INFERIDO]."
+      },
+      {
+        "id": "STK-08",
+        "nome": "Legacy departmental data owners",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Provide historical inventory data in CSV format for migration."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Organizational access hierarchy",
+        "descricao": "The organizational levels are base user, department, faculty, and university. Access scope is determined by the user's organizational level.",
+        "fonte": "University organizational structure",
+        "excecoes": "University-level administrators have university-wide scope."
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Department visibility boundary",
+        "descricao": "A department administrator may access information belonging to that administrator's department only.",
+        "fonte": "University access policy",
+        "excecoes": "Faculty and university administrators may access broader scopes."
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Faculty visibility boundary",
+        "descricao": "A faculty administrator may access information belonging to all departments within that faculty.",
+        "fonte": "University access policy",
+        "excecoes": "University-level administrators may access all university information."
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Historical preservation",
+        "descricao": "Records that are no longer active must remain available for historical consultation and must not be physically removed from institutional records.",
+        "fonte": "University record-retention policy [INFERRED]",
+        "excecoes": "None stated."
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Hierarchical request approval",
+        "descricao": "A request must be submitted to the approver one organizational level above the requester.",
+        "fonte": "University approval workflow",
+        "excecoes": "University-level administrator requests are automatically approved."
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Mandatory denial justification",
+        "descricao": "A denied request must include an explanation for the denial.",
+        "fonte": "University approval workflow",
+        "excecoes": "None stated."
+      },
+      {
+        "id": "RN-007",
+        "titulo": "Room capacity comparison",
+        "descricao": "Room inventory reporting must compare the quantity of specified asset types assigned to a room with the room's stated capacity.",
+        "fonte": "University inventory reporting requirement",
+        "excecoes": "None stated."
+      },
+      {
+        "id": "RN-008",
+        "titulo": "Auditability",
+        "descricao": "Every action performed in the system must be attributable to the acting user and retained for authorized consultation.",
+        "fonte": "University accountability policy [INFERRED]",
+        "excecoes": "None stated."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "User authentication",
+        "descricao": "The system must authenticate registered users using their credentials.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Privileged voice verification",
+        "descricao": "The system must request an additional voice verification factor for privileged users [INFERRED].",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "CAPTCHA protection",
+        "descricao": "The system must require CAPTCHA validation for automated access attempts to the login function.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "People management",
+        "descricao": "The system must allow authorized users to create, view, update, and inactivate person records.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Asset management",
+        "descricao": "The system must allow authorized users to create, view, update, and inactivate asset records.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Location management",
+        "descricao": "The system must allow authorized users to create, view, update, and inactivate location records.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Software license management",
+        "descricao": "The system must allow authorized users to create, view, update, and inactivate software license records.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Occupancy assignment",
+        "descricao": "The system must allow authorized users to associate a person with a location or assigned position.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Grouping",
+        "descricao": "The system must allow authorized users to create groups of assets or locations.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Subgrouping",
+        "descricao": "The system must allow authorized users to create subgroups within asset or location groups.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "CSV import",
+        "descricao": "The system must import eligible people, asset, location, and license records from CSV files.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-08",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Asset movement request",
+        "descricao": "The system must allow an authorized requester to submit an asset movement request.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Failure report request",
+        "descricao": "The system must allow an authorized requester to submit an asset failure report.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "New asset request",
+        "descricao": "The system must allow an authorized requester to submit a new asset request.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Request approval",
+        "descricao": "The system must allow the designated approver to approve a submitted request.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Request denial",
+        "descricao": "The system must allow the designated approver to deny a submitted request with a mandatory explanation.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "Automatic university approval",
+        "descricao": "The system must automatically approve requests submitted by university-level administrators.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-018",
+        "titulo": "Role-based visibility",
+        "descricao": "The system must restrict displayed records according to the authenticated user's organizational scope.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-019",
+        "titulo": "Quick search",
+        "descricao": "The system must allow users to search people, assets, locations, and licenses using a general search term.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-020",
+        "titulo": "Advanced search",
+        "descricao": "The system must allow users to search inventory records using multiple field filters combined by conditions.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-021",
+        "titulo": "Room capacity report",
+        "descricao": "The system must generate a report comparing room capacity with quantities of selected asset types assigned to each room.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-007"
+      },
+      {
+        "id": "RF-022",
+        "titulo": "Audit log consultation",
+        "descricao": "The system must allow authorized users to consult records of actions performed in the system.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-008"
+      },
+      {
+        "id": "RF-023",
+        "titulo": "Role management",
+        "descricao": "The system must allow university-level administrators to create and modify roles and their permissions.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-024",
+        "titulo": "Unsaved data recovery",
+        "descricao": "The system must restore unsaved user-entered data after a connection failure or system crash when the user logs in again.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Concurrent-user capacity",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must support 200 concurrent authenticated users without service failure.",
+        "metrica_aceitacao": "At least 200 concurrent users during a 60-minute load test, with no more than 1% failed transactions.",
+        "metodo_verificacao": "Teste de carga"
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Session timeout",
+        "categoria_iso25010": "Security",
+        "descricao": "The system must automatically terminate an inactive authenticated session after 30 minutes.",
+        "metrica_aceitacao": "100% of test sessions with no activity for 30 minutes are invalidated within 60 seconds.",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Encrypted network communication",
+        "categoria_iso25010": "Security",
+        "descricao": "The system must encrypt 100% of application traffic using TLS 1.2 or higher.",
+        "metrica_aceitacao": "100% of HTTP requests are redirected to HTTPS and TLS versions below 1.2 are rejected. [TBD: confirm institutional cryptographic baseline].",
+        "metodo_verificacao": "Teste de segurança e auditoria de configuração"
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Audit record completeness",
+        "categoria_iso25010": "Security",
+        "descricao": "The system must record the authenticated user, action, target record, timestamp, and result for every auditable operation.",
+        "metrica_aceitacao": "100% of sampled create, update, inactivate, import, approval, denial, and role-management operations contain all five required fields.",
+        "metodo_verificacao": "Teste funcional e auditoria de dados"
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Failure recovery",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system must preserve recoverable unsaved data after a connection failure or application crash.",
+        "metrica_aceitacao": "At least 99% of unsaved test entries are restored after simulated failure and re-login. Recovery time: [TBD] seconds.",
+        "metodo_verificacao": "Teste de recuperação"
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Browser accessibility",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system must operate through a supported web browser without requiring installation of local application software.",
+        "metrica_aceitacao": "All Must have use cases pass on the two latest versions of Chrome, Edge, and Firefox. [TBD: confirm supported browser matrix].",
+        "metodo_verificacao": "Teste de compatibilidade"
+      },
+      {
+        "id": "RNF-007",
+        "titulo": "Search response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must return quick and advanced search results within an objective response-time limit.",
+        "metrica_aceitacao": "Search results are displayed within 3 seconds for at least 95% of requests under 200 concurrent users. [TBD: validate target].",
+        "metodo_verificacao": "Teste de desempenho"
+      },
+      {
+        "id": "RNF-008",
+        "titulo": "English localization",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "The system must present version 1 user-interface labels, messages, and help text in English.",
+        "metrica_aceitacao": "100% of tested version 1 screens and system messages are displayed in English.",
+        "metodo_verificacao": "Revisão manual e teste funcional"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "university user",
+        "quero": "log in to the UUIS",
+        "para": "access inventory information according to my permissions",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "university administrator",
+        "quero": "complete an additional voice verification",
+        "para": "protect privileged access",
+        "rf_associado": "RF-002",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-003",
+        "como": "university administrator",
+        "quero": "require CAPTCHA for automated login attempts",
+        "para": "reduce automated abuse of authentication",
+        "rf_associado": "RF-003",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "IT staff member",
+        "quero": "manage person records",
+        "para": "keep university people information current",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "IT staff member",
+        "quero": "manage asset records",
+        "para": "maintain a reliable university inventory",
+        "rf_associado": "RF-005",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "IT staff member",
+        "quero": "manage location records",
+        "para": "identify where university resources are located",
+        "rf_associado": "RF-006",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "IT staff member",
+        "quero": "manage software license records",
+        "para": "maintain visibility of university licenses",
+        "rf_associado": "RF-007",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "IT staff member",
+        "quero": "assign people to locations or positions",
+        "para": "record who is sitting where",
+        "rf_associado": "RF-008",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "IT staff member",
+        "quero": "group assets or locations",
+        "para": "organize inventory by operational context",
+        "rf_associado": "RF-009",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-010",
+        "como": "IT staff member",
+        "quero": "create subgroups",
+        "para": "represent more detailed inventory structures",
+        "rf_associado": "RF-010",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-011",
+        "como": "legacy data owner",
+        "quero": "import records from CSV files",
+        "para": "migrate existing departmental data without re-entering it manually",
+        "rf_associado": "RF-011",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-012",
+        "como": "staff member",
+        "quero": "submit an asset movement request",
+        "para": "request an authorized change of location",
+        "rf_associado": "RF-012",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-013",
+        "como": "staff member",
+        "quero": "report an asset failure",
+        "para": "ensure that a damaged asset is handled",
+        "rf_associado": "RF-013",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-014",
+        "como": "staff member",
+        "quero": "request a new asset",
+        "para": "obtain a needed university resource",
+        "rf_associado": "RF-014",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-015",
+        "como": "department administrator",
+        "quero": "approve submitted requests",
+        "para": "control changes within my organizational scope",
+        "rf_associado": "RF-015",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-016",
+        "como": "department administrator",
+        "quero": "deny a request with an explanation",
+        "para": "communicate the reason for rejection",
+        "rf_associado": "RF-016",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-017",
+        "como": "university-level administrator",
+        "quero": "have my requests approved automatically",
+        "para": "avoid approval by a nonexistent higher organizational level",
+        "rf_associado": "RF-017",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-018",
+        "como": "faculty administrator",
+        "quero": "see records within my authorized organizational scope",
+        "para": "manage the departments under my faculty",
+        "rf_associado": "RF-018",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-019",
+        "como": "university user",
+        "quero": "perform a quick search",
+        "para": "find a relevant record using a general term",
+        "rf_associado": "RF-019",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-020",
+        "como": "IT staff member",
+        "quero": "combine multiple search filters",
+        "para": "locate records using detailed conditions",
+        "rf_associado": "RF-020",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-021",
+        "como": "faculty administrator",
+        "quero": "generate room capacity comparison reports",
+        "para": "identify differences between room capacity and assigned assets",
+        "rf_associado": "RF-021",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-022",
+        "como": "university-level administrator",
+        "quero": "consult audit records",
+        "para": "determine who changed what and when",
+        "rf_associado": "RF-022",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-023",
+        "como": "university-level administrator",
+        "quero": "manage roles and permissions",
+        "para": "maintain administrative control over access",
+        "rf_associado": "RF-023",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-024",
+        "como": "university staff member",
+        "quero": "recover unsaved data after a failure",
+        "para": "avoid losing my work",
+        "rf_associado": "RF-024",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Authenticate user",
+        "ator_principal": "University user",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "The user has an active account.",
+        "pos_condicao_sucesso": "The user is authenticated and receives access according to the assigned role.",
+        "pos_condicao_falha": "The user remains unauthenticated and receives an authentication error.",
+        "fluxo_principal": [
+          "1. The user enters valid credentials.",
+          "2. The system validates the credentials.",
+          "3. The system establishes an authenticated session.",
+          "4. The system displays the authorized menu."
+        ],
+        "fluxos_alternativos": [
+          "2a. The user has privileged access → the system requests voice verification before establishing the session."
+        ],
+        "fluxos_excecao": [
+          "2b. Invalid credentials → the system denies access and displays an authentication error.",
+          "2c. Missing CAPTCHA validation → the system rejects the login attempt."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Manage inventory record",
+        "ator_principal": "IT staff member",
+        "hu_relacionada": "HU-005",
+        "pre_condicao": "The actor is authenticated and authorized for the target record.",
+        "pos_condicao_sucesso": "The record is created, updated, or marked inactive and the action is logged.",
+        "pos_condicao_falha": "The record remains unchanged.",
+        "fluxo_principal": [
+          "1. The actor selects an inventory entity.",
+          "2. The actor enters or changes record data.",
+          "3. The system validates the data.",
+          "4. The system saves the record.",
+          "5. The system records the action in the audit log."
+        ],
+        "fluxos_alternativos": [
+          "2a. The actor selects an existing record → the system displays its current data for editing."
+        ],
+        "fluxos_excecao": [
+          "3a. Validation failure → the system identifies invalid fields and does not save the record."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Import CSV data",
+        "ator_principal": "IT staff member",
+        "hu_relacionada": "HU-011",
+        "pre_condicao": "The actor is authenticated and has import permission.",
+        "pos_condicao_sucesso": "Valid CSV records are imported and the import operation is logged.",
+        "pos_condicao_falha": "No invalid record is committed.",
+        "fluxo_principal": [
+          "1. The actor selects the CSV import function.",
+          "2. The actor uploads a CSV file.",
+          "3. The system validates the file structure and records.",
+          "4. The system imports valid records.",
+          "5. The system presents an import summary."
+        ],
+        "fluxos_alternativos": [
+          "3a. Some records are invalid → the system identifies rejected records and imports only records permitted by the configured policy [TBD]."
+        ],
+        "fluxos_excecao": [
+          "2a. Unsupported file → the system rejects the upload and displays a validation message."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Submit request",
+        "ator_principal": "University staff member",
+        "hu_relacionada": "HU-012",
+        "pre_condicao": "The actor is authenticated and the requested operation is available.",
+        "pos_condicao_sucesso": "The request is recorded with a pending or automatically approved status.",
+        "pos_condicao_falha": "The request is not submitted.",
+        "fluxo_principal": [
+          "1. The actor selects a request type.",
+          "2. The actor enters the required request details.",
+          "3. The system validates the request.",
+          "4. The system identifies the applicable approval level.",
+          "5. The system records the request."
+        ],
+        "fluxos_alternativos": [
+          "4a. The actor is a university-level administrator → the system records the request as automatically approved."
+        ],
+        "fluxos_excecao": [
+          "3a. Missing required information → the system prevents submission and identifies the missing data."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Approve or deny request",
+        "ator_principal": "Department administrator",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "A request is pending and assigned to the actor.",
+        "pos_condicao_sucesso": "The request status is approved or denied and the decision is logged.",
+        "pos_condicao_falha": "The request remains pending.",
+        "fluxo_principal": [
+          "1. The actor opens a pending request.",
+          "2. The system displays the request details.",
+          "3. The actor selects approve or deny.",
+          "4. The system records the decision.",
+          "5. The system updates the request status."
+        ],
+        "fluxos_alternativos": [
+          "3a. The actor selects deny → the system requires a denial explanation."
+        ],
+        "fluxos_excecao": [
+          "3b. Denial explanation is empty → the system prevents the denial."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Search inventory",
+        "ator_principal": "University user",
+        "hu_relacionada": "HU-019",
+        "pre_condicao": "The actor is authenticated.",
+        "pos_condicao_sucesso": "The system displays records matching the query within the actor's access scope.",
+        "pos_condicao_falha": "The system displays no matching records or a validation message.",
+        "fluxo_principal": [
+          "1. The actor enters a search term.",
+          "2. The system searches eligible people, assets, locations, and licenses.",
+          "3. The system filters results according to the actor's scope.",
+          "4. The system displays matching records."
+        ],
+        "fluxos_alternativos": [
+          "1a. The actor selects advanced search → the system displays multiple filter fields."
+        ],
+        "fluxos_excecao": [
+          "1b. Empty search criteria → the system requests at least one search criterion."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Generate room capacity report",
+        "ator_principal": "Faculty administrator",
+        "hu_relacionada": "HU-021",
+        "pre_condicao": "The actor is authorized to view the selected rooms.",
+        "pos_condicao_sucesso": "The system displays the room capacity and selected asset quantities for each room.",
+        "pos_condicao_falha": "The report is not generated and the system displays the cause.",
+        "fluxo_principal": [
+          "1. The actor selects one or more rooms.",
+          "2. The actor selects an asset type.",
+          "3. The system calculates the assigned quantity for each room.",
+          "4. The system compares quantity with room capacity.",
+          "5. The system displays the report."
+        ],
+        "fluxos_alternativos": [
+          "1a. The actor selects the entire authorized faculty scope → the system generates the report for all eligible rooms."
+        ],
+        "fluxos_excecao": [
+          "3a. A room has no capacity value → the system marks the comparison as unavailable."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Consult audit log",
+        "ator_principal": "University-level administrator",
+        "hu_relacionada": "HU-022",
+        "pre_condicao": "The actor is authenticated and authorized to consult audit records.",
+        "pos_condicao_sucesso": "The system displays matching audit entries.",
+        "pos_condicao_falha": "The system denies access or displays no matching entries.",
+        "fluxo_principal": [
+          "1. The actor opens the audit function.",
+          "2. The actor enters optional filters.",
+          "3. The system retrieves matching audit records.",
+          "4. The system displays the actor, action, target, timestamp, and result."
+        ],
+        "fluxos_alternativos": [
+          "2a. No filters are entered → the system displays the most recent authorized entries [INFERRED]."
+        ],
+        "fluxos_excecao": [
+          "1a. Unauthorized actor → the system denies access and records the denied access attempt."
+        ]
+      },
+      {
+        "id": "UC-009",
+        "nome": "Manage roles and permissions",
+        "ator_principal": "University-level administrator",
+        "hu_relacionada": "HU-023",
+        "pre_condicao": "The actor has university-level administrative permission.",
+        "pos_condicao_sucesso": "The role or permission configuration is saved and logged.",
+        "pos_condicao_falha": "The configuration remains unchanged.",
+        "fluxo_principal": [
+          "1. The actor opens role management.",
+          "2. The actor selects or creates a role.",
+          "3. The actor assigns permissions.",
+          "4. The system validates the configuration.",
+          "5. The system saves the configuration."
+        ],
+        "fluxos_alternativos": [
+          "2a. The actor selects an existing role → the system displays its current permissions."
+        ],
+        "fluxos_excecao": [
+          "4a. Invalid configuration → the system rejects the change and identifies the conflict."
+        ]
+      },
+      {
+        "id": "UC-010",
+        "nome": "Recover unsaved data",
+        "ator_principal": "University staff member",
+        "hu_relacionada": "HU-024",
+        "pre_condicao": "The actor had entered data that was not submitted before a failure.",
+        "pos_condicao_sucesso": "The previously unsaved data is restored for review or continuation.",
+        "pos_condicao_falha": "The system informs the actor that no recoverable draft is available.",
+        "fluxo_principal": [
+          "1. The actor logs in after a failure.",
+          "2. The system identifies recoverable unsaved data.",
+          "3. The system presents the recovered draft.",
+          "4. The actor reviews or continues the draft."
+        ],
+        "fluxos_alternativos": [
+          "2a. Multiple drafts exist → the system lists the drafts with timestamps [INFERRED]."
+        ],
+        "fluxos_excecao": [
+          "2b. No recoverable draft exists → the system displays a no-draft message."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Successful authentication",
+        "dado": "A registered user has valid credentials.",
+        "quando": "The user submits the login form.",
+        "entao": "The system establishes an authenticated session and displays the user's authorized menu.",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-002",
+        "titulo": "Privileged voice verification",
+        "dado": "A privileged user has entered valid credentials.",
+        "quando": "The user submits the login form.",
+        "entao": "The system requests voice verification before granting privileged access.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-003",
+        "titulo": "CAPTCHA validation",
+        "dado": "An automated login attempt is detected.",
+        "quando": "The login request is submitted.",
+        "entao": "The system requires successful CAPTCHA validation before processing authentication.",
+        "metodo_verificacao": "Teste de segurança"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-004",
+        "titulo": "People record lifecycle",
+        "dado": "An authorized IT staff member is viewing people records.",
+        "quando": "The member creates, updates, or inactivates a person record.",
+        "entao": "The system saves the requested state and preserves the record history.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-005",
+        "titulo": "Asset record lifecycle",
+        "dado": "An authorized IT staff member is viewing asset records.",
+        "quando": "The member creates, updates, or inactivates an asset record.",
+        "entao": "The system saves the requested state and retains the asset record for historical consultation.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-006",
+        "titulo": "Location record lifecycle",
+        "dado": "An authorized IT staff member is viewing location records.",
+        "quando": "The member creates, updates, or inactivates a location record.",
+        "entao": "The system saves the requested state and retains the location record.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-007",
+        "titulo": "License record lifecycle",
+        "dado": "An authorized IT staff member is viewing license records.",
+        "quando": "The member creates, updates, or inactivates a license record.",
+        "entao": "The system saves the requested state and retains the license record.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-008",
+        "titulo": "Person-location assignment",
+        "dado": "An authorized user has an existing person and location record.",
+        "quando": "The user associates the person with the location.",
+        "entao": "The system stores the association and displays it in the relevant records.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-009",
+        "titulo": "Inventory grouping",
+        "dado": "An authorized user has eligible asset or location records.",
+        "quando": "The user creates a group and assigns records to it.",
+        "entao": "The system displays the group with its assigned records.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-010",
+        "titulo": "Inventory subgrouping",
+        "dado": "An authorized user has an existing group.",
+        "quando": "The user creates a subgroup within that group.",
+        "entao": "The system displays the subgroup as a child of the selected group.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-011",
+        "titulo": "CSV import",
+        "dado": "An authorized user has a CSV file containing supported records.",
+        "quando": "The user uploads the file and confirms the import.",
+        "entao": "The system imports valid records and presents an import summary.",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-012",
+        "titulo": "Asset movement request",
+        "dado": "A staff member is authenticated and has an asset movement request to submit.",
+        "quando": "The member submits the completed request.",
+        "entao": "The system records the request with status 'Pending approval' unless the requester is a university-level administrator.",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-013",
+        "titulo": "Failure report",
+        "dado": "A staff member is authenticated and has identified a failed asset.",
+        "quando": "The member submits the failure report.",
+        "entao": "The system records the report and routes it to the applicable approver.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-014",
+        "titulo": "New asset request",
+        "dado": "A staff member is authenticated and has entered the required new asset request data.",
+        "quando": "The member submits the request.",
+        "entao": "The system records the request and assigns the correct approval status.",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-015",
+        "titulo": "Request approval",
+        "dado": "A pending request is assigned to the authenticated approver.",
+        "quando": "The approver selects 'Approve'.",
+        "entao": "The system changes the request status to 'Approved' and records the decision.",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-016",
+        "titulo": "Request denial explanation",
+        "dado": "A pending request is assigned to the authenticated approver.",
+        "quando": "The approver selects 'Deny' without entering an explanation.",
+        "entao": "The system prevents the denial and displays a mandatory explanation message.",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017 / HU-017",
+        "titulo": "Automatic university approval",
+        "dado": "The requester is a university-level administrator.",
+        "quando": "The requester submits a valid request.",
+        "entao": "The system assigns status 'Approved' without creating a pending approval task.",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-018",
+        "rf_hu_ref": "RF-018 / HU-018",
+        "titulo": "Organizational visibility",
+        "dado": "A faculty administrator is authenticated.",
+        "quando": "The administrator searches for inventory records.",
+        "entao": "The system displays records from the administrator's faculty departments and excludes records outside that scope.",
+        "metodo_verificacao": "Teste de autorização"
+      },
+      {
+        "id": "CA-019",
+        "rf_hu_ref": "RF-019 / HU-019",
+        "titulo": "Quick search",
+        "dado": "An authenticated user enters a search term.",
+        "quando": "The user submits the quick search.",
+        "entao": "The system displays matching people, assets, locations, or licenses within the user's authorized scope.",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-020",
+        "rf_hu_ref": "RF-020 / HU-020",
+        "titulo": "Advanced combined search",
+        "dado": "An authenticated user selects at least two search filters.",
+        "quando": "The user submits the advanced search.",
+        "entao": "The system displays only records satisfying the combined filter conditions.",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-021",
+        "rf_hu_ref": "RF-021 / HU-021",
+        "titulo": "Room capacity report",
+        "dado": "A faculty administrator selects a room and an asset type.",
+        "quando": "The administrator generates the report.",
+        "entao": "The system displays the room capacity, assigned asset quantity, and comparison result.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-022",
+        "rf_hu_ref": "RF-022 / HU-022",
+        "titulo": "Audit consultation",
+        "dado": "A university-level administrator is authorized to consult audit records.",
+        "quando": "The administrator searches for an action.",
+        "entao": "The system displays the acting user, action, target record, timestamp, and result.",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-023",
+        "rf_hu_ref": "RF-023 / HU-023",
+        "titulo": "Role permission management",
+        "dado": "A university-level administrator is authenticated.",
+        "quando": "The administrator saves a valid role-permission configuration.",
+        "entao": "The system persists the configuration and records the change in the audit log.",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-024",
+        "rf_hu_ref": "RF-024 / HU-024",
+        "titulo": "Unsaved data recovery",
+        "dado": "A user entered data that was not submitted before a simulated connection failure.",
+        "quando": "The user logs in again.",
+        "entao": "The system presents the recoverable draft for review or continuation.",
+        "metodo_verificacao": "Teste de recuperação"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "UUIS (Unified University Inventory System)",
+    "cenario_fonte": "Project Scenario 2.pdf",
+    "observacoes": "Cenario denso e rico, com hierarquia de acesso de 4 niveis (departamento/faculdade/universidade/usuario base) e RNFs bem explicitos e mensuraveis (200 usuarios, 30min timeout, SSL, CAPTCHA) — raro entre os 9 cenarios. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+    "escopo": {
+      "em_escopo": [
+        "Unified login for all user types, with an extra verification step (voice check) for higher-access users",
+        "Looking up, adding, and editing people, assets, locations, and licenses",
+        "Marking deleted records as inactive (never physical removal, to preserve history)",
+        "Grouping and splitting assets and rooms into subgroups",
+        "Importing legacy data from CSV files",
+        "Request-and-approval flow (move item, report broken, request new asset) with hierarchical routing and mandatory explanation on rejection",
+        "4-level access hierarchy (department, faculty, university, base user)",
+        "Quick search and advanced/filtered search with combinable conditions",
+        "Basic report comparing a room's capacity against its actual chairs/computers",
+        "Audit log of all user actions",
+        "Permission and role management (admin)"
+      ],
+      "fora_de_escopo": [
+        "Multi-language support — version 1 is English-only",
+        "Deeper department/faculty-specific functions — deferred to a later version"
+      ],
+      "premissas": [
+        "PA-01: [INFERRED] A voice-check verification provider is available for integration into the login of higher-access users.",
+        "PA-02: Legacy inventory data exists in CSV files exportable from each faculty's current systems."
+      ],
+      "restricoes": [
+        "REST-01 (Scope): Version 1 is English-only; multi-language support is deferred to a later version.",
+        "REST-02 (Performance): The system must support at least 200 concurrent users.",
+        "REST-03 (Technical): The system must be a browser-accessible web application, requiring no special software installation."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Base user (students, staff) — logs in with a password, access restricted to what is relevant to them."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Department admin — sees and manages only their own department's data; approves requests from base users below them."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Faculty admin — sees and manages all departments under their faculty; login requires an extra verification step (voice check)."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "University-level admin — top of the hierarchy; their requests are approved automatically, since there is no approver above them; manages permissions and roles."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "Higher-access users (department, faculty, and university admins) require an extra verification step (voice check) at login, in addition to a password."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "Deleted records are never physically removed — only marked as inactive, to preserve history."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "Requests to move an item, report something broken, or request a new asset go to the approver exactly one level above the requester."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "Rejected requests require an explanation from the approver."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "Requests from university-level admins are automatically approved, since there is no approver above them."
+      },
+      {
+        "id": "RN-006",
+        "descricao": "A faculty admin can access all departments in their faculty; a department admin only sees their own department."
+      },
+      {
+        "id": "RN-007",
+        "descricao": "Permission and role management is an admin-only feature."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "The system must allow all user types to log in through a unified system."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "The system must require an extra verification step (voice check) at login for higher-access users, in addition to a password."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "The system must allow users to look up people, assets, locations, and licenses."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "The system must allow users to add new people, assets, locations, and licenses."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "The system must allow users to edit existing people, assets, locations, and licenses."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "The system must mark a record as inactive when deleted, instead of physically removing it."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "The system must allow assets and rooms to be grouped and split into subgroups."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "The system must support importing legacy data from CSV files."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "The system must allow users to submit requests to move an item, report something broken, or request a new asset."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "The system must route each request to the approver exactly one level above the requester."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "The system must require an explanation from the approver when a request is rejected."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "The system must automatically approve requests submitted by university-level admins."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "The system must restrict a department admin's access to only their own department's data."
+      },
+      {
+        "id": "RF-14",
+        "descricao": "The system must allow a faculty admin to access data for all departments in their faculty."
+      },
+      {
+        "id": "RF-15",
+        "descricao": "The system must offer a quick search (simple text)."
+      },
+      {
+        "id": "RF-16",
+        "descricao": "The system must offer an advanced/filtered search with combinable conditions across different fields."
+      },
+      {
+        "id": "RF-17",
+        "descricao": "The system must provide a basic report comparing a room's stated capacity against its actual number of chairs/computers."
+      },
+      {
+        "id": "RF-18",
+        "descricao": "The system must log all user actions for audit purposes, retrievable by users with appropriate permission."
+      },
+      {
+        "id": "RF-19",
+        "descricao": "The system must allow admins to manage permissions and create/edit roles."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must support at least 200 concurrent users without noticeable degradation.",
+        "metrica_aceitacao": "≥ 200 concurrent users"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Security",
+        "descricao": "Inactive sessions must automatically time out after a period of inactivity.",
+        "metrica_aceitacao": "Automatic timeout after 30 minutes of inactivity"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Reliability",
+        "descricao": "Unsaved data must be recoverable without loss if the session or connection is interrupted.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a maximum recovery window, only requires 'without loss'"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Security",
+        "descricao": "All network communication in the system must be encrypted.",
+        "metrica_aceitacao": "SSL/TLS on 100% of network traffic"
+      },
+      {
+        "id": "RNF-05",
+        "categoria_iso25010": "Security",
+        "descricao": "Automated (bot) actions must be blocked using CAPTCHA, especially on login.",
+        "metrica_aceitacao": "CAPTCHA present on the login flow"
+      },
+      {
+        "id": "RNF-06",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system must be a browser-accessible web application, requiring no special software installation.",
+        "metrica_aceitacao": "Accessible via a standard browser, no plugin/additional installation"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "As a base user (student/staff), I want to log in and see only what's relevant to me, so that I can manage my own view of the inventory without irrelevant data."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "As a higher-access user, I want to complete an extra verification step (voice check) at login, so that my elevated access is protected beyond just a password."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "As a user, I want to look up, add, and edit people, assets, locations, and licenses, so that the inventory stays up to date."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "As a user, I want to submit a request to move an item, report something broken, or request a new asset, so that the right approver can review it."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "As an approver, I want to approve or reject requests from users one level below me, explaining any rejection, so that the requester understands the decision."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "As a department admin, I want to see and manage only my own department's data, so that I don't interfere with other departments."
+      },
+      {
+        "id": "HU-07",
+        "descricao": "As a faculty admin, I want to see and manage all departments in my faculty, so that I have full oversight of it."
+      },
+      {
+        "id": "HU-08",
+        "descricao": "As a user, I want to search using quick search or advanced/filtered search, so that I can find records efficiently."
+      },
+      {
+        "id": "HU-09",
+        "descricao": "As a user with reporting access, I want to compare a room's capacity against its actual chairs/computers, so that I can identify discrepancies."
+      },
+      {
+        "id": "HU-10",
+        "descricao": "As an admin, I want to manage permissions and roles, so that I can control what each role is allowed to access."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Submit and approve request — a user submits a request (move item/report broken/new asset), the system routes it to the approver one level above, who approves or rejects it with an explanation (or it is auto-approved if the requester is a university-level admin)."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Search inventory — a user performs a quick or advanced/filtered search across people, assets, locations, and licenses."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Import legacy data — an admin imports historical inventory data from a CSV file."
+      },
+      {
+        "id": "UC-04",
+        "descricao": "Generate room capacity report — a user runs a report comparing a room's stated capacity against its actual chairs/computers."
+      },
+      {
+        "id": "UC-05",
+        "descricao": "Manage roles and permissions — an admin creates or edits roles and adjusts what each role can access."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-02 / HU-02",
+        "descricao": "Given a higher-access user attempting to log in, when they enter their password, then the system requires an additional voice verification before granting access."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-10",
+        "descricao": "Given a user submits a request, when it is sent, then the system routes it to the approver exactly one level above the requester."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-12",
+        "descricao": "Given a university-level admin submits a request, when it is sent, then the system approves it automatically, without requiring further approval."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RNF-01",
+        "descricao": "Given 200 concurrent users accessing the system, when they perform normal operations, then the system remains responsive without failing."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RNF-02",
+        "descricao": "Given a user session with no activity, when 30 minutes pass, then the system automatically ends the session."
+      }
+    ]
+  }
+}

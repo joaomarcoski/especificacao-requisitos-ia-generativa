@@ -1,0 +1,97 @@
+{
+  "sistema": "SIMDE - Sistema Móvel de Diário Escolar",
+  "cenario_fonte": "Project Scenario 5.pdf",
+  "observacoes": "Fluxo de sincronizacao bem definido, com varias metricas de desempenho explicitas no texto (30s sincronizacao, 5s troca de tela, 30s consulta/lancamento, 3h treinamento) — RNF mais rico do que a tabela de dificuldade original sugeria (possivel efeito da edicao de RNF faltando aplicada nos cenarios PT numa sessao anterior).",
+
+  "escopo": {
+    "em_escopo": [
+      "Consulta de turmas e cronograma de aulas pelo aplicativo móvel",
+      "Registro de aula dada, lançamento de falta e de notas",
+      "Sincronização bidirecional com o sistema acadêmico da escola (exporta aula/falta/nota, importa turmas/alunos/disciplinas/cronograma)",
+      "Login e senha, com acesso restrito às próprias turmas do professor",
+      "Acompanhamento de frequência e desempenho por coordenador e diretor",
+      "Bloqueio de lançamento de aula/falta com data futura",
+      "Bloqueio de alteração de planejamento de aula já planejada",
+      "Bloqueio de reimportação de um dado já exportado",
+      "Funcionamento em qualquer escola, não vinculado a uma instituição específica",
+      "Operação em paralelo com o processo manual existente durante o período de transição"
+    ],
+    "fora_de_escopo": [
+      "Cadastro de turma, disciplina ou aluno diretamente pelo professor no aparelho — só é feito no sistema acadêmico da escola",
+      "Retirada completa do processo manual existente — não é foco desta fase",
+      "Integrações mais sofisticadas com outros módulos da escola"
+    ],
+    "premissas": [
+      "PA-01: A escola já possui um sistema acadêmico funcionando no computador, com turmas/alunos/disciplinas/cronograma cadastrados.",
+      "PA-02: O professor terá acesso a um aparelho móvel (tipo PDA) para carregar consigo em sala de aula."
+    ],
+    "restricoes": [
+      "REST-01 (Desempenho): A sincronização não deve ultrapassar 30 segundos; a troca de tela deve ocorrer em até cerca de 5 segundos; consultar ou lançar uma informação não deve passar de meio minuto.",
+      "REST-02 (Usabilidade): Um professor deve conseguir usar o sistema após cerca de 3 horas de treinamento.",
+      "REST-03 (Prazo/Transição): O sistema deve rodar em paralelo com o processo manual existente por um período de transição (ex.: um trimestre)."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Professor — usuário principal; consulta turmas e cronograma, registra aula, lança falta e notas pelo aplicativo móvel." },
+    { "id": "STK-02", "descricao": "Coordenador — acompanha os dados de frequência e desempenho gerados pelo sistema." },
+    { "id": "STK-03", "descricao": "Diretor — acompanha os dados de frequência e desempenho gerados pelo sistema." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "Cada professor só vê e lança dados das próprias turmas — não pode acessar dados de turmas de outros professores." },
+    { "id": "RN-002", "descricao": "O professor não pode cadastrar turma, disciplina ou aluno diretamente no aparelho — só recebe (importa) esses dados já cadastrados no sistema acadêmico." },
+    { "id": "RN-003", "descricao": "O sistema não permite registrar aula ou falta com data futura." },
+    { "id": "RN-004", "descricao": "O sistema não permite alterar o planejamento de uma aula já planejada." },
+    { "id": "RN-005", "descricao": "O sistema não permite importar novamente um dado que já foi exportado, para evitar duplicação." },
+    { "id": "RN-006", "descricao": "Durante o período de transição (ex.: um trimestre), o sistema funciona em paralelo com o processo manual existente." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "O sistema deve permitir que o professor consulte suas turmas pelo aplicativo móvel." },
+    { "id": "RF-02", "descricao": "O sistema deve permitir que o professor consulte o cronograma de aulas pelo aplicativo móvel." },
+    { "id": "RF-03", "descricao": "O sistema deve permitir que o professor registre a aula dada." },
+    { "id": "RF-04", "descricao": "O sistema deve permitir que o professor lance a falta dos alunos." },
+    { "id": "RF-05", "descricao": "O sistema deve permitir que o professor lance as notas dos alunos." },
+    { "id": "RF-06", "descricao": "O sistema deve exportar os dados lançados pelo professor (aula, falta, nota) para o sistema acadêmico da escola." },
+    { "id": "RF-07", "descricao": "O sistema deve importar do sistema acadêmico da escola as turmas, alunos, disciplinas e o cronograma já cadastrados." },
+    { "id": "RF-08", "descricao": "O sistema deve exigir login e senha para acesso." },
+    { "id": "RF-09", "descricao": "O sistema deve restringir cada professor a visualizar e lançar dados apenas das suas próprias turmas." },
+    { "id": "RF-10", "descricao": "O sistema deve bloquear o registro de aula ou falta com data futura." },
+    { "id": "RF-11", "descricao": "O sistema deve bloquear a alteração do planejamento de uma aula já planejada." },
+    { "id": "RF-12", "descricao": "O sistema deve bloquear a reimportação de um dado já exportado anteriormente." },
+    { "id": "RF-13", "descricao": "O sistema deve permitir que coordenador e diretor acompanhem os dados de frequência e desempenho gerados." },
+    { "id": "RF-14", "descricao": "O sistema deve funcionar em paralelo com o processo manual existente durante um período de transição." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Performance Efficiency", "descricao": "A sincronização entre o aplicativo e o sistema acadêmico não deve ultrapassar um tempo máximo definido.", "metrica_aceitacao": "≤ 30 segundos por sincronização" },
+    { "id": "RNF-02", "categoria_iso25010": "Performance Efficiency", "descricao": "A troca de tela dentro do aplicativo deve ocorrer de forma quase instantânea.", "metrica_aceitacao": "≤ cerca de 5 segundos por troca de tela" },
+    { "id": "RNF-03", "categoria_iso25010": "Performance Efficiency", "descricao": "Consultar ou lançar uma informação no aplicativo não deve demorar mais que um tempo máximo definido.", "metrica_aceitacao": "≤ 30 segundos (meio minuto) por consulta/lançamento" },
+    { "id": "RNF-04", "categoria_iso25010": "Interaction Capability", "descricao": "O aplicativo deve ser simples o suficiente para que um professor consiga aprender a usá-lo com pouco treinamento.", "metrica_aceitacao": "Uso funcional após cerca de 3 horas de treinamento" },
+    { "id": "RNF-05", "categoria_iso25010": "Compatibility", "descricao": "O sistema deve funcionar em qualquer escola, não apenas numa instituição específica, adaptando-se a diferentes sistemas acadêmicos.", "metrica_aceitacao": "[TBD] — cenário não especifica quantos/quais sistemas acadêmicos distintos devem ser suportados" },
+    { "id": "RNF-06", "categoria_iso25010": "Security", "descricao": "Dados de frequência e notas de um professor não podem ser acessíveis a outro professor.", "metrica_aceitacao": "Controle de acesso restringindo 100% dos dados de uma turma ao professor responsável" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "Como professor, quero consultar minhas turmas e o cronograma de aulas pelo aplicativo, para me preparar antes de dar aula." },
+    { "id": "HU-02", "descricao": "Como professor, quero registrar a aula dada, lançar falta e lançar notas pelo aplicativo, para não depender do sistema fixo do computador." },
+    { "id": "HU-03", "descricao": "Como professor, quero que meus lançamentos sejam sincronizados automaticamente com o sistema acadêmico da escola, para não precisar digitar tudo de novo depois." },
+    { "id": "HU-04", "descricao": "Como coordenador ou diretor, quero acompanhar os dados de frequência e desempenho gerados pelo sistema, para monitorar o andamento das turmas." },
+    { "id": "HU-05", "descricao": "Como professor, quero fazer login com usuário e senha e ver só as minhas turmas, para manter a privacidade dos dados dos meus alunos e das outras turmas." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Registrar aula/falta/nota — o professor abre o app, seleciona a turma, registra a aula dada, lança falta e notas." },
+    { "id": "UC-02", "descricao": "Sincronizar com sistema acadêmico — o aplicativo exporta os dados lançados pelo professor e importa turmas/alunos/disciplinas/cronograma atualizados do sistema da escola, em até 30 segundos." },
+    { "id": "UC-03", "descricao": "Consultar cronograma e turmas — o professor consulta suas turmas e o cronograma de aulas pelo aplicativo." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RNF-01", "descricao": "Dado que o professor inicia a sincronização, quando o processo é executado, então ele é concluído em no máximo 30 segundos." },
+    { "id": "CA-02", "rf_hu_ref": "RF-10", "descricao": "Dado que o professor tenta registrar uma aula ou falta com data futura, quando ele confirma o lançamento, então o sistema bloqueia a ação." },
+    { "id": "CA-03", "rf_hu_ref": "RF-12", "descricao": "Dado um dado já exportado para o sistema acadêmico, quando o professor tenta importá-lo novamente, então o sistema impede a reimportação." },
+    { "id": "CA-04", "rf_hu_ref": "RNF-03", "descricao": "Dado que o professor consulta ou lança uma informação, quando a ação é executada, então ela é concluída em no máximo meio minuto." },
+    { "id": "CA-05", "rf_hu_ref": "RF-09", "descricao": "Dado um professor autenticado, quando ele acessa o sistema, então ele só visualiza e lança dados das suas próprias turmas." }
+  ]
+}

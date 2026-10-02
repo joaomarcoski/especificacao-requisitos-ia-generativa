@@ -1,0 +1,90 @@
+{
+  "cp_pos_r": -0.42798558718780355,
+  "cp_pos_n": 44,
+  "cp_pos_mediana": 4.0,
+  "cp_sem_cenario": [
+    "4|Lua|1"
+  ],
+  "cp_implicita_media": 0.2505698690309305,
+  "cp_real_maior_que_implicita": 41,
+  "cp_pos_r_dentro_combinacoes": -0.21291171064526038,
+  "en_em_pt": [
+    "6|Lua|1",
+    "6|Lua|2"
+  ],
+  "rf_verbo_ok": 926,
+  "rnf_iso": 391,
+  "rnf_metodo": 391,
+  "docs_em_ingles": 28,
+  "must_shall_citado_docs_em_ingles": 21,
+  "rnf": {
+    "Lua": {
+      "total": 132,
+      "metrica_numero_pct": 94.6969696969697,
+      "metrica_tbd_pct": 36.36363636363637
+    },
+    "Terra": {
+      "total": 91,
+      "metrica_numero_pct": 93.4065934065934,
+      "metrica_tbd_pct": 51.64835164835165
+    },
+    "Sol": {
+      "total": 168,
+      "metrica_numero_pct": 92.26190476190476,
+      "metrica_tbd_pct": 69.64285714285714
+    },
+    "Geral": {
+      "total": 391,
+      "metrica_numero_pct": 93.35038363171356,
+      "metrica_tbd_pct": 54.21994884910486
+    }
+  },
+  "rf": {
+    "total": 926,
+    "pt_deve": 291,
+    "pt_total": 291,
+    "en_must": 600,
+    "en_total": 635
+  },
+  "juiz": {
+    "correctness": {
+      "4": 36,
+      "3": 6,
+      "5": 3
+    },
+    "completeness": {
+      "5": 38,
+      "4": 7
+    },
+    "conciseness": {
+      "4": 44,
+      "5": 1
+    }
+  },
+  "terra_maior_f1": 8,
+  "sol_menor_f1": 8,
+  "lua_maior_que_sol": 8,
+  "sol_sem_sobreposicao": 6,
+  "lua_terra_sobrepoe": 2,
+  "jaccard_min_max": {
+    "Lua": [
+      37.45245245245245,
+      50.116550116550115
+    ],
+    "Terra": [
+      27.412280701754387,
+      38.883749614554425
+    ],
+    "Sol": [
+      14.50980392156863,
+      33.95064458894247
+    ]
+  },
+  "faith_cv_sol": [
+    0.366780943598366,
+    0.20772264903330087,
+    0.6107380052429768
+  ],
+  "custo_max": 0.702033,
+  "faith_f1_r": -0.04047218809940165
+}

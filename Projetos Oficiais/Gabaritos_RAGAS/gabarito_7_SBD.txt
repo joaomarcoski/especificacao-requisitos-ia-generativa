@@ -1,0 +1,18 @@
+GABARITO — Project Scenario 7: SBD (Sistema de Bilhetagem Digital) — Rio de Janeiro
+Uso: campo "ground_truth" do RAGAS (context_precision / context_recall).
+Cada linha é uma afirmação atômica, checável contra o texto do cenário e a
+base de conhecimento — não é um SRS completo, é o conjunto de fatos que um
+SRS bem fundamentado para este cenário deveria conseguir cobrir.
+
+- O sistema deve centralizar cobrança de tarifa, emissão/gestão de cartões ou contas de usuários e controle de acesso a veículos e estações.
+- A prefeitura deve conseguir acompanhar demanda e arrecadação de forma confiável, sem depender só do repasse do operador.
+- A operação (venda de créditos, atendimento, validadores, central de processamento) fica a cargo de uma empresa concessionária contratada.
+- A prefeitura deve manter visibilidade total e auditável sobre a movimentação financeira e de uso, em tempo real ou próximo disso.
+- O sistema deve validar de forma confiável quem tem direito a gratuidade/desconto (idosos, estudantes, pessoas com deficiência), usando reconhecimento facial ou outra forma de conferência, para reduzir fraude.
+- Os operadores de transporte (ônibus, BRT etc.) têm visibilidade parcial dos dados, não acesso total.
+- O validador deve enviar a informação da viagem ao sistema central em no máximo 30 segundos.
+- Os pontos de atendimento presencial devem estar preparados para atender pessoas com deficiência auditiva, visual e de mobilidade reduzida, conforme o Estatuto da Pessoa com Deficiência (Lei Federal nº 13.146/2015).
+- O sistema de monitoramento de frota (GPS/rastreamento de veículos) está fora do escopo deste projeto; só precisa de integração futura com esse sistema já existente.
+- Integração com bicicleta compartilhada, patinete ou estacionamento não é prioridade nesta fase.
+- A migração de usuários do sistema antigo (cartões físicos, contas, benefícios já cadastrados) para o novo sistema deve ocorrer sem trauma para o passageiro.
+- O sistema deve manter compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas.

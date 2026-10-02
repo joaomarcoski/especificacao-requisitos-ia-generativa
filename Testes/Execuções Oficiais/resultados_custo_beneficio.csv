@@ -1,0 +1,4 @@
+﻿modelo,n_execucoes,tokens_medio,custo_medio_usd,tempo_medio_s,qualidade_llm_media_1a5,f1_geral_medio,qualidade_por_1k_tokens,f1_por_1k_tokens,qualidade_por_segundo,f1_por_segundo,qualidade_por_usd,f1_por_usd
+Lua,15,43618.0,0.0237,80.8,4.244,0.641,0.09731,0.01469,0.05256,0.00793,178.867,27.0
+Terra,15,41581.0,0.178,90.0,4.244,0.688,0.10208,0.01654,0.04717,0.00764,23.851,3.864
+Sol,15,49373.0,0.6008,160.8,4.311,0.585,0.08732,0.01184,0.02681,0.00364,7.176,0.973

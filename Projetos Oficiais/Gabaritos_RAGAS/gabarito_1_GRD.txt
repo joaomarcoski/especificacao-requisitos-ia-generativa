@@ -1,0 +1,23 @@
+GABARITO — Project Scenario 1: GRD (Sistema de Gestão de Riscos de Desastres)
+Uso: campo "ground_truth" do RAGAS (context_precision / context_recall).
+Cada linha é uma afirmação atômica, checável contra o texto do cenário e a
+base de conhecimento — não é um SRS completo, é o conjunto de fatos que um
+SRS bem fundamentado para este cenário deveria conseguir cobrir.
+
+- O sistema deve automatizar o envio de avisos e alertas por e-mail, SMS e no site da Defesa Civil.
+- Os alertas devem avisar município, regional e, quando aplicável, a imprensa.
+- Municípios e o Estado devem poder cadastrar planos de contingência no sistema.
+- O plano de contingência inclui áreas de risco, recursos disponíveis (pessoal, veículo, material) e abrigos disponíveis.
+- O sistema deve ter um módulo de gestão de incidente em estilo comando de operações, com visualização em mapa.
+- A gestão de incidente deve ser acompanhável em tempo real, inclusive pelo celular de agentes em campo.
+- O sistema deve ter controle de estoque com rastreabilidade de doações e material de ajuda humanitária (o que entrou, o que saiu, para onde foi).
+- O sistema deve suportar a prestação de contas dos municípios sobre o que receberam.
+- Usuários do sistema incluem a equipe da Sala de Situação (meteorologista, engenheiro ambiental), a Defesa Civil estadual, as coordenadorias regionais, os municípios, a imprensa e a população.
+- Deve existir um aplicativo de celular para uso do pessoal de campo.
+- O sistema deve permitir parametrização e customização da matriz de risco (adaptabilidade), sem depender de desenvolvedor para cada mudança.
+- O acesso ao sistema deve ser controlado pelo login único do governo (SOEWEB).
+- O sistema deve manter auditoria: registro de quem fez, quando fez e de onde foi feita cada inclusão/alteração de registro.
+- O sistema deve ter tolerância a falhas, preservando a integridade dos dados em caso de queda de energia ou de conexão.
+- A interface (telas e manuais) deve estar em português do Brasil.
+- A integração profunda com o S2ID (sistema federal de informação de desastre) não é prioridade nesta fase.
+- A visualização de mapa com camadas geográficas complexas (bacia hidrográfica, zoneamento ecológico) não é prioridade nesta fase.

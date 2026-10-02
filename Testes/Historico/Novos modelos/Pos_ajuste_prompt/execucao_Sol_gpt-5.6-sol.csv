@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-18 18:02:13,GRD — Sistema de Gestão de Riscos de Desastres,gpt-5.6-sol,0.4019,193.0,46912,0,14642,2868,61554,3,0.23456,0.43926,0.0075,0.68132,16,9,16,16

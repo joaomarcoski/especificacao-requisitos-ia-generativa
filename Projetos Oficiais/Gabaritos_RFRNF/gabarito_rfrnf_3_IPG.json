@@ -1,0 +1,109 @@
+{
+  "sistema": "IPG Job Manager",
+  "cenario_fonte": "Project Scenario 3.pdf",
+  "observacoes": "Tem RNFs explicitas e verificaveis (raro entre os 9): timeout, conformidade com Section 508, estrutura de relato de erro. Vocabulario tecnico de grid computing (GSI, staging, DAG) exige cuidado ao formular claims. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+
+  "escopo": {
+    "em_escopo": [
+      "Moving and copying files between systems",
+      "Launching applications on authorized machines, via API or command line",
+      "A job composed of a main sequence of file and execution operations, executed reliably and in order",
+      "Optional cleanup step after the main sequence, on both success and failure",
+      "Reverse-order cleanup on partial failure of the main sequence",
+      "Integration with the Grid Security Infrastructure (GSI) proxy/credential mechanism",
+      "Resource list (registered machines) and restriction of submission to those machines",
+      "Client for regular users (find server, submit, check, cancel, look up history)",
+      "Administrative functionality (manage access, manage resource list, browse jobs, admin action log)",
+      "Structured error reporting (name, message, reason) and file-based error logging",
+      "Timeouts to prevent operations from hanging indefinitely",
+      "Compliance with Section 508 accessibility"
+    ],
+    "fora_de_escopo": [
+      "Co-scheduling (running one application split across two machines simultaneously)",
+      "A full workflow/DAG language with a GUI",
+      "Parallel file staging",
+      "Cross-OS file permission handling during staging",
+      "File caching",
+      "A drop-in replacement for the old Job Manager — existing users need transition support"
+    ],
+    "premissas": [
+      "PA-01: The GSI (Grid Security Infrastructure) already exists and is available for integration.",
+      "PA-02: [INFERRED] Regular users have enough technical familiarity to use the API or command line."
+    ],
+    "restricoes": [
+      "REST-01 (Regulatory): As federal software built for NASA's IPG program, the whole system must meet Section 508 accessibility requirements.",
+      "REST-02 (Scope): This version is not a drop-in replacement for the old Job Manager."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Regular user (grid user) — connects through the client to submit, check, cancel jobs, and look up old runs." },
+    { "id": "STK-02", "descricao": "Server installer/maintainer (admin) — installs and keeps the Job Manager server running." },
+    { "id": "STK-03", "descricao": "Hardware/OS manager (admin) — manages the underlying hardware and operating system." },
+    { "id": "STK-04", "descricao": "Software repository server manager (admin) — manages the software repository." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "A job consists of a main sequence of file and execution operations, executed reliably and in order." },
+    { "id": "RN-002", "descricao": "An optional cleanup step can run after the main sequence, regardless of success or failure." },
+    { "id": "RN-003", "descricao": "On partial failure of the main sequence, cleanup must run for the failed step and for all previously completed steps, in reverse order." },
+    { "id": "RN-004", "descricao": "Users can only submit jobs to machines registered in the resource list." },
+    { "id": "RN-005", "descricao": "Only authorized users (via GSI credential) can access the systems managed by the Job Manager." },
+    { "id": "RN-006", "descricao": "This version is not a drop-in replacement for the old Job Manager — existing users need transition support, with no guarantee that old scripts keep working." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "The system must allow users to move/copy files between systems." },
+    { "id": "RF-02", "descricao": "The system must allow users to launch applications on machines they are authorized to use." },
+    { "id": "RF-03", "descricao": "The system must allow these operations to be performed via API or via command line." },
+    { "id": "RF-04", "descricao": "The system must execute a job's main sequence of file and execution operations reliably and in order." },
+    { "id": "RF-05", "descricao": "The system must support an optional cleanup step that runs after the main sequence, on either job success or failure." },
+    { "id": "RF-06", "descricao": "The system must, on partial failure of the main sequence, run cleanup for the failed step and for all previously completed steps, in reverse order." },
+    { "id": "RF-07", "descricao": "The system must integrate with the existing Grid Security Infrastructure (GSI) proxy/credential mechanism." },
+    { "id": "RF-08", "descricao": "The system must maintain a resource list of registered machines." },
+    { "id": "RF-09", "descricao": "The system must restrict job submission to machines registered in the resource list." },
+    { "id": "RF-10", "descricao": "The system must allow regular users to find an available server." },
+    { "id": "RF-11", "descricao": "The system must allow regular users to submit a job." },
+    { "id": "RF-12", "descricao": "The system must allow regular users to check the status of a submitted job." },
+    { "id": "RF-13", "descricao": "The system must allow regular users to cancel a job." },
+    { "id": "RF-14", "descricao": "The system must allow regular users to look up old job runs." },
+    { "id": "RF-15", "descricao": "The system must allow admins to manage user access." },
+    { "id": "RF-16", "descricao": "The system must allow admins to manage the resource list." },
+    { "id": "RF-17", "descricao": "The system must allow admins to browse existing jobs." },
+    { "id": "RF-18", "descricao": "The system must maintain a log of administrative actions taken." },
+    { "id": "RF-19", "descricao": "The system must report errors with a real error name and a message, and ideally the reason." },
+    { "id": "RF-20", "descricao": "The system must log errors to a file that the user can consult themselves." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Reliability", "descricao": "System operations must implement timeouts, so they don't hang indefinitely waiting for a response.", "metrica_aceitacao": "[TBD] — scenario does not define a numeric timeout duration" },
+    { "id": "RNF-02", "categoria_iso25010": "Security", "descricao": "The system must fully respect the Grid Security Infrastructure (GSI) proxy/credential mechanism to authorize access to managed resources.", "metrica_aceitacao": "100% of accesses to managed systems validated via GSI credential" },
+    { "id": "RNF-03", "categoria_iso25010": "Interaction Capability", "descricao": "As federal software built for NASA's IPG program, the whole system — not just part of it — must meet Section 508 accessibility requirements.", "metrica_aceitacao": "Full compliance with Section 508" },
+    { "id": "RNF-04", "categoria_iso25010": "Maintainability", "descricao": "Errors reported by the system must include a real error name, a message, and ideally the reason, and must be logged to a file accessible to the user.", "metrica_aceitacao": "100% of reported errors include a name and message; file-based log available to the user" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "As a regular user, I want to move/copy files between systems and launch applications on authorized machines via API or command line, so that I can run my jobs in whatever way fits my workflow." },
+    { "id": "HU-02", "descricao": "As a regular user, I want to submit a job with a main sequence and an optional cleanup step, so that temporary files are removed regardless of whether the job succeeds or fails." },
+    { "id": "HU-03", "descricao": "As a regular user, I want to check, cancel, and look up old runs of my jobs, so that I can manage and audit my own work." },
+    { "id": "HU-04", "descricao": "As a server installer/maintainer, I want to install and keep the server running, so that the Job Manager stays available." },
+    { "id": "HU-05", "descricao": "As an admin, I want to manage user access and the resource list, so that only authorized users submit jobs to registered machines." },
+    { "id": "HU-06", "descricao": "As an admin, I want to browse existing jobs and see a log of administrative actions, so that I can monitor usage and my own team's actions." },
+    { "id": "HU-07", "descricao": "As a user, I want to receive clear error messages (name, message, reason) and have errors logged to a file, so that I can diagnose failures myself." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Submit and run job — a user submits a job (main sequence of file/execution operations), the system executes it reliably and runs cleanup afterward (success or failure), including reverse-order cleanup on partial failure." },
+    { "id": "UC-02", "descricao": "Manage job status — a user checks, cancels, or looks up the history of a submitted job." },
+    { "id": "UC-03", "descricao": "Manage access and resources (admin) — an admin manages user access and the list of registered machines." },
+    { "id": "UC-04", "descricao": "Review admin log — an admin browses the log of administrative actions taken on the system." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-06", "descricao": "Given a job that fails partway through the main sequence, when the failure occurs, then the system runs cleanup for the failed step and for all previously completed steps, in reverse order." },
+    { "id": "CA-02", "rf_hu_ref": "RF-09", "descricao": "Given a user attempting to submit a job to an unregistered machine, when the submission is attempted, then the system rejects it." },
+    { "id": "CA-03", "rf_hu_ref": "RNF-01", "descricao": "Given an operation waiting for a response, when the timeout threshold is reached, then the system aborts the wait instead of hanging indefinitely." },
+    { "id": "CA-04", "rf_hu_ref": "RNF-03", "descricao": "Given any part of the system's interface, when it is evaluated for accessibility, then it complies with Section 508." },
+    { "id": "CA-05", "rf_hu_ref": "RF-19 / RF-20", "descricao": "Given an error occurs during job execution, when it is reported, then the system provides a real error name, a message, and logs the error to a file accessible to the user." }
+  ]
+}

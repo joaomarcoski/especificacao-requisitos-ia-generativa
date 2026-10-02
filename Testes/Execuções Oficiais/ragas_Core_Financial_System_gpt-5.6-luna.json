@@ -1,0 +1,1179 @@
+{
+  "sistema": "Core Financial System",
+  "modelo": "gpt-5.6-luna",
+  "data_execucao": "2026-08-20 10:06:15",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 9.pdf ---\nCore Financial System (FFMIA Compliance Initiative)\nSo here's where we are. We've got this thing hanging over us with FFMIA — basically the\nlaw says our financial management system has to substantially comply with a whole set of\nfederal requirements, and right now nobody's totally confident we'd pass if someone came\nin and checked us against that standard tomorrow. So the real driver here isn't \"let's build\nsomething cool,\" it's \"we need a system that can actually stand up when auditors or the\ninspector general come knocking and ask us to prove our books are clean and under\ncontrol.\"\nThe core of it is the general ledger — that's really the heart of everything, every other piece\nhangs off of it. We need to be able to classify and track transactions properly: by fund, by\nprogram, by organization, by project, by cost center, all that breakdown, because that's\nhow budget and program managers actually slice and dice the data later. On top of that we\nneed solid control over funds so we never end up obligating or spending more than what\nwas actually appropriated to us, that's a hard line, not negotiable. Then there's the\npayment side — vendors, payees, getting money out the door correctly and being able to\ntrack and confirm that a payment actually went where it should. And on the flip side, we\nneed to handle money coming in too, recording what's owed to the agency and following\nup when people don't pay.\nCost management is something we want in there as well, even if it's not glamorous —\nbeing able to actually measure what programs cost and what they're producing matters a\nlot for budget conversations down the line. And reporting ties the whole thing together:\nmanagement needs timely numbers to make decisions, and we have to be able to produce\nthe formal financial statements and reports that get sent up the chain, to oversight bodies\nand eventually made public.\nWho's going to be touching this thing day to day: financial systems analysts, accountants,\nprogram managers, the people who actually run agency operations and need to pull\nnumbers, and then auditors who'll come in periodically and poke at everything. So usability\nfor non-technical finance folks matters, this can't be something only an IT person can\noperate.\nOn the technical side we do care about things like making sure it can handle the workload\nwithout falling over, that it talks properly with other systems we already have instead of\nbecoming an island, that there's a real audit trail and security around who can touch what,\nand decent web access so people aren't stuck only using it from one terminal somewhere.\nThat said, some of the fancier stuff — bells and whistles that are \"nice to have\" rather than\nsomething a law or regulation forces on us — that's not where we want to spend our first\nround of effort. If it's not mandatory and it's not clearly going to make somebody's job\ndramatically easier, it can wait, we shouldn't be chasing every optional feature in the first\npass. The priority is getting the mandatory groundwork solid first.",
+  "answer": "Sistema: Core Financial System\n\nResumo executivo: The Core Financial System is a financial management solution intended to substantially comply with FFMIA requirements and provide auditable control over agency financial operations. It centralizes general ledger, fund control, payments, receivables, cost management, and financial reporting, enabling accurate accountability, prevention of unauthorized expenditures, operational decision-making, and evidence-based audits.\n\nEscopo: The system shall record, control, process, audit, and report the agency's core financial transactions.\n  Em escopo: General ledger and multidimensional transaction classification\n  Em escopo: Fund appropriation, obligation, expenditure, and availability control\n  Em escopo: Vendor and payee payment processing and tracking\n  Em escopo: Accounts receivable and collection follow-up\n  Em escopo: Program cost and output measurement\n  Em escopo: Management and formal financial reporting\n  Em escopo: Audit trail and access control\n  Em escopo: Web-based access\n  Em escopo: Integration with existing agency systems\n  Fora de escopo: Optional bells-and-whistles not required for compliance or substantial job improvement — deferred from the first release\n  Fora de escopo: Automated public publication of reports — the first release shall produce reports for subsequent publication\n  Fora de escopo: Replacement of all existing agency systems — only required financial integrations are included\n  Premissa: PA-01: The agency will provide authoritative appropriation, organizational, program, project, and cost-center data. [INFERRED]\n  Premissa: PA-02: Existing agency systems will provide documented integration interfaces where integration is required. [INFERRED]\n  Premissa: PA-03: Authorized users will receive role assignments before accessing financial functions. [INFERRED]\n  Premissa: PA-04: FFMIA compliance criteria applicable to the agency will be formally confirmed during requirements validation. [TBD]\n  Restrição: REST-01 (Regulatory): The solution shall substantially comply with applicable FFMIA requirements.\n  Restrição: REST-02 (Scope): The first release shall prioritize mandatory compliance groundwork over optional functionality.\n  Restrição: REST-03 (Control): The system shall prevent obligations or expenditures exceeding available appropriations.\n  Restrição: REST-04 (Technology): The system shall be accessible through a web interface.\n  Restrição: REST-05 (Integration): The system shall interoperate with existing agency systems where financial data exchange is required.\n\nStakeholders:\n  STK-01 - Financial Systems Analyst (Usuário primário): Configure financial structures, monitor integrations, investigate processing issues, and support system operation.\n  STK-02 - Accountant (Usuário primário): Record and reconcile financial transactions, manage ledger data, process payments and receivables, and produce financial reports.\n  STK-03 - Program Manager (Usuário primário): Monitor program funds, costs, outputs, obligations, expenditures, and management reports.\n  STK-04 - Agency Operations Manager (Usuário secundário): Access operational financial information and use timely reports for decision-making.\n  STK-05 - Auditor or Inspector General (Stakeholder externo): Examine financial records, control evidence, user actions, transactions, and reports.\n  STK-06 - Oversight Body (Stakeholder externo): Receive formal financial statements and reports required for oversight.\n  STK-07 - General Public (Stakeholder externo): Access financial reports designated for public disclosure through external publication processes.\n  STK-08 - Existing Agency Systems (Stakeholder externo): Exchange required financial data with the Core Financial System through defined interfaces.\n\nRegras de negócio:\n  RN-001 - FFMIA substantial compliance: The agency financial management process must substantially comply with applicable FFMIA requirements.\n  RN-002 - Appropriation control: An obligation or expenditure must not exceed the available appropriation for the applicable financial classification.\n  RN-003 - Transaction classification: Each financial transaction must be classified by fund, program, organization, project, and cost center when those dimensions apply.\n  RN-004 - Financial accountability: Financial records must be complete, traceable, and available as evidence of financial control.\n  RN-005 - Payment destination: A payment must be associated with an authorized vendor or payee and its destination must be confirmable.\n  RN-006 - Receivable follow-up: Amounts owed to the agency must be recorded and monitored until collection, adjustment, or authorized closure.\n\nRequisitos funcionais:\n  RF-001 - Record general-ledger transaction: The system shall record a financial transaction in the general ledger. [Must have]\n  RF-002 - Classify transaction dimensions: The system shall classify each applicable transaction by fund, program, organization, project, and cost center. [Must have]\n  RF-003 - Track ledger transactions: The system shall allow authorized users to retrieve ledger transactions using financial classification dimensions. [Must have]\n  RF-004 - Register appropriations: The system shall register appropriations for each applicable financial classification. [Must have]\n  RF-005 - Validate available funds: The system shall validate available appropriations before recording an obligation. [Must have]\n  RF-006 - Block excess obligation: The system shall block an obligation that exceeds the available appropriation. [Must have]\n  RF-007 - Register vendor or payee: The system shall register a vendor or payee associated with a payment. [Must have]\n  RF-008 - Process payment: The system shall record an authorized payment for a vendor or payee. [Must have]\n  RF-009 - Confirm payment destination: The system shall record confirmation that a payment was directed to its designated vendor or payee. [Must have]\n  RF-010 - Record receivable: The system shall record an amount owed to the agency. [Must have]\n  RF-011 - Track receivable status: The system shall track the status of each recorded receivable. [Must have]\n  RF-012 - Record collection follow-up: The system shall record follow-up actions for overdue receivables. [Should have]\n  RF-013 - Measure program costs: The system shall calculate recorded costs for a program using its financial classifications. [Should have]\n  RF-014 - Record program outputs: The system shall record program output measures associated with a program and reporting period. [Should have]\n  RF-015 - Generate management report: The system shall generate a management financial report for a selected reporting period and classification. [Must have]\n  RF-016 - Generate formal financial statement: The system shall generate formal financial statements for a selected reporting period. [Must have]\n  RF-017 - Export oversight report: The system shall export a formal financial report in a format designated for submission to an oversight body. [Must have]\n  RF-018 - Record audit event: The system shall record an audit event for each creation, modification, approval, blocking, and access action involving financial data. [Must have]\n  RF-019 - Restrict access by role: The system shall restrict financial functions and data according to the authenticated user's assigned role. [Must have]\n  RF-020 - Exchange data with agency systems: The system shall exchange required financial data with designated existing agency systems through documented interfaces. [Must have]\n  RF-021 - Provide web access: The system shall provide authenticated access to its financial functions through a web interface. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Functional Suitability) - The system shall calculate financial balances with a maximum deviation of 0.01 monetary unit from independently calculated reference results. | Métrica: 100% of validation cases with deviation less than or equal to 0.01 monetary unit.\n  RNF-002 (Performance Efficiency) - The system shall respond to standard transaction queries within 3 seconds at the 95th percentile under [TBD] concurrent users. | Métrica: 95th-percentile response time less than or equal to 3 seconds.\n  RNF-003 (Performance Efficiency) - The system shall generate a standard financial report within 60 seconds for a dataset containing up to [TBD] transactions. | Métrica: 100% of standard report executions complete within 60 seconds.\n  RNF-004 (Reliability) - The system shall provide monthly availability of at least 99.5%, excluding approved maintenance windows. | Métrica: Monthly availability greater than or equal to 99.5%.\n  RNF-005 (Reliability) - The system shall preserve audit records after successful transaction completion and system restart. | Métrica: 100% of audit records remain retrievable after 10 consecutive restart tests.\n  RNF-006 (Compatibility) - The system shall exchange financial data using documented machine-readable interfaces with each designated existing agency system. | Métrica: 100% of approved interface test cases complete without schema or data-loss errors.\n  RNF-007 (Interaction Capability) - A finance user without technical-system expertise shall complete each primary financial task within 15 minutes after no more than 2 hours of training. [TBD] | Métrica: At least 90% of representative users complete each primary task without facilitator intervention.\n  RNF-008 (Security) - The system shall require authenticated credentials before granting access to protected financial data. | Métrica: 100% of unauthenticated access attempts to protected functions are denied.\n  RNF-009 (Security) - The system shall enforce role-based authorization for all protected financial operations. | Métrica: 100% of unauthorized role-operation combinations are denied in the authorization test matrix.\n  RNF-010 (Security) - The system shall include user identity, timestamp, action, affected record, and outcome in each financial audit event. | Métrica: 100% of sampled audit events contain all 5 required attributes.\n  RNF-011 (Maintainability) - The system shall maintain automated test coverage of at least 80% for business-logic code. | Métrica: Statement coverage greater than or equal to 80% in the approved build pipeline.\n  RNF-012 (Compatibility) - The system shall operate in the two latest major versions of the agency-approved desktop web browsers. | Métrica: 100% of critical functional tests pass in each approved browser version.\n\nHistórias de usuário:\n  HU-001 - Como accountant, quero record and classify general-ledger transactions, para maintain complete and traceable financial records\n  HU-002 - Como program manager, quero query transactions by financial dimensions, para analyze program and budget execution\n  HU-003 - Como accountant, quero register appropriations and validate available funds, para prevent obligations from exceeding approved funding\n  HU-004 - Como accountant, quero process and confirm vendor or payee payments, para ensure money reaches the intended destination\n  HU-005 - Como accountant, quero record and follow up on receivables, para monitor amounts owed to the agency\n  HU-006 - Como program manager, quero measure program costs and outputs, para support budget and program-performance discussions\n  HU-007 - Como agency operations manager, quero generate management financial reports, para make decisions using timely financial information\n  HU-008 - Como accountant, quero generate and export formal financial statements, para submit standardized information to oversight bodies\n  HU-009 - Como auditor or inspector general, quero review audit events and controlled financial records, para verify accountability and compliance\n  HU-010 - Como financial systems analyst, quero exchange data with existing agency systems through web-accessible functions, para keep the financial environment integrated and operational\n\nCasos de uso:\n  UC-001 - Record and classify ledger transaction | Ator: Accountant\n    1. The accountant selects the ledger transaction function.\n    2. The system displays the transaction-entry form.\n    3. The accountant enters the transaction and applicable dimensions.\n    4. The system validates the required data.\n    5. The system records the transaction and audit event.\n  UC-002 - Query classified transactions | Ator: Program Manager\n    1. The user selects one or more financial dimensions.\n    2. The system validates the user's access scope.\n    3. The system retrieves matching transactions.\n    4. The system displays the results.\n  UC-003 - Control available appropriations | Ator: Accountant\n    1. The accountant registers or selects an appropriation.\n    2. The accountant submits an obligation.\n    3. The system calculates available appropriation.\n    4. The system records the obligation when the balance is sufficient.\n  UC-004 - Process and confirm payment | Ator: Accountant\n    1. The accountant selects a vendor or payee.\n    2. The accountant enters payment details.\n    3. The system validates the destination.\n    4. The system records the payment.\n    5. The system records payment confirmation.\n  UC-005 - Manage receivable | Ator: Accountant\n    1. The accountant creates a receivable.\n    2. The accountant enters the amount, debtor, due date, and reference.\n    3. The system validates the data.\n    4. The system records the receivable with status 'Open'.\n    5. The accountant records follow-up actions when applicable.\n  UC-006 - Measure program cost and output | Ator: Program Manager\n    1. The program manager selects a program and period.\n    2. The system calculates recorded program costs.\n    3. The program manager enters or reviews output measures.\n    4. The system displays the cost and output result.\n  UC-007 - Generate management report | Ator: Agency Operations Manager\n    1. The manager selects a reporting period and classification.\n    2. The system validates the selection.\n    3. The system consolidates the financial data.\n    4. The system generates the management report.\n  UC-008 - Generate and export formal statement | Ator: Accountant\n    1. The accountant selects the reporting period.\n    2. The system validates the period.\n    3. The system generates the formal statement.\n    4. The accountant selects the oversight export option.\n    5. The system creates the export file.\n  UC-009 - Review audit evidence | Ator: Auditor or Inspector General\n    1. The auditor selects an audit period, user, action, or record.\n    2. The system applies the auditor's access scope.\n    3. The system retrieves matching audit events.\n    4. The system displays event details and linked records.\n  UC-010 - Exchange data with existing agency system | Ator: Financial Systems Analyst\n    1. The analyst initiates or schedules a data exchange.\n    2. The system validates the data structure.\n    3. The system transmits or receives the data.\n    4. The system records the integration outcome.\n\nCritérios de aceite:\n  CA-001 - Dado An authenticated accountant has entered valid transaction data, quando the accountant submits the transaction, então the system stores exactly one ledger transaction and displays status 'Recorded'\n  CA-002 - Dado A transaction requires fund, program, organization, project, and cost-center dimensions, quando the accountant submits the transaction, então the system stores all 5 applicable dimensions\n  CA-003 - Dado Ledger transactions exist for a selected program, quando the program manager queries that program, então the system displays only transactions matching the selected program\n  CA-004 - Dado An authorized accountant provides a valid appropriation and classification, quando the accountant saves the appropriation, então the system stores the appropriation with status 'Available'\n  CA-005 - Dado An appropriation has a positive available balance, quando an obligation is submitted, então the system compares the obligation amount with the available balance before recording it\n  CA-006 - Dado The available appropriation is lower than the obligation amount, quando the obligation is submitted, então the system does not record the obligation and displays 'Insufficient appropriation'\n  CA-007 - Dado A valid vendor or payee record is submitted, quando the accountant saves the record, então the system assigns a unique vendor or payee identifier\n  CA-008 - Dado An authorized payment has a valid vendor or payee, quando the accountant submits the payment, então the system records one payment with status 'Processed'\n  CA-009 - Dado A processed payment has a designated vendor or payee, quando destination confirmation is received, então the system stores the confirmation linked to the payment identifier\n  CA-010 - Dado Valid debtor, amount, and due-date information is provided, quando the accountant submits a receivable, então the system stores the receivable with status 'Open'\n  CA-011 - Dado An open receivable exists, quando the accountant records a collection or adjustment event, então the system updates the receivable status and preserves the previous status in the audit trail\n  CA-012 - Dado A receivable is past its due date and remains open, quando the accountant records a follow-up action, então the system stores the action with user identity and timestamp\n  CA-013 - Dado Financial transactions are classified to a selected program, quando the program manager requests the program cost, então the system displays the sum of applicable recorded costs for the selected period\n  CA-014 - Dado The program manager has a valid output measure and reporting period, quando the manager submits the measure, então the system stores the output measure linked to the program and period\n  CA-015 - Dado The manager has selected a valid reporting period and classification, quando the manager requests the report, então the system generates a report containing the selected period and classification\n  CA-016 - Dado A reporting period is authorized for formal reporting, quando the accountant requests a formal statement, então the system generates a statement marked 'Formal'\n  CA-017 - Dado A formal statement has been generated, quando the accountant requests an oversight export, então the system produces an export file in the designated format and records its creation event\n  CA-018 - Dado A user creates, modifies, approves, blocks, or accesses a financial record, quando the action completes, então the system stores an audit event containing user, timestamp, action, record, and outcome\n  CA-019 - Dado A user without permission for a protected operation is authenticated, quando the user attempts the operation, então the system denies the operation and records the access attempt\n  CA-020 - Dado A designated agency-system interface is available and valid financial data is prepared, quando the exchange is initiated, então the system transmits or receives the data and records status 'Completed'\n  CA-021 - Dado An authorized user has an approved desktop web browser, quando the user accesses the system URL, então the system displays the authenticated financial workspace\n\nGlossário:\n  FFMIA: Federal Financial Management Improvement Act, the federal compliance driver identified for the financial management initiative.\n  General ledger: The central accounting record containing the agency's financial transactions and balances.\n  Appropriation: Authorized funding made available for agency obligations and expenditures.\n  Obligation: A commitment of appropriated funds for a financial purpose.\n  Expenditure: A disbursement or use of funds associated with an authorized financial activity.\n  Fund: A financial classification used to identify a source or purpose of available resources.\n  Program: An agency activity or initiative to which financial transactions and outputs are associated.\n  Cost center: An organizational or operational classification used to assign and analyze costs.\n  Receivable: An amount owed to the agency and subject to collection, adjustment, or authorized closure.\n  Audit trail: A chronological record of user actions and system events affecting financial data.\n  Oversight body: An external authority that receives or reviews formal agency financial information.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "2ª ed. Geneva: ISO, \r\n2023. A edição 2023 substituiu a de 2011 e acrescentou a característica Safety.\r\nA ISO/IEC 25010:2023 define 9 características de qualidade do produto. Todo RNF deve ser \r\nclassificado em uma dessas características. A seguir, cada característica com seus sub-atributos e \r\nexemplo de RNF.\r\n1. Functional Suitability (Adequação Funcional)\r\n Functional Completeness — o sistema oferece todas as funções necessárias.\r\n Functional Correctness — as funções produzem os resultados corretos.\r\n Functional Appropriateness — as funções facilitam a realização das tarefas.\r\nEXEMPLO — RNF — 1. Functional Suitability\r\nO sistema deve calcular o imposto sobre o valor do pedido aplicando corretamente a alíquota de ICMS \r\nvigente para o estado de destino, conforme tabela oficial CONFAZ, com variação máxima de R$ 0,01 em \r\nrelação ao valor de referência da Receita Estadual.\r\n2. Performance Efficiency (Eficiência de Desempenho)\r\n Time Behaviour — tempo de resposta e throughput.\r\n Resource Utilisation — uso de CPU, memória, rede.\r\n Capacity — limites máximos suportados.\r\nEXEMPLO — RNF — 2. Performance Efficiency\r\nO sistema deve processar no mínimo 200 pedidos por minuto sob carga de 1.000 usuários simultâneos, com \r\ntempo de resposta inferior a 2 segundos no percentil 95.\r\n3. Compatibility (Compatibilidade)\r\n Co-existence — coexiste com outros sistemas sem degradação.\r\n Interoperability — troca dados com outros sistemas.\r\nEXEMPLO — RNF — 3. Compatibility\r\nA API do sistema deve expor endpoints REST/JSON compatíveis com o padrão OpenAPI 3.0, permitindo \r\nintegração com o ERP legado via OAuth 2.0 sem modificações no ERP.4. Interaction Capability (Capacidade de Interação) — antes 'Usabilidade'\r\n Appropriateness Recognisability — usuário reconhece a adequação do sistema.\r\n Learnability — facilidade de aprendizado.\r\n Operability — facilidade de operação.\r\n User Error Protection — proteção contra erros do usuário.\r\n User Engagement — interface envolvente e motivadora.\r\n Inclusivity — acessível a pessoas com diferentes capacidades.\r\n User Assistance — suporte ao usuário.\r\n Self-Descriptiveness — interface autoexplicativa.\r\nEXEMPLO — RNF — 4. Interaction Capability\r\nUm usuário sem treinamento prévio deve ser capaz de registrar seu primeiro pedido completo em até 10 \r\nminutos. A interface deve seguir as diretrizes WCAG 2.1 nível AA.\r\n5. Reliability (Confiabilidade)\r\n Faultlessness — ausência de falhas em condições normais.\r\n Availability — proporção de tempo em que o sistema está operacional.\r\n Fault Tolerance — operação correta mesmo com falhas parciais.\r\n Recoverability — recuperação após falha.\r\nEXEMPLO — RNF — 5. Reliability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês (máx. 3,6h de downtime não planejado). Em \r\ncaso de falha crítica, o sistema deve restaurar a operação normal em até 4 horas (RTO = 4h).",
+    "112 PART II Requirements development\r\nCategory Activities\r\nValidation and \r\nverification\r\n■ Review requirements specifications.\r\n■ Define acceptance criteria.\r\n■ Develop user acceptance tests from usage scenarios.\r\n■ Provide test data sets from the business.\r\n■ Perform beta testing or user acceptance testing.\r\nUser aids ■ Write portions of user documentation and help text.\r\n■ Contribute to training materials or tutorials.\r\n■ Demonstrate the system to peers.\r\nChange management ■ Evaluate and prioritize defect corrections and enhancement requests.\r\n■ Dynamically adjust the scope of future releases or iterations.\r\n■ Evaluate the impact of proposed changes on users and business processes.\r\n■ Participate in making change decisions.\r\nMultiple product champions\r\nOne person can rarely describe the needs for all users of an application. The Chemical Tracking \r\nSystem had four major user classes, so it needed four product champions selected from the internal \r\nuser community at Contoso Pharmaceuticals. Figure 6-4 illustrates how the project manager set up \r\na team of BAs and product champions to elicit the right requirements from the right sources. These \r\nchampions were not assigned full time, but each one spent several hours per week working on the \r\nproject. Three BAs worked with the four product champions to elicit, analyze, and document their \r\nrequirements. (One BA worked with two product champions because the Buyer and the Health and \r\nSafety Department user classes were small and had few requirements.) One of the BAs assembled all \r\nthe input into a unified SRS.\r\nFIGURE 6-4 Product champion model for the Chemical Tracking System.\r\nWe didn’t expect a single person to provide all the diverse requirements for the hundreds of \r\nchemists at Contoso. Don, the product champion for the Chemist user class, assembled a backup",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    "394 PART III Requirements for specific project classes\r\nSRS described just the differences that the new version should exhibit compared to the previous \r\nversion. Nowhere was there a description of the original system. Consequently, everyone had a \r\ndifferent understanding of the current system’s capabilities. If you’re in this situation, document \r\nthe requirements for your project more thoroughly so that all the stakeholders—both present \r\nand future—understand what the system does.\r\nExpected challenges\r\nThe presence of an existing system leads to common challenges that both enhancement and \r\nreplacement projects will face, including the following:\r\n■ The changes made could degrade the performance to which users are accustomed.\r\n■ Little or no requirements documentation might be available for the existing system.\r\n■ Users who are familiar with how the system works today might not like the changes they are \r\nabout to encounter.\r\n■ You might unknowingly break or omit functionality that is vital to some stakeholder group.\r\n■ Stakeholders might take this opportunity to request new functionality that seems like a good \r\nidea but isn’t really needed to meet the business objectives.\r\nEven if there is existing documentation, it might not prove useful. For enhancement projects, \r\nthe documentation might not be up to date. If the documentation doesn’t match the existing \r\napplication’s reality, it is of limited use. For replacement systems, you also need to be wary of carrying \r\nforward all of the requirements, because some of the old functionality probably should not be \r\nmigrated.\r\nOne of the major issues in replacement projects is validating that the reasons for the replacement \r\nare sound. There need to be justifiable business objectives for the change. When existing systems \r\nare being completely replaced, organizational processes might also have to change, which makes it \r\nharder for people to accept a new system. The change in business processes, change in the software \r\nsystem, and learning curve of a new system can disrupt current operations.\r\nRequirements techniques when there is an existing system\r\nTable 21-1 describes the most important requirements development techniques to consider when \r\nworking on enhancement and replacement projects.CHAPTER 21 Enhancement and replacement projects 395\r\nTABLE 21-1 Valuable requirements techniques for enhancement and replacement projects\r\nTechnique Why it’s relevant\r\nCreate a feature tree to show \r\nchanges\r\n■ Show features being added.\r\n■ Identify features from the existing system that won’t be in the new system.\r\nIdentify user classes ■ Assess who is affected by the changes.\r\n■ Identify new user classes whose needs must be met.\r\nUnderstand business \r\nprocesses\r\n■ Understand how the current system is intertwined with stakeholders’ daily \r\njobs and the impacts of it changing.\r\n■ Define new business processes that might need to be created to align with \r\nnew features or a replacement system.\r\nDocument business rules ■ Record business rules that are currently embedded in code.\r\n■ Look for new business rules that need to be honored.\r\n■ Redesign the system to better handle volatile business rules that were expen￾sive to maintain.\r\nCreate use cases or user \r\nstories\r\n■ Understand what users must be able to do with the system.\r\n■ Understand how users expect new features to work.\r\n■ Prioritize functionality for the new system.\r\nCreate a context diagram ■ Identify and document external entities.\r\n■ Extend existing interfaces to support new features.\r\n■ Identify current interfaces that might need to be changed.\r\nCreate an ecosystem map ■ Look for other affected systems.\r\n■ Look for new, modified, and obsolete interfaces between systems.\r\nCreate a dialog map ■ See how new screens fit into the existing user interface.\r\n■ Show how the workflow screen navigation will change.\r\nCreate data models ■ Verify that the existing data model is sufficient or extend it for new features.\r\n■ Verify that all of the data entities and attributes are still needed.\r\n■ Consider what data has to be migrated, converted, corrected, archived, or \r\ndiscarded.\r\nSpecify quality attributes ■ Ensure that the new system is designed to fulfill quality expectations.",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193\r\n3. System features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 194\r\n4. Data requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195\r\n5. External interface requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . 196\r\n6. Quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197\r\n7. Internationalization and localization requirements. . . . . . . . . . . 198\r\n8. [Other requirements]. . . . . . . .",
+    "Core Financial System (FFMIA Compliance Initiative)\r\nSo here's where we are. We've got this thing hanging over us with FFMIA — basically the\r\nlaw says our financial management system has to substantially comply with a whole set of\r\nfederal requirements, and right now nobody's totally confident we'd pass if someone came\r\nin and checked us against that standard tomorrow. So the real driver here isn't \"let's build\r\nsomething cool,\" it's \"we need a system that can actually stand up when auditors or the\r\ninspector general come knocking and ask us to prove our books are clean and under\r\ncontrol.\"\r\nThe core of it is the general ledger — that's really the heart of everything, every other piece\r\nhangs off of it. We need to be able to classify and track transactions properly: by fund, by\r\nprogram, by organization, by project, by cost center, all that breakdown, because that's\r\nhow budget and program managers actually slice and dice the data later. On top of that we\r\nneed solid control over funds so we never end up obligating or spending more than what\r\nwas actually appropriated to us, that's a hard line, not negotiable. Then there's the\r\npayment side — vendors, payees, getting money out the door correctly and being able to\r\ntrack and confirm that a payment actually went where it should. And on the flip side, we\r\nneed to handle money coming in too, recording what's owed to the agency and following\r\nup when people don't pay.\r\nCost management is something we want in there as well, even if it's not glamorous —\r\nbeing able to actually measure what programs cost and what they're producing matters a\r\nlot for budget conversations down the line. And reporting ties the whole thing together:\r\nmanagement needs timely numbers to make decisions, and we have to be able to produce\r\nthe formal financial statements and reports that get sent up the chain, to oversight bodies\r\nand eventually made public.\r\nWho's going to be touching this thing day to day: financial systems analysts, accountants,\r\nprogram managers, the people who actually run agency operations and need to pull\r\nnumbers, and then auditors who'll come in periodically and poke at everything. So usability\r\nfor non-technical finance folks matters, this can't be something only an IT person can\r\noperate.\r\nOn the technical side we do care about things like making sure it can handle the workload\r\nwithout falling over, that it talks properly with other systems we already have instead of\r\nbecoming an island, that there's a real audit trail and security around who can touch what,\r\nand decent web access so people aren't stuck only using it from one terminal somewhere.\r\nThat said, some of the fancier stuff — bells and whistles that are \"nice to have\" rather than\r\nsomething a law or regulation forces on us — that's not where we want to spend our first\r\nround of effort. If it's not mandatory and it's not clearly going to make somebody's job\r\ndramatically easier, it can wait, we shouldn't be chasing every optional feature in the first\r\npass. The priority is getting the mandatory groundwork solid first.",
+    "• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.: RF-001, RNF-003, RN-002, HU-005,\r\nCA-008, UC-002).\r\nREGRA: IDs nunca devem ser reutilizados. Se um requisito é removido, seu ID fica obsoleto — não é \r\nreatribuído a outro requisito.\r\n1.3 Princípios Fundamentais de Qualidade de Requisitos\r\nBase: ISO/IEC/IEEE 29148:2018 §5.2 — Características do requisito individual\r\n• Necessário: Existe uma necessidade real que o justifica. Sem o requisito, há uma lacuna de negócio.\r\n• Não ambíguo: Tem uma única interpretação possível. Evitar: 'eficiente', 'fácil', 'rápido', 'amigável'.\r\n• Verificável: Pode ser testado objetivamente com critério mensurável. 'Rápido' não é verificável; '< 2 s' é.\r\n• Singular: Descreve uma única coisa. Nunca usar 'e' ou 'ou' para combinar dois comportamentos em um \r\nRF.\r\n• Viável: Tecnicamente e financeiramente possível dentro das restrições do projeto.\r\n• Rastreável: Tem origem (stakeholder ou RN) e destino (caso de teste) identificados.\r\n• Completo: Contém todas as informações necessárias para implementação sem consultas adicionais.\r\n• Consistente: Não conflita com nenhum outro requisito do documento.\r\n• Priorizado: Tem um nível de prioridade definido (MoSCoW: Must/Should/Could/Won't).PARTE 2 — Padrões de Escrita por Artefato\r\n2.1 Escopo do Projeto\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6.3 — 'Scope'; Wiegers & Beatty (2013, cap.",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    "106 PART II Requirements development\r\nFIGURE 6-2 A portion of the organization chart for Contoso Pharmaceuticals.\r\nDocument the user classes and their characteristics, responsibilities, and physical locations in \r\nthe software requirements specification (SRS) or in a requirements plan for your project. Check that \r\ninformation against any information you might already have about stakeholder profiles in the vision \r\nand scope document to avoid conflicts and duplication. Include all pertinent information you have \r\nabout each user class, such as its relative or absolute size and which classes are favored. This will \r\nhelp the team prioritize change requests and conduct impact assessments later on. Estimates of \r\nthe volume and type of system transactions help the testers develop a usage profile for the system \r\nso that they can plan their verification activities. The project manager and business analyst of the \r\nChemical Tracking System discussed in earlier chapters identified the user classes and characteristics \r\nshown in Table 6-1.\r\nTABLE 6-1 User classes for the Chemical Tracking System\r\nName Number Description\r\nChemists \r\n(favored)\r\nApproximately \r\n1,000 located in \r\n6 buildings\r\nChemists will request chemicals from vendors and from the chemical \r\nstockroom. Each chemist will use the system several times per day, mainly for \r\nrequesting chemicals and tracking chemical containers into and out of the \r\nlaboratory. The chemists need to search vendor catalogs for specific chemical \r\nstructures imported from the tools they use for drawing structures.\r\nBuyers 5 Buyers in the purchasing department process chemical requests. They place \r\nand track orders with external vendors. They know little about chemistry and \r\nneed simple query facilities to search vendor catalogs. Buyers will not use \r\nthe system’s container-tracking features. Each buyer will use the system an \r\naverage of 25 times per day.\r\nChemical \r\nstockroom staff\r\n6 technicians, \r\n1 supervisor\r\nThe chemical stockroom staff manages an inventory of more than 500,000 \r\nchemical containers. They will supply containers from three stockrooms, \r\nrequest new chemicals from vendors, and track the movement of all \r\ncontainers into and out of the stockrooms. They are the only users of the \r\ninventory-reporting feature. Because of their high transaction volume, \r\nfeatures that are used only by the chemical stockroom staff must be \r\nautomated and efficient.\r\nHealth \r\nand Safety \r\nDepartment staff \r\n(favored)\r\n1 manager The Health and Safety Department staff will use the system only to generate \r\npredefined quarterly reports that comply with federal and state chemical \r\nusage and disposal reporting regulations. The Health and Safety Department \r\nmanager will request changes in the reports periodically as government \r\nregulations change. These report changes are of the highest priority, and \r\nimplementation will be time critical.",
+    ". . . . . . . . . . . . . . . . . . 163\r\nBenefits of usage-centric requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . 164\r\nChapter 9 Playing by the rules 167\r\nA business rules taxonomy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169\r\nFacts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .170\r\nAction enablers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 171\r\nInferences. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nComputations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173\r\nAtomic business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174\r\nDocumenting business rules. . . . . . . . . . . .",
+    "Nível Fundamental | Syllabus ©IREB 21 | 50\r\n1. Os requisitos são classificados pelo seu tipo (1.1) em:\r\na) Requisitos funcionais\r\nb) Requisitos de qualidade\r\nc) Restrições\r\n2. Os requisitos funcionais concentram-se em diferentes aspectos da funcionalidade \r\nde um sistema:\r\na) Estrutura e dados\r\nb) Função e fluxo\r\nc) Estado e comportamento\r\n3. Finalmente, os requisitos só serão entendidos no contexto (Princípio 4 em 2):\r\na) Contexto do sistema, incluindo atores externos\r\nb) Limites do sistema e interfaces externas\r\nHá muitas relações e dependências entre os aspectos mencionados. Por exemplo, uma \r\nsolicitação emitida por um usuário (contexto) pode levar a uma transição de estado (estado \r\ne comportamento) que inicia ações em cadeia (função e fluxo) que requerem dados \r\n(estrutura e dados) para fornecer um resultado ao usuário (contexto) dentro de um intervalo \r\nde tempo (qualidade).\r\nAlguns produtos de trabalho focam em um aspecto específico e abstraem os outros \r\naspectos. Este é particularmente o caso dos modelos de requisitos (3.4). Outros produtos de \r\ntrabalho, como uma especificação dos requisitos do sistema, cobrem todos os aspectos \r\ncitados. Quando aspectos diferentes são documentados em produtos de trabalho \r\nseparados ou em capítulos separados do mesmo produto de trabalho, esses produtos de \r\ntrabalho ou capítulos de trabalho devem ser mantidos consistentes entre si.\r\n3.1.5 Diretrizes Gerais de Documentação (L1)\r\nIndependentemente das técnicas utilizadas, as seguintes diretrizes aplicam-se na criação \r\nde produtos de trabalho:\r\n▪ Selecionar um tipo de produto de trabalho que se adapte à finalidade pretendida.\r\n▪ Evitar a redundância referenciando o conteúdo em vez de repetir o mesmo conteúdo.\r\n▪ Assegurar que não existem inconsistências entre os produtos de trabalho, \r\nparticularmente quando cobrem aspectos diferentes.\r\n▪ Usar termos de forma consistente, conforme definido no glossário.\r\n▪ Estruturar produtos de trabalho de forma apropriada.\r\n3.1.6 Planejar os produtos de trabalho a serem utilizados \r\n(L1)\r\nCada cenário de projeto e cada domínio são diferentes, portanto, o conjunto de produtos de \r\ntrabalho resultante deve ser definido para cada empreendimento. Portanto, as seguintes \r\nquestões devem ser acordadas:\r\n▪ Em que produtos de trabalho devem ser registados os requisitos e para que fins?",
+    ". . . . . . 396\r\nMaintaining performance levels. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 397\r\nWhen old requirements don’t exist. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 398\r\nWhich requirements should you specify?. . . . . . . . . . . . . . . . . . . . . 398\r\nHow to discover the requirements of an existing system. . . . . . . . 400\r\nEncouraging new system adoption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401\r\nCan we iterate?. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 402\r\nChapter 22 Packaged solution projects 405\r\nRequirements for selecting packaged solutions. . . . . . . . . . . . . . . . . . . . . 406\r\nDeveloping user requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 406\r\nConsidering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 407\r\nIdentifying data needs. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 407Contents xix\r\nDefining quality requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 408\r\nEvaluating solutions. . . . . . . . . . . . . . . . . . . . . . .",
+    "C2-11\r\ncomplete the SRS document (software requirements specifications); all but XRE also complete \r\nthe StRS (stakeholder requirements specifications) document; and neither covers the Concept \r\nof Operations item, nor the System Operational Systems; that are more related to the system \r\nlevel and less to the software level.\r\nACKNOWLEDGMENTS\r\nThis work is partially supported by Department of Engineering and the Software Engineering \r\nResearch and Development Group (GIDIS) from the Pontifical Catholic University of Peru \r\n(PUCP). The work is also funded by the Data Science and Technology Research Group \r\n(CITEC) of the National University of Moquegua (UNAM).\r\nREFERENCES\r\nAmbreen, T., Ikram, N., Usman, M., & Niazi, M. (2018). Empirical Research in Requirements \r\nEngineering: Trends and Opportunities. Requirements Engineering, 23(1), 63–95. \r\nhttps://doi.org/10.1007/s00766-016-0258-2\r\nAnu, V., Hu, W., Carver, J. C., Walia, G. S., & Bradshaw, G. (2018). Development of a Human \r\nError Taxonomy for Software Requirements: A Systematic Literature Review. Information \r\nand Software Technology, 103, 112–124. https://doi.org/10.1016/j.infsof.2018.06.011\r\nBeecham, S., Hall, T., & Rainer, A. (2005). Defining a Requirements Process Improvement \r\nModel. Software Quality Journal, 13, 247–279. https://doi.org/10.1007/s11219-005-1752-9\r\nBorja Buestán, C. D., & Cuji Torres, V. A. (2013). Metodología para la Especificación de \r\nRequerimientos de Software Basado en el Estándar IEEE 830-1998. In Tesis -\r\nUniversidad Politécnica Salesiana - Sede Cuenca.\r\nBoyarchuk, A., Pavlova, O., Bodnar, M., & Lopatto, I. (2020). Approach to the Analysis of \r\nSoftware Requirements Specification on its Structure Correctness. CEUR Workshop, 85–\r\n95. http://ceur-ws.org/Vol-2623/paper9.pdf\r\nCano, C., Melgar, A., Dávila, A., & Pessoa, M. (2015). Comparison of Software Process Models. \r\nA Systematic Literature Review. 41st Latin American Computing Conference - CLEI 2015, \r\n1–6. https://doi.org/10.1109/CLEI.2015.7360025\r\nChandra, V. (2015). Comparison between Various Software Development Methodologies. \r\nInternational Journal of Computer Applications, 131(9), 7–10. \r\nhttps://doi.org/10.5120/ijca2015907294\r\nChang, C. K. (2018). Situation Analytics — at the Dawn of a New Software Engineering \r\nParadigm. Science China - Information Sciences, 61(5), 1–14. \r\nhttps://doi.org/10.1007/s11432-017-9372-7\r\nDe Bellis, M., & Haapala, C. (1995). User-Centric Software Engineering. IEEE Expert, 10(1), \r\n34–41.\r\nForbrig, P. (2016). Continuous Requirements Engineering and Human-Centered Agile Software \r\nDevelopment.",
+    ". . . . . . . . . . . . . . . . . . . . . . . 262\r\nExploring quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 263\r\nDefining quality requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 267\r\nExternal quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 267\r\nInternal quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281\r\nSpecifying quality requirements with Planguage. . . . . . . . . . . . . . . . . . . . 287\r\nQuality attribute trade-offs. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 288\r\nImplementing quality attribute requirements. . . . . . . . . . . . . . . . . . . . . . . 290\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 291\r\nHandling quality attributes on agile projects. . . . . . . . . . . . . . . . . . . . . . . 293\r\nChapter 15 Risk reduction through prototyping 295\r\nPrototyping: What and why. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    "[Derivado de: 'dentro da \r\nLGPD']\r\nRNF-003 (Reliability — Fault Tolerance):\r\nO sistema deve operar em modo offline com funcionalidade de criação de propostas, sincronizando \r\nautomaticamente com latência máxima de 30 segundos após reconexão. [Derivado de: 'funcionar quando \r\ninternet tiver ruim']\r\nRNF-004 (Compatibility — Interoperability):\r\nA integração com SAP deve ser bidirecional via API REST/JSON, sem modificações na configuração atual do \r\nSAP. [Derivado de: 'vira pedido automaticamente no SAP']\r\nRNF-005 (Flexibility — Installability):\r\nO sistema deve ser responsivo e funcional em dispositivos móveis (Android/iOS) sem necessidade de \r\naplicativo nativo. [Derivado de: 'usam no celular em campo']\r\nHistórias de Usuário\r\nHU-001: Como vendedor, quero criar propostas com preços atualizados automaticamente, para evitar erros \r\nde precificação e retrabalho.\r\nHU-002: Como diretora comercial, quero ver todas as propostas abertas em tempo real em um painel, para \r\nnão precisar ligar para cada vendedor para saber a situação.\r\nHU-003: Como vendedor, quero criar propostas no celular mesmo sem internet, para não perder \r\noportunidades quando estou em campo.\r\nCritérios de Aceite\r\nCA-001 (RF-001):\r\nDado que o vendedor está criando uma nova proposta,\r\nQuando selecionar um produto,\r\nEntão o sistema deve exibir o preço da tabela de preços com data de vigência atual, sem necessidade de \r\nconsulta manual.\r\nCA-002 (RF-002):\r\nDado que uma proposta com valor R$ 60.000,00 foi finalizada pelo vendedor,\r\nQuando clicar em 'Enviar ao cliente',\r\nEntão o sistema deve redirecionar para status 'Aguardando aprovação', notificar a diretora por e-mail e \r\nbloquear o envio até aprovação registrada.CA-003 (RF-006 / HU-003):\r\nDado que o vendedor está sem conexão à internet,\r\nQuando criar e salvar uma proposta no modo offline,\r\nEntão o sistema deve armazená-la localmente e sincronizá-la com o servidor em até 30 segundos após a \r\nreconexão, sem perda de dados.PARTE 6 — Protocolo de Extração: Passo a Passo para o Agente\r\nAo receber um documento de projeto, executar nesta ordem:\r\n1. PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5.",
+    "Nível Fundamental | Syllabus ©IREB 18 | 50\r\n3 Produtos de Trabalho e Práticas de \r\nDocumentação (L3)\r\nObjetivo: Entender o papel fundamental dos produtos de trabalho na ER e ser capaz de \r\ncriá-los\r\nDuração: 7 horas\r\nTermos: Produto de trabalho, produtos de trabalho em linguagem natural, produtos de\r\ntrabalho baseados em templates, produtos de trabalho baseados em modelos, \r\nglossário, critérios de qualidade, especificação de requisitos\r\nObjetivos Educacionais\r\nOE 3.1.1 Saber as características dos produtos de trabalho ER e enumerar os tipos de \r\nprodutos de trabalho frequentemente utilizados (L1)\r\nOE 3.1.2 Saber o uso de cada produto de trabalho e conhecer o seu tempo de vida útil (L1)\r\nOE 3.1.3 Explicar os diferentes níveis de abstração para os requisitos, incluindo como \r\nescolher os níveis apropriados e níveis de detalhe (L2)\r\nOE 3.1.4 Conhecer os aspectos a considerar nos produtos de trabalho e suas relações (L1)\r\nOE 3.1.5 Nomear as diretrizes gerais de documentação (L1)\r\nOE 3.1.6 Descrever por que vale a pena planejar o uso dos produtos de trabalho (L1)\r\nOE 3.2.1 Conhecer os produtos de trabalho em linguagem natural, suas vantagens e \r\ndesvantagens (L1)\r\nOE 3.2.2 Explicar as regras para escrever bons requisitos em linguagem natural (L2)\r\nOE 3.3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.",
+    "1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.\r\nREQUISITO FUNCIONAL — Estrutura\r\nID: RF-NNN\r\nTítulo: [Nome curto e descritivo]\r\nDescrição: O sistema deve [verbo no infinitivo] [complemento completo e \r\npreciso].\r\nPrioridade: Must have | Should have | Could have | Won't have (MoSCoW)\r\nStakeholder (Origem): STK-NN\r\nRegra de Negócio associada: RN-NNN (ou 'N/A')\r\nObservações: [informações adicionais, como restrições de implementação]\r\nEXEMPLO — Requisitos Funcionais do SGP\r\nRF-001 | Autenticação de usuário\r\nO sistema deve permitir que o usuário realize login utilizando e-mail e senha previamente cadastrados.\r\nPrioridade: Must have | STK-01, STK-02 | N/A\r\nRF-002 | Bloqueio por tentativas excessivas\r\nO sistema deve bloquear temporariamente o acesso de um usuário por 15 minutos após 5 (cinco) tentativas \r\nconsecutivas de login malsucedidas.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Registro de pedido\r\nO sistema deve permitir que o vendedor registre um pedido contendo um ou mais produtos, com quantidade,\r\npreço unitário e desconto por item.\r\nPrioridade: Must have | STK-02 | RN-001, RN-002\r\nRF-004 | Notificação de confirmação\r\nO sistema deve enviar automaticamente um e-mail de confirmação ao cliente após a criação bem-sucedida \r\nde um pedido.Prioridade: Should have | STK-02 | N/A\r\nRF-005 | Aprovação de pedido de alto valor\r\nO sistema deve submeter para aprovação do gerente comercial todo pedido cujo valor total supere R$ \r\n10.000,00, impedindo a confirmação ao cliente até que a aprovação seja registrada.\r\nPrioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável.",
+    ". . . . . . . . . . . . . . . . . . . . 149\r\nIdentifying use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157Contents xiii\r\nExploring use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 158\r\nValidating use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 160\r\nUse cases and functional requirements. . . . . . . . . . . . . . . . . . . . . . . 161\r\nUse case traps to avoid. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 163\r\nBenefits of usage-centric requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . 164\r\nChapter 9 Playing by the rules 167\r\nA business rules taxonomy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169\r\nFacts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170\r\nConstraints. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "→ Impreciso. O que é 'perder dados'?\r\nREFORMULAR como: 'O sistema deve persistir todos os dados de pedido mesmo em caso de falha \r\nde conexão, retomando a gravação quando a conexão for restabelecida.'\r\nAÇÃO: transformar negação em afirmação positiva e verificável.\r\nCópia literal de linguagem informal\r\nERRADO: RF-010: 'O sistema tem que ser tipo um CRM mas mais simples.'\r\nA linguagem do documento de entrada nunca deve ir direto para o SRS.\r\nAÇÃO: reformular sempre no padrão 'O sistema deve [verbo] [complemento].'\r\nRNF sem categoria ou sem métrica\r\nExtrair 'o sistema deve ser seguro' e deixar assim é inválido pela ISO 29148.\r\nAÇÃO: identificar a categoria ISO 25010 e propor métrica mínima, marcando [TBD] se o dado \r\npreciso não estiver no documento.\r\nConfundir processo atual com requisito do novo sistema\r\nTexto descreve como o processo É HOJE, não como deveria ser.\r\n'Hoje o vendedor imprime o pedido e manda por fax' → isso é o estado atual.\r\nO requisito é derivado da MELHORIA desejada, não da cópia do processo ruim.\r\nAÇÃO: identificar a dor/ineficiência → transformar em HU do novo sistema.Stakeholder implícito ignorado\r\nTexto menciona 'o sistema enviará relatório para a contabilidade' — mas 'contabilidade' não foi \r\nlistada como stakeholder. É um usuário secundário implícito.\r\nAÇÃO: varrer o documento inteiro por menções a papéis, departamentos e sistemas externos — \r\ntodos são stakeholders potenciais.\r\nRNF de conformidade ignorado\r\nDocumentos de setores regulados (saúde, financeiro, governo) contêm exigências legais que geram \r\nRNFs obrigatórios. 'Conforme LGPD', 'de acordo com a Resolução CMN 4.658' → sempre extrair \r\ncomo RNF de conformidade com alta prioridade.\r\nAÇÃO: toda menção a lei, norma, resolução ou certificação gera pelo menos um RNF.PARTE 5 — Extração Completa: Do Texto Bruto ao SRS\r\nEsta parte mostra a extração completa de um texto de entrada informal (e-mail + ata de reunião) \r\npara o conjunto de artefatos SRS.\r\n5.1 Documento de Entrada (simulação de e-mail + notas)\r\n--- INÍCIO DO DOCUMENTO DE ENTRADA ---\r\nDe: Maria Silva (Diretora Comercial)\r\nPara: Equipe de TI\r\nAssunto: Sistema de controle de propostas comerciais\r\nPessoal, precisamos urgente de um sistema para controlar nossas propostas. Hoje tudo é feito em planilha e a gente \r\nperde o controle — às vezes mandamos proposta com preço errado porque a tabela foi atualizada mas o vendedor não \r\nsabia.",
+    "If developers build exactly what \r\ncustomers initially request, they’ll probably have to build it again because customers often don’t \r\nknow what they really need. In addition, the BAs might not be talking to the right people or asking \r\nthe right questions.\r\nThe features that users present as their “wants” don’t necessarily equate to the functionality they \r\nneed to perform their tasks with the new product. To gain a more accurate view of user needs, the \r\nbusiness analyst must collect a wide range of user input, analyze and clarify it, and specify just what \r\nneeds to be built to let users do their jobs. The BA has the lead responsibility for recording the new \r\nsystem’s necessary capabilities and properties and for communicating that information to other \r\nstakeholders. This is an iterative process that takes time. If you don’t invest the time to achieve this \r\nshared understanding—this common vision of the intended product—the certain outcomes are \r\nrework, missed deadlines, cost overruns, and customer dissatisfaction.\r\nUser classes\r\nPeople often talk about “the user” for a software system as though all users belong to a monolithic \r\ngroup with similar characteristics and needs. In reality, most products of any size appeal to a diversity \r\nof users with different expectations and goals. Rather than thinking of “the user” in singular, spend \r\nsome time identifying the multiple user classes and their roles and privileges for your product.\r\nClassifying users\r\nChapter 2 described many of the types of stakeholders that a project might have. As shown in \r\nFigure 6-1, a user class is a subset of the product’s users, which is a subset of the product’s customers, \r\nwhich is a subset of its stakeholders. An individual can belong to multiple user classes. For example, \r\nan application’s administrator might also interact with it as an ordinary user at times. A product’s \r\nusers might differ—among other ways—in the following respects, and you can group users into a \r\nnumber of distinct user classes based on these sorts of differences:\r\n■ Their access privilege or security levels (such as ordinary user, guest user, administrator)\r\n■ The tasks they perform during their business operations\r\n■ The features they use\r\n■ The frequency with which they use the product\r\n■ Their application domain experience and computer systems expertise\r\n■ The platforms they will be using (desktop PCs, laptop PCs, tablets, smartphones, specialized \r\ndevices)CHAPTER 6 Finding the voice of the user 103\r\n■ Their native language\r\n■ Whether they will interact with the system directly or indirectly\r\nFIGURE 6-1 A hierarchy of stakeholders, customers, users, and user classes.\r\nIt’s tempting to group users into classes based on their geographical location or the kind of \r\ncompany they work in. One company that creates software used in the banking industry initially \r\nconsidered distinguishing users based on whether they worked in a large commercial bank, a small \r\ncommercial bank, a savings and loan institution, or a credit union. These distinctions really represent \r\ndifferent market segments, though, not different user classes.\r\nA better way to identify user classes is to think about the tasks that various users will perform with \r\nthe system. All of those types of financial institutions will have tellers, employees who process loan \r\napplications, business bankers, and so forth. The individuals who perform such activities—whether \r\nthey are job titles or simply roles—will have similar functional needs for the system across all of the \r\nfinancial institutions. Tellers all have to do more or less the same things, business bankers do more or \r\nless the same things, and so on. More logical user class names for a banking system therefore might \r\ninclude teller, loan officer, business banker, and branch manager. You might discover additional user \r\nclasses by thinking of possible use cases, user stories, and process flows and who might perform them.",
+    "Mudanças também podem causar necessidades ao reduzir ou \r\naumentar o valor entregue por soluções existentes.\r\nSolução\r\nUma forma especı́fica de satisfazer uma ou mais necessidades em um \r\ncontexto.\r\nUma solução satisfaz uma necessidade por meio da resolução de um \r\nproblema enfrentado pelos stakeholders ou habilitando os stakeholders \r\na aproveitar uma oportunidade.\r\nStakeholder\r\nUm grupo ou indivı́duo com uma relação com a mudança, com a \r\nnecessidade, ou com a solução.\r\nOs stakeholders são frequentemente definidos em termos de interesse, \r\nimpacto e influência sobre a mudança. Os stakeholders são agrupados \r\ncom base em sua relação com as necessidades, mudanças e soluções.\r\nValor\r\nO quanto algo vale a pena, sua importância ou utilidade para um \r\nstakeholder dentro de um contexto.\r\nValor pode ser visto como retornos potenciais ou realizados, ganhos e \r\nmelhorias. Também é possıvel haver uma diminuiça ́ ̃o no valor sob a \r\nforma de perdas, riscos e custos.\r\nValor pode ser tangıvel ou intangı ́ vel. Valor tangı ́ vel e ́ ́ diretamente \r\nmensurável. Valor tangıvel muitas vezes t ́ em um componente \r\nmonetário significativo. Valor intangıvel e ́ ́ medido indiretamente. Valor \r\nintangıvel muitas vezes tem um componente motivacional significativo, ́\r\ncomo o da reputação de uma companhia ou moral do funcionário.\r\nEm alguns casos, o valor pode ser avaliado em termos absolutos, mas \r\nem muitos casos é avaliado em termos relativos: uma opção de solução \r\né mais valiosa do que outra, na perspectiva de um determinado \r\nconjunto de stakeholders.\r\nContexto\r\nAs circunstâncias que influenciam, são influenciadas e proporcionam \r\ncompreensão da mudança.\r\nAs mudanças ocorrem dentro de um contexto. O contexto é tudo que é\r\nrelevante para a mudança que está dentro do ambiente. O contexto pode \r\nincluir atitudes, comportamentos, crenças, concorrentes, cultura, \r\ndemografia, metas, governos, infraestrutura, idiomas, perdas, \r\nprocessos, produtos, projetos, vendas, estações do ano, terminologia, \r\ntecnologia, clima, e quaisquer outros elementos que atendam à\r\ndefinição.",
+    "396 PART III Requirements for specific project classes\r\nPrioritizing by using business objectives\r\nEnhancement projects are undertaken to add new capabilities to an existing application. It’s easy \r\nto get caught up in the excitement and start adding unnecessary capabilities. To combat this risk \r\nof gold-plating, trace requirements back to business objectives to ensure that the new features are \r\nneeded and to select the highest-impact features to implement first. You also might need to prioritize \r\nenhancement requests against the correction of defects that had been reported against the old \r\nsystem.\r\nAlso be wary of letting unnecessary new functionality slip into replacement projects. The main \r\nfocus of replacement projects is to migrate existing functionality. However, customers might imagine \r\nthat if you are developing a new system anyway, it is easy to add lots of new capabilities right away. \r\nMany replacement projects have collapsed because of the weight of uncontrolled scope growth. \r\nYou’re usually better off building a stable first release and adding more features through subsequent \r\nenhancement projects, provided the first release allows users to do their jobs.\r\nReplacement projects often originate when stakeholders want to add functionality to an existing \r\nsystem that is too inflexible to support the growth or has technology limitations. However, there needs \r\nto be a clear business objective to justify implementing an expensive new system (Devine 2008). Use \r\nthe anticipated cost savings from a new system (such as through reduced maintenance of an old, \r\nclunky system) plus the value of the new desired functionality to justify a system replacement project.\r\nAlso look for existing functionality that doesn’t need to be retained in a replacement system. Don’t \r\nreplicate the existing system’s shortcomings or miss an opportunity to update a system to suit new \r\nbusiness needs and processes. For example, the BA might ask users, “Do you use <a particular menu \r\noption>?” If you consistently hear “I never do that,” then maybe it isn’t needed in the replacement \r\nsystem. Look for usage data that shows what screens, functions, or data entities are rarely accessed \r\nin the current system. Even the existing functionality has to map to current and anticipated business \r\nobjectives to warrant re-implementing it in the new system.\r\nTrap Don’t let stakeholders get away with saying “I have it today, so I need it in the new \r\nsystem” as a default method of justifying requirements.\r\nMind the gap\r\nA gap analysis is a comparison of functionality between an existing system and a desired new system. \r\nA gap analysis can be expressed in different ways, including use cases, user stories, or features. When \r\nenhancing an existing system, perform a gap analysis to make sure you understand why it isn’t \r\ncurrently meeting your business objectives.\r\nGap analysis for a replacement project entails understanding existing functionality and discovering \r\nthe desired new functionality (see Figure 21-1). Identify user requirements for the existing system that \r\nstakeholders want to have re-implemented in the new system. Also, elicit new user requirements that \r\nthe existing system does not address. Consider any change requests that were never implemented CHAPTER 21 Enhancement and replacement projects 397\r\nin the existing system. Prioritize the existing user requirements and the new ones together. Prioritize \r\nclosing the gaps using business objectives as described in the previous section or the other \r\nprioritization techniques presented in Chapter 16, “First things first: Setting requirement priorities.”\r\nFIGURE 21-1 When you are replacing an existing system, some requirements will be implemented unchanged, \r\nsome will be modified, some will be discarded, and some new requirements might be added.\r\nMaintaining performance levels\r\nExisting systems set user expectations for performance and throughput. Stakeholders almost \r\nalways have key performance indicators (KPIs) for existing processes that they will want to maintain \r\nin the new system.",
+    "PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5. PASSO 5 — Extrair Requisitos Funcionais\r\n Para cada verbo de ação do sistema: criar um RF. Desdobrar genéricos ('gerenciar') em múltiplos RFs \r\natômicos. Referenciar RNs quando aplicável.\r\n6. PASSO 6 — Identificar e quantificar RNFs\r\n Varrer o documento inteiro por adjetivos de qualidade. Classificar cada um pela ISO 25010 e propor \r\nmétrica. Marcar [TBD] se necessário.\r\n7. PASSO 7 — Escrever Histórias de Usuário\r\n Para cada necessidade identificada por um stakeholder: escrever HU no formato Connextra. Vincular ao RF\r\ncorrespondente.\r\n8. PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7.",
+    "Nível Fundamental | Syllabus ©IREB 27 | 50\r\natingir um objetivo, atores que querem atingir um objetivo e obstáculos que impedem a \r\nrealização de um objetivo.\r\nEm SysML [OMG2019], os diagramas de definição de blocos podem ser adaptados para \r\nexpressar diagramas de contexto usando blocos estereotipados para o sistema e atores. Os \r\ndiagramas de definição de blocos também podem ser usados para modelar a estrutura de \r\num sistema em termos das entidades conceituais do sistema e das relações entre elas.\r\nOs modelos de histórias de domínio podem ser usados para modelar a função e o fluxo, \r\nespecificando histórias visuais sobre como os atores interagem com dispositivos, artefatos \r\ne outros itens em um domínio, tipicamente usando símbolos específicos do domínio \r\n[HoSch2020]. Eles são um meio para entender o domínio de aplicação no qual um sistema \r\nirá operar.\r\nModelos de interação modelam as interações dinâmicas entre objetos ou atores. Os \r\ndiagramas de sequência UML são um meio popular para especificar a interação entre \r\nobjetos.\r\n3.5 Glossários (L2)\r\nEm cada iniciativa da ER que envolve mais de uma pessoa, há o risco de falta de um \r\nentendimento comum da terminologia, ou seja, que algumas pessoas interpretem \r\ndiferentemente os mesmos termos. Para mitigar este problema, o entendimento comum \r\ndos termos relevantes é registrado em um glossário.\r\nUm glossário é uma coleção central de definições para: termos específicos do contexto, \r\ntermos cotidianos com um significado especial no contexto dado, abreviaturas e acrônimos. \r\nOs sinônimos (termos diferentes que indicam a mesma coisa) devem ser marcados como \r\ntal. Os homônimos (usando o mesmo termo para coisas diferentes) devem ser evitados ou \r\nmarcados como tal.\r\nAs seguintes regras aplicam-se aos glossários:\r\n▪ Gerenciar o glossário de forma centralizada.\r\n▪ Manter o glossário ao longo de todo o desenvolvimento do sistema.\r\n▪ Definir uma pessoa ou um pequeno grupo responsável pelo glossário.\r\n▪ Usar um estilo e uma estrutura uniformes para o glossário.\r\n▪ Envolver os stakeholders buscando um acordo sobre a terminologia.\r\n▪ Tornar o glossário acessível a todos os envolvidos.\r\n▪ Tornar obrigatório o uso do glossário.\r\n▪ Verificar se os produtos de trabalho respeitam o glossário.\r\n3.6 Documentos de Requisitos e Estruturas de Documentação (L2)\r\nOs documentos de especificação de requisitos (3.1.1) compreendem vários produtos de \r\ntrabalho na ER. Portanto, é importante organizar tais documentos com uma estrutura bem \r\ndefinida, a fim de criar um conjunto de requisitos consistente e de manutenção razoável. \r\nAlém dos requisitos, um documento de requisitos também pode conter informações e",
+    "É Stakeholder ou Ator?\r\nStakeholder = quem tem interesse no sistema (pode não usá-lo diretamente).\r\nAtor (Caso de Uso) = quem INTERAGE diretamente com o sistema.\r\nTodo Ator é Stakeholder; nem todo Stakeholder é Ator.\r\nÉ Premissa ou Restrição?\r\nPremissa = fato ASSUMIDO como verdadeiro sem confirmação formal. Pode mudar.\r\nRestrição = limite IMPOSTO que não pode ser negociado (lei, orçamento, prazo, tech).\r\nÉ escopo IN ou OUT?\r\nIN = funcionalidade que o SISTEMA DO PROJETO vai implementar.\r\nOUT = funcionalidade que fica em outro sistema ou versão futura.\r\nRegra prática: se está em outro sistema já existente → OUT.PARTE 4 — Armadilhas Comuns na Extração Automática\r\nRequisito fantasma (Gold Plating)\r\nO documento menciona uma funcionalidade que ninguém pediu explicitamente — foi adicionada \r\npor quem escreveu o documento como 'boa ideia'. Sinal: funcionalidade descrita sem stakeholder \r\nassociado e sem ligação a um objetivo de negócio.\r\nAÇÃO: extrair como HU/RF com prioridade 'Could have' e sinalizar para validação.\r\nDois requisitos em uma frase ('e')\r\n'O sistema deve cadastrar e consultar clientes.' → dois RFs distintos.\r\n'O sistema deve ser rápido e seguro.' → dois RNFs distintos.\r\nAÇÃO: sempre separar em IDs distintos quando há 'e' ligando funcionalidades.\r\nRequisito negativo mal formulado\r\n'O sistema não deve perder dados.' → Impreciso. O que é 'perder dados'?\r\nREFORMULAR como: 'O sistema deve persistir todos os dados de pedido mesmo em caso de falha \r\nde conexão, retomando a gravação quando a conexão for restabelecida.'\r\nAÇÃO: transformar negação em afirmação positiva e verificável.\r\nCópia literal de linguagem informal\r\nERRADO: RF-010: 'O sistema tem que ser tipo um CRM mas mais simples.'\r\nA linguagem do documento de entrada nunca deve ir direto para o SRS.\r\nAÇÃO: reformular sempre no padrão 'O sistema deve [verbo] [complemento].'\r\nRNF sem categoria ou sem métrica\r\nExtrair 'o sistema deve ser seguro' e deixar assim é inválido pela ISO 29148.\r\nAÇÃO: identificar a categoria ISO 25010 e propor métrica mínima, marcando [TBD] se o dado \r\npreciso não estiver no documento.\r\nConfundir processo atual com requisito do novo sistema\r\nTexto descreve como o processo É HOJE, não como deveria ser.\r\n'Hoje o vendedor imprime o pedido e manda por fax' → isso é o estado atual.\r\nO requisito é derivado da MELHORIA desejada, não da cópia do processo ruim.\r\nAÇÃO: identificar a dor/ineficiência → transformar em HU do novo sistema.Stakeholder implícito ignorado\r\nTexto menciona 'o sistema enviará relatório para a contabilidade' — mas 'contabilidade' não foi \r\nlistada como stakeholder. É um usuário secundário implícito.\r\nAÇÃO: varrer o documento inteiro por menções a papéis, departamentos e sistemas externos — \r\ntodos são stakeholders potenciais."
+  ],
+  "ground_truth": "GABARITO — Project Scenario 9: Core Financial System (FFMIA Compliance Initiative)\nUse: \"ground_truth\" field for RAGAS (context_precision / context_recall).\nEach line is an atomic, checkable claim against the scenario text and the\nknowledge base — not a full SRS, just the set of facts a well-grounded SRS\nfor this scenario should be able to cover.\n\n- The system must substantially comply with FFMIA (Federal Financial Management Improvement Act) requirements.\n- The general ledger is the central component; every other function depends on it.\n- The system must classify and track transactions by fund, program, organization, project, and cost center.\n- The system must prevent obligating or spending more than what was actually appropriated (funds control).\n- The system must process payments to vendors/payees and confirm that a payment reached the correct destination.\n- The system must record and track money owed to the agency (receivables) and follow up when payments are missed.\n- The system must support cost management: measuring what programs cost and what they produce.\n- The system must produce formal financial statements and reports for management, oversight bodies, and eventual public release.\n- Users include financial systems analysts, accountants, program managers, agency operations staff, and periodic auditors.\n- The system must be usable by non-technical finance staff, not only by IT staff.\n- The system must handle its workload without performance failure and integrate with other existing systems rather than operating in isolation.\n- The system must maintain a real audit trail and security controls over who can access what.\n- The system must provide adequate web access, rather than restricting users to a single terminal.\n- Optional \"nice to have\" features not mandated by law or regulation are deprioritized in favor of mandatory requirements in the first round.\n",
+  "rag_score": 0.4273,
+  "artefatos": {
+    "escopo": {
+      "descricao": "The system shall record, control, process, audit, and report the agency's core financial transactions.",
+      "em_escopo": [
+        "General ledger and multidimensional transaction classification",
+        "Fund appropriation, obligation, expenditure, and availability control",
+        "Vendor and payee payment processing and tracking",
+        "Accounts receivable and collection follow-up",
+        "Program cost and output measurement",
+        "Management and formal financial reporting",
+        "Audit trail and access control",
+        "Web-based access",
+        "Integration with existing agency systems"
+      ],
+      "fora_de_escopo": [
+        "Optional bells-and-whistles not required for compliance or substantial job improvement — deferred from the first release",
+        "Automated public publication of reports — the first release shall produce reports for subsequent publication",
+        "Replacement of all existing agency systems — only required financial integrations are included"
+      ],
+      "premissas": [
+        "PA-01: The agency will provide authoritative appropriation, organizational, program, project, and cost-center data. [INFERRED]",
+        "PA-02: Existing agency systems will provide documented integration interfaces where integration is required. [INFERRED]",
+        "PA-03: Authorized users will receive role assignments before accessing financial functions. [INFERRED]",
+        "PA-04: FFMIA compliance criteria applicable to the agency will be formally confirmed during requirements validation. [TBD]"
+      ],
+      "restricoes": [
+        "REST-01 (Regulatory): The solution shall substantially comply with applicable FFMIA requirements.",
+        "REST-02 (Scope): The first release shall prioritize mandatory compliance groundwork over optional functionality.",
+        "REST-03 (Control): The system shall prevent obligations or expenditures exceeding available appropriations.",
+        "REST-04 (Technology): The system shall be accessible through a web interface.",
+        "REST-05 (Integration): The system shall interoperate with existing agency systems where financial data exchange is required."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Financial Systems Analyst",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Configure financial structures, monitor integrations, investigate processing issues, and support system operation."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Accountant",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Record and reconcile financial transactions, manage ledger data, process payments and receivables, and produce financial reports."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Program Manager",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Monitor program funds, costs, outputs, obligations, expenditures, and management reports."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Agency Operations Manager",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Access operational financial information and use timely reports for decision-making."
+      },
+      {
+        "id": "STK-05",
+        "nome": "Auditor or Inspector General",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Examine financial records, control evidence, user actions, transactions, and reports."
+      },
+      {
+        "id": "STK-06",
+        "nome": "Oversight Body",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receive formal financial statements and reports required for oversight."
+      },
+      {
+        "id": "STK-07",
+        "nome": "General Public",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Access financial reports designated for public disclosure through external publication processes."
+      },
+      {
+        "id": "STK-08",
+        "nome": "Existing Agency Systems",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Exchange required financial data with the Core Financial System through defined interfaces."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "FFMIA substantial compliance",
+        "descricao": "The agency financial management process must substantially comply with applicable FFMIA requirements.",
+        "fonte": "Federal Financial Management Improvement Act (FFMIA)",
+        "excecoes": "Applicable criteria not relevant to the agency shall be identified during formal compliance validation. [TBD]"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Appropriation control",
+        "descricao": "An obligation or expenditure must not exceed the available appropriation for the applicable financial classification.",
+        "fonte": "FFMIA compliance objective and agency financial control policy. [INFERRED]",
+        "excecoes": "None identified."
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Transaction classification",
+        "descricao": "Each financial transaction must be classified by fund, program, organization, project, and cost center when those dimensions apply.",
+        "fonte": "Agency financial management scenario",
+        "excecoes": "A dimension may be omitted only when formally defined as non-applicable for the transaction type. [INFERRED]"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Financial accountability",
+        "descricao": "Financial records must be complete, traceable, and available as evidence of financial control.",
+        "fonte": "FFMIA compliance objective and audit requirement",
+        "excecoes": "None identified."
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Payment destination",
+        "descricao": "A payment must be associated with an authorized vendor or payee and its destination must be confirmable.",
+        "fonte": "Agency payment-management need",
+        "excecoes": "None identified."
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Receivable follow-up",
+        "descricao": "Amounts owed to the agency must be recorded and monitored until collection, adjustment, or authorized closure.",
+        "fonte": "Agency receivables-management need",
+        "excecoes": "Authorized adjustments or write-offs require documented justification. [INFERRED]"
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Record general-ledger transaction",
+        "descricao": "The system shall record a financial transaction in the general ledger.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-001, RN-004"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Classify transaction dimensions",
+        "descricao": "The system shall classify each applicable transaction by fund, program, organization, project, and cost center.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Track ledger transactions",
+        "descricao": "The system shall allow authorized users to retrieve ledger transactions using financial classification dimensions.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Register appropriations",
+        "descricao": "The system shall register appropriations for each applicable financial classification.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Validate available funds",
+        "descricao": "The system shall validate available appropriations before recording an obligation.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Block excess obligation",
+        "descricao": "The system shall block an obligation that exceeds the available appropriation.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Register vendor or payee",
+        "descricao": "The system shall register a vendor or payee associated with a payment.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Process payment",
+        "descricao": "The system shall record an authorized payment for a vendor or payee.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Confirm payment destination",
+        "descricao": "The system shall record confirmation that a payment was directed to its designated vendor or payee.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Record receivable",
+        "descricao": "The system shall record an amount owed to the agency.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Track receivable status",
+        "descricao": "The system shall track the status of each recorded receivable.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Record collection follow-up",
+        "descricao": "The system shall record follow-up actions for overdue receivables.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Measure program costs",
+        "descricao": "The system shall calculate recorded costs for a program using its financial classifications.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Record program outputs",
+        "descricao": "The system shall record program output measures associated with a program and reporting period.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Generate management report",
+        "descricao": "The system shall generate a management financial report for a selected reporting period and classification.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Generate formal financial statement",
+        "descricao": "The system shall generate formal financial statements for a selected reporting period.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-001, RN-004"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "Export oversight report",
+        "descricao": "The system shall export a formal financial report in a format designated for submission to an oversight body.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-018",
+        "titulo": "Record audit event",
+        "descricao": "The system shall record an audit event for each creation, modification, approval, blocking, and access action involving financial data.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-019",
+        "titulo": "Restrict access by role",
+        "descricao": "The system shall restrict financial functions and data according to the authenticated user's assigned role.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-020",
+        "titulo": "Exchange data with agency systems",
+        "descricao": "The system shall exchange required financial data with designated existing agency systems through documented interfaces.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-08",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-021",
+        "titulo": "Provide web access",
+        "descricao": "The system shall provide authenticated access to its financial functions through a web interface.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Financial calculation correctness",
+        "categoria_iso25010": "Functional Suitability",
+        "descricao": "The system shall calculate financial balances with a maximum deviation of 0.01 monetary unit from independently calculated reference results.",
+        "metrica_aceitacao": "100% of validation cases with deviation less than or equal to 0.01 monetary unit.",
+        "metodo_verificacao": "Testes funcionais automatizados"
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Transaction response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system shall respond to standard transaction queries within 3 seconds at the 95th percentile under [TBD] concurrent users.",
+        "metrica_aceitacao": "95th-percentile response time less than or equal to 3 seconds.",
+        "metodo_verificacao": "Teste de carga"
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Report generation capacity",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system shall generate a standard financial report within 60 seconds for a dataset containing up to [TBD] transactions.",
+        "metrica_aceitacao": "100% of standard report executions complete within 60 seconds.",
+        "metodo_verificacao": "Teste de desempenho"
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Availability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system shall provide monthly availability of at least 99.5%, excluding approved maintenance windows.",
+        "metrica_aceitacao": "Monthly availability greater than or equal to 99.5%.",
+        "metodo_verificacao": "Monitoramento operacional e revisão de logs"
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Audit-record durability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system shall preserve audit records after successful transaction completion and system restart.",
+        "metrica_aceitacao": "100% of audit records remain retrievable after 10 consecutive restart tests.",
+        "metodo_verificacao": "Teste de recuperação"
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Agency-system interoperability",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system shall exchange financial data using documented machine-readable interfaces with each designated existing agency system.",
+        "metrica_aceitacao": "100% of approved interface test cases complete without schema or data-loss errors.",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "RNF-007",
+        "titulo": "Finance-user task completion",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "A finance user without technical-system expertise shall complete each primary financial task within 15 minutes after no more than 2 hours of training. [TBD]",
+        "metrica_aceitacao": "At least 90% of representative users complete each primary task without facilitator intervention.",
+        "metodo_verificacao": "Teste de usabilidade"
+      },
+      {
+        "id": "RNF-008",
+        "titulo": "Access authentication",
+        "categoria_iso25010": "Security",
+        "descricao": "The system shall require authenticated credentials before granting access to protected financial data.",
+        "metrica_aceitacao": "100% of unauthenticated access attempts to protected functions are denied.",
+        "metodo_verificacao": "Teste de segurança"
+      },
+      {
+        "id": "RNF-009",
+        "titulo": "Role authorization",
+        "categoria_iso25010": "Security",
+        "descricao": "The system shall enforce role-based authorization for all protected financial operations.",
+        "metrica_aceitacao": "100% of unauthorized role-operation combinations are denied in the authorization test matrix.",
+        "metodo_verificacao": "Teste de penetração e revisão de configuração"
+      },
+      {
+        "id": "RNF-010",
+        "titulo": "Audit-log completeness",
+        "categoria_iso25010": "Security",
+        "descricao": "The system shall include user identity, timestamp, action, affected record, and outcome in each financial audit event.",
+        "metrica_aceitacao": "100% of sampled audit events contain all 5 required attributes.",
+        "metodo_verificacao": "Auditoria de logs"
+      },
+      {
+        "id": "RNF-011",
+        "titulo": "Maintainability",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "The system shall maintain automated test coverage of at least 80% for business-logic code.",
+        "metrica_aceitacao": "Statement coverage greater than or equal to 80% in the approved build pipeline.",
+        "metodo_verificacao": "Auditoria de código e execução do pipeline"
+      },
+      {
+        "id": "RNF-012",
+        "titulo": "Web browser compatibility",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system shall operate in the two latest major versions of the agency-approved desktop web browsers.",
+        "metrica_aceitacao": "100% of critical functional tests pass in each approved browser version.",
+        "metodo_verificacao": "Teste de compatibilidade"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "accountant",
+        "quero": "record and classify general-ledger transactions",
+        "para": "maintain complete and traceable financial records",
+        "rf_associado": "RF-001, RF-002",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "program manager",
+        "quero": "query transactions by financial dimensions",
+        "para": "analyze program and budget execution",
+        "rf_associado": "RF-003",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "accountant",
+        "quero": "register appropriations and validate available funds",
+        "para": "prevent obligations from exceeding approved funding",
+        "rf_associado": "RF-004, RF-005, RF-006",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "accountant",
+        "quero": "process and confirm vendor or payee payments",
+        "para": "ensure money reaches the intended destination",
+        "rf_associado": "RF-007, RF-008, RF-009",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "accountant",
+        "quero": "record and follow up on receivables",
+        "para": "monitor amounts owed to the agency",
+        "rf_associado": "RF-010, RF-011, RF-012",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "program manager",
+        "quero": "measure program costs and outputs",
+        "para": "support budget and program-performance discussions",
+        "rf_associado": "RF-013, RF-014",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-007",
+        "como": "agency operations manager",
+        "quero": "generate management financial reports",
+        "para": "make decisions using timely financial information",
+        "rf_associado": "RF-015",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "accountant",
+        "quero": "generate and export formal financial statements",
+        "para": "submit standardized information to oversight bodies",
+        "rf_associado": "RF-016, RF-017",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "auditor or inspector general",
+        "quero": "review audit events and controlled financial records",
+        "para": "verify accountability and compliance",
+        "rf_associado": "RF-018, RF-019",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "financial systems analyst",
+        "quero": "exchange data with existing agency systems through web-accessible functions",
+        "para": "keep the financial environment integrated and operational",
+        "rf_associado": "RF-020, RF-021",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Record and classify ledger transaction",
+        "ator_principal": "Accountant",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "The accountant is authenticated and the applicable financial dimensions are configured.",
+        "pos_condicao_sucesso": "The transaction is recorded in the general ledger with its applicable classifications and audit event.",
+        "pos_condicao_falha": "The transaction is not recorded and the validation error is displayed.",
+        "fluxo_principal": [
+          "1. The accountant selects the ledger transaction function.",
+          "2. The system displays the transaction-entry form.",
+          "3. The accountant enters the transaction and applicable dimensions.",
+          "4. The system validates the required data.",
+          "5. The system records the transaction and audit event."
+        ],
+        "fluxos_alternativos": [
+          "3a. A dimension is not applicable → the accountant marks it as non-applicable and continues."
+        ],
+        "fluxos_excecao": [
+          "4a. Required data is invalid → the system rejects the transaction and identifies the invalid field."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Query classified transactions",
+        "ator_principal": "Program Manager",
+        "hu_relacionada": "HU-002",
+        "pre_condicao": "The user is authenticated and has query permission.",
+        "pos_condicao_sucesso": "The system displays transactions matching the selected filters.",
+        "pos_condicao_falha": "The system displays no results or an access-denied message.",
+        "fluxo_principal": [
+          "1. The user selects one or more financial dimensions.",
+          "2. The system validates the user's access scope.",
+          "3. The system retrieves matching transactions.",
+          "4. The system displays the results."
+        ],
+        "fluxos_alternativos": [
+          "3a. No transaction matches → the system displays 'No transactions found'."
+        ],
+        "fluxos_excecao": [
+          "2a. The user lacks access → the system denies the query and records the access event."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Control available appropriations",
+        "ator_principal": "Accountant",
+        "hu_relacionada": "HU-003",
+        "pre_condicao": "Appropriations are registered for the applicable classification.",
+        "pos_condicao_sucesso": "The obligation is recorded only when sufficient appropriation is available.",
+        "pos_condicao_falha": "The obligation is rejected when available appropriation is insufficient.",
+        "fluxo_principal": [
+          "1. The accountant registers or selects an appropriation.",
+          "2. The accountant submits an obligation.",
+          "3. The system calculates available appropriation.",
+          "4. The system records the obligation when the balance is sufficient."
+        ],
+        "fluxos_alternativos": [
+          "3a. Available appropriation equals the obligation amount → the system records the obligation."
+        ],
+        "fluxos_excecao": [
+          "3b. Available appropriation is insufficient → the system blocks the obligation and displays the reason."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Process and confirm payment",
+        "ator_principal": "Accountant",
+        "hu_relacionada": "HU-004",
+        "pre_condicao": "An authorized vendor or payee exists and the payment is eligible for processing.",
+        "pos_condicao_sucesso": "The payment is recorded with a confirmation linked to the designated destination.",
+        "pos_condicao_falha": "The payment remains unprocessed and the failure reason is recorded.",
+        "fluxo_principal": [
+          "1. The accountant selects a vendor or payee.",
+          "2. The accountant enters payment details.",
+          "3. The system validates the destination.",
+          "4. The system records the payment.",
+          "5. The system records payment confirmation."
+        ],
+        "fluxos_alternativos": [
+          "3a. Destination verification is pending → the system assigns status 'Pending confirmation'."
+        ],
+        "fluxos_excecao": [
+          "3b. Destination is invalid → the system rejects the payment and displays 'Invalid payment destination'."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Manage receivable",
+        "ator_principal": "Accountant",
+        "hu_relacionada": "HU-005",
+        "pre_condicao": "The accountant is authenticated and has receivables permission.",
+        "pos_condicao_sucesso": "The receivable and its current status are stored.",
+        "pos_condicao_falha": "The receivable is not stored and validation errors are displayed.",
+        "fluxo_principal": [
+          "1. The accountant creates a receivable.",
+          "2. The accountant enters the amount, debtor, due date, and reference.",
+          "3. The system validates the data.",
+          "4. The system records the receivable with status 'Open'.",
+          "5. The accountant records follow-up actions when applicable."
+        ],
+        "fluxos_alternativos": [
+          "5a. The receivable is paid → the accountant changes its status to 'Collected'."
+        ],
+        "fluxos_excecao": [
+          "3a. The due date or amount is invalid → the system rejects the record."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Measure program cost and output",
+        "ator_principal": "Program Manager",
+        "hu_relacionada": "HU-006",
+        "pre_condicao": "Program transactions and output measures are available.",
+        "pos_condicao_sucesso": "The system displays program cost and output information for the selected period.",
+        "pos_condicao_falha": "The system identifies missing data and does not present an incomplete result as final.",
+        "fluxo_principal": [
+          "1. The program manager selects a program and period.",
+          "2. The system calculates recorded program costs.",
+          "3. The program manager enters or reviews output measures.",
+          "4. The system displays the cost and output result."
+        ],
+        "fluxos_alternativos": [
+          "3a. No output measure exists → the system displays status 'Output measure unavailable'."
+        ],
+        "fluxos_excecao": [
+          "2a. Financial data is unavailable → the system displays 'Financial data unavailable'."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Generate management report",
+        "ator_principal": "Agency Operations Manager",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "The manager is authenticated and has reporting permission.",
+        "pos_condicao_sucesso": "A management report is generated for the selected period and classification.",
+        "pos_condicao_falha": "The report is not generated and the system displays the processing error.",
+        "fluxo_principal": [
+          "1. The manager selects a reporting period and classification.",
+          "2. The system validates the selection.",
+          "3. The system consolidates the financial data.",
+          "4. The system generates the management report."
+        ],
+        "fluxos_alternativos": [
+          "3a. The selection contains no data → the system generates a report marked 'No data'."
+        ],
+        "fluxos_excecao": [
+          "2a. The user lacks report permission → the system denies the request."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Generate and export formal statement",
+        "ator_principal": "Accountant",
+        "hu_relacionada": "HU-008",
+        "pre_condicao": "The reporting period is closed or authorized for formal reporting.",
+        "pos_condicao_sucesso": "The formal statement is generated and exported in the designated format.",
+        "pos_condicao_falha": "The statement is not exported and the system preserves the generation status.",
+        "fluxo_principal": [
+          "1. The accountant selects the reporting period.",
+          "2. The system validates the period.",
+          "3. The system generates the formal statement.",
+          "4. The accountant selects the oversight export option.",
+          "5. The system creates the export file."
+        ],
+        "fluxos_alternativos": [
+          "3a. The period is not authorized → the system marks the statement as 'Draft'."
+        ],
+        "fluxos_excecao": [
+          "5a. Export validation fails → the system displays the validation errors and does not produce an approved export."
+        ]
+      },
+      {
+        "id": "UC-009",
+        "nome": "Review audit evidence",
+        "ator_principal": "Auditor or Inspector General",
+        "hu_relacionada": "HU-009",
+        "pre_condicao": "The auditor is authenticated and has audit access.",
+        "pos_condicao_sucesso": "The auditor retrieves audit events and associated financial records.",
+        "pos_condicao_falha": "Unauthorized evidence is not disclosed.",
+        "fluxo_principal": [
+          "1. The auditor selects an audit period, user, action, or record.",
+          "2. The system applies the auditor's access scope.",
+          "3. The system retrieves matching audit events.",
+          "4. The system displays event details and linked records."
+        ],
+        "fluxos_alternativos": [
+          "3a. No matching event exists → the system displays 'No audit events found'."
+        ],
+        "fluxos_excecao": [
+          "2a. The requested data is outside the auditor's scope → the system denies access and records the attempt."
+        ]
+      },
+      {
+        "id": "UC-010",
+        "nome": "Exchange data with existing agency system",
+        "ator_principal": "Financial Systems Analyst",
+        "hu_relacionada": "HU-010",
+        "pre_condicao": "The designated interface is configured and available.",
+        "pos_condicao_sucesso": "The required financial data is exchanged and the integration outcome is recorded.",
+        "pos_condicao_falha": "The exchange is rejected or retried according to the interface error policy.",
+        "fluxo_principal": [
+          "1. The analyst initiates or schedules a data exchange.",
+          "2. The system validates the data structure.",
+          "3. The system transmits or receives the data.",
+          "4. The system records the integration outcome."
+        ],
+        "fluxos_alternativos": [
+          "3a. The receiving system is temporarily unavailable → the system marks the exchange as 'Pending retry'."
+        ],
+        "fluxos_excecao": [
+          "2a. Data validation fails → the system rejects the exchange and identifies the invalid records."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Ledger transaction recording",
+        "dado": "An authenticated accountant has entered valid transaction data",
+        "quando": "the accountant submits the transaction",
+        "entao": "the system stores exactly one ledger transaction and displays status 'Recorded'",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-001",
+        "titulo": "Transaction classification",
+        "dado": "A transaction requires fund, program, organization, project, and cost-center dimensions",
+        "quando": "the accountant submits the transaction",
+        "entao": "the system stores all 5 applicable dimensions",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-002",
+        "titulo": "Dimension-based query",
+        "dado": "Ledger transactions exist for a selected program",
+        "quando": "the program manager queries that program",
+        "entao": "the system displays only transactions matching the selected program",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-003",
+        "titulo": "Appropriation registration",
+        "dado": "An authorized accountant provides a valid appropriation and classification",
+        "quando": "the accountant saves the appropriation",
+        "entao": "the system stores the appropriation with status 'Available'",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-003",
+        "titulo": "Available-funds validation",
+        "dado": "An appropriation has a positive available balance",
+        "quando": "an obligation is submitted",
+        "entao": "the system compares the obligation amount with the available balance before recording it",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-003",
+        "titulo": "Excess obligation blocking",
+        "dado": "The available appropriation is lower than the obligation amount",
+        "quando": "the obligation is submitted",
+        "entao": "the system does not record the obligation and displays 'Insufficient appropriation'",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-004",
+        "titulo": "Vendor registration",
+        "dado": "A valid vendor or payee record is submitted",
+        "quando": "the accountant saves the record",
+        "entao": "the system assigns a unique vendor or payee identifier",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-004",
+        "titulo": "Payment recording",
+        "dado": "An authorized payment has a valid vendor or payee",
+        "quando": "the accountant submits the payment",
+        "entao": "the system records one payment with status 'Processed'",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-004",
+        "titulo": "Payment destination confirmation",
+        "dado": "A processed payment has a designated vendor or payee",
+        "quando": "destination confirmation is received",
+        "entao": "the system stores the confirmation linked to the payment identifier",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-005",
+        "titulo": "Receivable recording",
+        "dado": "Valid debtor, amount, and due-date information is provided",
+        "quando": "the accountant submits a receivable",
+        "entao": "the system stores the receivable with status 'Open'",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-005",
+        "titulo": "Receivable status tracking",
+        "dado": "An open receivable exists",
+        "quando": "the accountant records a collection or adjustment event",
+        "entao": "the system updates the receivable status and preserves the previous status in the audit trail",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-005",
+        "titulo": "Overdue follow-up",
+        "dado": "A receivable is past its due date and remains open",
+        "quando": "the accountant records a follow-up action",
+        "entao": "the system stores the action with user identity and timestamp",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-006",
+        "titulo": "Program cost measurement",
+        "dado": "Financial transactions are classified to a selected program",
+        "quando": "the program manager requests the program cost",
+        "entao": "the system displays the sum of applicable recorded costs for the selected period",
+        "metodo_verificacao": "Teste funcional automatizado"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-006",
+        "titulo": "Program output recording",
+        "dado": "The program manager has a valid output measure and reporting period",
+        "quando": "the manager submits the measure",
+        "entao": "the system stores the output measure linked to the program and period",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-007",
+        "titulo": "Management report generation",
+        "dado": "The manager has selected a valid reporting period and classification",
+        "quando": "the manager requests the report",
+        "entao": "the system generates a report containing the selected period and classification",
+        "metodo_verificacao": "Teste funcional E2E"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-008",
+        "titulo": "Formal statement generation",
+        "dado": "A reporting period is authorized for formal reporting",
+        "quando": "the accountant requests a formal statement",
+        "entao": "the system generates a statement marked 'Formal'",
+        "metodo_verificacao": "Teste funcional E2E"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017 / HU-008",
+        "titulo": "Oversight export",
+        "dado": "A formal statement has been generated",
+        "quando": "the accountant requests an oversight export",
+        "entao": "the system produces an export file in the designated format and records its creation event",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-018",
+        "rf_hu_ref": "RF-018 / HU-009",
+        "titulo": "Audit-event completeness",
+        "dado": "A user creates, modifies, approves, blocks, or accesses a financial record",
+        "quando": "the action completes",
+        "entao": "the system stores an audit event containing user, timestamp, action, record, and outcome",
+        "metodo_verificacao": "Auditoria de logs"
+      },
+      {
+        "id": "CA-019",
+        "rf_hu_ref": "RF-019 / HU-009",
+        "titulo": "Role-based restriction",
+        "dado": "A user without permission for a protected operation is authenticated",
+        "quando": "the user attempts the operation",
+        "entao": "the system denies the operation and records the access attempt",
+        "metodo_verificacao": "Teste de segurança"
+      },
+      {
+        "id": "CA-020",
+        "rf_hu_ref": "RF-020 / HU-010",
+        "titulo": "Agency-system data exchange",
+        "dado": "A designated agency-system interface is available and valid financial data is prepared",
+        "quando": "the exchange is initiated",
+        "entao": "the system transmits or receives the data and records status 'Completed'",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-021",
+        "rf_hu_ref": "RF-021 / HU-010",
+        "titulo": "Web access",
+        "dado": "An authorized user has an approved desktop web browser",
+        "quando": "the user accesses the system URL",
+        "entao": "the system displays the authenticated financial workspace",
+        "metodo_verificacao": "Teste de compatibilidade"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "Core Financial System (FFMIA Compliance Initiative)",
+    "cenario_fonte": "Project Scenario 9.pdf",
+    "observacoes": "Jargao regulatorio/contabil abstrato — claims mantidas o mais literais possivel ao texto original para reduzir risco de interpretacao subjetiva. Fornecedores/beneficiarios e pagadores de valores devidos NAO sao stakeholders (nao logam no sistema, sao partes externas afetadas pelas transacoes). Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+    "escopo": {
+      "em_escopo": [
+        "General ledger as the central component of the system",
+        "Classifying and tracking transactions by fund, program, organization, project, and cost center",
+        "Funds control (preventing obligation/spending above the appropriated amount)",
+        "Processing payments to vendors/payees, with confirmation of destination",
+        "Recording and following up on amounts owed to the agency, including chasing missed payments",
+        "Cost management (what each program costs and produces)",
+        "Producing formal financial statements and reports for management, oversight bodies, and eventual public release",
+        "A real audit trail and security controls over who can access what",
+        "Web access, not restricted to a single terminal",
+        "Integration with other existing agency systems"
+      ],
+      "fora_de_escopo": [
+        "Optional ('nice to have') features not required by law or regulation — deprioritized in the first round in favor of mandatory requirements"
+      ],
+      "premissas": [
+        "PA-01: [INFERRED] The agency already has other existing systems that the financial system needs to integrate with.",
+        "PA-02: The system needs to be in substantial compliance with FFMIA before any eventual formal audit."
+      ],
+      "restricoes": [
+        "REST-01 (Regulatory): The system must be in substantial compliance with FFMIA (Federal Financial Management Improvement Act) requirements.",
+        "REST-02 (Prioritization): Optional features not required by law or regulation are left out of the first round of development.",
+        "REST-03 (Usability): The system must be operable by non-technical finance staff, not only by IT staff."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Financial systems analyst — day-to-day user of the system."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Accountant — day-to-day user, responsible for accounting records."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Program manager — consults cost and performance data of programs for budget decisions."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "Agency operations staff — needs to pull numbers from the system to run the agency."
+      },
+      {
+        "id": "STK-05",
+        "descricao": "Auditor — periodically reviews the system to verify compliance and control."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "The system must never allow obligating or spending more than what was actually appropriated (funds control) — a hard, non-negotiable rule."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "The general ledger is the central component of the system; every other function depends on it."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "Optional features not required by law or regulation are deprioritized relative to mandatory requirements in the first round."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "The system must maintain a general ledger as its central component, on which the other functions depend."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "The system must classify and track transactions by fund, program, organization, project, and cost center."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "The system must prevent an obligation or expenditure from exceeding the amount actually appropriated (funds control)."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "The system must process payments to vendors/payees."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "The system must track and confirm that a payment reached the correct destination."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "The system must record amounts owed to the agency (receivables)."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "The system must support following up on/collecting receivables when payment is not made."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "The system must support cost management, measuring what each program costs and what it produces."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "The system must produce formal financial statements and reports for agency management."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "The system must produce formal financial statements and reports for oversight bodies."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "The system must support the eventual public release of financial statements and reports."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "The system must maintain a real audit trail of who accessed or changed what."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "The system must enforce security controls over who can access what."
+      },
+      {
+        "id": "RF-14",
+        "descricao": "The system must provide web access to users, instead of restricting them to a single terminal."
+      },
+      {
+        "id": "RF-15",
+        "descricao": "The system must integrate with other systems already existing at the agency, instead of operating in isolation."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system must handle its operational workload without performance failure.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a numeric volume/throughput target"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Security",
+        "descricao": "The system must maintain a real audit trail and effective security controls over who can access each piece of information.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a specific access-control standard, but requires a 'real audit trail'"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system must properly integrate with other systems already existing at the agency, instead of operating in isolation.",
+        "metrica_aceitacao": "[TBD] — scenario does not name the specific systems to integrate with"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "The system must be usable by non-technical finance staff, not only by IT staff.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a usability metric (e.g., training time or task completion rate)"
+      },
+      {
+        "id": "RNF-05",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "The system must provide adequate web access, rather than restricting users to a single physical terminal.",
+        "metrica_aceitacao": "Accessible via browser from multiple access points"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "As a financial systems analyst, I want to classify and track transactions by fund, program, organization, project, and cost center, so that program and budget managers can analyze the data."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "As an accountant, I want the system to prevent obligations or spending beyond the appropriated amount, so that the agency stays within its funding limits."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "As an accounts-payable owner, I want to process payments to vendors/payees and confirm they reached the correct destination, so that disbursements are accurate and traceable."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "As an accounts-receivable owner, I want to record amounts owed to the agency and chase overdue payments, so that outstanding amounts are collected."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "As a program manager, I want to see cost management data (what a program costs and produces), so that I can support budget decisions."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "As agency management, I want formal financial statements and reports, so that I can report to oversight bodies and, eventually, the public."
+      },
+      {
+        "id": "HU-07",
+        "descricao": "As an auditor, I want to review a real audit trail and the system's access security controls, so that I can verify compliance during periodic reviews."
+      },
+      {
+        "id": "HU-08",
+        "descricao": "As agency operations staff, I want to access the system over the web from multiple locations, so that I'm not restricted to a single terminal."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Record and classify transaction — a user records a financial transaction in the general ledger, classified by fund, program, organization, project, and cost center."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Process vendor payment — the system processes a payment to a vendor/payee and confirms it reached the correct destination, respecting the funds control limit."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Track receivable — the system records an amount owed to the agency and flags it for follow-up when payment is not made."
+      },
+      {
+        "id": "UC-04",
+        "descricao": "Generate financial report — a user generates formal financial statements/reports for management, oversight bodies, or public release."
+      },
+      {
+        "id": "UC-05",
+        "descricao": "Audit system access — an auditor reviews the system's audit trail and access controls."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-03",
+        "descricao": "Given a transaction that would exceed the funds appropriated for its fund/program, when it is submitted, then the system prevents the obligation/expenditure from being recorded."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-05",
+        "descricao": "Given a payment issued to a vendor/payee, when the payment is processed, then the system tracks and confirms that it reached the correct destination."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-07",
+        "descricao": "Given a receivable with an overdue payment, when the due date passes without payment, then the system flags the case for follow-up."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RF-09 / RF-10",
+        "descricao": "Given a request for a formal financial statement, when it is generated, then the result is suitable for submission to management and to oversight bodies."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RNF-02",
+        "descricao": "Given a user accessing the system, when any action is performed, then the system records it in an audit trail that identifies who did what."
+      }
+    ]
+  }
+}

@@ -1,0 +1,452 @@
+{
+  "1|Lua|1": {
+    "status": "ok",
+    "sistema": "GRD - Sistema de Gestão de Riscos de Desastres",
+    "arquivo_ragas": "ragas_GRD_-_Sistema_de_Gestão_de_Riscos_de_Desastres_gpt-5.6-luna.json",
+    "rag_score": 0.459,
+    "duracao_s": 84.4,
+    "custo_usd": 0.026554,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "1|Terra|1": {
+    "status": "ok",
+    "sistema": "GRD - Sistema de Gestão de Riscos de Desastres",
+    "arquivo_ragas": "ragas_GRD_-_Sistema_de_Gestão_de_Riscos_de_Desastres_gpt-5.6-terra.json",
+    "rag_score": 0.4195,
+    "duracao_s": 97.7,
+    "custo_usd": 0.200814,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "1|Sol|1": {
+    "status": "ok",
+    "sistema": "GRD - Sistema de Gestão de Riscos de Desastres",
+    "arquivo_ragas": "ragas_GRD_-_Sistema_de_Gestão_de_Riscos_de_Desastres_gpt-5.6-sol.json",
+    "rag_score": 0.4221,
+    "duracao_s": 147.6,
+    "custo_usd": 0.60983,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "2|Lua|1": {
+    "status": "ok",
+    "sistema": "Unified University Inventory System (UUIS)",
+    "arquivo_ragas": "ragas_Unified_University_Inventory_System_(UUIS)_gpt-5.6-luna.json",
+    "rag_score": 0.4302,
+    "duracao_s": 85.0,
+    "custo_usd": 0.025688,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "2|Terra|1": {
+    "status": "ok",
+    "sistema": "Unified University Inventory System (UUIS)",
+    "arquivo_ragas": "ragas_Unified_University_Inventory_System_(UUIS)_gpt-5.6-terra.json",
+    "rag_score": 0.3753,
+    "duracao_s": 86.8,
+    "custo_usd": 0.194275,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "2|Sol|1": {
+    "status": "ok",
+    "sistema": "Unified University Inventory System (UUIS)",
+    "arquivo_ragas": "ragas_Unified_University_Inventory_System_(UUIS)_gpt-5.6-sol.json",
+    "rag_score": 0.3565,
+    "duracao_s": 164.1,
+    "custo_usd": 0.625472,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "3|Lua|1": {
+    "status": "ok",
+    "sistema": "IPG Job Manager",
+    "arquivo_ragas": "ragas_IPG_Job_Manager_gpt-5.6-luna.json",
+    "rag_score": 0.3787,
+    "duracao_s": 86.8,
+    "custo_usd": 0.028939,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "3|Terra|1": {
+    "status": "ok",
+    "sistema": "IPG Job Manager",
+    "arquivo_ragas": "ragas_IPG_Job_Manager_gpt-5.6-terra.json",
+    "rag_score": 0.3305,
+    "duracao_s": 96.3,
+    "custo_usd": 0.196325,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "3|Sol|1": {
+    "status": "ok",
+    "sistema": "IPG Job Manager",
+    "arquivo_ragas": "ragas_IPG_Job_Manager_gpt-5.6-sol.json",
+    "rag_score": 0.3313,
+    "duracao_s": 158.4,
+    "custo_usd": 0.583388,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "4|Lua|1": {
+    "status": "ok",
+    "sistema": "Minutia Deviation Tool (MDT)",
+    "arquivo_ragas": "ragas_Minutia_Deviation_Tool_(MDT)_gpt-5.6-luna.json",
+    "rag_score": 0.5188,
+    "duracao_s": 88.8,
+    "custo_usd": 0.022852,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "4|Terra|1": {
+    "status": "ok",
+    "sistema": "Minutia Deviation Tool (MDT)",
+    "arquivo_ragas": "ragas_Minutia_Deviation_Tool_(MDT)_gpt-5.6-terra.json",
+    "rag_score": 0.3487,
+    "duracao_s": 76.8,
+    "custo_usd": 0.159953,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "4|Sol|1": {
+    "status": "ok",
+    "sistema": "Minutia Deviation Tool (MDT)",
+    "arquivo_ragas": "ragas_Minutia_Deviation_Tool_(MDT)_gpt-5.6-sol.json",
+    "rag_score": 0.6835,
+    "duracao_s": 132.2,
+    "custo_usd": 0.572427,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "5|Lua|1": {
+    "status": "ok",
+    "sistema": "SIMDE - Sistema Móvel de Diário Escolar",
+    "arquivo_ragas": "ragas_SIMDE_-_Sistema_Móvel_de_Diário_Escolar_gpt-5.6-luna.json",
+    "rag_score": 0.4506,
+    "duracao_s": 73.0,
+    "custo_usd": 0.023356,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "5|Terra|1": {
+    "status": "ok",
+    "sistema": "SIMDE - Sistema Móvel de Diário Escolar",
+    "arquivo_ragas": "ragas_SIMDE_-_Sistema_Móvel_de_Diário_Escolar_gpt-5.6-terra.json",
+    "rag_score": 0.4518,
+    "duracao_s": 94.1,
+    "custo_usd": 0.187777,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "5|Sol|1": {
+    "status": "ok",
+    "sistema": "SIMDE - Sistema Móvel de Diário Escolar",
+    "arquivo_ragas": "ragas_SIMDE_-_Sistema_Móvel_de_Diário_Escolar_gpt-5.6-sol.json",
+    "rag_score": 0.5064,
+    "duracao_s": 151.3,
+    "custo_usd": 0.587283,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Lua|1": {
+    "status": "ok",
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "arquivo_ragas": "ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-luna_rep1.json",
+    "rag_score": 0.3819,
+    "duracao_s": 77.5,
+    "custo_usd": 0.023318,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Lua|2": {
+    "status": "ok",
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "arquivo_ragas": "ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-luna_rep2.json",
+    "rag_score": 0.3498,
+    "duracao_s": 84.6,
+    "custo_usd": 0.023803,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Lua|3": {
+    "status": "ok",
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "arquivo_ragas": "ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-luna_rep3.json",
+    "rag_score": 0.3725,
+    "duracao_s": 70.5,
+    "custo_usd": 0.016943,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Terra|1": {
+    "status": "ok",
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "arquivo_ragas": "ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-terra_rep1.json",
+    "rag_score": 0.4341,
+    "duracao_s": 80.2,
+    "custo_usd": 0.160663,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Terra|2": {
+    "status": "ok",
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "arquivo_ragas": "ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-terra_rep2.json",
+    "rag_score": 0.3516,
+    "duracao_s": 69.5,
+    "custo_usd": 0.127393,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Terra|3": {
+    "status": "ok",
+    "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+    "arquivo_ragas": "ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-terra_rep3.json",
+    "rag_score": 0.3808,
+    "duracao_s": 86.5,
+    "custo_usd": 0.177835,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Sol|1": {
+    "status": "ok",
+    "sistema": "SLCCI Operational Sea Level Production System",
+    "arquivo_ragas": "ragas_SLCCI_Operational_Sea_Level_Production_System_gpt-5.6-sol_rep1.json",
+    "rag_score": 0.5092,
+    "duracao_s": 160.5,
+    "custo_usd": 0.589642,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Sol|2": {
+    "status": "ok",
+    "sistema": "SLCCI Operational Production System",
+    "arquivo_ragas": "ragas_SLCCI_Operational_Production_System_gpt-5.6-sol_rep2.json",
+    "rag_score": 0.4396,
+    "duracao_s": 165.1,
+    "custo_usd": 0.595854,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "6|Sol|3": {
+    "status": "ok",
+    "sistema": "SLCCI Operational Sea Level Production System",
+    "arquivo_ragas": "ragas_SLCCI_Operational_Sea_Level_Production_System_gpt-5.6-sol_rep3.json",
+    "rag_score": 0.6416,
+    "duracao_s": 151.1,
+    "custo_usd": 0.553114,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Lua|1": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-luna_rep1.json",
+    "rag_score": 0.4659,
+    "duracao_s": 75.6,
+    "custo_usd": 0.025849,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Lua|2": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-luna_rep2.json",
+    "rag_score": 0.4542,
+    "duracao_s": 84.7,
+    "custo_usd": 0.026959,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Lua|3": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-luna_rep3.json",
+    "rag_score": 0.4732,
+    "duracao_s": 71.9,
+    "custo_usd": 0.024016,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Terra|1": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-terra_rep1.json",
+    "rag_score": 0.4647,
+    "duracao_s": 92.2,
+    "custo_usd": 0.184286,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Terra|2": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-terra_rep2.json",
+    "rag_score": 0.4464,
+    "duracao_s": 96.7,
+    "custo_usd": 0.161222,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Terra|3": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-terra_rep3.json",
+    "rag_score": 0.4603,
+    "duracao_s": 100.6,
+    "custo_usd": 0.189062,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Sol|1": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-sol_rep1.json",
+    "rag_score": 0.5195,
+    "duracao_s": 202.3,
+    "custo_usd": 0.702033,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Sol|2": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-sol_rep2.json",
+    "rag_score": 0.5927,
+    "duracao_s": 185.6,
+    "custo_usd": 0.632619,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "7|Sol|3": {
+    "status": "ok",
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "arquivo_ragas": "ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-sol_rep3.json",
+    "rag_score": 0.646,
+    "duracao_s": 176.1,
+    "custo_usd": 0.632539,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Lua|1": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-luna_rep1.json",
+    "rag_score": 0.4148,
+    "duracao_s": 75.0,
+    "custo_usd": 0.023723,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Lua|2": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-luna_rep2.json",
+    "rag_score": 0.4028,
+    "duracao_s": 70.0,
+    "custo_usd": 0.021193,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Lua|3": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-luna_rep3.json",
+    "rag_score": 0.4143,
+    "duracao_s": 72.5,
+    "custo_usd": 0.019246,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Terra|1": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-terra_rep1.json",
+    "rag_score": 0.3805,
+    "duracao_s": 101.2,
+    "custo_usd": 0.189855,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Terra|2": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-terra_rep2.json",
+    "rag_score": 0.5033,
+    "duracao_s": 82.0,
+    "custo_usd": 0.168512,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Terra|3": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-terra_rep3.json",
+    "rag_score": 0.3458,
+    "duracao_s": 101.3,
+    "custo_usd": 0.192588,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Sol|1": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-sol_rep1.json",
+    "rag_score": 0.4832,
+    "duracao_s": 168.7,
+    "custo_usd": 0.620838,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Sol|2": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-sol_rep2.json",
+    "rag_score": 0.3707,
+    "duracao_s": 149.1,
+    "custo_usd": 0.570796,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "8|Sol|3": {
+    "status": "ok",
+    "sistema": "BECS (Book E-Commerce System)",
+    "arquivo_ragas": "ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-sol_rep3.json",
+    "rag_score": 0.6273,
+    "duracao_s": 137.4,
+    "custo_usd": 0.554946,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "9|Lua|1": {
+    "status": "ok",
+    "sistema": "Core Financial System",
+    "arquivo_ragas": "ragas_Core_Financial_System_gpt-5.6-luna.json",
+    "rag_score": 0.4273,
+    "duracao_s": 111.1,
+    "custo_usd": 0.023506,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "9|Terra|1": {
+    "status": "ok",
+    "sistema": "Core Financial System (FFMIA Compliance Initiative)",
+    "arquivo_ragas": "ragas_Core_Financial_System_(FFMIA_Compliance_Initiative)_gpt-5.6-terra.json",
+    "rag_score": 0.3647,
+    "duracao_s": 87.8,
+    "custo_usd": 0.178827,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  },
+  "9|Sol|1": {
+    "status": "ok",
+    "sistema": "Core Financial System",
+    "arquivo_ragas": "ragas_Core_Financial_System_gpt-5.6-sol.json",
+    "rag_score": 0.5207,
+    "duracao_s": 162.1,
+    "custo_usd": 0.581093,
+    "tinha_gabarito_ragas": true,
+    "tinha_gabarito_rfrnf": true
+  }
+}

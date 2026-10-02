@@ -1,0 +1,100 @@
+{
+  "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+  "cenario_fonte": "Project Scenario 7.pdf",
+  "observacoes": "Cenario multi-stakeholder (prefeitura regula, empresa concessionaria opera) — cuidado pra nao confundir responsabilidades. Mais rico em RNF que o BECS: tem metrica explicita (30s), exigencia legal explicita (Lei 13.146/2015) e requisito de resiliencia offline.",
+
+  "escopo": {
+    "em_escopo": [
+      "Centralização da cobrança de tarifa e emissão/gestão de cartões ou contas de usuários",
+      "Controle de acesso (entrada/saída) de passageiros em veículos e estações",
+      "Painel de acompanhamento de demanda e arrecadação para a prefeitura",
+      "Auditoria em tempo real (ou próximo disso) da movimentação financeira e de uso pela prefeitura",
+      "Validação anti-fraude de beneficiários de gratuidade/desconto (reconhecimento facial ou forma equivalente de conferência)",
+      "Visibilidade parcial de dados para operadores de transporte (gestão de frota, prestação de contas)",
+      "Envio da informação de viagem do validador ao sistema central em até 30 segundos, com sincronização após período offline",
+      "Atendimento presencial acessível (deficiência auditiva, visual, mobilidade reduzida)",
+      "Migração de usuários (cartões físicos, contas, benefícios) do sistema antigo para o novo, sem interrupção",
+      "Compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas"
+    ],
+    "fora_de_escopo": [
+      "Sistema de monitoramento de frota (GPS/rastreamento de veículos) — já existe separado, só precisa de integração futura, não construção do zero",
+      "Integração com bicicleta compartilhada, patinete ou estacionamento — não é prioridade nesta fase",
+      "Operação direta pela prefeitura — venda de créditos, atendimento, validadores e central de processamento ficam a cargo da empresa concessionária contratada"
+    ],
+    "premissas": [
+      "PA-01: Haverá uma empresa concessionária contratada responsável pela operação diária (venda de créditos, atendimento, validadores, central de processamento).",
+      "PA-02: [INFERIDO] O sistema de monitoramento de frota já existente disponibilizará uma interface de integração no futuro."
+    ],
+    "restricoes": [
+      "REST-01 (Regulatória): O atendimento presencial deve cumprir o Estatuto da Pessoa com Deficiência (Lei Federal nº 13.146/2015).",
+      "REST-02 (Desempenho): O validador deve enviar dados da viagem ao sistema central em no máximo 30 segundos.",
+      "REST-03 (Escopo): A operação do dia a dia (venda de créditos, validadores, central de processamento) é responsabilidade da empresa concessionária, não da prefeitura."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Prefeitura (reguladora) — define política tarifária, fiscaliza, precisa de visibilidade total e auditável em tempo real (ou próximo disso) sobre a movimentação financeira e de uso, sem depender só do repasse da operadora." },
+    { "id": "STK-02", "descricao": "Empresa concessionária/operadora — responsável pela operação (venda de créditos, atendimento, validadores, central de processamento); tem liberdade operacional, mas toda movimentação deve ser auditável pela prefeitura." },
+    { "id": "STK-03", "descricao": "Passageiro comum (usuário pagante) — paga e usa o transporte normalmente, sem benefício de gratuidade/desconto." },
+    { "id": "STK-04", "descricao": "Beneficiário de gratuidade/desconto (idosos, estudantes, pessoas com deficiência) — tem fluxo de cadastro mais elaborado, pois precisa comprovar a condição, e está sujeito a validação anti-fraude." },
+    { "id": "STK-05", "descricao": "Operadores de transporte (empresas de ônibus, BRT e outros modos) — precisam de visibilidade parcial dos dados para gestão de frota e prestação de contas, sem acesso total aos dados do sistema." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "A operação do dia a dia (venda de créditos, atendimento, validadores, central de processamento) fica a cargo da empresa concessionária contratada, não da prefeitura diretamente." },
+    { "id": "RN-002", "descricao": "Beneficiários de gratuidade/desconto devem ter o direito ao benefício validado de forma confiável (reconhecimento facial ou outra forma de conferência) para reduzir fraude, sem tornar o uso cotidiano complicado para o usuário." },
+    { "id": "RN-003", "descricao": "Operadores de transporte têm acesso apenas parcial aos dados do sistema (para gestão de frota e prestação de contas), nunca acesso total." },
+    { "id": "RN-004", "descricao": "A migração de usuários do sistema antigo (cartões físicos, contas, benefícios já cadastrados) para o novo sistema deve ocorrer sem interromper o uso do transporte pelo passageiro." },
+    { "id": "RN-005", "descricao": "O sistema de monitoramento de frota (GPS/rastreamento de veículos) é externo e fora de escopo — a solução só precisa prever integração futura com ele, não construí-lo." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "O sistema deve centralizar a cobrança de tarifa dos usuários." },
+    { "id": "RF-02", "descricao": "O sistema deve emitir e gerenciar cartões ou contas dos usuários." },
+    { "id": "RF-03", "descricao": "O sistema deve controlar o acesso (entrada/saída) de passageiros a veículos e estações." },
+    { "id": "RF-04", "descricao": "O sistema deve permitir que a prefeitura acompanhe a demanda e a arrecadação de forma confiável, sem depender só do repasse informado pela operadora." },
+    { "id": "RF-05", "descricao": "O sistema deve fornecer à prefeitura visibilidade total e auditável sobre a movimentação financeira e de uso, em tempo real ou próximo disso." },
+    { "id": "RF-06", "descricao": "O sistema deve validar de forma confiável quem tem direito a gratuidade/desconto (idosos, estudantes, pessoas com deficiência), via reconhecimento facial ou outra forma de conferência." },
+    { "id": "RF-07", "descricao": "O sistema deve fornecer aos operadores de transporte visibilidade parcial dos dados, para gestão de frota e prestação de contas." },
+    { "id": "RF-08", "descricao": "O sistema deve enviar a informação de cada viagem do validador ao sistema central em no máximo 30 segundos." },
+    { "id": "RF-09", "descricao": "O sistema deve permitir que o validador continue registrando viagens durante uma perda temporária de conexão e sincronizar esses registros com o sistema central assim que a conexão for restabelecida." },
+    { "id": "RF-10", "descricao": "O sistema deve suportar a migração de usuários (cartões físicos, contas, benefícios já cadastrados) do sistema antigo para o novo, sem interrupção do uso do transporte." },
+    { "id": "RF-11", "descricao": "O sistema deve manter compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas." },
+    { "id": "RF-12", "descricao": "O sistema deve permitir que a prefeitura defina e ajuste a política tarifária." },
+    { "id": "RF-13", "descricao": "O sistema deve oferecer aos beneficiários de gratuidade/desconto um fluxo de cadastro que comprove a condição declarada." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Performance Efficiency", "descricao": "O sistema deve garantir que a informação de cada viagem chegue ao sistema central em no máximo 30 segundos, mesmo em condições normais de operação.", "metrica_aceitacao": "≤ 30 segundos por viagem" },
+    { "id": "RNF-02", "categoria_iso25010": "Reliability", "descricao": "O validador deve tolerar perda temporária de conectividade e sincronizar integralmente os registros pendentes assim que a conexão for restabelecida, sem perda de dados.", "metrica_aceitacao": "[TBD] — cenário não define tempo máximo de tolerância offline nem taxa aceitável de perda" },
+    { "id": "RNF-03", "categoria_iso25010": "Security", "descricao": "O mecanismo de validação de beneficiários (reconhecimento facial ou conferência equivalente) deve reduzir de forma mensurável o uso fraudulento de benefícios, sem tornar o uso cotidiano do usuário legítimo mais lento ou complicado.", "metrica_aceitacao": "[TBD] — cenário não define taxa-alvo de redução de fraude nem tempo máximo aceitável para a verificação" },
+    { "id": "RNF-04", "categoria_iso25010": "Interaction Capability", "descricao": "Os pontos de atendimento presencial devem ser acessíveis a pessoas com deficiência auditiva, visual e de mobilidade reduzida, conforme o Estatuto da Pessoa com Deficiência (Lei Federal nº 13.146/2015).", "metrica_aceitacao": "Conformidade integral com a Lei Federal nº 13.146/2015" },
+    { "id": "RNF-05", "categoria_iso25010": "Compatibility", "descricao": "O sistema deve manter compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas.", "metrica_aceitacao": "[TBD] — cenário não especifica protocolo ou padrão de interoperabilidade" },
+    { "id": "RNF-06", "categoria_iso25010": "Reliability", "descricao": "Os dados de movimentação financeira e de uso disponibilizados à prefeitura devem refletir a operação real em tempo real ou próximo disso.", "metrica_aceitacao": "[TBD] — cenário usa 'tempo real ou próximo disso', sem definir latência máxima numérica" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "Como passageiro comum, quero pagar e usar o transporte normalmente, para me deslocar pela cidade." },
+    { "id": "HU-02", "descricao": "Como beneficiário de gratuidade/desconto, quero que meu direito ao benefício seja validado de forma confiável, para usar o transporte sem sofrer nem cometer fraude." },
+    { "id": "HU-03", "descricao": "Como gestor da prefeitura, quero acompanhar em tempo real (ou próximo disso) a demanda e a arrecadação, para ter visibilidade confiável sem depender só do repasse da operadora." },
+    { "id": "HU-04", "descricao": "Como gestor da prefeitura, quero auditar a movimentação financeira e de uso do sistema, para garantir controle sobre recursos públicos e regras de subsídio/compensação entre operadores." },
+    { "id": "HU-05", "descricao": "Como operador de transporte, quero ter visibilidade parcial dos dados de uso, para gerir minha frota e prestar contas." },
+    { "id": "HU-06", "descricao": "Como usuário migrando do sistema antigo, quero que meus dados/cartões/benefícios sejam transferidos automaticamente, para não perder acesso ao transporte durante a transição." },
+    { "id": "HU-07", "descricao": "Como pessoa com deficiência auditiva, visual ou de mobilidade reduzida, quero ser atendida adequadamente nos pontos de atendimento presencial, para acessar o sistema de bilhetagem sem barreiras." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Validar viagem — o passageiro passa pelo validador, o sistema identifica o tipo de usuário (comum ou beneficiário) e libera ou nega o acesso, enviando a informação ao sistema central em até 30 segundos (ou sincronizando depois, se estiver offline)." },
+    { "id": "UC-02", "descricao": "Cadastrar e validar beneficiário de gratuidade/desconto — o usuário comprova a condição declarada, o sistema confere via reconhecimento facial ou forma equivalente, e o cadastro é aprovado ou rejeitado." },
+    { "id": "UC-03", "descricao": "Consultar painel de arrecadação e demanda — o gestor da prefeitura acessa dados agregados de uso e arrecadação em tempo real ou próximo disso." },
+    { "id": "UC-04", "descricao": "Migrar usuário do sistema antigo — os dados do cartão/conta/benefício antigo são importados e vinculados à nova conta do usuário, sem interrupção do uso do transporte." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-08", "descricao": "Dado um validador conectado à rede, quando uma viagem é registrada, então a informação chega ao sistema central em no máximo 30 segundos." },
+    { "id": "CA-02", "rf_hu_ref": "RF-09", "descricao": "Dado um validador que ficou temporariamente sem conexão, quando a conexão é restabelecida, então todas as viagens registradas offline são sincronizadas com o sistema central sem perda de dados." },
+    { "id": "CA-03", "rf_hu_ref": "RF-06 / HU-02", "descricao": "Dado um usuário que alega ter direito a gratuidade ou desconto, quando ele tenta usar o benefício, então o sistema confirma sua identidade via reconhecimento facial ou outra forma de conferência antes de liberar o acesso." },
+    { "id": "CA-04", "rf_hu_ref": "RF-05 / HU-03", "descricao": "Dado um gestor da prefeitura autenticado, quando ele acessa o painel de auditoria, então ele visualiza a movimentação financeira e de uso em tempo real ou próximo disso." },
+    { "id": "CA-05", "rf_hu_ref": "RNF-04 / HU-07", "descricao": "Dado um usuário com deficiência auditiva, visual ou de mobilidade reduzida, quando ele busca atendimento presencial, então o ponto de atendimento oferece recursos de acessibilidade conforme a Lei Federal nº 13.146/2015." }
+  ]
+}

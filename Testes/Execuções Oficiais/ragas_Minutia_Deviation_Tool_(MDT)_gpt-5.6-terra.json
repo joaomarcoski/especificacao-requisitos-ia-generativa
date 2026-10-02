@@ -1,0 +1,777 @@
+{
+  "sistema": "Minutia Deviation Tool (MDT)",
+  "modelo": "gpt-5.6-terra",
+  "data_execucao": "2026-08-20 08:59:52",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 4.pdf ---\nMinutia Deviation Tool (MDT)\nSo the deal is, we're working with the Defense Biometrics and Forensics folks and NIJ on\nthis broader contactless fingerprint research effort, and right now nobody has a good way\nto actually compare two fingerprint captures side by side and see how much the minutiae\npoints drift between them. Like, you take a contact scan and a contactless scan of the\nsame finger, and you want to know objectively how far off the matching ridge features are\nfrom one another — there's just no tool for that today. Researchers are basically eyeballing\nit or doing something manual and clunky.\nWhat I'm picturing is a pretty focused little desktop utility, nothing fancy, that lets a\nresearcher open up a pair of fingerprint files, see the image with all the minutiae points\noverlaid on it, and then click on a point on one print and the matching point on the other\nprint, and the tool just calculates the spatial deviation between them and shows it right\nthere. They should be able to click into an individual minutia and see its details too — x, y\nposition, angle, classification, whatever annotations are attached to it.\nIt'd be nice if on top of that they could filter through the deviations somehow, like mark\npairs as they go, keep a running list during the session, and maybe filter the display based\non some deviation threshold they type in. And being able to export just the minutiae that\npass that filter into a new file would be great too — but honestly that filtering piece is more\nof a nice-to-have, if it doesn't make it into the first version that's fine, it's not the core ask.\nThe core ask really is just the open-compare-calculate flow. Whatever they do during a\nsession, they need to be able to save it — both as a kind of session file they can reopen\nlater and pick up where they left off, and as a simple log file, something like a table they\ncould open in Excel, listing the pairs and the deviations calculated. Everything stays local,\nopened and saved from the user's own machine — there's no need for this to talk to any\nnetwork or server, that's explicitly not something we want, keep it offline.\nWho's going to use this is basically biometrics researchers — academia, government labs,\nindustry partners — people who already know what they're doing with fingerprint data, so\nwe don't need to dumb down the interface or build training wheels into it. This isn't a\npublic-facing product, it's a research instrument that we'll hand out to people who already\nunderstand minutiae and EBTS-type files. Because of that, things like user accounts,\nper-user permissions, fancy security layers — none of that matters here, skip it.\nOne more thing worth flagging: this is very much a prototype/beta-stage tool, not\nsomething we're polishing for general release. It just needs to be stable enough that a\nknowledgeable researcher can rely on it without us providing ongoing support afterwards\n— once it's out the door, it's pretty much on its own. So let's not over-engineer it, just get\nthe comparison and measurement piece rock solid first.",
+  "answer": "Sistema: Minutia Deviation Tool (MDT)\n\nResumo executivo: The Minutia Deviation Tool (MDT) is an offline desktop prototype for biometrics researchers to objectively compare minutiae from two fingerprint captures of the same finger, including contact and contactless captures. It replaces manual visual comparison by displaying annotated prints, allowing researchers to identify corresponding minutiae, calculating their spatial deviation, and preserving comparison results locally for research analysis.\n\nEscopo: An offline desktop utility that compares minutiae from two locally stored fingerprint files and records their spatial deviations.\n  Em escopo: Opening a pair of local fingerprint files, including EBTS-type files [TBD: supported file variants]\n  Em escopo: Displaying fingerprint images with minutiae overlays\n  Em escopo: Inspecting minutia attributes\n  Em escopo: Selecting corresponding minutiae and calculating spatial deviation\n  Em escopo: Maintaining a session list of measured pairs\n  Em escopo: Saving and reopening local comparison sessions\n  Em escopo: Exporting a tabular local deviation log\n  Em escopo: Filtering deviations and exporting filtered minutiae\n  Fora de escopo: Network, server, cloud, or external-service integration — the tool must operate offline\n  Fora de escopo: User accounts and per-user permissions — excluded for the research prototype\n  Fora de escopo: Public-facing product capabilities — the tool is intended for qualified researchers\n  Fora de escopo: Ongoing post-release support — excluded for the beta-stage delivery\n  Fora de escopo: Training workflows or beginner-oriented guidance — target users already understand minutiae and EBTS-type files\n  Premissa: PA-01: Researchers provide two fingerprint captures representing the same finger.\n  Premissa: PA-02: Input files contain a fingerprint image and associated minutiae data [INFERRED].\n  Premissa: PA-03: Researchers manually determine whether two minutiae correspond.\n  Restrição: REST-01 (Deployment): The system must be delivered as a desktop utility.\n  Restrição: REST-02 (Operation): All file opening, processing, and saving must occur on the user's local machine.\n  Restrição: REST-03 (Connectivity): The system must not require network or server communication.\n  Restrição: REST-04 (Lifecycle): The system is a prototype/beta-stage research instrument.\n\nStakeholders:\n  STK-01 - Biometrics researcher (Usuário primário): Compare minutiae from two captures objectively, inspect minutia data, calculate deviations, and preserve local research results.\n  STK-02 - Defense Biometrics and Forensics stakeholders (Stakeholder externo): Obtain a reliable prototype that supports contactless fingerprint research measurements.\n  STK-03 - National Institute of Justice (NIJ) (Stakeholder externo): Support objective analysis of minutiae deviation in the broader contactless fingerprint research effort.\n\nRegras de negócio:\n  RN-001 - Comparability of captures: A deviation comparison is valid only when the two fingerprint captures represent the same finger.\n  RN-002 - Researcher-defined correspondence: A minutia pair is considered corresponding only when a qualified biometrics researcher identifies one minutia in each fingerprint capture as a match.\n  RN-003 - Local handling of research data: Fingerprint captures, session data, and deviation results must remain on the researcher's local machine.\n  RN-004 - Threshold-based export eligibility: Only minutiae belonging to pairs that satisfy the researcher-entered deviation threshold are eligible for filtered export.\n\nRequisitos funcionais:\n  RF-001 - Open fingerprint pair: The system shall open two fingerprint files selected from the user's local machine for a comparison session. [Must have]\n  RF-002 - Display minutiae overlays: The system shall display each opened fingerprint image with its available minutiae points overlaid. [Must have]\n  RF-003 - Inspect minutia details: The system shall display the x position, y position, angle, classification, and available annotations for a selected minutia. [Must have]\n  RF-004 - Select corresponding minutiae: The system shall allow the researcher to designate one minutia from each displayed fingerprint as a corresponding pair. [Must have]\n  RF-005 - Calculate spatial deviation: The system shall calculate and display the spatial deviation for a designated corresponding minutia pair. [Must have]\n  RF-006 - Maintain deviation list: The system shall add each calculated corresponding pair and its spatial deviation to the current session list. [Must have]\n  RF-007 - Mark deviation pair: The system shall allow the researcher to mark an item in the current session deviation list. [Should have]\n  RF-008 - Save comparison session: The system shall save the current comparison session to a file selected on the user's local machine. [Must have]\n  RF-009 - Reopen comparison session: The system shall restore a previously saved local comparison session from a selected session file. [Must have]\n  RF-010 - Export deviation log: The system shall export the current session list as a locally saved tabular log containing each corresponding pair and its calculated spatial deviation. [Must have]\n  RF-011 - Filter deviations by threshold: The system shall display only session-list items whose spatial deviation satisfies a researcher-entered threshold. [Could have]\n  RF-012 - Export filtered minutiae: The system shall export minutiae belonging to the deviation pairs displayed after threshold filtering into a new local file. [Could have]\n\nRequisitos não funcionais:\n  RNF-001 (Functional Suitability) - The system shall calculate spatial deviation with an absolute error no greater than 0.01 pixel against reference coordinate pairs. [TBD: confirm measurement unit and formula] | Métrica: Absolute error of 0.01 pixel or less for 100% of a reference test set. [TBD]\n  RNF-002 (Performance Efficiency) - The system shall display a calculated deviation within 2 seconds after the researcher designates a corresponding pair. [TBD] | Métrica: 95th-percentile response time of 2 seconds or less across 100 designated-pair calculations. [TBD]\n  RNF-003 (Security) - The system shall perform all comparison-session operations with zero outbound network connections. | Métrica: Zero outbound network connections during opening, comparing, saving, reopening, and exporting test sessions.\n  RNF-004 (Reliability) - The system shall restore 100% of saved pair records and their deviation values when reopening a valid session file created by the same version. [TBD: define cross-version behavior] | Métrica: 100% record and deviation-value equality in 30 save-and-reopen test sessions. [TBD]\n  RNF-005 (Compatibility) - The system shall successfully open 100% of approved EBTS-type sample files containing fingerprint images and minutiae records. [TBD: approve supported EBTS variants] | Métrica: 100% successful opening of the approved sample-file suite, with zero critical parsing errors. [TBD]\n\nHistórias de usuário:\n  HU-001 - Como biometrics researcher, quero open two local fingerprint files as one comparison pair, para analyze captures of the same finger side by side\n  HU-002 - Como biometrics researcher, quero view each fingerprint with minutiae overlaid, para locate candidate corresponding ridge features\n  HU-003 - Como biometrics researcher, quero inspect a selected minutia's attributes, para assess its characteristics before pairing it\n  HU-004 - Como biometrics researcher, quero designate two minutiae as corresponding, para measure their positional difference\n  HU-005 - Como biometrics researcher, quero see the spatial deviation of a corresponding pair, para obtain an objective comparison measurement\n  HU-006 - Como biometrics researcher, quero maintain a list of measured pairs during my session, para review all calculated deviations\n  HU-007 - Como biometrics researcher, quero mark a measured pair, para identify it for subsequent review\n  HU-008 - Como biometrics researcher, quero save my comparison session locally, para preserve work completed during the session\n  HU-009 - Como biometrics researcher, quero reopen a saved comparison session, para continue the analysis from its saved state\n  HU-010 - Como biometrics researcher, quero export a tabular deviation log, para analyze the comparison results in spreadsheet software\n  HU-011 - Como biometrics researcher, quero filter measured pairs by a deviation threshold, para focus on results meeting my analysis criterion\n  HU-012 - Como biometrics researcher, quero export minutiae from filtered pairs, para reuse qualifying results in further research\n\nCasos de uso:\n  UC-001 - Open and display a fingerprint comparison pair | Ator: Biometrics researcher\n    1. The researcher selects two local fingerprint files.\n    2. The system validates and opens the selected files.\n    3. The system displays both fingerprint images with available minutiae overlays.\n  UC-002 - Inspect minutia details | Ator: Biometrics researcher\n    1. The researcher selects an overlaid minutia point.\n    2. The system retrieves the point's available attributes.\n    3. The system displays x position, y position, angle, classification, and annotations.\n  UC-003 - Measure minutia deviation | Ator: Biometrics researcher\n    1. The researcher selects one minutia on the first fingerprint.\n    2. The researcher selects one minutia on the second fingerprint.\n    3. The system designates the selected minutiae as a corresponding pair.\n    4. The system calculates and displays the pair's spatial deviation.\n    5. The system adds the pair and deviation to the session list.\n  UC-004 - Save and reopen a comparison session | Ator: Biometrics researcher\n    1. The researcher selects the save-session action and a local destination.\n    2. The system writes the current session to the selected local file.\n    3. The researcher later selects a saved session file.\n    4. The system restores the saved pair records and deviation values.\n  UC-005 - Export deviation results | Ator: Biometrics researcher\n    1. The researcher selects the export-log action and a local destination.\n    2. The system creates a tabular log containing each session pair and spatial deviation.\n    3. The system confirms the created local file path.\n  UC-006 - Filter and export qualifying minutiae | Ator: Biometrics researcher\n    1. The researcher enters a deviation threshold.\n    2. The system displays only pairs satisfying the entered threshold.\n    3. The researcher selects an export destination for filtered minutiae.\n    4. The system exports minutiae from the displayed qualifying pairs to a new local file.\n\nCritérios de aceite:\n  CA-001 - Dado that the researcher has two valid local fingerprint files for the same finger, quando the researcher selects both files to start a comparison, então the system shall load exactly two files into the comparison session and display both file names\n  CA-002 - Dado that a valid fingerprint pair has been opened, quando the system renders the comparison view, então each displayed fingerprint image shall show every available minutia point from its opened file as an overlay\n  CA-003 - Dado that a displayed fingerprint contains a minutia record with x, y, angle, classification, and annotation data, quando the researcher selects its overlaid point, então the system shall display the record's x value, y value, angle, classification, and annotation value\n  CA-004 - Dado that two fingerprint images are displayed, quando the researcher selects one minutia on each image and confirms the pairing, então the system shall create one corresponding pair containing exactly the two selected minutiae\n  CA-005 - Dado that a designated pair has minutia coordinates (0,0) and (3,4), quando the system calculates the pair's spatial deviation, então the system shall display a spatial deviation of 5.00 pixels [TBD: confirm measurement unit]\n  CA-006 - Dado that the session list contains 2 calculated pairs, quando a third corresponding pair is calculated, então the session list shall contain 3 entries, including the third pair and its displayed deviation\n  CA-007 - Dado that the session list contains a calculated pair, quando the researcher marks that pair, então the selected session-list item shall display the marked state\n  CA-008 - Dado that the current session contains 3 calculated pairs, quando the researcher saves the session to a writable local destination, então the system shall create one session file at the selected path containing 3 pair records\n  CA-009 - Dado that a valid local session file contains 3 pair records and their deviation values, quando the researcher opens that session file, então the system shall restore exactly 3 pair records with the same saved deviation values\n  CA-010 - Dado that the session list contains 2 calculated pairs, quando the researcher exports the deviation log to a writable local destination, então the system shall create one tabular file containing 2 data rows, each with pair identification and spatial deviation\n  CA-011 - Dado that the session list contains deviations of 2.00, 5.00, and 8.00 pixels, quando the researcher enters a threshold of 5.00 pixels, então the system shall display exactly 2 entries with deviations of 2.00 and 5.00 pixels\n  CA-012 - Dado that threshold filtering displays exactly 2 qualifying corresponding pairs, quando the researcher exports the filtered minutiae to a writable local destination, então the system shall create one local file containing minutiae from exactly the 2 displayed qualifying pairs\n\nGlossário:\n  Minutia: A fingerprint ridge feature represented by positional and descriptive attributes, such as x position, y position, angle, and classification.\n  Corresponding pair: Two minutiae, one from each fingerprint capture, identified by a researcher as representing the same ridge feature.\n  Spatial deviation: The measured positional difference between the two minutiae in a corresponding pair.\n  Contact fingerprint capture: A fingerprint capture acquired through physical contact with a capture surface.\n  Contactless fingerprint capture: A fingerprint capture acquired without physical contact with a capture surface.\n  EBTS-type file: A fingerprint data file associated with Electronic Biometric Transmission Specification conventions; supported variants are [TBD].\n  Comparison session: The locally stored working state containing an opened fingerprint pair, designated pairs, calculated deviations, and marks.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "2ª ed. Geneva: ISO, \r\n2023. A edição 2023 substituiu a de 2011 e acrescentou a característica Safety.\r\nA ISO/IEC 25010:2023 define 9 características de qualidade do produto. Todo RNF deve ser \r\nclassificado em uma dessas características. A seguir, cada característica com seus sub-atributos e \r\nexemplo de RNF.\r\n1. Functional Suitability (Adequação Funcional)\r\n Functional Completeness — o sistema oferece todas as funções necessárias.\r\n Functional Correctness — as funções produzem os resultados corretos.\r\n Functional Appropriateness — as funções facilitam a realização das tarefas.\r\nEXEMPLO — RNF — 1. Functional Suitability\r\nO sistema deve calcular o imposto sobre o valor do pedido aplicando corretamente a alíquota de ICMS \r\nvigente para o estado de destino, conforme tabela oficial CONFAZ, com variação máxima de R$ 0,01 em \r\nrelação ao valor de referência da Receita Estadual.\r\n2. Performance Efficiency (Eficiência de Desempenho)\r\n Time Behaviour — tempo de resposta e throughput.\r\n Resource Utilisation — uso de CPU, memória, rede.\r\n Capacity — limites máximos suportados.\r\nEXEMPLO — RNF — 2. Performance Efficiency\r\nO sistema deve processar no mínimo 200 pedidos por minuto sob carga de 1.000 usuários simultâneos, com \r\ntempo de resposta inferior a 2 segundos no percentil 95.\r\n3. Compatibility (Compatibilidade)\r\n Co-existence — coexiste com outros sistemas sem degradação.\r\n Interoperability — troca dados com outros sistemas.\r\nEXEMPLO — RNF — 3. Compatibility\r\nA API do sistema deve expor endpoints REST/JSON compatíveis com o padrão OpenAPI 3.0, permitindo \r\nintegração com o ERP legado via OAuth 2.0 sem modificações no ERP.4. Interaction Capability (Capacidade de Interação) — antes 'Usabilidade'\r\n Appropriateness Recognisability — usuário reconhece a adequação do sistema.\r\n Learnability — facilidade de aprendizado.\r\n Operability — facilidade de operação.\r\n User Error Protection — proteção contra erros do usuário.\r\n User Engagement — interface envolvente e motivadora.\r\n Inclusivity — acessível a pessoas com diferentes capacidades.\r\n User Assistance — suporte ao usuário.\r\n Self-Descriptiveness — interface autoexplicativa.\r\nEXEMPLO — RNF — 4. Interaction Capability\r\nUm usuário sem treinamento prévio deve ser capaz de registrar seu primeiro pedido completo em até 10 \r\nminutos. A interface deve seguir as diretrizes WCAG 2.1 nível AA.\r\n5. Reliability (Confiabilidade)\r\n Faultlessness — ausência de falhas em condições normais.\r\n Availability — proporção de tempo em que o sistema está operacional.\r\n Fault Tolerance — operação correta mesmo com falhas parciais.\r\n Recoverability — recuperação após falha.\r\nEXEMPLO — RNF — 5. Reliability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês (máx. 3,6h de downtime não planejado). Em \r\ncaso de falha crítica, o sistema deve restaurar a operação normal em até 4 horas (RTO = 4h).",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193\r\n3. System features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 194\r\n4. Data requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195\r\n5. External interface requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . 196\r\n6. Quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197\r\n7. Internationalization and localization requirements. . . . . . . . . . . 198\r\n8. [Other requirements]. . . . . . . .",
+    "→ Impreciso. O que é 'perder dados'?\r\nREFORMULAR como: 'O sistema deve persistir todos os dados de pedido mesmo em caso de falha \r\nde conexão, retomando a gravação quando a conexão for restabelecida.'\r\nAÇÃO: transformar negação em afirmação positiva e verificável.\r\nCópia literal de linguagem informal\r\nERRADO: RF-010: 'O sistema tem que ser tipo um CRM mas mais simples.'\r\nA linguagem do documento de entrada nunca deve ir direto para o SRS.\r\nAÇÃO: reformular sempre no padrão 'O sistema deve [verbo] [complemento].'\r\nRNF sem categoria ou sem métrica\r\nExtrair 'o sistema deve ser seguro' e deixar assim é inválido pela ISO 29148.\r\nAÇÃO: identificar a categoria ISO 25010 e propor métrica mínima, marcando [TBD] se o dado \r\npreciso não estiver no documento.\r\nConfundir processo atual com requisito do novo sistema\r\nTexto descreve como o processo É HOJE, não como deveria ser.\r\n'Hoje o vendedor imprime o pedido e manda por fax' → isso é o estado atual.\r\nO requisito é derivado da MELHORIA desejada, não da cópia do processo ruim.\r\nAÇÃO: identificar a dor/ineficiência → transformar em HU do novo sistema.Stakeholder implícito ignorado\r\nTexto menciona 'o sistema enviará relatório para a contabilidade' — mas 'contabilidade' não foi \r\nlistada como stakeholder. É um usuário secundário implícito.\r\nAÇÃO: varrer o documento inteiro por menções a papéis, departamentos e sistemas externos — \r\ntodos são stakeholders potenciais.\r\nRNF de conformidade ignorado\r\nDocumentos de setores regulados (saúde, financeiro, governo) contêm exigências legais que geram \r\nRNFs obrigatórios. 'Conforme LGPD', 'de acordo com a Resolução CMN 4.658' → sempre extrair \r\ncomo RNF de conformidade com alta prioridade.\r\nAÇÃO: toda menção a lei, norma, resolução ou certificação gera pelo menos um RNF.PARTE 5 — Extração Completa: Do Texto Bruto ao SRS\r\nEsta parte mostra a extração completa de um texto de entrada informal (e-mail + ata de reunião) \r\npara o conjunto de artefatos SRS.\r\n5.1 Documento de Entrada (simulação de e-mail + notas)\r\n--- INÍCIO DO DOCUMENTO DE ENTRADA ---\r\nDe: Maria Silva (Diretora Comercial)\r\nPara: Equipe de TI\r\nAssunto: Sistema de controle de propostas comerciais\r\nPessoal, precisamos urgente de um sistema para controlar nossas propostas. Hoje tudo é feito em planilha e a gente \r\nperde o controle — às vezes mandamos proposta com preço errado porque a tabela foi atualizada mas o vendedor não \r\nsabia.",
+    "C2-11\r\ncomplete the SRS document (software requirements specifications); all but XRE also complete \r\nthe StRS (stakeholder requirements specifications) document; and neither covers the Concept \r\nof Operations item, nor the System Operational Systems; that are more related to the system \r\nlevel and less to the software level.\r\nACKNOWLEDGMENTS\r\nThis work is partially supported by Department of Engineering and the Software Engineering \r\nResearch and Development Group (GIDIS) from the Pontifical Catholic University of Peru \r\n(PUCP). The work is also funded by the Data Science and Technology Research Group \r\n(CITEC) of the National University of Moquegua (UNAM).\r\nREFERENCES\r\nAmbreen, T., Ikram, N., Usman, M., & Niazi, M. (2018). Empirical Research in Requirements \r\nEngineering: Trends and Opportunities. Requirements Engineering, 23(1), 63–95. \r\nhttps://doi.org/10.1007/s00766-016-0258-2\r\nAnu, V., Hu, W., Carver, J. C., Walia, G. S., & Bradshaw, G. (2018). Development of a Human \r\nError Taxonomy for Software Requirements: A Systematic Literature Review. Information \r\nand Software Technology, 103, 112–124. https://doi.org/10.1016/j.infsof.2018.06.011\r\nBeecham, S., Hall, T., & Rainer, A. (2005). Defining a Requirements Process Improvement \r\nModel. Software Quality Journal, 13, 247–279. https://doi.org/10.1007/s11219-005-1752-9\r\nBorja Buestán, C. D., & Cuji Torres, V. A. (2013). Metodología para la Especificación de \r\nRequerimientos de Software Basado en el Estándar IEEE 830-1998. In Tesis -\r\nUniversidad Politécnica Salesiana - Sede Cuenca.\r\nBoyarchuk, A., Pavlova, O., Bodnar, M., & Lopatto, I. (2020). Approach to the Analysis of \r\nSoftware Requirements Specification on its Structure Correctness. CEUR Workshop, 85–\r\n95. http://ceur-ws.org/Vol-2623/paper9.pdf\r\nCano, C., Melgar, A., Dávila, A., & Pessoa, M. (2015). Comparison of Software Process Models. \r\nA Systematic Literature Review. 41st Latin American Computing Conference - CLEI 2015, \r\n1–6. https://doi.org/10.1109/CLEI.2015.7360025\r\nChandra, V. (2015). Comparison between Various Software Development Methodologies. \r\nInternational Journal of Computer Applications, 131(9), 7–10. \r\nhttps://doi.org/10.5120/ijca2015907294\r\nChang, C. K. (2018). Situation Analytics — at the Dawn of a New Software Engineering \r\nParadigm. Science China - Information Sciences, 61(5), 1–14. \r\nhttps://doi.org/10.1007/s11432-017-9372-7\r\nDe Bellis, M., & Haapala, C. (1995). User-Centric Software Engineering. IEEE Expert, 10(1), \r\n34–41.\r\nForbrig, P. (2016). Continuous Requirements Engineering and Human-Centered Agile Software \r\nDevelopment.",
+    "106 PART II Requirements development\r\nFIGURE 6-2 A portion of the organization chart for Contoso Pharmaceuticals.\r\nDocument the user classes and their characteristics, responsibilities, and physical locations in \r\nthe software requirements specification (SRS) or in a requirements plan for your project. Check that \r\ninformation against any information you might already have about stakeholder profiles in the vision \r\nand scope document to avoid conflicts and duplication. Include all pertinent information you have \r\nabout each user class, such as its relative or absolute size and which classes are favored. This will \r\nhelp the team prioritize change requests and conduct impact assessments later on. Estimates of \r\nthe volume and type of system transactions help the testers develop a usage profile for the system \r\nso that they can plan their verification activities. The project manager and business analyst of the \r\nChemical Tracking System discussed in earlier chapters identified the user classes and characteristics \r\nshown in Table 6-1.\r\nTABLE 6-1 User classes for the Chemical Tracking System\r\nName Number Description\r\nChemists \r\n(favored)\r\nApproximately \r\n1,000 located in \r\n6 buildings\r\nChemists will request chemicals from vendors and from the chemical \r\nstockroom. Each chemist will use the system several times per day, mainly for \r\nrequesting chemicals and tracking chemical containers into and out of the \r\nlaboratory. The chemists need to search vendor catalogs for specific chemical \r\nstructures imported from the tools they use for drawing structures.\r\nBuyers 5 Buyers in the purchasing department process chemical requests. They place \r\nand track orders with external vendors. They know little about chemistry and \r\nneed simple query facilities to search vendor catalogs. Buyers will not use \r\nthe system’s container-tracking features. Each buyer will use the system an \r\naverage of 25 times per day.\r\nChemical \r\nstockroom staff\r\n6 technicians, \r\n1 supervisor\r\nThe chemical stockroom staff manages an inventory of more than 500,000 \r\nchemical containers. They will supply containers from three stockrooms, \r\nrequest new chemicals from vendors, and track the movement of all \r\ncontainers into and out of the stockrooms. They are the only users of the \r\ninventory-reporting feature. Because of their high transaction volume, \r\nfeatures that are used only by the chemical stockroom staff must be \r\nautomated and efficient.\r\nHealth \r\nand Safety \r\nDepartment staff \r\n(favored)\r\n1 manager The Health and Safety Department staff will use the system only to generate \r\npredefined quarterly reports that comply with federal and state chemical \r\nusage and disposal reporting regulations. The Health and Safety Department \r\nmanager will request changes in the reports periodically as government \r\nregulations change. These report changes are of the highest priority, and \r\nimplementation will be time critical.",
+    "112 PART II Requirements development\r\nCategory Activities\r\nValidation and \r\nverification\r\n■ Review requirements specifications.\r\n■ Define acceptance criteria.\r\n■ Develop user acceptance tests from usage scenarios.\r\n■ Provide test data sets from the business.\r\n■ Perform beta testing or user acceptance testing.\r\nUser aids ■ Write portions of user documentation and help text.\r\n■ Contribute to training materials or tutorials.\r\n■ Demonstrate the system to peers.\r\nChange management ■ Evaluate and prioritize defect corrections and enhancement requests.\r\n■ Dynamically adjust the scope of future releases or iterations.\r\n■ Evaluate the impact of proposed changes on users and business processes.\r\n■ Participate in making change decisions.\r\nMultiple product champions\r\nOne person can rarely describe the needs for all users of an application. The Chemical Tracking \r\nSystem had four major user classes, so it needed four product champions selected from the internal \r\nuser community at Contoso Pharmaceuticals. Figure 6-4 illustrates how the project manager set up \r\na team of BAs and product champions to elicit the right requirements from the right sources. These \r\nchampions were not assigned full time, but each one spent several hours per week working on the \r\nproject. Three BAs worked with the four product champions to elicit, analyze, and document their \r\nrequirements. (One BA worked with two product champions because the Buyer and the Health and \r\nSafety Department user classes were small and had few requirements.) One of the BAs assembled all \r\nthe input into a unified SRS.\r\nFIGURE 6-4 Product champion model for the Chemical Tracking System.\r\nWe didn’t expect a single person to provide all the diverse requirements for the hundreds of \r\nchemists at Contoso. Don, the product champion for the Chemist user class, assembled a backup",
+    "398 PART III Requirements for specific project classes\r\nWhen old requirements don’t exist\r\nMost older systems do not have documented—let alone accurate—requirements. In the absence of \r\nreliable documentation, teams might reverse-engineer an understanding of what the system does \r\nfrom the user interfaces, code, and database. We think of this as “software archaeology.” To maximize \r\nthe benefit from reverse engineering, the archaeology expedition should record what it learns in \r\nthe form of requirements and design descriptions. Accumulating accurate information about certain \r\nportions of the current system positions the team to enhance a system with low risk, to replace a \r\nsystem without missing critical functionality, and to perform future enhancements efficiently. It halts \r\nthe knowledge drain, so future maintainers better understand the changes that were just made.\r\nIf updating the requirements is overly burdensome, it will fall by the wayside as busy people rush \r\non to the next change request. Obsolete requirements aren’t helpful for future enhancements. There’s \r\na widespread fear in the software industry that writing documentation will consume too much time; \r\nthe knee-jerk reaction is to neglect all opportunities to update requirements documentation. But \r\nwhat’s the cost if you don’t update the requirements and a future maintainer (perhaps you!) has to \r\nregenerate that information? The answer to this question will let you make a thoughtful business \r\ndecision concerning whether to revise the requirements documentation when you change or \r\nre-create the software.\r\nWhen the team performs additional enhancements and maintenance over time, it can extend \r\nthese fractional knowledge representations, steadily improving the system documentation. The \r\nincremental cost of recording this newly found knowledge is small compared with the cost of \r\nsomeone having to rediscover it later on. Implementing enhancements almost always necessitates \r\nfurther requirements development, so add those new requirements to an existing requirements \r\nrepository, if there is one. If you’re replacing an old system, you have an opportunity to document \r\nthe requirements for the new one and to keep the requirements up to date with what you learn \r\nthroughout the project. Try to leave the requirements in better shape than you found them.\r\nWhich requirements should you specify?\r\nIt’s not always worth taking the time to generate a complete set of requirements for an entire \r\nproduction system. Many options lie between the two extremes of continuing forever with no \r\nrequirements documentation and reconstructing a perfect requirements set. Knowing why you’d like \r\nto have written requirements available lets you judge whether the cost of rebuilding all—or even \r\npart—of the specification is a sound investment.\r\nPerhaps your current system is a shapeless mass of history and mystery like the one in Figure 21-2. \r\nImagine that you’ve been asked to implement some new functionality in region A in this figure. \r\nBegin by recording the new requirements in a structured SRS or in a requirements management tool. \r\nWhen you add the new functionality, you’ll have to figure out how it interfaces to or fits in with the \r\nexisting system. The bridges in Figure 21-2 between region A and your current system represent these \r\ninterfaces. This analysis provides insight into the white portion of the current system, region B. In \r\naddition to the requirements for region A, this insight is the new knowledge you need to capture.CHAPTER 21 Enhancement and replacement projects 399\r\nFIGURE 21-2 Adding enhancement A to an ill-documented existing system provides some visibility into the \r\nB area.\r\nRarely do you need to document the entire existing system. Focus detailed requirements efforts \r\non the changes needed to meet the business objectives. If you’re replacing a system, start by \r\ndocumenting the areas prioritized as most important to achieve the business objectives or those that \r\npose the highest implementation risk.",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    "[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários? prazo? tipo de sistema?\r\n 3. Se não há dados suficientes: propor métrica razoável para o tipo de sistema e sinalizar como TBD\r\n 4. Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO.",
+    "Só \r\no gerente pode aprovar pedidos acima de R$ 10.000.'\r\nRF-001: O sistema deve permitir que o vendedor registre pedidos com múltiplos itens em uma única \r\noperação.\r\nRF-002: O sistema deve calcular automaticamente o valor total do pedido aplicando os descontos informados\r\npor item.\r\nRF-003: O sistema deve enviar e-mail de confirmação ao cliente após a criação bem-sucedida de um pedido.\r\nRF-004: O sistema deve restringir a aprovação de pedidos com valor > R$ 10.000,00 ao perfil de gerente \r\ncomercial (RN-001).\r\nATENÇÃO — Não copiar o texto do documento diretamente como RF. Todo RF deve ser reformulado no \r\npadrão: 'O sistema deve [verbo no infinitivo] [complemento verificável].'\r\nCOMO DESDOBRAR UM RF GENÉRICO:\r\n Texto original: 'O sistema deve gerenciar clientes.' → Isso são pelo menos 4 RFs distintos:\r\n RF-010: O sistema deve permitir o cadastro de novos clientes.\r\n RF-011: O sistema deve permitir a edição dos dados de clientes existentes.\r\n RF-012: O sistema deve permitir a consulta de clientes por nome ou CPF.\r\n RF-013: O sistema deve permitir a inativação de clientes.\r\n2.5 Requisitos Não Funcionais (RNF) — Identificar e Quantificar\r\nRNFs são os mais difíceis de identificar porque frequentemente aparecem como ADJETIVOS VAGOS\r\nno texto ('rápido', 'seguro', 'fácil'). A tarefa do agente é: (1) detectar o adjetivo, (2) identificar a \r\ncategoria ISO 25010, (3) propor uma métrica razoável baseada no contexto do projeto.\r\n[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários?",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "Minutia Deviation Tool (MDT)\r\nSo the deal is, we're working with the Defense Biometrics and Forensics folks and NIJ on\r\nthis broader contactless fingerprint research effort, and right now nobody has a good way\r\nto actually compare two fingerprint captures side by side and see how much the minutiae\r\npoints drift between them. Like, you take a contact scan and a contactless scan of the\r\nsame finger, and you want to know objectively how far off the matching ridge features are\r\nfrom one another — there's just no tool for that today. Researchers are basically eyeballing\r\nit or doing something manual and clunky.\r\nWhat I'm picturing is a pretty focused little desktop utility, nothing fancy, that lets a\r\nresearcher open up a pair of fingerprint files, see the image with all the minutiae points\r\noverlaid on it, and then click on a point on one print and the matching point on the other\r\nprint, and the tool just calculates the spatial deviation between them and shows it right\r\nthere. They should be able to click into an individual minutia and see its details too — x, y\r\nposition, angle, classification, whatever annotations are attached to it.\r\nIt'd be nice if on top of that they could filter through the deviations somehow, like mark\r\npairs as they go, keep a running list during the session, and maybe filter the display based\r\non some deviation threshold they type in. And being able to export just the minutiae that\r\npass that filter into a new file would be great too — but honestly that filtering piece is more\r\nof a nice-to-have, if it doesn't make it into the first version that's fine, it's not the core ask.\r\nThe core ask really is just the open-compare-calculate flow. Whatever they do during a\r\nsession, they need to be able to save it — both as a kind of session file they can reopen\r\nlater and pick up where they left off, and as a simple log file, something like a table they\r\ncould open in Excel, listing the pairs and the deviations calculated. Everything stays local,\r\nopened and saved from the user's own machine — there's no need for this to talk to any\r\nnetwork or server, that's explicitly not something we want, keep it offline.\r\nWho's going to use this is basically biometrics researchers — academia, government labs,\r\nindustry partners — people who already know what they're doing with fingerprint data, so\r\nwe don't need to dumb down the interface or build training wheels into it. This isn't a\r\npublic-facing product, it's a research instrument that we'll hand out to people who already\r\nunderstand minutiae and EBTS-type files. Because of that, things like user accounts,\r\nper-user permissions, fancy security layers — none of that matters here, skip it.\r\nOne more thing worth flagging: this is very much a prototype/beta-stage tool, not\r\nsomething we're polishing for general release. It just needs to be stable enough that a\r\nknowledgeable researcher can rely on it without us providing ongoing support afterwards\r\n— once it's out the door, it's pretty much on its own. So let's not over-engineer it, just get\r\nthe comparison and measurement piece rock solid first.",
+    "If you’re replacing an old system, you have an opportunity to document \r\nthe requirements for the new one and to keep the requirements up to date with what you learn \r\nthroughout the project. Try to leave the requirements in better shape than you found them.\r\nWhich requirements should you specify?\r\nIt’s not always worth taking the time to generate a complete set of requirements for an entire \r\nproduction system. Many options lie between the two extremes of continuing forever with no \r\nrequirements documentation and reconstructing a perfect requirements set. Knowing why you’d like \r\nto have written requirements available lets you judge whether the cost of rebuilding all—or even \r\npart—of the specification is a sound investment.\r\nPerhaps your current system is a shapeless mass of history and mystery like the one in Figure 21-2. \r\nImagine that you’ve been asked to implement some new functionality in region A in this figure. \r\nBegin by recording the new requirements in a structured SRS or in a requirements management tool. \r\nWhen you add the new functionality, you’ll have to figure out how it interfaces to or fits in with the \r\nexisting system. The bridges in Figure 21-2 between region A and your current system represent these \r\ninterfaces. This analysis provides insight into the white portion of the current system, region B. In \r\naddition to the requirements for region A, this insight is the new knowledge you need to capture.CHAPTER 21 Enhancement and replacement projects 399\r\nFIGURE 21-2 Adding enhancement A to an ill-documented existing system provides some visibility into the \r\nB area.\r\nRarely do you need to document the entire existing system. Focus detailed requirements efforts \r\non the changes needed to meet the business objectives. If you’re replacing a system, start by \r\ndocumenting the areas prioritized as most important to achieve the business objectives or those that \r\npose the highest implementation risk. Any new requirements identified during the gap analysis will \r\nneed to be specified at the same level of precision and using the same techniques as you would for a \r\nnew system.\r\nLevel of detail\r\nOne of the biggest challenges is determining the appropriate level of detail at which to document \r\nrequirements gleaned from the existing system. For enhancements, defining requirements for the \r\nnew functionality alone might be sufficient. However, you will usually benefit from documenting all of \r\nthe functionality that closely relates to the enhancement, to ensure that the change fits in seamlessly \r\n(region B in Figure 21-2). You might want to create business processes, user requirements, and/or \r\nfunctional requirements for those related areas. For example, let’s say you are adding a discount code \r\nfeature to an existing shopping cart function, but you don’t have any documented requirements for \r\nthe shopping cart. You might be tempted to write just a single user story: “As a customer, I need to be \r\nable to enter a discount code so I can get the cheapest price for the product.” However, this user story \r\nalone lacks context, so consider capturing other user stories about shopping cart operations. That \r\ninformation could be valuable the next time you need to modify the shopping cart function.\r\nI worked with one team that was just beginning to develop the requirements for version 2 of \r\na major product with embedded software. They hadn’t done a good job on the requirements for \r\nversion 1, which was currently being implemented. The lead BA wondered, “Is it worth going back \r\nto improve the SRS for version 1?” The company anticipated that this product line would be a major \r\nrevenue generator for at least 10 years. They also planned to reuse some of the core requirements \r\nin several spin-off products. In this case, it made sense to improve the requirements documentation \r\nfor version 1 because it was the foundation for all subsequent development work in this product line.",
+    "1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.\r\nRNF-002 | Criptografia em trânsito\r\nCaracterística: Security — Confidentiality\r\nO sistema deve criptografar todos os dados em trânsito utilizando TLS 1.2 ou superior.\r\nMétrica: 100% das conexões HTTPS; protocolo TLS < 1.2 recusado.\r\nVerificação: Teste com SSL Labs ou OWASP ZAP.\r\nRNF-003 | Disponibilidade\r\nCaracterística: Reliability — Availability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês, excluídas janelas de manutenção programadas \r\ne comunicadas com 48h de antecedência.\r\nMétrica: Máximo de 3,6 horas de indisponibilidade não planejada por mês.\r\nVerificação: Monitoramento com uptime tracking (ex.: UptimeRobot).\r\nRNF-004 | Armazenamento de senhas\r\nCaracterística: Security — Integrity\r\nO sistema deve armazenar senhas de usuário usando hash bcrypt com fator de custo mínimo 12; nenhuma \r\nsenha deve ser armazenada em texto plano.\r\nMétrica: Auditoria de código — zero ocorrências de senha em texto plano.\r\nVerificação: Revisão de código + teste de penetração.\r\nRNF-005 | Compatibilidade de navegadores\r\nCaracterística: Compatibility — Interoperability\r\nO sistema deve funcionar corretamente nos navegadores Chrome 120+, Firefox 115+, Edge 120+ e Safari 16+, \r\nem resoluções de tela a partir de 1024×768.\r\nMétrica: 0 erros críticos em suíte de testes cross-browser.\r\nVerificação: Testes automatizados com Selenium ou BrowserStack.ANTI-PADRÃO — RNF sem métrica (inválido)\r\nERRADO: 'RNF-006: O sistema deve ser seguro.'",
+    "1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.\r\nREQUISITO FUNCIONAL — Estrutura\r\nID: RF-NNN\r\nTítulo: [Nome curto e descritivo]\r\nDescrição: O sistema deve [verbo no infinitivo] [complemento completo e \r\npreciso].\r\nPrioridade: Must have | Should have | Could have | Won't have (MoSCoW)\r\nStakeholder (Origem): STK-NN\r\nRegra de Negócio associada: RN-NNN (ou 'N/A')\r\nObservações: [informações adicionais, como restrições de implementação]\r\nEXEMPLO — Requisitos Funcionais do SGP\r\nRF-001 | Autenticação de usuário\r\nO sistema deve permitir que o usuário realize login utilizando e-mail e senha previamente cadastrados.\r\nPrioridade: Must have | STK-01, STK-02 | N/A\r\nRF-002 | Bloqueio por tentativas excessivas\r\nO sistema deve bloquear temporariamente o acesso de um usuário por 15 minutos após 5 (cinco) tentativas \r\nconsecutivas de login malsucedidas.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Registro de pedido\r\nO sistema deve permitir que o vendedor registre um pedido contendo um ou mais produtos, com quantidade,\r\npreço unitário e desconto por item.\r\nPrioridade: Must have | STK-02 | RN-001, RN-002\r\nRF-004 | Notificação de confirmação\r\nO sistema deve enviar automaticamente um e-mail de confirmação ao cliente após a criação bem-sucedida \r\nde um pedido.Prioridade: Should have | STK-02 | N/A\r\nRF-005 | Aprovação de pedido de alto valor\r\nO sistema deve submeter para aprovação do gerente comercial todo pedido cujo valor total supere R$ \r\n10.000,00, impedindo a confirmação ao cliente até que a aprovação seja registrada.\r\nPrioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável.",
+    "Elicitação de Requisitos | Syllabus | ©IREB 26 | 43\r\nUm protótipo pode ser avaliado pela aplicação de um passo a passo do usuário [ShRP2007]\r\nou de um teste de usuário/usabilidade [RuCh2008]. Muitas vezes, o resultado dessa \r\navaliação é um conjunto de novos requisitos.\r\n3.2.4 Cenários e storyboards (L3)\r\nOs cenários de uso descrevem, na forma de um exemplo realista, como um usuário \r\ninteragirá com o sistema proposto [RoCa2002].\r\nUm storyboard é um cenário visualizado. Ele se parece com uma história em quadrinhos, \r\ncom um conjunto de imagens e/ou capturas de tela e, portanto, visualiza como um sistema \r\nou produto deve ser usado. A reflexão sobre um exemplo concreto permite que clientes e \r\nusuários visualizem os requisitos na situação real do aplicativo e, assim, os revisem e alterem \r\n[RiFl2014].\r\n3.3 Ferramentas de pensamento (L2)\r\nAs técnicas de elicitação apresentadas até agora representam técnicas que descrevem \r\numa determinada maneira de coletar informações ou produzir um determinado produto de \r\ntrabalho para fins de elicitação de requisitos.\r\nNesta seção, são apresentadas técnicas que cruzam esses tipos de técnicas, pois \r\npromovem uma determinada maneira de pensar. Nós as chamamos de técnicas de apoio e \r\nferramentas de pensamento, porque elas não são aplicadas sozinhas, mas em conjunto com \r\noutras técnicas.\r\n3.3.1 Pensamento em níveis de abstração (L2)\r\nOs níveis de abstração são uma poderosa ferramenta de raciocínio na elicitação de \r\nrequisitos [GoWo2005], [Laue2014]. Eles costumam ser usados como um tipo de modelo de \r\nprocesso para estruturar o trabalho de elicitação, ou seja, primeiro elicite os requisitos \r\napenas no nível mais alto e continue com os níveis seguintes. Além disso, pode ser usado \r\npara estruturar as informações de requisitos obtidas, para identificar lacunas nos requisitos \r\nou requisitos desnecessários e para concentrar as atividades de elicitação em um \r\ndeterminado nível de abstração. Por exemplo, em um workshop com usuários, é \r\naconselhável concentrar-se no contexto do sistema, pois os usuários são os especialistas no \r\ncontexto do sistema. Falar sobre as estruturas de dados de um sistema pode não ser \r\napropriado, pois os usuários não se importam com as estruturas de dados internas.\r\n3.3.2 Pensar em termos de problemas e metas (L2)\r\nPensar em termos de problemas e metas é uma competência essencial para o Engenheiro \r\nde Requisitos.\r\nUm problema é \"uma dificuldade, uma questão em aberto ou uma condição indesejável que \r\nprecisa de investigação, consideração ou solução\" [Glin2024]; em outras palavras, o estado",
+    "3\r\n\"WBMJBS\u0001PT\u00013JTDPT\r\n6.1\r\n\"OBMJTBS\u0001P\u0001\u0001\r\n&TUBEP\u0001\"UVBM\r\n5BSFGBT\r\n6.2\r\n%FGJOJS\u0001P\u0001&TUBEP\u0001\r\n'VUVSP\r\n6.4\r\n%FGJOJS\u0001B\u0001\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n3.2\r\n\"CPSEBHFN\u0001EF\u0001\r\n&OHBKBNFOUP\u0001EF\u0001\r\nStakeholder \r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n6.1 \r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001\"UVBM\r\n6.1\r\n3FRVJTJUPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n0CKFUJWPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n7BMPS\u00011PUFODJBM\r\n6.2\r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001'VUVSP\u0001\r\n6.3\u00013FTVMUBEPT\u0001\r\nEB\u0001\"OÈMJTF\u0001EF\u0001\r\n3JTDP\r\n6.4\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n6.4\r\n&TDPQP\u0001EB\u00014PMVÎÍP\r\n/FDFTTJEBEFT\r\n4.2\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\r\n(OÍP\u0001DPOGJSNBEPT\n\r\n&OUSBEB\r\n*OGMVÐODJBT\r\n(JOUFSOBT\r\u0001FYUFSOBT)\r\n4.3\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\u0001\r\n\tDPOGJSNBEPT\n\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT)Análise da Estratégia PE (6) AƵreas de Conhecimento do Padrão Essencial\r\n32\r\nAnalisar o Estado Atual PE (6.1)\r\nPropósito\r\nO objetivo de Analisar o Estado Atual é compreender as razões pelas quais \r\numa corporação precisa mudar algum aspecto de como ela funciona e o que \r\nseria direta ou indiretamente afetado pela mudança.\r\nDescrição\r\nAnalisar o Estado Atual compreende a necessidade do negócio e como ela se \r\nrelaciona com a maneira como a corporação funciona hoje. Define uma linha \r\nde base e contexto para a mudança.\r\nEntradas\r\n• Resultados de Elicitação: usado para definir e entender o estado atual.\r\n• Necessidades: o problema ou a oportunidade enfrentada por uma \r\ncorporação ou organização com frequência inicia um trabalho de análise \r\nde negócios para melhor entender essas necessidades.\r\nSaídas \r\n• Descrição do Estado Atual: o contexto do escopo, capacidades, recursos, \r\ndesempenho, cultura, dependências, infraestrutura, influências externas \r\nda corporação e relações significativas entre estes elementos.\r\n• Requisitos de Negócio: o problema, a oportunidade ou a restrição \r\ndefinida com base em um entendimento do estado atual.\r\nDefinir o Estado Futuro PE (6.2)\r\nPropósito\r\nO objetivo de Definir o Estado Futuro é determinar o conjunto de condições \r\nnecessárias para atender às necessidades do negócio.",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    "PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5. PASSO 5 — Extrair Requisitos Funcionais\r\n Para cada verbo de ação do sistema: criar um RF. Desdobrar genéricos ('gerenciar') em múltiplos RFs \r\natômicos. Referenciar RNs quando aplicável.\r\n6. PASSO 6 — Identificar e quantificar RNFs\r\n Varrer o documento inteiro por adjetivos de qualidade. Classificar cada um pela ISO 25010 e propor \r\nmétrica. Marcar [TBD] se necessário.\r\n7. PASSO 7 — Escrever Histórias de Usuário\r\n Para cada necessidade identificada por um stakeholder: escrever HU no formato Connextra. Vincular ao RF\r\ncorrespondente.\r\n8. PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7.",
+    ". . . . . . . . . . . . . . . . . . . 212\r\nAvoiding ambiguity. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 213\r\nAvoiding incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 216\r\nSample requirements, before and after. . . . . . . . . . . . . . . . . . . . . . . . . . . . 217\r\nChapter 12 A picture is worth 1024 words 221\r\nModeling the requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 222\r\nFrom voice of the customer to analysis models. . . . . . . . . . . . . . . . . . . . . 223\r\nSelecting the right representations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 225\r\nData flow diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 226\r\nSwimlane diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 230\r\nState-transition diagram and state table. . . . . . . . . . . . . . . . . . . . . . . . . . . 232\r\nDialog map. . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "Elicitação de Requisitos | Syllabus | ©IREB 18 | 43\r\n2.3.2 Esquema de documentação para os documentos (L3)\r\nNo mínimo, as seguintes informações devem ser registradas para documentos que possam \r\nser usados como fontes de requisitos:\r\n▪ Título do documento\r\n▪ Local onde o documento é mantido\r\n▪ Versão do documento\r\n▪ Breve descrição (que tipo de informação o documento pode fornecer)\r\n▪ Relevância\r\nDependendo do contexto, informações adicionais também podem ser relevantes.\r\nOs documentos sempre têm uma certa relação com os stakeholders, que também podem \r\nser registrados, por exemplo,\r\n▪ stakeholders mencionando a relevância do documento\r\n▪ Autor ou organização emissora\r\n▪ Organizações que utilizam o documento em seus processos\r\n▪ Organizações envolvidas na verificação da adesão\r\nO Engenheiro de Requisitos deve manter atualizadas as informações sobre a \r\ndocumentação. Isso inclui reconsiderar se outros documentos se tornaram relevantes ou se \r\nos documentos identificados anteriormente perderam a relevância. Deve-se dar atenção \r\nespecial a alterações, atualizações e numeração de versões.\r\n2.4 Identificar, classificar, gerenciar sistemas (L3)\r\nNo contexto (direto e amplo) de um sistema, outros sistemas podem ser identificados como \r\nfontes de requisitos.\r\n2.4.1 Identificação e seleção de sistemas como fontes de \r\nrequisitos (L3)\r\nOs possíveis tipos de sistemas usados como fontes de requisitos são:\r\n▪ Sistemas de interface, incluindo sistemas legados\r\n▪ Sistemas que compartilham uma plataforma/ambiente/ecossistema\r\n▪ Sistemas da concorrência\r\n▪ Sistemas com dados, funcionalidade ou interfaces de usuário semelhantes\r\n▪ Sistema(s) predecessor(es) a ser(em) substituído(s)\r\n▪ Sistemas futuros (em construção ou mesmo apenas planejados)\r\nAo identificar sistemas de forma pragmática, os engenheiros de requisitos usam seu \r\nconhecimento e experiência atuais do projeto e seu contexto (p. ex., domínio) para nomear \r\nsistemas e tipos de sistemas relevantes.",
+    "Prioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável. Pode ser incluído se houver tempo e recursos.\r\n Won't have (this release) — Fora desta versão. Documentado para versão futura.\r\n2.5 Requisitos Não Funcionais (RNF)\r\nBase: ISO/IEC 25010:2023 — Modelo de Qualidade (9 características); ISO/IEC/IEEE 29148:2018 §9.6.14; SWEBOK v4.0 Cap. 1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.",
+    "PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7. ISO/IEC/IEEE 29148:2018. Systems and software engineering — Life cycle processes — Requirements \r\nengineering. Geneva: ISO, 2018.\r\n8. ISO/IEC 25010:2023. SQuaRE — Product quality model. Geneva: ISO, 2023.",
+    "Método: Teste funcional manual + revisão do log.\r\nCA-003 | RF-004 / HU-003 | E-mail de confirmação\r\nDado que um pedido foi registrado com status 'confirmado',\r\nQuando o sistema processar a confirmação,\r\nEntão um e-mail de confirmação deve ser enviado ao endereço cadastrado do cliente em até 60 segundos, \r\ncontendo: número do pedido, itens, valor total e data estimada.\r\nMétodo: Teste de integração com mailbox de teste.CA-004 | RF-005 | Submissão para aprovação gerencial\r\nDado que um vendedor registrou um pedido com valor total de R$ 15.000,00,\r\nQuando clicar em 'Confirmar pedido',\r\nEntão o sistema deve alterar o status para 'Aguardando aprovação gerencial', notificar o gerente comercial \r\npor e-mail e bloquear a confirmação ao cliente até que a aprovação seja registrada.\r\nMétodo: Teste funcional manual.\r\nANTI-PADRÃO — Critérios de aceite mal escritos\r\nERRADO: 'CA-005: O login deve funcionar.'\r\n → Não tem estrutura Dado/Quando/Então. Não é testável.\r\nERRADO: 'CA-006: Dado que o usuário faz login, Quando tudo estiver certo, Então deve funcionar bem.'\r\n → 'Tudo estiver certo' e 'funcionar bem' são vagos e não verificáveis.\r\nCORRETO: Cada cláusula do Então deve conter uma condição testável objetivamente: um valor numérico, \r\num status específico, uma mensagem exata, um tempo máximo.PARTE 3 — ISO/IEC 25010:2023 — Categorias de Qualidade para RNF\r\nBase: ISO/IEC 25010:2023 — Systems and software engineering — SQuaRE — Product quality model. 2ª ed. Geneva: ISO, \r\n2023. A edição 2023 substituiu a de 2011 e acrescentou a característica Safety.\r\nA ISO/IEC 25010:2023 define 9 características de qualidade do produto. Todo RNF deve ser \r\nclassificado em uma dessas características. A seguir, cada característica com seus sub-atributos e \r\nexemplo de RNF.\r\n1. Functional Suitability (Adequação Funcional)\r\n Functional Completeness — o sistema oferece todas as funções necessárias.\r\n Functional Correctness — as funções produzem os resultados corretos.\r\n Functional Appropriateness — as funções facilitam a realização das tarefas.\r\nEXEMPLO — RNF — 1. Functional Suitability\r\nO sistema deve calcular o imposto sobre o valor do pedido aplicando corretamente a alíquota de ICMS \r\nvigente para o estado de destino, conforme tabela oficial CONFAZ, com variação máxima de R$ 0,01 em \r\nrelação ao valor de referência da Receita Estadual.\r\n2. Performance Efficiency (Eficiência de Desempenho)\r\n Time Behaviour — tempo de resposta e throughput.\r\n Resource Utilisation — uso de CPU, memória, rede.\r\n Capacity — limites máximos suportados.\r\nEXEMPLO — RNF — 2. Performance Efficiency\r\nO sistema deve processar no mínimo 200 pedidos por minuto sob carga de 1.000 usuários simultâneos, com \r\ntempo de resposta inferior a 2 segundos no percentil 95.\r\n3.",
+    "Elicitação de Requisitos | Syllabus | ©IREB 7 | 43\r\nSumário\r\n1 Uma estrutura para estruturar e gerenciar a elicitação de \r\nrequisitos e a resolução de conflitos (L4) . 9\r\n1.1 O escopo da elicitação e da resolução de conflitos na Engenharia de \r\nRequisitos (L2). 9\r\n1.2 Fatores relevantes para a abordagem de elicitação de planejamento e \r\nresolução de conflitos (L2) . 10\r\n1.3 Planejamento e execução de elicitação de requisitos eresolução de \r\nconflitos (L4). 10\r\n1.4 Padrões de processo (L2) . 11\r\n2 Fontes de requisitos (L3) . 13\r\n2.1 Fundamentos das fontes de requisitos (L3) . 13\r\n2.2 Identificar, classificar, gerenciar stakeholders (L3) . 14\r\n2.2.1 Identificação e seleção de stakeholders como fontes de requisitos (L3). 14\r\n2.2.2 Gerenciamento do relacionamento com os stakeholders (L3) . 15\r\n2.2.3 Esquema de documentação para os stakeholders envolvidos (L3) . 15\r\n2.2.4 Os usuários como um grupo especial de stakeholders (L3) . 16\r\n2.3 Identificar, classificar e gerenciar documentos (L3) . 17\r\n2.3.1 Identificação e seleção de documentos como fontes de requisitos (L3). 17\r\n2.3.2 Esquema de documentação para os documentos (L3) . 18\r\n2.4 Identificar, classificar, gerenciar sistemas (L3) . 18\r\n2.4.1 Identificação e seleção de sistemas como fontes de requisitos (L3). 18\r\n2.4.2 Esquema de documentação para sistemas (L3) . 19\r\n3 Técnicas de Elicitação (L4) . 21\r\n3.1 Técnicas de coleta (L4) . 21\r\n3.1.1 Técnicas de questionamento (L3) . 22\r\n3.1.2 Técnicas de observação (L3) . 22\r\n3.1.3 Técnicas de colaboração (L3) . 23\r\n3.1.4 Técnicas baseadas em artefatos (L3) . 24",
+    "Elicitação de Requisitos | Syllabus | ©IREB 17 | 43\r\nConhecer as ideias e os princípios da experiência do usuário é valioso para o \r\ndesenvolvimento de sistemas interativos.\r\n2.3 Identificar, classificar e gerenciar documentos (L3)\r\nOs documentos são outra fonte valiosa de requisitos. Eles são usados para transferir \r\nconceitos entre humanos ao longo do tempo e à distância.\r\n2.3.1 Identificação e seleção de documentos como fontes de \r\nrequisitos (L3)\r\nOs tipos possíveis de documentos usados como fontes de requisitos são:\r\n▪ Normas técnicas, legislação, regulamentos internos\r\n▪ Documentos de requisitos (p. ex., de sistemas semelhantes ou do sistema a ser \r\nsubstituído)\r\n▪ Manuais do usuário (p. ex., de sistemas concorrentes)\r\n▪ Documentos de estratégia\r\n▪ Documentação do objetivo\r\n▪ Documentação do processo de negócio\r\nAo identificar documentos de forma pragmática, os engenheiros de requisitos usam seu \r\nconhecimento e experiência atuais do contexto (p. ex., domínio) para nomear documentos e \r\ntipos de documentos relevantes.\r\nDurante a identificação sistemática de documentos, o Engenheiro de Requisitos define os \r\nobjetivos da elicitação com um foco dedicado à identificação de documentos. Dois tipos \r\ndiferentes de objetivos de elicitação devem ser considerados:\r\n▪ Focado em informações: encontrar documentos para determinadas informações \r\nnecessárias\r\n▪ Focado em documentos: encontrar documentos de determinados tipos considerados \r\nrelevantes para o desenvolvimento\r\nPara a identificação sistemática de documentos, o Engenheiro de Requisitos pode:\r\n▪ Pesquisar representantes de categorias típicas de documentos\r\n▪ Pesquisar referências em documentos já identificados para outros documentos \r\npossivelmente relevantes\r\n▪ Solicitar documentação relevante aos stakeholders já identificados\r\n▪ Procurar documentação sobre sistemas relevantes já identificados (consulte 2.4)\r\nPara decidir se um documento é relevante como fonte de requisitos ou não, o Engenheiro de \r\nRequisitos precisa estabelecer critérios específicos.",
+    "393\r\nCHAPTER 21\r\nEnhancement and replacement \r\nprojects\r\nMost of this book describes requirements development as though you are beginning a new software \r\nor system development project, sometimes called a green-field project. However, many organizations \r\ndevote much of their effort to enhancing or replacing existing information systems or building \r\nnew releases of established commercial products. Most of the practices described in this book are \r\nappropriate for enhancement and replacement projects. This chapter provides specific suggestions as \r\nto which practices are most relevant and how to use them.\r\nAn enhancement project is one in which new capabilities are added to an existing system. \r\nEnhancement projects might also involve correcting defects, adding new reports, and modifying \r\nfunctionality to comply with revised business rules or needs.\r\nA replacement (or reengineering) project replaces an existing application with a new custom-built \r\nsystem, a commercial off-the-shelf (COTS) system, or a hybrid of those. Replacement projects are \r\nmost commonly implemented to improve performance, cut costs (such as maintenance costs or \r\nlicense fees), take advantage of modern technologies, or meet regulatory requirements. If your \r\nreplacement project will involve a COTS solution, the guidance presented in Chapter 22, “Packaged \r\nsolution projects,” will also be helpful.\r\nReplacement and enhancement projects face some particular requirements issues. The original \r\ndevelopers who held all the critical information in their heads might be long gone. It’s tempting to \r\nclaim that a small enhancement doesn’t warrant writing any requirements. Developers might believe \r\nthat they don’t need detailed requirements if they are replacing an existing system’s functionality. \r\nThe approaches described in this chapter can help you to deal with the challenges of enhancing or \r\nreplacing an existing system to improve its ability to meet the organization’s current business needs.\r\nThe case of the missing spec\r\nThe requirements specification for the next release of a mature system often says, essentially, \r\n“The new system should do everything the old system does, except add these new features \r\nand fix those bugs.” A business analyst once received just such a specification for version 5 of \r\na major product. To find out exactly what the current release did, she looked at the SRS for \r\nversion 4. Unfortunately, it also said, in essence, “Version 4 should do everything that version 3 \r\ndoes, except add these new features and fix those bugs.” She followed the trail back, but every",
+    "Mudanças também podem causar necessidades ao reduzir ou \r\naumentar o valor entregue por soluções existentes.\r\nSolução\r\nUma forma especı́fica de satisfazer uma ou mais necessidades em um \r\ncontexto.\r\nUma solução satisfaz uma necessidade por meio da resolução de um \r\nproblema enfrentado pelos stakeholders ou habilitando os stakeholders \r\na aproveitar uma oportunidade.\r\nStakeholder\r\nUm grupo ou indivı́duo com uma relação com a mudança, com a \r\nnecessidade, ou com a solução.\r\nOs stakeholders são frequentemente definidos em termos de interesse, \r\nimpacto e influência sobre a mudança. Os stakeholders são agrupados \r\ncom base em sua relação com as necessidades, mudanças e soluções.\r\nValor\r\nO quanto algo vale a pena, sua importância ou utilidade para um \r\nstakeholder dentro de um contexto.\r\nValor pode ser visto como retornos potenciais ou realizados, ganhos e \r\nmelhorias. Também é possıvel haver uma diminuiça ́ ̃o no valor sob a \r\nforma de perdas, riscos e custos.\r\nValor pode ser tangıvel ou intangı ́ vel. Valor tangı ́ vel e ́ ́ diretamente \r\nmensurável. Valor tangıvel muitas vezes t ́ em um componente \r\nmonetário significativo. Valor intangıvel e ́ ́ medido indiretamente. Valor \r\nintangıvel muitas vezes tem um componente motivacional significativo, ́\r\ncomo o da reputação de uma companhia ou moral do funcionário.\r\nEm alguns casos, o valor pode ser avaliado em termos absolutos, mas \r\nem muitos casos é avaliado em termos relativos: uma opção de solução \r\né mais valiosa do que outra, na perspectiva de um determinado \r\nconjunto de stakeholders.\r\nContexto\r\nAs circunstâncias que influenciam, são influenciadas e proporcionam \r\ncompreensão da mudança.\r\nAs mudanças ocorrem dentro de um contexto. O contexto é tudo que é\r\nrelevante para a mudança que está dentro do ambiente. O contexto pode \r\nincluir atitudes, comportamentos, crenças, concorrentes, cultura, \r\ndemografia, metas, governos, infraestrutura, idiomas, perdas, \r\nprocessos, produtos, projetos, vendas, estações do ano, terminologia, \r\ntecnologia, clima, e quaisquer outros elementos que atendam à\r\ndefinição."
+  ],
+  "ground_truth": "GABARITO — Project Scenario 4: MDT (Minutia Deviation Tool)\nUse: \"ground_truth\" field for RAGAS (context_precision / context_recall).\nEach line is an atomic, checkable claim against the scenario text and the\nknowledge base — not a full SRS, just the set of facts a well-grounded SRS\nfor this scenario should be able to cover.\n\n- The tool lets a researcher open a pair of fingerprint files and view their minutiae points overlaid on the image.\n- Clicking a point on one print and the matching point on the other calculates and displays the spatial deviation between them.\n- Clicking an individual minutia shows its details: x/y position, angle, classification, and any annotations.\n- Marking/filtering deviation pairs and exporting the filtered minutiae is a nice-to-have, not required for the first version.\n- The core required flow is: open files, compare corresponding points, calculate deviation.\n- A session can be saved as a session file that can be reopened later.\n- A session can also be saved as a simple log file (table format, e.g. openable in Excel) listing the pairs and calculated deviations.\n- The tool must work entirely offline and locally; it must not require any network or server communication.\n- The intended users are biometrics researchers in academia, government labs, and industry, already familiar with minutiae and EBTS-type files.\n- The interface does not need to be simplified for non-expert users.\n- User accounts, per-user permissions, and security layers are explicitly out of scope.\n- This is a prototype/beta-stage tool, not intended for general release or for ongoing developer support after delivery.\n",
+  "rag_score": 0.3487,
+  "artefatos": {
+    "escopo": {
+      "descricao": "An offline desktop utility that compares minutiae from two locally stored fingerprint files and records their spatial deviations.",
+      "em_escopo": [
+        "Opening a pair of local fingerprint files, including EBTS-type files [TBD: supported file variants]",
+        "Displaying fingerprint images with minutiae overlays",
+        "Inspecting minutia attributes",
+        "Selecting corresponding minutiae and calculating spatial deviation",
+        "Maintaining a session list of measured pairs",
+        "Saving and reopening local comparison sessions",
+        "Exporting a tabular local deviation log",
+        "Filtering deviations and exporting filtered minutiae"
+      ],
+      "fora_de_escopo": [
+        "Network, server, cloud, or external-service integration — the tool must operate offline",
+        "User accounts and per-user permissions — excluded for the research prototype",
+        "Public-facing product capabilities — the tool is intended for qualified researchers",
+        "Ongoing post-release support — excluded for the beta-stage delivery",
+        "Training workflows or beginner-oriented guidance — target users already understand minutiae and EBTS-type files"
+      ],
+      "premissas": [
+        "PA-01: Researchers provide two fingerprint captures representing the same finger.",
+        "PA-02: Input files contain a fingerprint image and associated minutiae data [INFERRED].",
+        "PA-03: Researchers manually determine whether two minutiae correspond."
+      ],
+      "restricoes": [
+        "REST-01 (Deployment): The system must be delivered as a desktop utility.",
+        "REST-02 (Operation): All file opening, processing, and saving must occur on the user's local machine.",
+        "REST-03 (Connectivity): The system must not require network or server communication.",
+        "REST-04 (Lifecycle): The system is a prototype/beta-stage research instrument."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Biometrics researcher",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Compare minutiae from two captures objectively, inspect minutia data, calculate deviations, and preserve local research results."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Defense Biometrics and Forensics stakeholders",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Obtain a reliable prototype that supports contactless fingerprint research measurements."
+      },
+      {
+        "id": "STK-03",
+        "nome": "National Institute of Justice (NIJ)",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Support objective analysis of minutiae deviation in the broader contactless fingerprint research effort."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Comparability of captures",
+        "descricao": "A deviation comparison is valid only when the two fingerprint captures represent the same finger.",
+        "fonte": "Contactless fingerprint research context",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Researcher-defined correspondence",
+        "descricao": "A minutia pair is considered corresponding only when a qualified biometrics researcher identifies one minutia in each fingerprint capture as a match.",
+        "fonte": "Research workflow",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Local handling of research data",
+        "descricao": "Fingerprint captures, session data, and deviation results must remain on the researcher's local machine.",
+        "fonte": "Project constraint",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Threshold-based export eligibility",
+        "descricao": "Only minutiae belonging to pairs that satisfy the researcher-entered deviation threshold are eligible for filtered export.",
+        "fonte": "Requested optional filtering capability",
+        "excecoes": "Filtered export is not required when no threshold is entered."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Open fingerprint pair",
+        "descricao": "The system shall open two fingerprint files selected from the user's local machine for a comparison session.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Display minutiae overlays",
+        "descricao": "The system shall display each opened fingerprint image with its available minutiae points overlaid.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Inspect minutia details",
+        "descricao": "The system shall display the x position, y position, angle, classification, and available annotations for a selected minutia.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Select corresponding minutiae",
+        "descricao": "The system shall allow the researcher to designate one minutia from each displayed fingerprint as a corresponding pair.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Calculate spatial deviation",
+        "descricao": "The system shall calculate and display the spatial deviation for a designated corresponding minutia pair.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Maintain deviation list",
+        "descricao": "The system shall add each calculated corresponding pair and its spatial deviation to the current session list.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Mark deviation pair",
+        "descricao": "The system shall allow the researcher to mark an item in the current session deviation list.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Save comparison session",
+        "descricao": "The system shall save the current comparison session to a file selected on the user's local machine.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Reopen comparison session",
+        "descricao": "The system shall restore a previously saved local comparison session from a selected session file.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Export deviation log",
+        "descricao": "The system shall export the current session list as a locally saved tabular log containing each corresponding pair and its calculated spatial deviation.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Filter deviations by threshold",
+        "descricao": "The system shall display only session-list items whose spatial deviation satisfies a researcher-entered threshold.",
+        "prioridade": "Could have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Export filtered minutiae",
+        "descricao": "The system shall export minutiae belonging to the deviation pairs displayed after threshold filtering into a new local file.",
+        "prioridade": "Could have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-004"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Deviation calculation correctness",
+        "categoria_iso25010": "Functional Suitability",
+        "descricao": "The system shall calculate spatial deviation with an absolute error no greater than 0.01 pixel against reference coordinate pairs. [TBD: confirm measurement unit and formula]",
+        "metrica_aceitacao": "Absolute error of 0.01 pixel or less for 100% of a reference test set. [TBD]",
+        "metodo_verificacao": "Automated unit tests using reference coordinate pairs with independently calculated expected deviations."
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Comparison response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system shall display a calculated deviation within 2 seconds after the researcher designates a corresponding pair. [TBD]",
+        "metrica_aceitacao": "95th-percentile response time of 2 seconds or less across 100 designated-pair calculations. [TBD]",
+        "metodo_verificacao": "Performance test with timestamped interaction and result-display events."
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Offline operation",
+        "categoria_iso25010": "Security",
+        "descricao": "The system shall perform all comparison-session operations with zero outbound network connections.",
+        "metrica_aceitacao": "Zero outbound network connections during opening, comparing, saving, reopening, and exporting test sessions.",
+        "metodo_verificacao": "Network traffic monitoring during end-to-end functional testing."
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Session recovery reliability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system shall restore 100% of saved pair records and their deviation values when reopening a valid session file created by the same version. [TBD: define cross-version behavior]",
+        "metrica_aceitacao": "100% record and deviation-value equality in 30 save-and-reopen test sessions. [TBD]",
+        "metodo_verificacao": "Automated persistence regression tests comparing saved and restored session data."
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "EBTS-type file compatibility",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system shall successfully open 100% of approved EBTS-type sample files containing fingerprint images and minutiae records. [TBD: approve supported EBTS variants]",
+        "metrica_aceitacao": "100% successful opening of the approved sample-file suite, with zero critical parsing errors. [TBD]",
+        "metodo_verificacao": "Compatibility test using an approved EBTS-type sample-file suite."
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "biometrics researcher",
+        "quero": "open two local fingerprint files as one comparison pair",
+        "para": "analyze captures of the same finger side by side",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "biometrics researcher",
+        "quero": "view each fingerprint with minutiae overlaid",
+        "para": "locate candidate corresponding ridge features",
+        "rf_associado": "RF-002",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "biometrics researcher",
+        "quero": "inspect a selected minutia's attributes",
+        "para": "assess its characteristics before pairing it",
+        "rf_associado": "RF-003",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "biometrics researcher",
+        "quero": "designate two minutiae as corresponding",
+        "para": "measure their positional difference",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "biometrics researcher",
+        "quero": "see the spatial deviation of a corresponding pair",
+        "para": "obtain an objective comparison measurement",
+        "rf_associado": "RF-005",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "biometrics researcher",
+        "quero": "maintain a list of measured pairs during my session",
+        "para": "review all calculated deviations",
+        "rf_associado": "RF-006",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "biometrics researcher",
+        "quero": "mark a measured pair",
+        "para": "identify it for subsequent review",
+        "rf_associado": "RF-007",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-008",
+        "como": "biometrics researcher",
+        "quero": "save my comparison session locally",
+        "para": "preserve work completed during the session",
+        "rf_associado": "RF-008",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "biometrics researcher",
+        "quero": "reopen a saved comparison session",
+        "para": "continue the analysis from its saved state",
+        "rf_associado": "RF-009",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "biometrics researcher",
+        "quero": "export a tabular deviation log",
+        "para": "analyze the comparison results in spreadsheet software",
+        "rf_associado": "RF-010",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "biometrics researcher",
+        "quero": "filter measured pairs by a deviation threshold",
+        "para": "focus on results meeting my analysis criterion",
+        "rf_associado": "RF-011",
+        "prioridade": "Could have"
+      },
+      {
+        "id": "HU-012",
+        "como": "biometrics researcher",
+        "quero": "export minutiae from filtered pairs",
+        "para": "reuse qualifying results in further research",
+        "rf_associado": "RF-012",
+        "prioridade": "Could have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Open and display a fingerprint comparison pair",
+        "ator_principal": "Biometrics researcher",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "Two accessible local fingerprint files represent the same finger.",
+        "pos_condicao_sucesso": "Both fingerprint files are loaded into the comparison session.",
+        "pos_condicao_falha": "No incomplete comparison pair is loaded.",
+        "fluxo_principal": [
+          "1. The researcher selects two local fingerprint files.",
+          "2. The system validates and opens the selected files.",
+          "3. The system displays both fingerprint images with available minutiae overlays."
+        ],
+        "fluxos_alternativos": [
+          "1a. The researcher cancels file selection → the system leaves the current session unchanged."
+        ],
+        "fluxos_excecao": [
+          "2a. A selected file cannot be parsed → the system displays a file-opening error and does not load that file."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Inspect minutia details",
+        "ator_principal": "Biometrics researcher",
+        "hu_relacionada": "HU-003",
+        "pre_condicao": "A fingerprint image with an available minutia overlay is displayed.",
+        "pos_condicao_sucesso": "The selected minutia's available details are displayed.",
+        "pos_condicao_falha": "No minutia details are changed.",
+        "fluxo_principal": [
+          "1. The researcher selects an overlaid minutia point.",
+          "2. The system retrieves the point's available attributes.",
+          "3. The system displays x position, y position, angle, classification, and annotations."
+        ],
+        "fluxos_alternativos": [
+          "3a. The minutia has no annotations → the system displays the remaining available attributes and indicates that no annotations are present."
+        ],
+        "fluxos_excecao": [
+          "2a. The selected overlay has no associated minutia record → the system displays the message \"Minutia details unavailable\"."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Measure minutia deviation",
+        "ator_principal": "Biometrics researcher",
+        "hu_relacionada": "HU-004",
+        "pre_condicao": "Two fingerprint images from the same finger are displayed.",
+        "pos_condicao_sucesso": "A corresponding pair and its calculated spatial deviation are present in the session list.",
+        "pos_condicao_falha": "No new pair is added to the session list.",
+        "fluxo_principal": [
+          "1. The researcher selects one minutia on the first fingerprint.",
+          "2. The researcher selects one minutia on the second fingerprint.",
+          "3. The system designates the selected minutiae as a corresponding pair.",
+          "4. The system calculates and displays the pair's spatial deviation.",
+          "5. The system adds the pair and deviation to the session list."
+        ],
+        "fluxos_alternativos": [
+          "2a. The researcher replaces the first selection before designating a pair → the system uses the replacement minutia as the first selection."
+        ],
+        "fluxos_excecao": [
+          "4a. A coordinate required for calculation is unavailable → the system displays the message \"Spatial deviation cannot be calculated\" and does not add a pair."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Save and reopen a comparison session",
+        "ator_principal": "Biometrics researcher",
+        "hu_relacionada": "HU-008",
+        "pre_condicao": "The current session contains at least one calculated pair.",
+        "pos_condicao_sucesso": "The session is saved locally or restored with its saved records.",
+        "pos_condicao_falha": "The current in-memory session remains unchanged.",
+        "fluxo_principal": [
+          "1. The researcher selects the save-session action and a local destination.",
+          "2. The system writes the current session to the selected local file.",
+          "3. The researcher later selects a saved session file.",
+          "4. The system restores the saved pair records and deviation values."
+        ],
+        "fluxos_alternativos": [
+          "1a. The researcher cancels the destination selection → the system does not create a session file."
+        ],
+        "fluxos_excecao": [
+          "4a. The selected session file is invalid → the system displays a session-loading error and does not replace the current session."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Export deviation results",
+        "ator_principal": "Biometrics researcher",
+        "hu_relacionada": "HU-010",
+        "pre_condicao": "The current session list contains at least one calculated pair.",
+        "pos_condicao_sucesso": "A local tabular log file containing session pairs and deviations is created.",
+        "pos_condicao_falha": "No partial export file is retained.",
+        "fluxo_principal": [
+          "1. The researcher selects the export-log action and a local destination.",
+          "2. The system creates a tabular log containing each session pair and spatial deviation.",
+          "3. The system confirms the created local file path."
+        ],
+        "fluxos_alternativos": [
+          "1a. The researcher cancels destination selection → the system does not create an export file."
+        ],
+        "fluxos_excecao": [
+          "2a. The destination is not writable → the system displays an export error and does not retain a partial file."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Filter and export qualifying minutiae",
+        "ator_principal": "Biometrics researcher",
+        "hu_relacionada": "HU-011",
+        "pre_condicao": "The current session list contains at least one calculated pair.",
+        "pos_condicao_sucesso": "The list shows qualifying pairs, and their minutiae can be exported locally.",
+        "pos_condicao_falha": "The unfiltered session data remains available.",
+        "fluxo_principal": [
+          "1. The researcher enters a deviation threshold.",
+          "2. The system displays only pairs satisfying the entered threshold.",
+          "3. The researcher selects an export destination for filtered minutiae.",
+          "4. The system exports minutiae from the displayed qualifying pairs to a new local file."
+        ],
+        "fluxos_alternativos": [
+          "2a. No pair satisfies the threshold → the system displays an empty filtered list."
+        ],
+        "fluxos_excecao": [
+          "1a. The threshold value is invalid → the system displays the message \"Enter a valid numeric deviation threshold\" and does not apply a filter."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Open local fingerprint pair",
+        "dado": "that the researcher has two valid local fingerprint files for the same finger",
+        "quando": "the researcher selects both files to start a comparison",
+        "entao": "the system shall load exactly two files into the comparison session and display both file names",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-002",
+        "titulo": "Display minutiae overlays",
+        "dado": "that a valid fingerprint pair has been opened",
+        "quando": "the system renders the comparison view",
+        "entao": "each displayed fingerprint image shall show every available minutia point from its opened file as an overlay",
+        "metodo_verificacao": "Teste funcional manual com arquivo de referência"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-003",
+        "titulo": "Show selected minutia attributes",
+        "dado": "that a displayed fingerprint contains a minutia record with x, y, angle, classification, and annotation data",
+        "quando": "the researcher selects its overlaid point",
+        "entao": "the system shall display the record's x value, y value, angle, classification, and annotation value",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-004",
+        "titulo": "Designate a corresponding pair",
+        "dado": "that two fingerprint images are displayed",
+        "quando": "the researcher selects one minutia on each image and confirms the pairing",
+        "entao": "the system shall create one corresponding pair containing exactly the two selected minutiae",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-005",
+        "titulo": "Calculate spatial deviation",
+        "dado": "that a designated pair has minutia coordinates (0,0) and (3,4)",
+        "quando": "the system calculates the pair's spatial deviation",
+        "entao": "the system shall display a spatial deviation of 5.00 pixels [TBD: confirm measurement unit]",
+        "metodo_verificacao": "Teste automatizado de unidade"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-006",
+        "titulo": "Add calculated pair to session list",
+        "dado": "that the session list contains 2 calculated pairs",
+        "quando": "a third corresponding pair is calculated",
+        "entao": "the session list shall contain 3 entries, including the third pair and its displayed deviation",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-007",
+        "titulo": "Mark a session-list item",
+        "dado": "that the session list contains a calculated pair",
+        "quando": "the researcher marks that pair",
+        "entao": "the selected session-list item shall display the marked state",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-008",
+        "titulo": "Save session locally",
+        "dado": "that the current session contains 3 calculated pairs",
+        "quando": "the researcher saves the session to a writable local destination",
+        "entao": "the system shall create one session file at the selected path containing 3 pair records",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-009",
+        "titulo": "Restore saved session",
+        "dado": "that a valid local session file contains 3 pair records and their deviation values",
+        "quando": "the researcher opens that session file",
+        "entao": "the system shall restore exactly 3 pair records with the same saved deviation values",
+        "metodo_verificacao": "Teste automatizado de persistência"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-010",
+        "titulo": "Export tabular deviation log",
+        "dado": "that the session list contains 2 calculated pairs",
+        "quando": "the researcher exports the deviation log to a writable local destination",
+        "entao": "the system shall create one tabular file containing 2 data rows, each with pair identification and spatial deviation",
+        "metodo_verificacao": "Teste de integração com leitor de planilha"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-011",
+        "titulo": "Filter by deviation threshold",
+        "dado": "that the session list contains deviations of 2.00, 5.00, and 8.00 pixels",
+        "quando": "the researcher enters a threshold of 5.00 pixels",
+        "entao": "the system shall display exactly 2 entries with deviations of 2.00 and 5.00 pixels",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-012",
+        "titulo": "Export filtered minutiae",
+        "dado": "that threshold filtering displays exactly 2 qualifying corresponding pairs",
+        "quando": "the researcher exports the filtered minutiae to a writable local destination",
+        "entao": "the system shall create one local file containing minutiae from exactly the 2 displayed qualifying pairs",
+        "metodo_verificacao": "Teste funcional manual"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "MDT (Minutia Deviation Tool)",
+    "cenario_fonte": "Project Scenario 4.pdf",
+    "observacoes": "Cenario mais simples e delimitado dos 9 — um unico tipo de usuario, fluxo central bem definido (abrir-comparar-calcular), exclusoes explicitas e incomuns (contas de usuario, seguranca, rede). RNF raso, parecido com o BECS. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+    "escopo": {
+      "em_escopo": [
+        "Opening a pair of fingerprint files",
+        "Viewing the image with minutiae points overlaid",
+        "Selecting corresponding points between the two prints and calculating the spatial deviation",
+        "Viewing details of an individual minutia (x/y position, angle, classification, annotations)",
+        "Saving the session as a reopenable session file",
+        "Exporting a table-format log (e.g., openable in Excel) with the compared pairs and calculated deviations",
+        "Fully offline and local operation"
+      ],
+      "fora_de_escopo": [
+        "Marking/filtering pairs by a deviation threshold and exporting filtered minutiae — nice-to-have, not required for the first version",
+        "User accounts, per-user permissions, and security layers",
+        "Simplifying the interface for non-expert users",
+        "Ongoing developer support after delivery (prototype/beta-stage tool)",
+        "Network or server communication"
+      ],
+      "premissas": [
+        "PA-01: Users already have prior familiarity with minutiae and EBTS-format files.",
+        "PA-02: [INFERRED] The tool runs as a local desktop utility, with no need for server installation."
+      ],
+      "restricoes": [
+        "REST-01 (Scope): It is a prototype/beta-stage tool, not intended for general release nor for ongoing developer support after delivery.",
+        "REST-02 (Technical): The system must operate entirely offline and locally, with no dependency on network or server."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Biometrics researcher (academia, government labs, industry) — the sole user type, already familiar with minutiae and EBTS files; the interface does not need to be simplified for them."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "The pair marking/filtering-by-deviation-threshold and filtered export feature is optional (nice-to-have) — only the open-compare-calculate flow is required for the first version."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "The tool must operate entirely offline and locally — network or server communication is not permitted."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "The interface does not need to be simplified for non-expert users — the target audience already understands minutiae and EBTS files."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "User accounts, per-user permissions, and security layers are explicitly out of scope."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "The system must allow the researcher to open a pair of fingerprint files."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "The system must display each fingerprint image with its minutiae points overlaid."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "The system must allow the researcher to click a point on one print and the corresponding point on the other print."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "The system must calculate and display the spatial deviation between two selected corresponding minutiae points."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "The system must allow the researcher to click an individual minutia and view its details (x/y position, angle, classification, annotations)."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "The system must allow the researcher to save the current session as a session file that can be reopened later."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "The system must allow the researcher to save the session as a table-format log file (e.g., openable in Excel), listing the compared pairs and calculated deviations."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "The system must allow the researcher to mark/filter deviation pairs by a threshold entered during the session — optional, nice-to-have (see RN-001)."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "The system must allow the researcher to export, to a new file, only the minutiae that pass the threshold filter — optional, nice-to-have (see RN-001)."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system must operate entirely offline and locally, without requiring any network or server communication.",
+        "metrica_aceitacao": "All core functions (open, compare, save) work with the network disconnected"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The tool, even at prototype/beta stage, must be stable enough for an experienced researcher to rely on it without ongoing developer support after delivery.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a failure rate or stability metric"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "As a biometrics researcher, I want to open a pair of fingerprint files, so that I can compare their minutiae."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "As a biometrics researcher, I want to see minutiae points overlaid on the images, so that I can visually identify corresponding points."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "As a biometrics researcher, I want to click matching points on both prints and see the calculated spatial deviation, so that I can objectively measure how much the minutiae drifted between captures."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "As a biometrics researcher, I want to click an individual minutia and see its details, so that I can inspect it closely."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "As a biometrics researcher, I want to save my session and reopen it later, so that I can continue my work without losing progress."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "As a biometrics researcher, I want to export a log with the compared pairs and deviations, so that I can analyze the results in a spreadsheet."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Compare fingerprint pair — the researcher opens two files, views the overlaid minutiae, selects corresponding points, and the system calculates and displays the deviation."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Save and resume session — the researcher saves the current session to a file and reopens it later to continue the work."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Export comparison log — the researcher exports a table-format log with all compared pairs and their deviations."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-04",
+        "descricao": "Given two fingerprint files open with minutiae overlaid, when the researcher clicks a point on each print, then the system calculates and displays the spatial deviation between them."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-05",
+        "descricao": "Given a selected minutia point, when the researcher clicks it, then the system displays its x/y position, angle, classification, and any annotations."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-06",
+        "descricao": "Given an active session, when the researcher saves it as a session file, then the session can later be reopened with all prior comparisons intact."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RF-07",
+        "descricao": "Given a completed session, when the researcher exports the log, then the file lists all compared pairs and their calculated deviations in a table format openable in a spreadsheet."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RNF-01",
+        "descricao": "Given the tool is running with no network connection, when the researcher performs any core operation (open, compare, save), then the tool functions normally without requiring network access."
+      }
+    ]
+  }
+}

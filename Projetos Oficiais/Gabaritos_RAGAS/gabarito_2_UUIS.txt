@@ -1,0 +1,29 @@
+GABARITO — Project Scenario 2: UUIS (Unified University Inventory System)
+Use: "ground_truth" field for RAGAS (context_precision / context_recall).
+Each line is an atomic, checkable claim against the scenario text and the
+knowledge base — not a full SRS, just the set of facts a well-grounded SRS
+for this scenario should be able to cover.
+
+- The system must track computers, furniture, software licenses, rooms, and occupants across university faculties.
+- All user types (students, staff, IT people, deans) log into one system, with access scoped to what's relevant to them.
+- Login for higher-access users requires an extra verification step (voice check), not just a password.
+- Users can look up, add, and edit people, assets, locations, and licenses.
+- Deleted records are not removed, only marked inactive, to preserve history.
+- Assets and rooms can be grouped and split into subgroups.
+- The system supports importing legacy data from CSV files.
+- Requests to move an item, report something broken, or ask for a new asset go to the approver one level above the requester.
+- Rejected requests require an explanation from the approver.
+- University-level admin requests are automatically approved, since there is no approver above them.
+- The access hierarchy has four levels: department, faculty, university, and base user.
+- A faculty admin can access all departments under their faculty; a department admin only sees their own department.
+- The system supports both a quick search and an advanced/filtered search with combinable conditions.
+- Basic reporting includes comparing a room's capacity against its actual chairs/computers.
+- All user actions in the system must be logged for audit purposes.
+- The system must support at least 200 concurrent users.
+- Sessions must time out automatically after 30 minutes of inactivity.
+- Unsaved data must be recoverable without loss if a session or connection is interrupted.
+- Network communication must be encrypted (SSL).
+- Automated/bot actions must be blocked using CAPTCHA.
+- Permission and role management is an admin-only feature.
+- Version 1 is English-only; multi-language support and deeper department/faculty-specific functions are deferred to a later version.
+- The system must be a browser-based web application requiring no special software installation.

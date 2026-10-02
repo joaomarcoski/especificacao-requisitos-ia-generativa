@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 08:53:42,IPG Job Manager,gpt-5.6-terra,0.3305,96.3,32952,4095,11066,1194,44018,2,0.058533,0.132792,0.005,0.196325,25,6,11,25

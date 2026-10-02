@@ -1,0 +1,1024 @@
+{
+  "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+  "modelo": "gpt-5.6-terra",
+  "data_execucao": "2026-08-20 09:36:09",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 7.pdf ---\nSistema de Bilhetagem Digital (SBD) — Rio de Janeiro\nGente, então, a ideia desse projeto é resolver de vez a \nquestão da bilhetagem do transporte público aqui no Rio. Hoje \na forma como a gente cobra passagem, controla os benefícios de \nquem tem direito a desconto ou gratuidade, e fiscaliza isso \ntudo, está bem capenga, espalhada em sistemas diferentes e sem \nmuita visibilidade de verdade pra prefeitura sobre o que está \nacontecendo na ponta. A gente quer um sistema novo de \nbilhetagem que centralize isso: cobrança da tarifa, emissão e \ngestão dos cartões ou contas dos usuários, controle de quem \nentra e sai dos veículos e estações, e que dê pra gente, lado \nprefeitura, acompanhar a demanda e os números de arrecadação \nde forma confiável, sem depender só do que o operador me \npassa. \n \nA operação em si — vender os créditos, atender o usuário, \nmanter os validadores funcionando, cuidar da central que \nprocessa tudo isso — vai ficar a cargo de uma empresa \ncontratada pra isso, mas a gente (prefeitura) quer manter o \ncontrole e a visibilidade total sobre o que está rolando, \nprincipalmente porque tem dinheiro público envolvido e regras \nde subsídio e compensação entre os diferentes operadores de \nônibus, BRT, etc. Então pensa num sistema que dê liberdade \noperacional pra essa empresa contratada, mas que toda \nmovimentação financeira e de uso seja auditável e visível pra \ngente em tempo real, ou bem perto disso. \n \nTem uma parada importante que é a questão das gratuidades e \ndos descontos — idosos, estudantes, pessoas com deficiência, \nesse pessoal todo tem regras específicas de uso e a gente \nsofre muito hoje com fraude nisso, gente usando cartão de \ngratuidade que não é dela, cartão clonado, esse tipo de coisa. \nEntão qualquer solução que a gente pensar precisa ter um jeito \nsério de validar que quem está usando aquele benefício é quem \nrealmente tem direito a ele, com reconhecimento facial ou \noutra forma de conferência, sem comprometer a vida do usuário \n(não pode virar um parto pra ele recarregar ou usar isso no \ndia a dia). \n \nOs usuários, na prática, são duas pontas: o passageiro comum, \nque paga e usa, e os beneficiários de gratuidade ou desconto, \nque têm um fluxo de cadastro mais chato porque precisa \ncomprovar a condição. Do outro lado tem os operadores de \ntransporte — empresas de ônibus, BRT e outros modos — que \nprecisam de visibilidade parcial sobre os dados pra fazer a \ngestão da frota deles e prestar contas, mas não devem ter \nacesso a tudo. E claro, a prefeitura como reguladora de cima, \nque define a política tarifária e fiscaliza. \n \nE tem uns detalhes técnicos que fazem diferença: o validador \ntem que mandar a informação da viagem pro sistema central \nrapidinho, no máximo em 30 segundos, mesmo que fique sem \nconexão por um tempinho, quando reconectar tem que sincronizar \ntudo logo. E não pode esquecer da acessibilidade: os pontos de \natendimento presencial, principalmente, precisam estar \npreparados de verdade pra atender pessoa com deficiência \nauditiva, visual e de mobilidade reduzida, isso é lei \n(Estatuto da Pessoa com Deficiência) e a gente não vai deixar \nisso de lado. \n \nUma coisa que não precisa entrar agora, e que a gente já \ndecidiu deixar de fora dessa frente: o sistema de \nmonitoramento de frota (rastreamento de veículo, GPS, esse \nuniverso). Isso já existe separado e não faz parte do que \nestamos pedindo aqui — só precisa ter uma forma de conversar \ncom esse outro sistema depois, não construir ele do zero. \nTambém não é prioridade nesse momento pensar em integrar com \nbicicleta compartilhada, patinete ou estacionamento, isso é \nmais um \"seria bom no futuro\" do que uma exigência de agora. \n \nE pra fechar, uma preocupação grande nossa é a transição: a \ngente não pode simplesmente trocar de sistema da noite pro dia \ne deixar o passageiro sem conseguir usar o transporte, então \nqualquer proposta precisa pensar em como migrar gente que já \nusa o sistema antigo (sejam cartões físicos, contas, \nbenefícios já cadastrados) pro novo sem trauma, e ainda \nmantendo compatibilidade com sistemas de bilhetagem de outras \nregiões metropolitanas que a gente eventualmente precise \ninteroperar.",
+  "answer": "Sistema: Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro\n\nResumo executivo: O Sistema de Bilhetagem Digital (SBD) centraliza a cobrança tarifária, a gestão de meios de acesso e benefícios tarifários, o registro de viagens e a fiscalização da bilhetagem do transporte público do Rio de Janeiro. O sistema oferece à empresa contratada recursos operacionais e à Prefeitura visibilidade auditável sobre uso, demanda e arrecadação, reduzindo a fragmentação dos controles atuais e apoiando o combate a fraudes em benefícios.\n\nEscopo: O SBD registra e processa a bilhetagem do transporte público, gerencia usuários e benefícios tarifários e disponibiliza dados auditáveis para operação e regulação.\n  Em escopo: Gestão de contas de passageiros e cartões físicos\n  Em escopo: Venda e recarga de créditos tarifários\n  Em escopo: Cobrança de tarifa e registro de viagens\n  Em escopo: Registro de entradas em veículos e estações\n  Em escopo: Cadastro e validação de benefícios de gratuidade ou desconto\n  Em escopo: Verificação de identidade para uso de benefícios\n  Em escopo: Painéis de demanda, arrecadação e auditoria para a Prefeitura\n  Em escopo: Consulta restrita de dados operacionais pelos operadores de transporte\n  Em escopo: Sincronização de validadores em operação offline\n  Em escopo: Migração de cartões, contas e benefícios do sistema legado\n  Em escopo: Interoperabilidade com sistemas de bilhetagem metropolitanos\n  Fora de escopo: Monitoramento de frota, rastreamento de veículos e GPS — já existe sistema separado para essa finalidade\n  Fora de escopo: Construção de sistema de monitoramento de frota — o SBD apenas deverá prever integração futura\n  Fora de escopo: Integração com bicicletas compartilhadas, patinetes e estacionamentos — não é prioridade desta versão\n  Premissa: PA-01: A empresa contratada será responsável pela operação de vendas de créditos, atendimento ao usuário, manutenção dos validadores e central de processamento.\n  Premissa: PA-02: A Prefeitura definirá e manterá as políticas tarifárias, os critérios de elegibilidade e as regras de subsídio e compensação.\n  Premissa: PA-03: Os dados de cartões, contas e benefícios do sistema legado estarão disponíveis para migração. [INFERIDO]\n  Premissa: PA-04: Sistemas de bilhetagem de regiões metropolitanas disponibilizarão mecanismos de interoperabilidade compatíveis. [INFERIDO]\n  Restrição: REST-01 (Desempenho): O validador deve transmitir informações de viagem ao sistema central em até 30 segundos.\n  Restrição: REST-02 (Conectividade): O validador deve preservar eventos de viagem durante indisponibilidade temporária de conexão.\n  Restrição: REST-03 (Regulatória): Os pontos de atendimento presencial devem atender pessoas com deficiência auditiva, visual e de mobilidade reduzida, conforme o Estatuto da Pessoa com Deficiência.\n  Restrição: REST-04 (Transição): A implantação não deve interromper o uso do transporte por passageiros migrados do sistema legado.\n  Restrição: REST-05 (Governança): A Prefeitura deve manter visibilidade e auditabilidade das movimentações financeiras e de uso.\n\nStakeholders:\n  STK-01 - Passageiro comum (Usuário primário): Utilizar crédito tarifário, acessar o transporte e consultar sua conta ou cartão.\n  STK-02 - Beneficiário de gratuidade ou desconto (Usuário primário): Cadastrar comprovação de elegibilidade, utilizar o benefício tarifário e validar sua identidade.\n  STK-03 - Empresa contratada de operação da bilhetagem (Usuário primário): Operar vendas de créditos, atender passageiros, administrar validadores e processar eventos de bilhetagem.\n  STK-04 - Operador de transporte (Usuário secundário): Consultar dados autorizados de uso para gestão da operação e prestação de contas.\n  STK-05 - Prefeitura do Rio de Janeiro (Usuário primário): Definir política tarifária, fiscalizar a operação, acompanhar demanda, arrecadação, subsídios e compensações.\n  STK-06 - Atendente presencial da empresa contratada (Usuário primário): Cadastrar usuários, receber comprovações de benefício e atender passageiros nos pontos presenciais. [INFERIDO]\n  STK-07 - Sistema legado de bilhetagem (Stakeholder externo): Fornecer dados de cartões, contas e benefícios para a transição.\n  STK-08 - Sistemas metropolitanos de bilhetagem (Stakeholder externo): Interoperar dados e transações de bilhetagem quando acordado entre as regiões.\n\nRegras de negócio:\n  RN-001 - Definição da política tarifária: As tarifas aplicáveis ao transporte público são definidas pela Prefeitura do Rio de Janeiro.\n  RN-002 - Elegibilidade a benefícios tarifários: Idosos, estudantes e pessoas com deficiência somente recebem gratuidade ou desconto após comprovação da condição que lhes dá direito ao benefício.\n  RN-003 - Uso pessoal do benefício: O benefício tarifário é pessoal e somente pode ser utilizado pelo beneficiário elegível.\n  RN-004 - Acesso restrito de operadores: Operadores de transporte acessam somente os dados necessários à gestão de sua operação e à prestação de contas.\n  RN-005 - Fiscalização das movimentações: Movimentações financeiras e eventos de uso da bilhetagem devem permanecer disponíveis para fiscalização pela Prefeitura.\n  RN-006 - Subsídios e compensações entre operadores: A apuração de subsídios e compensações entre operadores deve utilizar dados de uso e arrecadação registrados na bilhetagem.\n  RN-007 - Continuidade na migração: A transição do sistema legado não pode impedir passageiros migrados de utilizar o transporte público.\n\nRequisitos funcionais:\n  RF-001 - Cadastrar conta de passageiro: O sistema deve cadastrar uma conta de passageiro com identificador único. [Must have]\n  RF-002 - Emitir meio de acesso: O sistema deve emitir um cartão físico ou identificador digital vinculado a uma conta de passageiro. [Must have]\n  RF-003 - Registrar recarga de crédito: O sistema deve registrar uma recarga de crédito tarifário na conta do passageiro. [Must have]\n  RF-004 - Aplicar tarifa à viagem: O sistema deve aplicar a tarifa vigente à viagem elegível para cobrança. [Must have]\n  RF-005 - Registrar entrada: O sistema deve registrar o evento de entrada de um passageiro em veículo ou estação. [Must have]\n  RF-006 - Registrar saída: O sistema deve registrar o evento de saída de um passageiro em veículo ou estação. [Should have]\n  RF-007 - Receber comprovação de benefício: O sistema deve registrar a documentação apresentada para solicitação de gratuidade ou desconto. [Must have]\n  RF-008 - Conceder benefício tarifário: O sistema deve associar o benefício tarifário aprovado à conta do beneficiário. [Must have]\n  RF-009 - Validar identidade do beneficiário: O sistema deve validar a identidade do portador de benefício no momento de uso por mecanismo de conferência configurado. [Must have]\n  RF-010 - Restringir consulta por operador: O sistema deve limitar a consulta de dados pelo operador de transporte ao escopo autorizado. [Must have]\n  RF-011 - Exibir demanda à Prefeitura: O sistema deve disponibilizar à Prefeitura dados consolidados de demanda por período. [Must have]\n  RF-012 - Exibir arrecadação à Prefeitura: O sistema deve disponibilizar à Prefeitura dados consolidados de arrecadação por período. [Must have]\n  RF-013 - Registrar trilha de auditoria: O sistema deve registrar uma trilha de auditoria para cada movimentação financeira e evento de uso. [Must have]\n  RF-014 - Sincronizar eventos pendentes: O sistema deve sincronizar eventos de viagem armazenados no validador após o restabelecimento da conexão. [Must have]\n  RF-015 - Migrar dados legados: O sistema deve importar cartões, contas e benefícios elegíveis do sistema legado. [Must have]\n  RF-016 - Interoperar bilhetagem metropolitana: O sistema deve trocar dados de bilhetagem com sistemas metropolitanos habilitados. [Should have]\n  RF-017 - Oferecer atendimento acessível: O sistema deve disponibilizar fluxos de atendimento presencial compatíveis com recursos de acessibilidade definidos para pessoas com deficiência auditiva, visual ou mobilidade reduzida. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Performance Efficiency) - O sistema deve receber do validador cada evento de viagem conectado em até 30 segundos após seu registro. | Métrica: 100% dos eventos em teste de conectividade estável recebidos em até 30 segundos.\n  RNF-002 (Reliability) - O sistema deve concluir a sincronização de eventos pendentes em até 30 segundos após a reconexão do validador. [TBD] | Métrica: 100% dos eventos pendentes de um cenário de até 100 eventos sincronizados em até 30 segundos após a reconexão. [TBD]\n  RNF-003 (Reliability) - O sistema deve manter disponibilidade mensal mínima de 99,5%, excluídas manutenções programadas. [TBD] | Métrica: Indisponibilidade não programada máxima de 3,6 horas por mês. [TBD]\n  RNF-004 (Security) - O sistema deve bloquear 100% das solicitações de consulta fora das permissões atribuídas ao perfil autenticado. | Métrica: 0 consultas não autorizadas aprovadas na suíte de testes de autorização.\n  RNF-005 (Security) - O sistema deve registrar 100% das movimentações financeiras e eventos de uso com identificador, data, hora e origem do evento. | Métrica: 0 eventos de uma amostra de 10.000 transações sem registro de auditoria.\n  RNF-006 (Interaction Capability) - O sistema deve permitir a conclusão de 100% dos fluxos prioritários de atendimento presencial utilizando os recursos de acessibilidade definidos. [TBD] | Métrica: 100% dos fluxos de cadastro, recarga e solicitação de benefício concluídos em testes com tecnologias assistivas e usuários representativos. [TBD]\n  RNF-007 (Compatibility) - O sistema deve processar 100% das mensagens válidas do protocolo de interoperabilidade acordado com cada região metropolitana habilitada. [TBD] | Métrica: 0 falhas críticas em 1.000 mensagens válidas de teste por integração habilitada. [TBD]\n\nHistórias de usuário:\n  HU-001 - Como passageiro comum, quero possuir uma conta de bilhetagem, para utilizar os serviços de transporte vinculados à minha identificação.\n  HU-002 - Como passageiro comum, quero receber um meio de acesso à bilhetagem, para utilizar o transporte público.\n  HU-003 - Como passageiro comum, quero recarregar créditos tarifários, para pagar minhas viagens.\n  HU-004 - Como Prefeitura do Rio de Janeiro, quero aplicar a tarifa vigente às viagens, para garantir a cobrança conforme a política tarifária.\n  HU-005 - Como empresa contratada de operação da bilhetagem, quero registrar entradas no transporte, para processar a utilização do serviço.\n  HU-006 - Como empresa contratada de operação da bilhetagem, quero registrar saídas do transporte, para acompanhar o deslocamento do passageiro.\n  HU-007 - Como beneficiário de gratuidade ou desconto, quero apresentar minha comprovação de elegibilidade, para solicitar o benefício tarifário correspondente.\n  HU-008 - Como atendente presencial da empresa contratada, quero vincular um benefício aprovado à conta do beneficiário, para permitir seu uso conforme a política aplicável.\n  HU-009 - Como beneficiário de gratuidade ou desconto, quero validar minha identidade ao usar o benefício, para comprovar que sou o titular elegível.\n  HU-010 - Como operador de transporte, quero consultar dados autorizados da minha operação, para gerir a frota e prestar contas.\n  HU-011 - Como Prefeitura do Rio de Janeiro, quero consultar a demanda consolidada, para fiscalizar a utilização do transporte.\n  HU-012 - Como Prefeitura do Rio de Janeiro, quero consultar a arrecadação consolidada, para acompanhar recursos públicos e compensações.\n  HU-013 - Como Prefeitura do Rio de Janeiro, quero auditar movimentações financeiras e eventos de uso, para fiscalizar a operação de bilhetagem.\n  HU-014 - Como empresa contratada de operação da bilhetagem, quero sincronizar eventos acumulados no validador, para preservar os registros de viagem após falhas de conexão.\n  HU-015 - Como Prefeitura do Rio de Janeiro, quero migrar dados do sistema legado, para evitar interrupção do acesso ao transporte na transição.\n  HU-016 - Como gestor de mobilidade da Prefeitura, quero interoperar com sistemas metropolitanos habilitados, para viabilizar a integração regional da bilhetagem.\n  HU-017 - Como passageiro com deficiência, quero receber atendimento presencial acessível, para utilizar os serviços de bilhetagem com autonomia.\n\nCasos de uso:\n  UC-001 - Registrar recarga de crédito | Ator: Atendente presencial da empresa contratada\n    1. O ator identifica a conta do passageiro.\n    2. O sistema apresenta a conta identificada.\n    3. O ator informa o valor da recarga.\n    4. O sistema registra a recarga de crédito.\n  UC-002 - Solicitar benefício tarifário | Ator: Beneficiário de gratuidade ou desconto\n    1. O ator informa sua identificação.\n    2. O sistema apresenta a conta do beneficiário.\n    3. O ator apresenta a documentação comprobatória.\n    4. O sistema registra a documentação da solicitação.\n  UC-003 - Validar uso de benefício | Ator: Beneficiário de gratuidade ou desconto\n    1. O ator apresenta seu meio de acesso ao validador.\n    2. O sistema identifica o benefício vinculado.\n    3. O sistema executa a conferência de identidade configurada.\n    4. O sistema valida o uso do benefício.\n    5. O sistema registra o evento de entrada.\n  UC-004 - Consultar arrecadação consolidada | Ator: Gestor da Prefeitura do Rio de Janeiro\n    1. O ator informa o período de consulta.\n    2. O sistema consolida os registros de arrecadação do período.\n    3. O sistema exibe os dados consolidados ao ator.\n  UC-005 - Migrar dados de bilhetagem legados | Ator: Gestor da Prefeitura do Rio de Janeiro\n    1. O ator seleciona o conjunto de dados legado para migração.\n    2. O sistema valida a estrutura dos dados recebidos.\n    3. O sistema importa os cartões, contas e benefícios elegíveis.\n    4. O sistema apresenta o resultado da migração.\n\nCritérios de aceite:\n  CA-001 - Dado que o atendente possui os dados obrigatórios do passageiro, quando registrar uma nova conta, então o sistema deve criar a conta com um identificador único e status \"Ativa\"\n  CA-002 - Dado que existe uma conta ativa de passageiro, quando o atendente solicitar a emissão de um meio de acesso, então o sistema deve vincular exatamente um identificador de cartão ou identificador digital à conta selecionada\n  CA-003 - Dado que o passageiro possui uma conta ativa, quando o atendente registrar uma recarga de R$ 20,00, então o sistema deve registrar uma movimentação de crédito de R$ 20,00 vinculada à conta\n  CA-004 - Dado que existe uma tarifa vigente definida pela Prefeitura, quando uma viagem elegível para cobrança for processada, então o sistema deve registrar a cobrança com o valor da tarifa vigente\n  CA-005 - Dado que o passageiro apresente um meio de acesso válido, quando o validador processar a entrada em um veículo ou estação, então o sistema deve registrar um evento de entrada com identificador do meio de acesso, data, hora e origem\n  CA-006 - Dado que o passageiro tenha um meio de acesso identificado, quando o validador processar a saída em um veículo ou estação, então o sistema deve registrar um evento de saída com identificador do meio de acesso, data, hora e origem\n  CA-007 - Dado que o beneficiário possua uma conta cadastrada, quando o atendente registrar a documentação de solicitação de benefício, então o sistema deve armazenar a documentação vinculada à conta e atribuir à solicitação o status \"Em análise\"\n  CA-008 - Dado que uma solicitação de benefício esteja aprovada, quando o atendente confirmar a concessão, então o sistema deve vincular o benefício à conta com status \"Ativo\"\n  CA-009 - Dado que o passageiro possua benefício ativo, quando apresentar o meio de acesso e a conferência configurada confirmar sua identidade, então o sistema deve registrar a validação do benefício com status \"Aprovada\"\n  CA-010 - Dado que um operador esteja autenticado, quando solicitar dados de outro operador, então o sistema deve bloquear a consulta com status \"Acesso negado\"\n  CA-011 - Dado que o gestor da Prefeitura esteja autenticado, quando informar um período de consulta, então o sistema deve exibir o total de eventos de entrada registrados no período\n  CA-012 - Dado que o gestor da Prefeitura esteja autenticado, quando informar um período de consulta, então o sistema deve exibir a soma das movimentações de cobrança e recarga registradas no período\n  CA-013 - Dado que uma movimentação financeira ou evento de uso seja concluído, quando a operação for persistida, então o sistema deve criar um registro de auditoria com identificador, data, hora e origem do evento\n  CA-014 - Dado que o validador tenha 100 eventos pendentes durante indisponibilidade de conexão, quando a conexão for restabelecida, então o sistema deve registrar os 100 eventos pendentes em até 30 segundos após a reconexão [TBD]\n  CA-015 - Dado que o conjunto legado contenha cartões, contas e benefícios elegíveis, quando o gestor iniciar a migração, então o sistema deve importar os registros elegíveis e apresentar a quantidade de registros importados\n  CA-016 - Dado que exista uma integração metropolitana habilitada, quando o sistema receber uma mensagem válida do protocolo acordado, então o sistema deve processar a mensagem e registrar o resultado com status \"Processada\" [TBD]\n  CA-017 - Dado que o atendente inicie um fluxo de cadastro, recarga ou solicitação de benefício, quando o passageiro utilizar o recurso de acessibilidade definido para seu atendimento, então o sistema deve permitir a conclusão do fluxo sem bloqueio funcional [TBD]\n\nGlossário:\n  Bilhetagem digital: Processo de identificação do passageiro, cobrança de tarifa, registro de uso e gestão de créditos por meio eletrônico.\n  Validador: Equipamento instalado em veículo ou estação que processa o meio de acesso do passageiro e registra eventos de viagem.\n  Meio de acesso: Cartão físico ou identificador digital associado à conta de um passageiro para utilização da bilhetagem.\n  Benefício tarifário: Gratuidade ou desconto na tarifa concedido a passageiro elegível.\n  Beneficiário: Passageiro com direito reconhecido a um benefício tarifário.\n  Evento de viagem: Registro de entrada ou saída de passageiro em veículo ou estação.\n  Operador de transporte: Empresa responsável pela operação de um modo ou serviço de transporte público.\n  Sistema legado: Sistema de bilhetagem existente antes da implantação do SBD.\n  Interoperabilidade: Capacidade de o SBD trocar e processar dados com sistemas de bilhetagem de outras regiões metropolitanas.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro\r\nGente, então, a ideia desse projeto é resolver de vez a \r\nquestão da bilhetagem do transporte público aqui no Rio. Hoje \r\na forma como a gente cobra passagem, controla os benefícios de \r\nquem tem direito a desconto ou gratuidade, e fiscaliza isso \r\ntudo, está bem capenga, espalhada em sistemas diferentes e sem \r\nmuita visibilidade de verdade pra prefeitura sobre o que está \r\nacontecendo na ponta. A gente quer um sistema novo de \r\nbilhetagem que centralize isso: cobrança da tarifa, emissão e \r\ngestão dos cartões ou contas dos usuários, controle de quem \r\nentra e sai dos veículos e estações, e que dê pra gente, lado \r\nprefeitura, acompanhar a demanda e os números de arrecadação \r\nde forma confiável, sem depender só do que o operador me \r\npassa. \r\nA operação em si — vender os créditos, atender o usuário, \r\nmanter os validadores funcionando, cuidar da central que \r\nprocessa tudo isso — vai ficar a cargo de uma empresa \r\ncontratada pra isso, mas a gente (prefeitura) quer manter o \r\ncontrole e a visibilidade total sobre o que está rolando, \r\nprincipalmente porque tem dinheiro público envolvido e regras \r\nde subsídio e compensação entre os diferentes operadores de \r\nônibus, BRT, etc. Então pensa num sistema que dê liberdade \r\noperacional pra essa empresa contratada, mas que toda \r\nmovimentação financeira e de uso seja auditável e visível pra \r\ngente em tempo real, ou bem perto disso. \r\nTem uma parada importante que é a questão das gratuidades e \r\ndos descontos — idosos, estudantes, pessoas com deficiência, \r\nesse pessoal todo tem regras específicas de uso e a gente \r\nsofre muito hoje com fraude nisso, gente usando cartão de \r\ngratuidade que não é dela, cartão clonado, esse tipo de coisa. \r\nEntão qualquer solução que a gente pensar precisa ter um jeito \r\nsério de validar que quem está usando aquele benefício é quem \r\nrealmente tem direito a ele, com reconhecimento facial ou \r\noutra forma de conferência, sem comprometer a vida do usuário \r\n(não pode virar um parto pra ele recarregar ou usar isso no \r\ndia a dia). \r\nOs usuários, na prática, são duas pontas: o passageiro comum, que paga e usa, e os beneficiários de gratuidade ou desconto, \r\nque têm um fluxo de cadastro mais chato porque precisa \r\ncomprovar a condição. Do outro lado tem os operadores de \r\ntransporte — empresas de ônibus, BRT e outros modos — que \r\nprecisam de visibilidade parcial sobre os dados pra fazer a \r\ngestão da frota deles e prestar contas, mas não devem ter \r\nacesso a tudo. E claro, a prefeitura como reguladora de cima, \r\nque define a política tarifária e fiscaliza. \r\nE tem uns detalhes técnicos que fazem diferença: o validador \r\ntem que mandar a informação da viagem pro sistema central \r\nrapidinho, no máximo em 30 segundos, mesmo que fique sem \r\nconexão por um tempinho, quando reconectar tem que sincronizar \r\ntudo logo.",
+    "Descrição\r\nDefinir a Arquitetura de Requisitos estrutura todos os requisitos e designs \r\npara que eles suportem o propósito geral de negócio para uma mudança e \r\nque trabalhem efetivamente como um todo coeso.\r\nEntradas\r\n• Abordagem de Gerenciamento de Informação: define como as \r\ninformações de análise de negócios (incluindo requisitos e modelos) \r\nserão armazenadas e acessadas.\r\n• Requisitos (em qualquer estado): todos os requisitos devem ser \r\ndeclarados uma vez, e apenas uma vez, e incorporados à arquitetura de \r\nrequisitos para que todo conjunto possa ser avaliado quanto à sua \r\ncompletude.\r\n• Escopo da Solução: deve ser considerado para garantir que a arquitetura \r\nde requisitos esteja alinhada com os limites da solução desejada.\r\nSaídas \r\n• Arquitetura de Requisitos: os requisitos e as inter-relações entre eles, \r\nbem como entre qualquer informação contextual registrada.\r\nDefinir as Opções de Design PE (7.5)\r\nPropósito\r\nO propósito de Definir as Opções de Design é definir a abordagem de solução, \r\nidentificar oportunidades para melhorar o negócio, alocar requisitos em AƵreas de Conhecimento do Padrão Essencial Análise de Requisitos e Definição de Design PE (7)\r\n39\r\ntodos os componentes da solução, e representar opções de design que \r\natingem o estado futuro desejado.\r\nDescrição\r\nDefinir as Opções de Solução identifica, explora e descreve diferentes \r\nmaneiras possíveis de atender a necessidade.\r\nEntradas\r\n• Estratégia de Mudança: descreve a abordagem que será seguida para a \r\ntransição para o estado futuro. Isso pode ter algum impacto nas decisões \r\nde design em termos do que é viável ou possível.\r\n• Requisitos (validados, priorizados): somente os requisitos validados são \r\nconsiderados nas opções de design. Conhecer as prioridades dos \r\nrequisitos ajuda na sugestão de opções de design razoáveis. Os \r\nrequisitos com as prioridades mais altas podem merecer mais peso na \r\nescolha dos componentes da solução para melhor atendê-los, em \r\ncomparação com os requisitos de prioridade mais baixa.\r\n• Arquitetura de Requisitos: o conjunto completo de requisitos e seus \r\nrelacionamentos é importante para definir as opções de design que \r\npodem abordar o conjunto holístico de requisitos.\r\nSaídas \r\n• Opções de Design: descrevem várias maneiras de satisfazer uma ou mais \r\nnecessidades em um contexto. Podem incluir uma abordagem de \r\nsolução, oportunidades potenciais de melhoria fornecidas pela opção e \r\nos componentes que definem a opção.\r\nAnalisar o Valor Potencial e Recomendar a Solução PE (7.6)\r\nPropósito\r\nO objetivo de Analisar o Valor Potencial e Recomendar a Solução é estimar o \r\nvalor potencial de cada opção de design e estabelecer qual é a mais \r\nadequada para atender os requisitos da corporação.",
+    "6. Security (Segurança)\r\n Confidentiality — dados acessíveis apenas por autorizados.\r\n Integrity — dados protegidos contra alteração não autorizada.\r\n Non-repudiation — ações não podem ser negadas.\r\n Accountability — ações rastreáveis ao usuário.\r\n Authenticity — identidade verificável.\r\n Resistance — proteção contra ataques.\r\nEXEMPLO — RNF — 6. Security\r\nO sistema deve registrar em log imutável toda ação de escrita (criação, edição, exclusão) com: ID do usuário, \r\ndata/hora UTC, IP de origem e estado anterior do registro (não-repúdio e accountability).\r\n7. Maintainability (Manutenibilidade)\r\n Modularity — componentes independentes com impacto isolado de mudanças.\r\n Reusability — componentes reutilizáveis em outros contextos.\r\n Analysability — facilidade de diagnóstico de falhas.\r\n Modifiability — facilidade de modificação sem introduzir defeitos. Testability — facilidade de criar critérios de teste.\r\nEXEMPLO — RNF — 7. Maintainability\r\nO sistema deve ter cobertura de testes automatizados de no mínimo 80% das linhas de código da camada de \r\nnegócio (domínio), medida com ferramenta de cobertura integrada ao pipeline CI/CD.\r\n8. Flexibility (Flexibilidade) — antes parte de 'Portabilidade'\r\n Adaptability — adaptável a diferentes ambientes sem ações além das previstas.\r\n Scalability — capacidade de lidar com crescimento de carga.\r\n Installability — instalável/desinstalável nos ambientes especificados.\r\n Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.",
+    "• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.: RF-001, RNF-003, RN-002, HU-005,\r\nCA-008, UC-002).\r\nREGRA: IDs nunca devem ser reutilizados. Se um requisito é removido, seu ID fica obsoleto — não é \r\nreatribuído a outro requisito.\r\n1.3 Princípios Fundamentais de Qualidade de Requisitos\r\nBase: ISO/IEC/IEEE 29148:2018 §5.2 — Características do requisito individual\r\n• Necessário: Existe uma necessidade real que o justifica. Sem o requisito, há uma lacuna de negócio.\r\n• Não ambíguo: Tem uma única interpretação possível. Evitar: 'eficiente', 'fácil', 'rápido', 'amigável'.\r\n• Verificável: Pode ser testado objetivamente com critério mensurável. 'Rápido' não é verificável; '< 2 s' é.\r\n• Singular: Descreve uma única coisa. Nunca usar 'e' ou 'ou' para combinar dois comportamentos em um \r\nRF.\r\n• Viável: Tecnicamente e financeiramente possível dentro das restrições do projeto.\r\n• Rastreável: Tem origem (stakeholder ou RN) e destino (caso de teste) identificados.\r\n• Completo: Contém todas as informações necessárias para implementação sem consultas adicionais.\r\n• Consistente: Não conflita com nenhum outro requisito do documento.\r\n• Priorizado: Tem um nível de prioridade definido (MoSCoW: Must/Should/Could/Won't).PARTE 2 — Padrões de Escrita por Artefato\r\n2.1 Escopo do Projeto\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6.3 — 'Scope'; Wiegers & Beatty (2013, cap.",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    "STK-03 | Médico | Usuário secundário | Consulta (agenda própria)\r\n Visualizar própria agenda, confirmar/recusar consultas.\r\nSTK-04 | Administrador da clínica | Usuário primário | Total\r\n Cadastrar médicos, gerenciar especialidades, visualizar relatórios de ocupação.\r\nRegras de Negócio\r\nEXEMPLO — Regras de Negócio — SAM\r\nRN-001 | Antecedência mínima de agendamento\r\nConsultas só podem ser agendadas com no mínimo 2 horas de antecedência do horário.\r\nFonte: Política operacional da clínica.\r\nRN-002 | Cancelamento sem custo\r\nO paciente pode cancelar sem custo até 24 horas antes da consulta. Cancelamentos com menos de 24h de antecedência geram taxa de R$ 50,00.\r\nFonte: Regulamento interno — Diretoria.\r\nRN-003 | Conflito de agenda médica\r\nNenhum médico pode ter dois agendamentos no mesmo horário na mesma clínica.\r\nFonte: Operacional.\r\nRN-004 | Dados sensíveis de saúde\r\nDados de saúde dos pacientes são classificados como dados sensíveis conforme LGPD art. 11 e só podem ser \r\nacessados por profissionais de saúde habilitados ou pelo próprio paciente.\r\nFonte: Lei 13.709/2018 (LGPD).\r\nRequisitos Funcionais\r\nEXEMPLO — Requisitos Funcionais — SAM\r\nRF-001 | Agendamento de consulta\r\nO sistema deve permitir que a recepcionista registre um agendamento de consulta informando: paciente, \r\nmédico, especialidade, data, horário e tipo de consulta.\r\nPrioridade: Must have | STK-01 | RN-001, RN-003\r\nRF-002 | Validação de conflito de agenda\r\nO sistema deve impedir o agendamento de uma consulta em horário já ocupado na agenda do médico \r\nselecionado, exibindo os próximos 3 horários disponíveis.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Envio de lembrete automático\r\nO sistema deve enviar lembrete por e-mail e SMS ao paciente com 24 horas e 1 hora de antecedência da \r\nconsulta agendada.\r\nPrioridade: Should have | STK-02 | N/A\r\nRF-004 | Cancelamento de consulta pelo paciente\r\nO sistema deve permitir que o paciente cancele sua consulta pelo portal self-service, aplicando \r\nautomaticamente a taxa de cancelamento quando o prazo de RN-002 não for respeitado.\r\nPrioridade: Must have | STK-02 | RN-002\r\nRequisitos Não Funcionais\r\nEXEMPLO — Requisitos Não Funcionais — SAM\r\nRNF-001 | Desempenho de consulta de disponibilidade\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve exibir a disponibilidade de agenda de um médico em menos de 1,5 segundo.\r\nMétrica: Percentil 95 com 300 usuários simultâneos. Verificação: JMeter.\r\nRNF-002 | Proteção de dados sensíveis (LGPD)\r\nCaracterística: Security — ConfidentialityOs dados de saúde dos pacientes devem ser armazenados com criptografia AES-256 e acessíveis apenas por \r\nperfis autorizados (RN-004).\r\nMétrica: 0 dados de saúde expostos em logs ou APIs sem autenticação.\r\nVerificação: Teste de penetração + auditoria de código.",
+    "1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.\r\nRNF-002 | Criptografia em trânsito\r\nCaracterística: Security — Confidentiality\r\nO sistema deve criptografar todos os dados em trânsito utilizando TLS 1.2 ou superior.\r\nMétrica: 100% das conexões HTTPS; protocolo TLS < 1.2 recusado.\r\nVerificação: Teste com SSL Labs ou OWASP ZAP.\r\nRNF-003 | Disponibilidade\r\nCaracterística: Reliability — Availability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês, excluídas janelas de manutenção programadas \r\ne comunicadas com 48h de antecedência.\r\nMétrica: Máximo de 3,6 horas de indisponibilidade não planejada por mês.\r\nVerificação: Monitoramento com uptime tracking (ex.: UptimeRobot).\r\nRNF-004 | Armazenamento de senhas\r\nCaracterística: Security — Integrity\r\nO sistema deve armazenar senhas de usuário usando hash bcrypt com fator de custo mínimo 12; nenhuma \r\nsenha deve ser armazenada em texto plano.\r\nMétrica: Auditoria de código — zero ocorrências de senha em texto plano.\r\nVerificação: Revisão de código + teste de penetração.\r\nRNF-005 | Compatibilidade de navegadores\r\nCaracterística: Compatibility — Interoperability\r\nO sistema deve funcionar corretamente nos navegadores Chrome 120+, Firefox 115+, Edge 120+ e Safari 16+, \r\nem resoluções de tela a partir de 1024×768.\r\nMétrica: 0 erros críticos em suíte de testes cross-browser.\r\nVerificação: Testes automatizados com Selenium ou BrowserStack.ANTI-PADRÃO — RNF sem métrica (inválido)\r\nERRADO: 'RNF-006: O sistema deve ser seguro.'",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    "Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO. \r\nTipicamente aparecem em frases com sujeito humano + verbo de necessidade/desejo + objetivo.\r\n[Necessidade direta] 'eu preciso', 'o vendedor precisa', 'o cliente quer', 'o gestor gostaria'\r\n[Objetivo de negócio] 'para poder', 'a fim de', 'para que eu consiga', 'de modo que'\r\n[Reclamação implícita] 'hoje é difícil', 'atualmente levamos X horas para', 'perdemos tempo com'\r\n[Processo manual descrito] 'hoje fazemos isso no Excel', 'anotamos à mão', 'enviamos por e-mail \r\nmanualmente'\r\n[Pedido de visibilidade] 'quero ver', 'preciso acompanhar', 'quero saber em tempo real', 'dashboard'\r\nREGRA DE TRANSFORMAÇÃO: texto bruto → HU no formato Connextra\r\n 1. Identificar QUEM faz o pedido (persona/papel)\r\n 2. Identificar O QUE a pessoa quer fazer (ação concreta)\r\n 3. Identificar O PORQUÊ (benefício de negócio — frequentemente implícito no texto)\r\n 4. Formatar: 'Como [persona], quero [ação], para [benefício].'\r\nEXEMPLO — Texto bruto → Histórias de Usuário\r\nTEXTO: 'Hoje o vendedor anota os pedidos em papel e depois digita no Excel, o que atrasa muito o \r\nfaturamento. O gerente não tem como saber a situação das vendas sem ligar para cada vendedor. O cliente às\r\nvezes liga perguntando onde está o pedido dele.'\r\nHU-001: Como vendedor, quero registrar pedidos diretamente no sistema, para eliminar a redigitação e \r\nacelerar o faturamento.",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    "Elicitação de Requisitos | Syllabus | ©IREB 7 | 43\r\nSumário\r\n1 Uma estrutura para estruturar e gerenciar a elicitação de \r\nrequisitos e a resolução de conflitos (L4) . 9\r\n1.1 O escopo da elicitação e da resolução de conflitos na Engenharia de \r\nRequisitos (L2). 9\r\n1.2 Fatores relevantes para a abordagem de elicitação de planejamento e \r\nresolução de conflitos (L2) . 10\r\n1.3 Planejamento e execução de elicitação de requisitos eresolução de \r\nconflitos (L4). 10\r\n1.4 Padrões de processo (L2) . 11\r\n2 Fontes de requisitos (L3) . 13\r\n2.1 Fundamentos das fontes de requisitos (L3) . 13\r\n2.2 Identificar, classificar, gerenciar stakeholders (L3) . 14\r\n2.2.1 Identificação e seleção de stakeholders como fontes de requisitos (L3). 14\r\n2.2.2 Gerenciamento do relacionamento com os stakeholders (L3) . 15\r\n2.2.3 Esquema de documentação para os stakeholders envolvidos (L3) . 15\r\n2.2.4 Os usuários como um grupo especial de stakeholders (L3) . 16\r\n2.3 Identificar, classificar e gerenciar documentos (L3) . 17\r\n2.3.1 Identificação e seleção de documentos como fontes de requisitos (L3). 17\r\n2.3.2 Esquema de documentação para os documentos (L3) . 18\r\n2.4 Identificar, classificar, gerenciar sistemas (L3) . 18\r\n2.4.1 Identificação e seleção de sistemas como fontes de requisitos (L3). 18\r\n2.4.2 Esquema de documentação para sistemas (L3) . 19\r\n3 Técnicas de Elicitação (L4) . 21\r\n3.1 Técnicas de coleta (L4) . 21\r\n3.1.1 Técnicas de questionamento (L3) . 22\r\n3.1.2 Técnicas de observação (L3) . 22\r\n3.1.3 Técnicas de colaboração (L3) . 23\r\n3.1.4 Técnicas baseadas em artefatos (L3) . 24",
+    "Nível Fundamental | Syllabus ©IREB 18 | 50\r\n3 Produtos de Trabalho e Práticas de \r\nDocumentação (L3)\r\nObjetivo: Entender o papel fundamental dos produtos de trabalho na ER e ser capaz de \r\ncriá-los\r\nDuração: 7 horas\r\nTermos: Produto de trabalho, produtos de trabalho em linguagem natural, produtos de\r\ntrabalho baseados em templates, produtos de trabalho baseados em modelos, \r\nglossário, critérios de qualidade, especificação de requisitos\r\nObjetivos Educacionais\r\nOE 3.1.1 Saber as características dos produtos de trabalho ER e enumerar os tipos de \r\nprodutos de trabalho frequentemente utilizados (L1)\r\nOE 3.1.2 Saber o uso de cada produto de trabalho e conhecer o seu tempo de vida útil (L1)\r\nOE 3.1.3 Explicar os diferentes níveis de abstração para os requisitos, incluindo como \r\nescolher os níveis apropriados e níveis de detalhe (L2)\r\nOE 3.1.4 Conhecer os aspectos a considerar nos produtos de trabalho e suas relações (L1)\r\nOE 3.1.5 Nomear as diretrizes gerais de documentação (L1)\r\nOE 3.1.6 Descrever por que vale a pena planejar o uso dos produtos de trabalho (L1)\r\nOE 3.2.1 Conhecer os produtos de trabalho em linguagem natural, suas vantagens e \r\ndesvantagens (L1)\r\nOE 3.2.2 Explicar as regras para escrever bons requisitos em linguagem natural (L2)\r\nOE 3.3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.",
+    "Descrição\r\nDefinir a Estratégia de Mudança executa uma análise de gaps (lacunas) entre \r\no estado atual e futuro, avalia as opções para atingir o estado futuro e \r\nrecomenda a abordagem de maior valor a alcançar o estado futuro, incluindo \r\nquaisquer estados de transição que possam ser necessários ao longo do \r\ncaminho.\r\nEntradas\r\n• Descrição do Estado Atual: fornece contexto sobre o estado atual e inclui \r\navaliações de influências internas e externas à corporação considerada.\r\n• Descrição do Estado Futuro: fornece contexto sobre o estado futuro \r\ndesejado.\r\n• Resultados da Análise de Risco: descrevem os riscos identificados e a \r\nexposição de cada risco.\r\n• Abordagem de Engajamento de Stakeholder: entendimento das \r\nnecessidades de comunicação e colaboração dos stakeholders pode \r\najudar a identificar as atividades relacionadas à mudança que precisam \r\nser incluídas como parte da estratégia de mudança.\r\nSaídas \r\n• Estratégia de Mudança: a abordagem que a organização seguirá para \r\nconduzir a mudança.\r\n• Escopo da Solução: o escopo da solução que será alcançado através da \r\nexecução da estratégia de mudança.AƵreas de Conhecimento do Padrão Essencial Análise de Requisitos e Definição de Design PE (7)\r\n35\r\n2.5 Análise de Requisitos e Definição de Design PE \r\n(7)\r\nA área de conhecimento Análise de Requisitos e Definição de Design \r\ndescreve as tarefas que os analistas de negócios executam para estruturar e \r\norganizar os requisitos descobertos durante as atividades de elicitação, \r\nespecificar e modelar requisitos e designs, validar e verificar informações, \r\nidentificar opções de soluções que atendam às necessidades de negócio e \r\nestimar o valor potencial que poderia ser realizado para cada opção de \r\nsolução. Esta área de conhecimento abrange as atividades incrementais e \r\niterativas que vão desde o conceito inicial e exploração da necessidade até a \r\ntransformação dessas necessidades em uma solução específica \r\nrecomendada.\r\nAmbos requisitos e designs são ferramentas importantes usadas pelos \r\nanalistas de negócios para definir e orientar a mudança. A principal diferença \r\nentre requisitos e designs está em como eles são usados e por quem. Os \r\ndesigns de uma pessoa podem ser os requisitos de outra pessoa. Requisitos \r\ne designs podem ser de alto nível ou muito detalhados com base no que é \r\napropriado para aqueles que consomem as informações.\r\nO papel do analista de negócios na modelagem de necessidades, requisitos, \r\ndesigns e soluções é fundamental na condução de uma análise completa e na \r\ncomunicação com outros stakeholders. A forma, o nível de detalhe e o que \r\nestá sendo modelado dependem do contexto, do público e do propósito.\r\nAnalistas de negócios analisam o valor potencial de requisitos e designs.",
+    "• Designs: quaisquer designs na forma de texto, protótipos ou diagramas \r\nque estejam prontos para priorizar.\r\nSaídas \r\n• Requisitos (priorizados): requisitos priorizados ou classificados estão \r\ndisponíveis para trabalho adicional, garantindo que os requisitos de \r\nmaior valor sejam abordados primeiro.\r\n• Designs (priorizados): designs priorizados ou classificados estão \r\ndisponíveis para trabalho adicional, garantindo que os designs de maior \r\nvalor sejam abordados primeiro.Gerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n28\r\nAvaliar as Mudanças de Requisitos PE (5.4)\r\nPropósito\r\nO objetivo de Avaliar as Mudanças de Requisitos é avaliar as implicações das \r\nalterações propostas aos requisitos e designs.\r\nDescrição\r\nAvaliar as Mudanças de Requisitos examina os requisitos de stakeholder \r\nnovos e alterados para determinar se precisam ser considerados no escopo \r\nde uma mudança.\r\nEntradas\r\n• Mudança proposta: pode ser identificada a qualquer momento e afetar \r\nqualquer aspecto do trabalho de análise de negócios ou de entregáveis \r\nconcluídos até a data. Há muitos gatilhos para uma mudança proposta, \r\nincluindo mudanças na estratégia de negócios, stakeholders, requisitos \r\nlegais ou mudanças regulatórias.\r\n• Requisitos: podem precisar ser avaliados para identificar o impacto de \r\numa modificação proposta.\r\n• Designs: podem precisar ser avaliados para identificar o impacto de uma \r\nmodificação proposta.\r\nSaídas \r\n• Avaliação de Mudanças de Requisitos: a recomendação para aprovar, \r\nmodificar ou negar uma mudança proposta aos requisitos.\r\n• Avaliação de Mudanças de Designs: a recomendação para aprovar, \r\nmodificar ou negar uma alteração proposta para um ou mais \r\ncomponentes de design.\r\nAprovar os Requisitos PE (5.5)\r\nPropósito\r\nA finalidade de Aprovar os Requisitos é obter o acordo e a aprovação de \r\nrequisitos e designs para o trabalho de análise de negócios continuar e/ou a \r\nconstrução da solução prosseguir.\r\nDescrição\r\nAprovar os Requisitos trabalha com os stakeholders envolvidos no processo \r\nde governança para alcançar aprovação e acordo sobre requisitos e designs.\r\nEntradas\r\n• Requisitos (verificados): um conjunto de requisitos que foram verificados \r\ncomo sendo de qualidade suficiente para serem usados como um \r\ncorpo confiável de trabalho para especificação e desenvolvimento \r\nadicionais.AƵreas de Conhecimento do Padrão Essencial Análise da Estratégia PE (6)\r\n29\r\n• Designs: um conjunto de designs que foram determinados como prontos \r\npara serem usados em outra especificação e desenvolvimento.\r\nSaídas \r\n• Requisitos (aprovados): requisitos que foram aprovados pelos \r\nstakeholders e estão prontos para uso em esforços subsequentes de \r\nanálise de negócios.\r\n• Designs (aprovados): designs que foram aprovados pelos stakeholders e \r\nestão prontos para uso em esforços subsequentes de análise de negócios \r\nou de desenvolvimento de soluções.",
+    "Os requisitos \r\nfocam em entender que tipo de valor pode ser entregue se um requisito for \r\natendido. A natureza da representação pode ser um documento (ou conjunto \r\nde documentos), mas pode variar muito dependendo das circunstâncias. \r\nPara obter mais informações, consulte Requisitos e Designs.\r\nRisco\r\nRisco é o efeito da incerteza sobre o valor de uma mudança, de uma solução \r\nou de uma corporação. Os analistas de negócios colaboram com outros \r\nstakeholders para identificar, avaliar e priorizar riscos, e para lidar com esses \r\nriscos alterando a probabilidade das condições ou eventos que levam à \r\nincerteza: mitigando as consequências, removendo a fonte do risco, evitando \r\no risco completamente ao decidir não iniciar ou continuar com uma atividade \r\nque conduza ao risco, compartilhando o risco com outras partes, ou \r\naceitando ou mesmo aumentando o risco para lidar com uma oportunidade.\r\n1.5 Esquema de Classificação de Requisitos\r\nPara os propósitos do Guia BABOK®\r\n o seguinte esquema de classificação \r\ndescreve os requisitos:\r\n• Requisitos de negócios: declarações de metas, objetivos e resultados que \r\ndescrevem por que uma mudança foi iniciada. Podem se aplicar a toda \r\numa corporação, uma área de negócios ou uma iniciativa específica.\r\n• Requisitos de stakeholders: descrevem as necessidades dos \r\nstakeholders que devem ser atendidas para atingir os requisitos de \r\nnegócios. Podem servir como uma ponte entre os requisitos de negócios \r\ne os da solução.\r\n• Requisitos da solução: descrevem as capacidades e as qualidades de \r\numa solução que atenda aos requisitos dos stakeholders. Fornecem o \r\nnível apropriado de detalhes para permitir o desenvolvimento e a \r\nimplementação da solução. Os requisitos da solução podem ser divididos \r\nem duas subcategorias:\r\n• requisitos funcionais: descrevem as capacidades que uma solução \r\ndeve ter em termos do comportamento e das informações que a \r\nsolução gerenciará e\r\n• requisitos não-funcionais ou requisitos de qualidade de serviço: \r\nnão se relacionam diretamente com o comportamento de \r\nfuncionalidade da solução, mas sim às condições sob as quais a \r\nsolução deve permanecer eficaz ou qualidades que uma solução \r\ndeve ter.Stakeholders Conceitos Chave da Análise de Negócios\r\n8\r\n• Requisitos de transição: descrevem as capacidades que a solução deve \r\nter e as condições que a solução deve atender para facilitar a transição do \r\nestado atual para o estado futuro, mas que não serão necessárias após a \r\nconclusão da mudança. Eles se diferenciam de outros tipos de requisitos \r\nporque são de natureza temporária. Os requisitos de transição abordam \r\ntópicos como conversão de dados, treinamento e continuidade de \r\nnegócios.\r\n1.6 Stakeholders\r\nCada tarefa inclui uma lista de stakeholders que provavelmente participarão \r\nda execução dessa tarefa ou que serão afetados por ela.",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    "Tem uma parada importante que é a questão das gratuidades e \r\ndos descontos — idosos, estudantes, pessoas com deficiência, \r\nesse pessoal todo tem regras específicas de uso e a gente \r\nsofre muito hoje com fraude nisso, gente usando cartão de \r\ngratuidade que não é dela, cartão clonado, esse tipo de coisa. \r\nEntão qualquer solução que a gente pensar precisa ter um jeito \r\nsério de validar que quem está usando aquele benefício é quem \r\nrealmente tem direito a ele, com reconhecimento facial ou \r\noutra forma de conferência, sem comprometer a vida do usuário \r\n(não pode virar um parto pra ele recarregar ou usar isso no \r\ndia a dia). \r\nOs usuários, na prática, são duas pontas: o passageiro comum, que paga e usa, e os beneficiários de gratuidade ou desconto, \r\nque têm um fluxo de cadastro mais chato porque precisa \r\ncomprovar a condição. Do outro lado tem os operadores de \r\ntransporte — empresas de ônibus, BRT e outros modos — que \r\nprecisam de visibilidade parcial sobre os dados pra fazer a \r\ngestão da frota deles e prestar contas, mas não devem ter \r\nacesso a tudo. E claro, a prefeitura como reguladora de cima, \r\nque define a política tarifária e fiscaliza. \r\nE tem uns detalhes técnicos que fazem diferença: o validador \r\ntem que mandar a informação da viagem pro sistema central \r\nrapidinho, no máximo em 30 segundos, mesmo que fique sem \r\nconexão por um tempinho, quando reconectar tem que sincronizar \r\ntudo logo. E não pode esquecer da acessibilidade: os pontos de \r\natendimento presencial, principalmente, precisam estar \r\npreparados de verdade pra atender pessoa com deficiência \r\nauditiva, visual e de mobilidade reduzida, isso é lei \r\n(Estatuto da Pessoa com Deficiência) e a gente não vai deixar \r\nisso de lado. \r\nUma coisa que não precisa entrar agora, e que a gente já \r\ndecidiu deixar de fora dessa frente: o sistema de \r\nmonitoramento de frota (rastreamento de veículo, GPS, esse \r\nuniverso). Isso já existe separado e não faz parte do que \r\nestamos pedindo aqui — só precisa ter uma forma de conversar \r\ncom esse outro sistema depois, não construir ele do zero. \r\nTambém não é prioridade nesse momento pensar em integrar com \r\nbicicleta compartilhada, patinete ou estacionamento, isso é \r\nmais um \"seria bom no futuro\" do que uma exigência de agora. \r\nE pra fechar, uma preocupação grande nossa é a transição: a \r\ngente não pode simplesmente trocar de sistema da noite pro dia \r\ne deixar o passageiro sem conseguir usar o transporte, então \r\nqualquer proposta precisa pensar em como migrar gente que já \r\nusa o sistema antigo (sejam cartões físicos, contas, \r\nbenefícios já cadastrados) pro novo sem trauma, e ainda \r\nmantendo compatibilidade com sistemas de bilhetagem de outras \r\nregiões metropolitanas que a gente eventualmente precise \r\ninteroperar.",
+    "EXEMPLO — Histórias de Usuário do SGP\r\nHU-001\r\nComo administrador do sistema,\r\nquero cadastrar e gerenciar usuários com diferentes perfis de acesso,para controlar quem pode visualizar e modificar cada módulo do sistema.\r\nRF associado: RF-001 | Prioridade: Must have\r\nHU-002\r\nComo vendedor,\r\nquero registrar um pedido com múltiplos produtos em uma única tela,\r\npara não precisar navegar entre janelas e agilizar o atendimento ao cliente.\r\nRF associado: RF-003 | Prioridade: Must have\r\nHU-003\r\nComo cliente final,\r\nquero receber um e-mail de confirmação imediatamente após minha compra,\r\npara ter um registro da transação e maior confiança no processo.\r\nRF associado: RF-004 | Prioridade: Should have\r\nHU-004\r\nComo gerente de vendas,\r\nquero visualizar um relatório consolidado de vendas por vendedor e por período,\r\npara acompanhar o desempenho da equipe e tomar decisões estratégicas.\r\nRF associado: RF-006 (a ser detalhado) | Prioridade: Should have\r\nANTI-PADRÃO — Histórias mal escritas\r\nERRADO: 'HU-005: Como usuário, quero um sistema bom.'\r\n → 'Usuário' é genérico demais; 'bom' não é verificável.\r\nERRADO: 'HU-006: Como vendedor, quero cadastrar clientes E registrar pedidos E gerar relatórios.'\r\n → Uma história deve descrever UMA necessidade. Dividir em HU-006, HU-007 e HU-008.\r\nERRADO: 'HU-007: Como desenvolvedor, quero usar PostgreSQL.'\r\n → Histórias de usuário são da perspectiva do usuário de negócio, não da equipe técnica.\r\n2.7 Casos de Uso (UC)\r\nBase: Sommerville (2016, cap. 4); Wiegers & Beatty (2013, cap. 8); Cockburn (2001) — Writing Effective Use Cases\r\nCasos de uso descrevem a interação entre um ator e o sistema para atingir um objetivo específico. \r\nEles complementam as histórias de usuário adicionando fluxos alternativos e de exceção, tornando\r\no comportamento do sistema completamente especificado.\r\nCASO DE USO — Template completo\r\nID: UC-NNN — [Nome do caso de uso]Ator principal: [quem inicia a interação]\r\nHU relacionada: HU-NNN\r\nPré-condição: [o que deve ser verdadeiro antes do início]\r\nPós-condição (sucesso): [estado do sistema após conclusão bem-sucedida]\r\nPós-condição (falha): [estado do sistema após falha]\r\nFLUXO PRINCIPAL (caminho feliz):\r\n 1. O ator [ação 1].\r\n 2. O sistema [resposta 2].\r\n 3. O ator [ação 3].\r\n 4. O sistema [resposta 4 — resultado final].\r\nFLUXOS ALTERNATIVOS:\r\n 2a. [Condição alternativa] → [o sistema faz Y]; retorna ao passo N.\r\nFLUXOS DE EXCEÇÃO:\r\n 2b. [Condição de erro] → [o sistema exibe mensagem Z e faz W] (ref. RN￾NNN, RF-NNN).",
+    "[Derivado de: 'dentro da \r\nLGPD']\r\nRNF-003 (Reliability — Fault Tolerance):\r\nO sistema deve operar em modo offline com funcionalidade de criação de propostas, sincronizando \r\nautomaticamente com latência máxima de 30 segundos após reconexão. [Derivado de: 'funcionar quando \r\ninternet tiver ruim']\r\nRNF-004 (Compatibility — Interoperability):\r\nA integração com SAP deve ser bidirecional via API REST/JSON, sem modificações na configuração atual do \r\nSAP. [Derivado de: 'vira pedido automaticamente no SAP']\r\nRNF-005 (Flexibility — Installability):\r\nO sistema deve ser responsivo e funcional em dispositivos móveis (Android/iOS) sem necessidade de \r\naplicativo nativo. [Derivado de: 'usam no celular em campo']\r\nHistórias de Usuário\r\nHU-001: Como vendedor, quero criar propostas com preços atualizados automaticamente, para evitar erros \r\nde precificação e retrabalho.\r\nHU-002: Como diretora comercial, quero ver todas as propostas abertas em tempo real em um painel, para \r\nnão precisar ligar para cada vendedor para saber a situação.\r\nHU-003: Como vendedor, quero criar propostas no celular mesmo sem internet, para não perder \r\noportunidades quando estou em campo.\r\nCritérios de Aceite\r\nCA-001 (RF-001):\r\nDado que o vendedor está criando uma nova proposta,\r\nQuando selecionar um produto,\r\nEntão o sistema deve exibir o preço da tabela de preços com data de vigência atual, sem necessidade de \r\nconsulta manual.\r\nCA-002 (RF-002):\r\nDado que uma proposta com valor R$ 60.000,00 foi finalizada pelo vendedor,\r\nQuando clicar em 'Enviar ao cliente',\r\nEntão o sistema deve redirecionar para status 'Aguardando aprovação', notificar a diretora por e-mail e \r\nbloquear o envio até aprovação registrada.CA-003 (RF-006 / HU-003):\r\nDado que o vendedor está sem conexão à internet,\r\nQuando criar e salvar uma proposta no modo offline,\r\nEntão o sistema deve armazená-la localmente e sincronizá-la com o servidor em até 30 segundos após a \r\nreconexão, sem perda de dados.PARTE 6 — Protocolo de Extração: Passo a Passo para o Agente\r\nAo receber um documento de projeto, executar nesta ordem:\r\n1. PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5.",
+    "Nível Fundamental | Syllabus ©IREB 41 | 50\r\nProcesso de ER Orientado para o Produto: Iterativo, Exploratório e Orientado \r\npara o Mercado\r\nPrincipal aplicação:: Uma organização especifica e desenvolve software para \r\nvendê-lo ou distribuí-lo como um produto ou serviço\r\nProdutos de trabalho \r\ntípicos:\r\nBacklog do Produto, protótipos\r\nFluxo de informação \r\ntípico:\r\nInteração entre o Product Owner, marketing, engenheiros de \r\nrequisitos, designers digitais, desenvolvedores e (talvez) \r\nfeedback rápido de clientes/usuários\r\nNote que pode haver contextos de sistema e desenvolvimento onde nenhuma das \r\nconfigurações acima mencionadas se encaixe. Por exemplo, restrições regulatórias podem \r\nimpor a utilização de um processo que esteja em conformidade com determinadas normas, \r\ncomo a ISO/IEC/IEEE 29148 [ISO29148].\r\nAo configurar um processo da ER, recomendamos a utilização de um procedimento em \r\ncinco etapas:\r\n1. Analisar os fatores de influência (5.1)\r\n2. Avaliar os critérios de vertentes (5.2)\r\n3. Configurar o processo (5.3)\r\n4. Determinar produtos de trabalho (3)\r\n5. Selecione as práticas apropriadas",
+    "5)\r\nO escopo define com precisão o que será feito (IN) e o que NÃO será feito (OUT). A lista OUT é tão \r\nimportante quanto a lista IN — ela previne o scope creep, que é a principal causa de projetos \r\natrasados e acima do orçamento.\r\nESCOPO — Estrutura\r\nNome do sistema: [Nome]\r\nDescrição em uma frase: [O sistema X permite que Y faça Z.]\r\nEM ESCOPO (IN):\r\n • [Funcionalidade / módulo A]\r\n • [Funcionalidade / módulo B]\r\nFORA DE ESCOPO (OUT):\r\n • [Funcionalidade excluída A] — Motivo: [justificativa]\r\n • [Funcionalidade excluída B] — Motivo: [justificativa]\r\nPREMISSAS:\r\n • PA-01: [Fato assumido como verdadeiro — se mudar, gera risco]\r\nRESTRIÇÕES:\r\n • REST-01: [Limitação tecnológica, regulatória, de prazo ou orçamento]\r\nEXEMPLO — Sistema de Gestão de Pedidos\r\nNome: Sistema de Gestão de Pedidos (SGP)\r\nDescrição: O SGP permite que vendedores registrem pedidos, acompanhem status e gerem relatórios de \r\nvendas via interface web.\r\nEM ESCOPO (IN):\r\n • Cadastro e gerenciamento de clientes\r\n • Registro e acompanhamento de pedidos\r\n • Geração de relatórios de vendas\r\n • Notificação por e-mail ao cliente\r\nFORA DE ESCOPO (OUT):\r\n • Módulo de contabilidade fiscal — responsabilidade do sistema ERP existente • Aplicativo mobile — previsto para v2.0\r\nPREMISSAS:\r\n • PA-01: O cliente já possui infraestrutura de e-mail SMTP configurada.\r\nRESTRIÇÕES:\r\n • REST-01 (Tecnológica): Banco de dados obrigatoriamente PostgreSQL 14+ (infraestrutura existente).\r\n • REST-02 (Regulatória): Conformidade com LGPD (Lei 13.709/2018).\r\n • REST-03 (Prazo): MVP entregue em 90 dias.\r\n2.2 Stakeholders e Perfis de Usuário\r\nBase: BABOK® v3 §2 — 'Stakeholder Engagement'; Sommerville (2016, cap. 4)\r\nStakeholders são todas as partes com interesse no sistema: usuários diretos, gerentes, \r\npatrocinadores, equipes de suporte, auditores e sistemas externos. Identificar todos os \r\nstakeholders no início evita requisitos descobertos tarde no projeto.\r\nSTAKEHOLDER — Estrutura por entrada\r\nID: STK-NN\r\nNome / Papel: [nome ou papel genérico]\r\nTipo: Usuário primário | Usuário secundário | Stakeholder externo\r\nNível de acesso ao sistema: Total | Parcial | Nenhum\r\nPrincipais necessidades: [o que este perfil precisa que o sistema faça \r\npor ele]\r\nEXEMPLO — Stakeholders do SGP\r\nSTK-01 | Administrador do sistema | Usuário primário | Total\r\n Necessidades: configurar permissões, cadastrar usuários, auditar logs.\r\nSTK-02 | Vendedor | Usuário primário | Parcial\r\n Necessidades: registrar pedidos, consultar histórico de clientes, emitir orçamentos.\r\nSTK-03 | Cliente final | Usuário secundário | Nenhum (recebe notificações)\r\n Necessidades: receber confirmação de pedido por e-mail.",
+    "PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5. PASSO 5 — Extrair Requisitos Funcionais\r\n Para cada verbo de ação do sistema: criar um RF. Desdobrar genéricos ('gerenciar') em múltiplos RFs \r\natômicos. Referenciar RNs quando aplicável.\r\n6. PASSO 6 — Identificar e quantificar RNFs\r\n Varrer o documento inteiro por adjetivos de qualidade. Classificar cada um pela ISO 25010 e propor \r\nmétrica. Marcar [TBD] se necessário.\r\n7. PASSO 7 — Escrever Histórias de Usuário\r\n Para cada necessidade identificada por um stakeholder: escrever HU no formato Connextra. Vincular ao RF\r\ncorrespondente.\r\n8. PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7.",
+    "Nível Fundamental | Syllabus ©IREB 28 | 50\r\nexplicações adicionais - por exemplo, um glossário, condições de aceite, informações sobre \r\no projeto ou características da implementação técnica.\r\nOs requisitos também podem ser organizados em estruturas de documentação além dos \r\ndocumentos clássicos.\r\nOs documentos mais utilizados são:\r\n▪ Especificação de Requisitos dos Stakeholders\r\n▪ Especificação dos Requisitos de Usuários (um subconjunto de uma especificação \r\ndos requisitos dos stakeholders, abrangendo apenas os requisitos dos usuários)\r\n▪ Especificação dos Requisitos de Sistema\r\n▪ Especificação de Requisitos de Negócio\r\n▪ Documento de Visão\r\nEstruturas alternativas de documentação frequentemente utilizadas:\r\n▪ Backlog do produto\r\n▪ Backlog da sprint\r\n▪ Mapa de histórias\r\nTanto a seleção de uma estrutura de documentação como a organização interna da \r\nestrutura escolhida dependem de:\r\n▪ O processo de desenvolvimento escolhido (5)\r\n▪ O tipo de desenvolvimento e domínio\r\n▪ O contrato (um cliente pode prescrever o uso de uma determinada estrutura de \r\ndocumentação)\r\n▪ O tamanho do documento\r\nOs templates de documentos podem ajudar a estruturar uma especificação de requisitos. \r\nOs templates estão disponíveis na literatura [Vole2020], [RoRo2012] e em normas \r\n[ISO29148]. Os templates também podem ser reutilizados de projetos anteriores, similares \r\nou podem ser impostos por um cliente. Uma organização também pode decidir criar um \r\ntemplate como um padrão interno.\r\n3.7 Protótipos na Engenharia de Requisitos (L1)\r\nNa ER, os protótipos são um meio de especificar os requisitos através do exemplo e de \r\nvalidar os requisitos. Em particular, os protótipos podem ser usados se os stakeholders não \r\nquiserem escrever e revisar produtos de trabalho baseados em linguagem natural ou em \r\nmodelos.\r\nOs protótipos exploratórios [LiSZ1994] são usados para criar um entendimento comum, \r\nesclarecer requisitos ou validar requisitos em diferentes níveis de fidelidade. Eles são \r\ndescartados após o uso.\r\n▪ Wireframes são protótipos de baixa fidelidade construídos com materiais simples ou \r\nferramentas de esboço que servem principalmente para discutir e validar ideias de \r\ndesign e conceitos de interface com o usuário.",
+    "STK-04 | Gerente de vendas | Usuário secundário | Relatórios apenas\r\n Necessidades: visualizar relatórios de desempenho de vendas.2.3 Regras de Negócio (RN)\r\nBase: Wiegers & Beatty (2013, cap. 9); BABOK® v3 §10.9 — 'Business Rules Analysis'\r\nUma Regra de Negócio é uma política, condição ou fórmula que governa o comportamento da \r\norganização. Ela existe INDEPENDENTEMENTE do software — o sistema a implementa, mas não a\r\ndefine. Regras de negócio são catalogadas separadamente dos requisitos e apenas referenciadas \r\npor eles.\r\nREGRA: Regras de negócio devem ser escritas sem mencionar interfaces, telas ou tecnologias. Se a regra \r\nmenciona 'botão', 'tela' ou 'banco de dados', não é uma regra de negócio — é um requisito funcional.\r\nREGRA DE NEGÓCIO — Estrutura\r\nID: RN-NNN\r\nTítulo: [Nome curto da política]\r\nDescrição: [Condição ou política em linguagem de negócio, sem mencionar \r\nsoftware]\r\nFonte / Responsável: [Área ou lei que origina a regra]\r\nExceções: [Casos em que a regra não se aplica, se houver]\r\nEXEMPLO — Regras de Negócio do SGP\r\nRN-001 | Aprovação de pedidos de alto valor\r\nDescrição: Pedidos cujo valor total supere R$ 10.000,00 devem ser aprovados pelo gerente comercial antes de\r\nserem confirmados ao cliente.\r\nFonte: Política comercial interna — Gerência Comercial\r\nExceções: Clientes com contrato corporativo ativo estão isentos desta aprovação.\r\nRN-002 | Limite de desconto\r\nDescrição: Nenhum desconto pode ultrapassar 15% do valor do pedido sem autorização expressa do diretor \r\nfinanceiro.\r\nFonte: Política financeira — Diretoria Financeira\r\nRN-003 | Validação de CPF\r\nDescrição: Todo CPF de cliente deve ser válido segundo o algoritmo de dígitos verificadores da Receita \r\nFederal antes de ser aceito no cadastro.\r\nFonte: Requisito legal — IN RFB 1.863/2018\r\nANTI-PADRÃO — Regra com menção a softwareERRADO: 'RN-004: O botão Confirmar só deve aparecer se o valor for < R$ 10.000,00.'\r\nCORRETO: 'RN-004: Pedidos abaixo de R$ 10.000,00 não exigem aprovação gerencial.'\r\nA versão correta descreve a política; o software decide como implementá-la.\r\n2.4 Requisitos Funcionais (RF)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6.12 — 'Functions'; SWEBOK v4.0 Cap. 1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.",
+    "Elicitação de Requisitos | Syllabus | ©IREB 32 | 43\r\n4 Resolução de conflitos (L4)\r\nDuração: 2,0 horas\r\nTermos: Necessidade, consistência, completude, viabilidade, conflito de requisitos, conflito \r\nsocial\r\nObjetivos Educacionais\r\nEO 4.1.1 Compreender a diferença entre conflitos de requisitos e outros conflitos sociais\r\nEO 4.1.2 Aplicar a identificação de conflitos\r\nEO 4.2.1 Aplicar a classificação dos tipos de conflito\r\nEO 4.2.2 Compreender, como Engenheiro de Requisitos, quais conflitos resolver e quais \r\ndelegar\r\nEO 4.3.1 Aplicar o uso de acordo, compromisso, construção de variantes, votação e \r\nanulação como exemplos de técnicas de negociação\r\nEO 4.3.2 Analisar técnicas de negociação de modo a selecionar as mais apropriadas de \r\nacordo com as características do conflito\r\nEO 4.4.1 Compreender a documentação das resoluções de conflitos de requisitos\r\nDurante a elicitação, o Engenheiro de Requisitos descobre, reúne e projeta uma ampla \r\ncoleção de requisitos. As técnicas de elicitação, por si só, não garantem que essa coleção \r\ncomo um todo seja clara, completa, consistente, inequívoca e aceitável. No entanto, para o \r\nconjunto final de requisitos, todos os stakeholders têm de compreender e concordar com \r\ntodos os requisitos que lhes são relevantes. Se alguns stakeholders não concordarem, esta \r\nsituação deve ser reconhecida como um conflito de requisitos que deve ser resolvido em \r\nconformidade.\r\nA resolução de conflitos no sentido amplo consiste em quatro tarefas:\r\n▪ Identificar conflitos\r\n▪ Análisar conflitos\r\n▪ Resolver conflitos\r\n▪ Documentar a resolução de conflitos\r\nA identificação e análise de conflitos é uma atividade contínua na Engenharia de Requisitos \r\ne é um pré-requisito para a resolução de qualquer conflito. Uma vez identificado um conflito \r\nde requisitos, o Engenheiro de Requisitos deve iniciar as atividades de resolução de conflitos \r\npara selecionar uma técnica de resolução adequada e documentar seu resultado.\r\n4.1 Identificação de conflitos (L2)\r\nOs conflitos em geral são um tema das ciências sociais e, normalmente, são chamados de \r\n\"conflito social\" para indicar que um conflito surge entre pessoas. Um conflito social pode \r\nser definido da seguinte forma: \"... uma interação entre atores (indivíduos, grupos, \r\norganizações e assim por diante), em que pelo menos um ator vê incompatibilidades no \r\npensamento, na imaginação, na percepção, no sentimento e/ou no desejo com outro ator \r\n(outros atores) de uma forma que, na realização, há prejuízo para outro ator (os outros \r\natores).\" [Glas2004]"
+  ],
+  "ground_truth": "GABARITO — Project Scenario 7: SBD (Sistema de Bilhetagem Digital) — Rio de Janeiro\nUso: campo \"ground_truth\" do RAGAS (context_precision / context_recall).\nCada linha é uma afirmação atômica, checável contra o texto do cenário e a\nbase de conhecimento — não é um SRS completo, é o conjunto de fatos que um\nSRS bem fundamentado para este cenário deveria conseguir cobrir.\n\n- O sistema deve centralizar cobrança de tarifa, emissão/gestão de cartões ou contas de usuários e controle de acesso a veículos e estações.\n- A prefeitura deve conseguir acompanhar demanda e arrecadação de forma confiável, sem depender só do repasse do operador.\n- A operação (venda de créditos, atendimento, validadores, central de processamento) fica a cargo de uma empresa concessionária contratada.\n- A prefeitura deve manter visibilidade total e auditável sobre a movimentação financeira e de uso, em tempo real ou próximo disso.\n- O sistema deve validar de forma confiável quem tem direito a gratuidade/desconto (idosos, estudantes, pessoas com deficiência), usando reconhecimento facial ou outra forma de conferência, para reduzir fraude.\n- Os operadores de transporte (ônibus, BRT etc.) têm visibilidade parcial dos dados, não acesso total.\n- O validador deve enviar a informação da viagem ao sistema central em no máximo 30 segundos.\n- Os pontos de atendimento presencial devem estar preparados para atender pessoas com deficiência auditiva, visual e de mobilidade reduzida, conforme o Estatuto da Pessoa com Deficiência (Lei Federal nº 13.146/2015).\n- O sistema de monitoramento de frota (GPS/rastreamento de veículos) está fora do escopo deste projeto; só precisa de integração futura com esse sistema já existente.\n- Integração com bicicleta compartilhada, patinete ou estacionamento não é prioridade nesta fase.\n- A migração de usuários do sistema antigo (cartões físicos, contas, benefícios já cadastrados) para o novo sistema deve ocorrer sem trauma para o passageiro.\n- O sistema deve manter compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas.\n",
+  "rag_score": 0.4603,
+  "artefatos": {
+    "escopo": {
+      "descricao": "O SBD registra e processa a bilhetagem do transporte público, gerencia usuários e benefícios tarifários e disponibiliza dados auditáveis para operação e regulação.",
+      "em_escopo": [
+        "Gestão de contas de passageiros e cartões físicos",
+        "Venda e recarga de créditos tarifários",
+        "Cobrança de tarifa e registro de viagens",
+        "Registro de entradas em veículos e estações",
+        "Cadastro e validação de benefícios de gratuidade ou desconto",
+        "Verificação de identidade para uso de benefícios",
+        "Painéis de demanda, arrecadação e auditoria para a Prefeitura",
+        "Consulta restrita de dados operacionais pelos operadores de transporte",
+        "Sincronização de validadores em operação offline",
+        "Migração de cartões, contas e benefícios do sistema legado",
+        "Interoperabilidade com sistemas de bilhetagem metropolitanos"
+      ],
+      "fora_de_escopo": [
+        "Monitoramento de frota, rastreamento de veículos e GPS — já existe sistema separado para essa finalidade",
+        "Construção de sistema de monitoramento de frota — o SBD apenas deverá prever integração futura",
+        "Integração com bicicletas compartilhadas, patinetes e estacionamentos — não é prioridade desta versão"
+      ],
+      "premissas": [
+        "PA-01: A empresa contratada será responsável pela operação de vendas de créditos, atendimento ao usuário, manutenção dos validadores e central de processamento.",
+        "PA-02: A Prefeitura definirá e manterá as políticas tarifárias, os critérios de elegibilidade e as regras de subsídio e compensação.",
+        "PA-03: Os dados de cartões, contas e benefícios do sistema legado estarão disponíveis para migração. [INFERIDO]",
+        "PA-04: Sistemas de bilhetagem de regiões metropolitanas disponibilizarão mecanismos de interoperabilidade compatíveis. [INFERIDO]"
+      ],
+      "restricoes": [
+        "REST-01 (Desempenho): O validador deve transmitir informações de viagem ao sistema central em até 30 segundos.",
+        "REST-02 (Conectividade): O validador deve preservar eventos de viagem durante indisponibilidade temporária de conexão.",
+        "REST-03 (Regulatória): Os pontos de atendimento presencial devem atender pessoas com deficiência auditiva, visual e de mobilidade reduzida, conforme o Estatuto da Pessoa com Deficiência.",
+        "REST-04 (Transição): A implantação não deve interromper o uso do transporte por passageiros migrados do sistema legado.",
+        "REST-05 (Governança): A Prefeitura deve manter visibilidade e auditabilidade das movimentações financeiras e de uso."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Passageiro comum",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Utilizar crédito tarifário, acessar o transporte e consultar sua conta ou cartão."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Beneficiário de gratuidade ou desconto",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Cadastrar comprovação de elegibilidade, utilizar o benefício tarifário e validar sua identidade."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Empresa contratada de operação da bilhetagem",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Operar vendas de créditos, atender passageiros, administrar validadores e processar eventos de bilhetagem."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Operador de transporte",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Consultar dados autorizados de uso para gestão da operação e prestação de contas."
+      },
+      {
+        "id": "STK-05",
+        "nome": "Prefeitura do Rio de Janeiro",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Definir política tarifária, fiscalizar a operação, acompanhar demanda, arrecadação, subsídios e compensações."
+      },
+      {
+        "id": "STK-06",
+        "nome": "Atendente presencial da empresa contratada",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Cadastrar usuários, receber comprovações de benefício e atender passageiros nos pontos presenciais. [INFERIDO]"
+      },
+      {
+        "id": "STK-07",
+        "nome": "Sistema legado de bilhetagem",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Fornecer dados de cartões, contas e benefícios para a transição."
+      },
+      {
+        "id": "STK-08",
+        "nome": "Sistemas metropolitanos de bilhetagem",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Interoperar dados e transações de bilhetagem quando acordado entre as regiões."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Definição da política tarifária",
+        "descricao": "As tarifas aplicáveis ao transporte público são definidas pela Prefeitura do Rio de Janeiro.",
+        "fonte": "Prefeitura do Rio de Janeiro",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Elegibilidade a benefícios tarifários",
+        "descricao": "Idosos, estudantes e pessoas com deficiência somente recebem gratuidade ou desconto após comprovação da condição que lhes dá direito ao benefício.",
+        "fonte": "Política pública de benefícios tarifários",
+        "excecoes": "Critérios documentais específicos por categoria de beneficiário. [TBD]"
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Uso pessoal do benefício",
+        "descricao": "O benefício tarifário é pessoal e somente pode ser utilizado pelo beneficiário elegível.",
+        "fonte": "Política pública de benefícios tarifários",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Acesso restrito de operadores",
+        "descricao": "Operadores de transporte acessam somente os dados necessários à gestão de sua operação e à prestação de contas.",
+        "fonte": "Prefeitura do Rio de Janeiro",
+        "excecoes": "Acesso adicional mediante autorização formal da Prefeitura. [INFERIDO]"
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Fiscalização das movimentações",
+        "descricao": "Movimentações financeiras e eventos de uso da bilhetagem devem permanecer disponíveis para fiscalização pela Prefeitura.",
+        "fonte": "Governança da bilhetagem pública",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Subsídios e compensações entre operadores",
+        "descricao": "A apuração de subsídios e compensações entre operadores deve utilizar dados de uso e arrecadação registrados na bilhetagem.",
+        "fonte": "Política de subsídios e compensações da Prefeitura",
+        "excecoes": "Fórmulas e períodos de apuração. [TBD]"
+      },
+      {
+        "id": "RN-007",
+        "titulo": "Continuidade na migração",
+        "descricao": "A transição do sistema legado não pode impedir passageiros migrados de utilizar o transporte público.",
+        "fonte": "Diretriz de transição do projeto",
+        "excecoes": "Casos de dados legados inválidos, a serem definidos. [TBD]"
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Cadastrar conta de passageiro",
+        "descricao": "O sistema deve cadastrar uma conta de passageiro com identificador único.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Emitir meio de acesso",
+        "descricao": "O sistema deve emitir um cartão físico ou identificador digital vinculado a uma conta de passageiro.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Registrar recarga de crédito",
+        "descricao": "O sistema deve registrar uma recarga de crédito tarifário na conta do passageiro.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Aplicar tarifa à viagem",
+        "descricao": "O sistema deve aplicar a tarifa vigente à viagem elegível para cobrança.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Registrar entrada",
+        "descricao": "O sistema deve registrar o evento de entrada de um passageiro em veículo ou estação.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Registrar saída",
+        "descricao": "O sistema deve registrar o evento de saída de um passageiro em veículo ou estação.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Receber comprovação de benefício",
+        "descricao": "O sistema deve registrar a documentação apresentada para solicitação de gratuidade ou desconto.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Conceder benefício tarifário",
+        "descricao": "O sistema deve associar o benefício tarifário aprovado à conta do beneficiário.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Validar identidade do beneficiário",
+        "descricao": "O sistema deve validar a identidade do portador de benefício no momento de uso por mecanismo de conferência configurado.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Restringir consulta por operador",
+        "descricao": "O sistema deve limitar a consulta de dados pelo operador de transporte ao escopo autorizado.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Exibir demanda à Prefeitura",
+        "descricao": "O sistema deve disponibilizar à Prefeitura dados consolidados de demanda por período.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Exibir arrecadação à Prefeitura",
+        "descricao": "O sistema deve disponibilizar à Prefeitura dados consolidados de arrecadação por período.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Registrar trilha de auditoria",
+        "descricao": "O sistema deve registrar uma trilha de auditoria para cada movimentação financeira e evento de uso.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Sincronizar eventos pendentes",
+        "descricao": "O sistema deve sincronizar eventos de viagem armazenados no validador após o restabelecimento da conexão.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-03",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Migrar dados legados",
+        "descricao": "O sistema deve importar cartões, contas e benefícios elegíveis do sistema legado.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-05",
+        "rn_associada": "RN-007"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Interoperar bilhetagem metropolitana",
+        "descricao": "O sistema deve trocar dados de bilhetagem com sistemas metropolitanos habilitados.",
+        "prioridade": "Should have",
+        "stakeholder_origem": "STK-08",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "Oferecer atendimento acessível",
+        "descricao": "O sistema deve disponibilizar fluxos de atendimento presencial compatíveis com recursos de acessibilidade definidos para pessoas com deficiência auditiva, visual ou mobilidade reduzida.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Transmissão de eventos de viagem",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve receber do validador cada evento de viagem conectado em até 30 segundos após seu registro.",
+        "metrica_aceitacao": "100% dos eventos em teste de conectividade estável recebidos em até 30 segundos.",
+        "metodo_verificacao": "Teste de integração com validador e coleta de timestamps."
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Sincronização após reconexão",
+        "categoria_iso25010": "Reliability",
+        "descricao": "O sistema deve concluir a sincronização de eventos pendentes em até 30 segundos após a reconexão do validador. [TBD]",
+        "metrica_aceitacao": "100% dos eventos pendentes de um cenário de até 100 eventos sincronizados em até 30 segundos após a reconexão. [TBD]",
+        "metodo_verificacao": "Teste de resiliência com interrupção controlada de conectividade."
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Disponibilidade da central",
+        "categoria_iso25010": "Reliability",
+        "descricao": "O sistema deve manter disponibilidade mensal mínima de 99,5%, excluídas manutenções programadas. [TBD]",
+        "metrica_aceitacao": "Indisponibilidade não programada máxima de 3,6 horas por mês. [TBD]",
+        "metodo_verificacao": "Monitoramento automatizado de disponibilidade."
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Proteção de acessos por perfil",
+        "categoria_iso25010": "Security",
+        "descricao": "O sistema deve bloquear 100% das solicitações de consulta fora das permissões atribuídas ao perfil autenticado.",
+        "metrica_aceitacao": "0 consultas não autorizadas aprovadas na suíte de testes de autorização.",
+        "metodo_verificacao": "Teste automatizado de autorização e teste de penetração."
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Rastreabilidade de auditoria",
+        "categoria_iso25010": "Security",
+        "descricao": "O sistema deve registrar 100% das movimentações financeiras e eventos de uso com identificador, data, hora e origem do evento.",
+        "metrica_aceitacao": "0 eventos de uma amostra de 10.000 transações sem registro de auditoria.",
+        "metodo_verificacao": "Auditoria de banco de dados e teste de integração."
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Acessibilidade de atendimento",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "O sistema deve permitir a conclusão de 100% dos fluxos prioritários de atendimento presencial utilizando os recursos de acessibilidade definidos. [TBD]",
+        "metrica_aceitacao": "100% dos fluxos de cadastro, recarga e solicitação de benefício concluídos em testes com tecnologias assistivas e usuários representativos. [TBD]",
+        "metodo_verificacao": "Teste de acessibilidade e teste de usabilidade assistida."
+      },
+      {
+        "id": "RNF-007",
+        "titulo": "Interoperabilidade metropolitana",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "O sistema deve processar 100% das mensagens válidas do protocolo de interoperabilidade acordado com cada região metropolitana habilitada. [TBD]",
+        "metrica_aceitacao": "0 falhas críticas em 1.000 mensagens válidas de teste por integração habilitada. [TBD]",
+        "metodo_verificacao": "Teste de integração ponta a ponta."
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "passageiro comum",
+        "quero": "possuir uma conta de bilhetagem",
+        "para": "utilizar os serviços de transporte vinculados à minha identificação.",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "passageiro comum",
+        "quero": "receber um meio de acesso à bilhetagem",
+        "para": "utilizar o transporte público.",
+        "rf_associado": "RF-002",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "passageiro comum",
+        "quero": "recarregar créditos tarifários",
+        "para": "pagar minhas viagens.",
+        "rf_associado": "RF-003",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "Prefeitura do Rio de Janeiro",
+        "quero": "aplicar a tarifa vigente às viagens",
+        "para": "garantir a cobrança conforme a política tarifária.",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "empresa contratada de operação da bilhetagem",
+        "quero": "registrar entradas no transporte",
+        "para": "processar a utilização do serviço.",
+        "rf_associado": "RF-005",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "empresa contratada de operação da bilhetagem",
+        "quero": "registrar saídas do transporte",
+        "para": "acompanhar o deslocamento do passageiro.",
+        "rf_associado": "RF-006",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-007",
+        "como": "beneficiário de gratuidade ou desconto",
+        "quero": "apresentar minha comprovação de elegibilidade",
+        "para": "solicitar o benefício tarifário correspondente.",
+        "rf_associado": "RF-007",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "atendente presencial da empresa contratada",
+        "quero": "vincular um benefício aprovado à conta do beneficiário",
+        "para": "permitir seu uso conforme a política aplicável.",
+        "rf_associado": "RF-008",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "beneficiário de gratuidade ou desconto",
+        "quero": "validar minha identidade ao usar o benefício",
+        "para": "comprovar que sou o titular elegível.",
+        "rf_associado": "RF-009",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "operador de transporte",
+        "quero": "consultar dados autorizados da minha operação",
+        "para": "gerir a frota e prestar contas.",
+        "rf_associado": "RF-010",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "Prefeitura do Rio de Janeiro",
+        "quero": "consultar a demanda consolidada",
+        "para": "fiscalizar a utilização do transporte.",
+        "rf_associado": "RF-011",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-012",
+        "como": "Prefeitura do Rio de Janeiro",
+        "quero": "consultar a arrecadação consolidada",
+        "para": "acompanhar recursos públicos e compensações.",
+        "rf_associado": "RF-012",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-013",
+        "como": "Prefeitura do Rio de Janeiro",
+        "quero": "auditar movimentações financeiras e eventos de uso",
+        "para": "fiscalizar a operação de bilhetagem.",
+        "rf_associado": "RF-013",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-014",
+        "como": "empresa contratada de operação da bilhetagem",
+        "quero": "sincronizar eventos acumulados no validador",
+        "para": "preservar os registros de viagem após falhas de conexão.",
+        "rf_associado": "RF-014",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-015",
+        "como": "Prefeitura do Rio de Janeiro",
+        "quero": "migrar dados do sistema legado",
+        "para": "evitar interrupção do acesso ao transporte na transição.",
+        "rf_associado": "RF-015",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-016",
+        "como": "gestor de mobilidade da Prefeitura",
+        "quero": "interoperar com sistemas metropolitanos habilitados",
+        "para": "viabilizar a integração regional da bilhetagem.",
+        "rf_associado": "RF-016",
+        "prioridade": "Should have"
+      },
+      {
+        "id": "HU-017",
+        "como": "passageiro com deficiência",
+        "quero": "receber atendimento presencial acessível",
+        "para": "utilizar os serviços de bilhetagem com autonomia.",
+        "rf_associado": "RF-017",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Registrar recarga de crédito",
+        "ator_principal": "Atendente presencial da empresa contratada",
+        "hu_relacionada": "HU-003",
+        "pre_condicao": "O passageiro possui conta cadastrada.",
+        "pos_condicao_sucesso": "A recarga fica registrada na conta do passageiro.",
+        "pos_condicao_falha": "Nenhum crédito é adicionado à conta.",
+        "fluxo_principal": [
+          "1. O ator identifica a conta do passageiro.",
+          "2. O sistema apresenta a conta identificada.",
+          "3. O ator informa o valor da recarga.",
+          "4. O sistema registra a recarga de crédito."
+        ],
+        "fluxos_alternativos": [
+          "2a. Conta não localizada → o sistema informa que a conta não foi encontrada; retorna ao passo 1."
+        ],
+        "fluxos_excecao": [
+          "4a. Falha no registro → o sistema informa que a recarga não foi concluída e não altera o saldo (ref. RF-003)."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Solicitar benefício tarifário",
+        "ator_principal": "Beneficiário de gratuidade ou desconto",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "O beneficiário possui conta cadastrada.",
+        "pos_condicao_sucesso": "A documentação da solicitação fica registrada para análise.",
+        "pos_condicao_falha": "A solicitação não é registrada.",
+        "fluxo_principal": [
+          "1. O ator informa sua identificação.",
+          "2. O sistema apresenta a conta do beneficiário.",
+          "3. O ator apresenta a documentação comprobatória.",
+          "4. O sistema registra a documentação da solicitação."
+        ],
+        "fluxos_alternativos": [
+          "3a. Documentação incompleta → o sistema informa os documentos pendentes; retorna ao passo 3."
+        ],
+        "fluxos_excecao": [
+          "2b. Conta não encontrada → o sistema informa que não existe conta cadastrada (ref. RF-001, RF-007)."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Validar uso de benefício",
+        "ator_principal": "Beneficiário de gratuidade ou desconto",
+        "hu_relacionada": "HU-009",
+        "pre_condicao": "O beneficiário possui benefício ativo vinculado à conta.",
+        "pos_condicao_sucesso": "O uso do benefício é validado e o evento de entrada é registrado.",
+        "pos_condicao_falha": "O benefício não é validado e o evento é registrado para auditoria. [INFERIDO]",
+        "fluxo_principal": [
+          "1. O ator apresenta seu meio de acesso ao validador.",
+          "2. O sistema identifica o benefício vinculado.",
+          "3. O sistema executa a conferência de identidade configurada.",
+          "4. O sistema valida o uso do benefício.",
+          "5. O sistema registra o evento de entrada."
+        ],
+        "fluxos_alternativos": [
+          "3a. Conferência alternativa configurada → o sistema executa o método alternativo aprovado; retorna ao passo 4."
+        ],
+        "fluxos_excecao": [
+          "3b. Identidade não confirmada → o sistema recusa a validação do benefício e registra a ocorrência (ref. RN-003, RF-009, RF-013)."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Consultar arrecadação consolidada",
+        "ator_principal": "Gestor da Prefeitura do Rio de Janeiro",
+        "hu_relacionada": "HU-012",
+        "pre_condicao": "O gestor está autenticado com permissão de consulta à arrecadação.",
+        "pos_condicao_sucesso": "Os dados de arrecadação do período informado são exibidos.",
+        "pos_condicao_falha": "Nenhum dado é exibido fora da permissão do gestor.",
+        "fluxo_principal": [
+          "1. O ator informa o período de consulta.",
+          "2. O sistema consolida os registros de arrecadação do período.",
+          "3. O sistema exibe os dados consolidados ao ator."
+        ],
+        "fluxos_alternativos": [
+          "2a. Período sem registros → o sistema exibe arrecadação total igual a zero; retorna ao passo 3."
+        ],
+        "fluxos_excecao": [
+          "1b. Ator sem permissão → o sistema bloqueia a consulta (ref. RN-004, RF-010)."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Migrar dados de bilhetagem legados",
+        "ator_principal": "Gestor da Prefeitura do Rio de Janeiro",
+        "hu_relacionada": "HU-015",
+        "pre_condicao": "Os dados do sistema legado estão disponíveis para importação.",
+        "pos_condicao_sucesso": "Os dados elegíveis são importados e ficam disponíveis no SBD.",
+        "pos_condicao_falha": "Os dados não importados são identificados para tratamento sem interromper os dados já válidos. [INFERIDO]",
+        "fluxo_principal": [
+          "1. O ator seleciona o conjunto de dados legado para migração.",
+          "2. O sistema valida a estrutura dos dados recebidos.",
+          "3. O sistema importa os cartões, contas e benefícios elegíveis.",
+          "4. O sistema apresenta o resultado da migração."
+        ],
+        "fluxos_alternativos": [
+          "2a. Registro legado duplicado → o sistema identifica o registro para análise e continua a importação dos demais registros. [INFERIDO]"
+        ],
+        "fluxos_excecao": [
+          "2b. Arquivo ou serviço legado indisponível → o sistema informa falha de importação e não ativa a migração (ref. RN-007, RF-015)."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Cadastro de conta",
+        "dado": "que o atendente possui os dados obrigatórios do passageiro",
+        "quando": "registrar uma nova conta",
+        "entao": "o sistema deve criar a conta com um identificador único e status \"Ativa\"",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-002",
+        "titulo": "Emissão de meio de acesso",
+        "dado": "que existe uma conta ativa de passageiro",
+        "quando": "o atendente solicitar a emissão de um meio de acesso",
+        "entao": "o sistema deve vincular exatamente um identificador de cartão ou identificador digital à conta selecionada",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-003",
+        "titulo": "Registro de recarga",
+        "dado": "que o passageiro possui uma conta ativa",
+        "quando": "o atendente registrar uma recarga de R$ 20,00",
+        "entao": "o sistema deve registrar uma movimentação de crédito de R$ 20,00 vinculada à conta",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-004",
+        "titulo": "Aplicação de tarifa vigente",
+        "dado": "que existe uma tarifa vigente definida pela Prefeitura",
+        "quando": "uma viagem elegível para cobrança for processada",
+        "entao": "o sistema deve registrar a cobrança com o valor da tarifa vigente",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-005",
+        "titulo": "Registro de entrada",
+        "dado": "que o passageiro apresente um meio de acesso válido",
+        "quando": "o validador processar a entrada em um veículo ou estação",
+        "entao": "o sistema deve registrar um evento de entrada com identificador do meio de acesso, data, hora e origem",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-006",
+        "titulo": "Registro de saída",
+        "dado": "que o passageiro tenha um meio de acesso identificado",
+        "quando": "o validador processar a saída em um veículo ou estação",
+        "entao": "o sistema deve registrar um evento de saída com identificador do meio de acesso, data, hora e origem",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-007",
+        "titulo": "Registro de comprovação",
+        "dado": "que o beneficiário possua uma conta cadastrada",
+        "quando": "o atendente registrar a documentação de solicitação de benefício",
+        "entao": "o sistema deve armazenar a documentação vinculada à conta e atribuir à solicitação o status \"Em análise\"",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-008",
+        "titulo": "Vinculação de benefício aprovado",
+        "dado": "que uma solicitação de benefício esteja aprovada",
+        "quando": "o atendente confirmar a concessão",
+        "entao": "o sistema deve vincular o benefício à conta com status \"Ativo\"",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-009",
+        "titulo": "Validação de identidade",
+        "dado": "que o passageiro possua benefício ativo",
+        "quando": "apresentar o meio de acesso e a conferência configurada confirmar sua identidade",
+        "entao": "o sistema deve registrar a validação do benefício com status \"Aprovada\"",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-010",
+        "titulo": "Restrição de dados do operador",
+        "dado": "que um operador esteja autenticado",
+        "quando": "solicitar dados de outro operador",
+        "entao": "o sistema deve bloquear a consulta com status \"Acesso negado\"",
+        "metodo_verificacao": "Teste automatizado E2E"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-011",
+        "titulo": "Consulta de demanda",
+        "dado": "que o gestor da Prefeitura esteja autenticado",
+        "quando": "informar um período de consulta",
+        "entao": "o sistema deve exibir o total de eventos de entrada registrados no período",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-012",
+        "titulo": "Consulta de arrecadação",
+        "dado": "que o gestor da Prefeitura esteja autenticado",
+        "quando": "informar um período de consulta",
+        "entao": "o sistema deve exibir a soma das movimentações de cobrança e recarga registradas no período",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-013",
+        "titulo": "Registro auditável",
+        "dado": "que uma movimentação financeira ou evento de uso seja concluído",
+        "quando": "a operação for persistida",
+        "entao": "o sistema deve criar um registro de auditoria com identificador, data, hora e origem do evento",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-014",
+        "titulo": "Sincronização de eventos offline",
+        "dado": "que o validador tenha 100 eventos pendentes durante indisponibilidade de conexão",
+        "quando": "a conexão for restabelecida",
+        "entao": "o sistema deve registrar os 100 eventos pendentes em até 30 segundos após a reconexão [TBD]",
+        "metodo_verificacao": "Teste de resiliência"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-015",
+        "titulo": "Importação de dados legados",
+        "dado": "que o conjunto legado contenha cartões, contas e benefícios elegíveis",
+        "quando": "o gestor iniciar a migração",
+        "entao": "o sistema deve importar os registros elegíveis e apresentar a quantidade de registros importados",
+        "metodo_verificacao": "Teste de migração de dados"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-016",
+        "titulo": "Troca de dados metropolitana",
+        "dado": "que exista uma integração metropolitana habilitada",
+        "quando": "o sistema receber uma mensagem válida do protocolo acordado",
+        "entao": "o sistema deve processar a mensagem e registrar o resultado com status \"Processada\" [TBD]",
+        "metodo_verificacao": "Teste de integração ponta a ponta"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017 / HU-017",
+        "titulo": "Atendimento presencial acessível",
+        "dado": "que o atendente inicie um fluxo de cadastro, recarga ou solicitação de benefício",
+        "quando": "o passageiro utilizar o recurso de acessibilidade definido para seu atendimento",
+        "entao": "o sistema deve permitir a conclusão do fluxo sem bloqueio funcional [TBD]",
+        "metodo_verificacao": "Teste de acessibilidade e teste funcional manual"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro",
+    "cenario_fonte": "Project Scenario 7.pdf",
+    "observacoes": "Cenario multi-stakeholder (prefeitura regula, empresa concessionaria opera) — cuidado pra nao confundir responsabilidades. Mais rico em RNF que o BECS: tem metrica explicita (30s), exigencia legal explicita (Lei 13.146/2015) e requisito de resiliencia offline.",
+    "escopo": {
+      "em_escopo": [
+        "Centralização da cobrança de tarifa e emissão/gestão de cartões ou contas de usuários",
+        "Controle de acesso (entrada/saída) de passageiros em veículos e estações",
+        "Painel de acompanhamento de demanda e arrecadação para a prefeitura",
+        "Auditoria em tempo real (ou próximo disso) da movimentação financeira e de uso pela prefeitura",
+        "Validação anti-fraude de beneficiários de gratuidade/desconto (reconhecimento facial ou forma equivalente de conferência)",
+        "Visibilidade parcial de dados para operadores de transporte (gestão de frota, prestação de contas)",
+        "Envio da informação de viagem do validador ao sistema central em até 30 segundos, com sincronização após período offline",
+        "Atendimento presencial acessível (deficiência auditiva, visual, mobilidade reduzida)",
+        "Migração de usuários (cartões físicos, contas, benefícios) do sistema antigo para o novo, sem interrupção",
+        "Compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas"
+      ],
+      "fora_de_escopo": [
+        "Sistema de monitoramento de frota (GPS/rastreamento de veículos) — já existe separado, só precisa de integração futura, não construção do zero",
+        "Integração com bicicleta compartilhada, patinete ou estacionamento — não é prioridade nesta fase",
+        "Operação direta pela prefeitura — venda de créditos, atendimento, validadores e central de processamento ficam a cargo da empresa concessionária contratada"
+      ],
+      "premissas": [
+        "PA-01: Haverá uma empresa concessionária contratada responsável pela operação diária (venda de créditos, atendimento, validadores, central de processamento).",
+        "PA-02: [INFERIDO] O sistema de monitoramento de frota já existente disponibilizará uma interface de integração no futuro."
+      ],
+      "restricoes": [
+        "REST-01 (Regulatória): O atendimento presencial deve cumprir o Estatuto da Pessoa com Deficiência (Lei Federal nº 13.146/2015).",
+        "REST-02 (Desempenho): O validador deve enviar dados da viagem ao sistema central em no máximo 30 segundos.",
+        "REST-03 (Escopo): A operação do dia a dia (venda de créditos, validadores, central de processamento) é responsabilidade da empresa concessionária, não da prefeitura."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Prefeitura (reguladora) — define política tarifária, fiscaliza, precisa de visibilidade total e auditável em tempo real (ou próximo disso) sobre a movimentação financeira e de uso, sem depender só do repasse da operadora."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Empresa concessionária/operadora — responsável pela operação (venda de créditos, atendimento, validadores, central de processamento); tem liberdade operacional, mas toda movimentação deve ser auditável pela prefeitura."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Passageiro comum (usuário pagante) — paga e usa o transporte normalmente, sem benefício de gratuidade/desconto."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "Beneficiário de gratuidade/desconto (idosos, estudantes, pessoas com deficiência) — tem fluxo de cadastro mais elaborado, pois precisa comprovar a condição, e está sujeito a validação anti-fraude."
+      },
+      {
+        "id": "STK-05",
+        "descricao": "Operadores de transporte (empresas de ônibus, BRT e outros modos) — precisam de visibilidade parcial dos dados para gestão de frota e prestação de contas, sem acesso total aos dados do sistema."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "A operação do dia a dia (venda de créditos, atendimento, validadores, central de processamento) fica a cargo da empresa concessionária contratada, não da prefeitura diretamente."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "Beneficiários de gratuidade/desconto devem ter o direito ao benefício validado de forma confiável (reconhecimento facial ou outra forma de conferência) para reduzir fraude, sem tornar o uso cotidiano complicado para o usuário."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "Operadores de transporte têm acesso apenas parcial aos dados do sistema (para gestão de frota e prestação de contas), nunca acesso total."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "A migração de usuários do sistema antigo (cartões físicos, contas, benefícios já cadastrados) para o novo sistema deve ocorrer sem interromper o uso do transporte pelo passageiro."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "O sistema de monitoramento de frota (GPS/rastreamento de veículos) é externo e fora de escopo — a solução só precisa prever integração futura com ele, não construí-lo."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "O sistema deve centralizar a cobrança de tarifa dos usuários."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "O sistema deve emitir e gerenciar cartões ou contas dos usuários."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "O sistema deve controlar o acesso (entrada/saída) de passageiros a veículos e estações."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "O sistema deve permitir que a prefeitura acompanhe a demanda e a arrecadação de forma confiável, sem depender só do repasse informado pela operadora."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "O sistema deve fornecer à prefeitura visibilidade total e auditável sobre a movimentação financeira e de uso, em tempo real ou próximo disso."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "O sistema deve validar de forma confiável quem tem direito a gratuidade/desconto (idosos, estudantes, pessoas com deficiência), via reconhecimento facial ou outra forma de conferência."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "O sistema deve fornecer aos operadores de transporte visibilidade parcial dos dados, para gestão de frota e prestação de contas."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "O sistema deve enviar a informação de cada viagem do validador ao sistema central em no máximo 30 segundos."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "O sistema deve permitir que o validador continue registrando viagens durante uma perda temporária de conexão e sincronizar esses registros com o sistema central assim que a conexão for restabelecida."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "O sistema deve suportar a migração de usuários (cartões físicos, contas, benefícios já cadastrados) do sistema antigo para o novo, sem interrupção do uso do transporte."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "O sistema deve manter compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "O sistema deve permitir que a prefeitura defina e ajuste a política tarifária."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "O sistema deve oferecer aos beneficiários de gratuidade/desconto um fluxo de cadastro que comprove a condição declarada."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve garantir que a informação de cada viagem chegue ao sistema central em no máximo 30 segundos, mesmo em condições normais de operação.",
+        "metrica_aceitacao": "≤ 30 segundos por viagem"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Reliability",
+        "descricao": "O validador deve tolerar perda temporária de conectividade e sincronizar integralmente os registros pendentes assim que a conexão for restabelecida, sem perda de dados.",
+        "metrica_aceitacao": "[TBD] — cenário não define tempo máximo de tolerância offline nem taxa aceitável de perda"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Security",
+        "descricao": "O mecanismo de validação de beneficiários (reconhecimento facial ou conferência equivalente) deve reduzir de forma mensurável o uso fraudulento de benefícios, sem tornar o uso cotidiano do usuário legítimo mais lento ou complicado.",
+        "metrica_aceitacao": "[TBD] — cenário não define taxa-alvo de redução de fraude nem tempo máximo aceitável para a verificação"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "Os pontos de atendimento presencial devem ser acessíveis a pessoas com deficiência auditiva, visual e de mobilidade reduzida, conforme o Estatuto da Pessoa com Deficiência (Lei Federal nº 13.146/2015).",
+        "metrica_aceitacao": "Conformidade integral com a Lei Federal nº 13.146/2015"
+      },
+      {
+        "id": "RNF-05",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "O sistema deve manter compatibilidade/interoperabilidade com sistemas de bilhetagem de outras regiões metropolitanas.",
+        "metrica_aceitacao": "[TBD] — cenário não especifica protocolo ou padrão de interoperabilidade"
+      },
+      {
+        "id": "RNF-06",
+        "categoria_iso25010": "Reliability",
+        "descricao": "Os dados de movimentação financeira e de uso disponibilizados à prefeitura devem refletir a operação real em tempo real ou próximo disso.",
+        "metrica_aceitacao": "[TBD] — cenário usa 'tempo real ou próximo disso', sem definir latência máxima numérica"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "Como passageiro comum, quero pagar e usar o transporte normalmente, para me deslocar pela cidade."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "Como beneficiário de gratuidade/desconto, quero que meu direito ao benefício seja validado de forma confiável, para usar o transporte sem sofrer nem cometer fraude."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "Como gestor da prefeitura, quero acompanhar em tempo real (ou próximo disso) a demanda e a arrecadação, para ter visibilidade confiável sem depender só do repasse da operadora."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "Como gestor da prefeitura, quero auditar a movimentação financeira e de uso do sistema, para garantir controle sobre recursos públicos e regras de subsídio/compensação entre operadores."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "Como operador de transporte, quero ter visibilidade parcial dos dados de uso, para gerir minha frota e prestar contas."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "Como usuário migrando do sistema antigo, quero que meus dados/cartões/benefícios sejam transferidos automaticamente, para não perder acesso ao transporte durante a transição."
+      },
+      {
+        "id": "HU-07",
+        "descricao": "Como pessoa com deficiência auditiva, visual ou de mobilidade reduzida, quero ser atendida adequadamente nos pontos de atendimento presencial, para acessar o sistema de bilhetagem sem barreiras."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Validar viagem — o passageiro passa pelo validador, o sistema identifica o tipo de usuário (comum ou beneficiário) e libera ou nega o acesso, enviando a informação ao sistema central em até 30 segundos (ou sincronizando depois, se estiver offline)."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Cadastrar e validar beneficiário de gratuidade/desconto — o usuário comprova a condição declarada, o sistema confere via reconhecimento facial ou forma equivalente, e o cadastro é aprovado ou rejeitado."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Consultar painel de arrecadação e demanda — o gestor da prefeitura acessa dados agregados de uso e arrecadação em tempo real ou próximo disso."
+      },
+      {
+        "id": "UC-04",
+        "descricao": "Migrar usuário do sistema antigo — os dados do cartão/conta/benefício antigo são importados e vinculados à nova conta do usuário, sem interrupção do uso do transporte."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-08",
+        "descricao": "Dado um validador conectado à rede, quando uma viagem é registrada, então a informação chega ao sistema central em no máximo 30 segundos."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-09",
+        "descricao": "Dado um validador que ficou temporariamente sem conexão, quando a conexão é restabelecida, então todas as viagens registradas offline são sincronizadas com o sistema central sem perda de dados."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-06 / HU-02",
+        "descricao": "Dado um usuário que alega ter direito a gratuidade ou desconto, quando ele tenta usar o benefício, então o sistema confirma sua identidade via reconhecimento facial ou outra forma de conferência antes de liberar o acesso."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RF-05 / HU-03",
+        "descricao": "Dado um gestor da prefeitura autenticado, quando ele acessa o painel de auditoria, então ele visualiza a movimentação financeira e de uso em tempo real ou próximo disso."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RNF-04 / HU-07",
+        "descricao": "Dado um usuário com deficiência auditiva, visual ou de mobilidade reduzida, quando ele busca atendimento presencial, então o ponto de atendimento oferece recursos de acessibilidade conforme a Lei Federal nº 13.146/2015."
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+# Dependências da avaliação RAGAS — venv separado (venv_ragas/), isolado do
+# venv principal do Streamlit (requirements.txt). Ragas 0.4.3 importa
+# langchain_community.chat_models.vertexai internamente; esse submódulo foi
+# removido do langchain-community >=0.4, por isso o teto de versão abaixo é
+# obrigatório (sem ele, `import ragas` quebra com ModuleNotFoundError).
+ragas==0.4.3
+langchain-community<0.4
+datasets>=5.0.0
+openai>=1.65.0
+python-dotenv>=1.0.0

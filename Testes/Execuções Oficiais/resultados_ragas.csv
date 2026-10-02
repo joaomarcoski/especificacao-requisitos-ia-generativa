@@ -1,0 +1,46 @@
+﻿data_avaliacao,arquivo,sistema,modelo_gerador,modelo_juiz,faithfulness,faithfulness_motivo,answer_relevancy,answer_relevancy_motivo,context_precision,context_precision_motivo,context_recall,context_recall_motivo,rag_score,n_contextos,tinha_gabarito
+2026-08-20 10:45:36,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-luna_rep3.json,BECS (Book E-Commerce System),gpt-5.6-luna,gpt-5-mini,0.9947,,0.3016,,0.512,,0.875,,0.4143,20,True
+2026-08-20 10:45:27,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-luna_rep1.json,BECS (Book E-Commerce System),gpt-5.6-luna,gpt-5-mini,1.0,,0.408,,0.3228,,0.875,,0.4148,32,True
+2026-08-20 10:45:36,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-luna_rep2.json,BECS (Book E-Commerce System),gpt-5.6-luna,gpt-5-mini,1.0,,0.4088,,0.3513,,0.875,,0.4028,33,True
+2026-08-20 11:04:32,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-sol_rep3.json,BECS (Book E-Commerce System),gpt-5.6-sol,gpt-5-mini,1.0,,0.3069,,0.4035,,0.875,,0.6273,24,True
+2026-08-20 11:00:37,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-sol_rep1.json,BECS (Book E-Commerce System),gpt-5.6-sol,gpt-5-mini,0.9871,,0.2947,,0.5751,,0.8125,,0.4832,32,True
+2026-08-20 11:03:10,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-sol_rep2.json,BECS (Book E-Commerce System),gpt-5.6-sol,gpt-5-mini,1.0,,0.3058,,0.3473,,1.0,,0.3707,34,True
+2026-08-20 11:18:47,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-terra_rep1.json,BECS (Book E-Commerce System),gpt-5.6-terra,gpt-5-mini,0.9939,,0.4344,,0.5395,,0.875,,0.3805,29,True
+2026-08-20 11:20:40,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-terra_rep2.json,BECS (Book E-Commerce System),gpt-5.6-terra,gpt-5-mini,1.0,,0.3199,,0.4026,,0.875,,0.5033,32,True
+2026-08-20 11:22:17,ragas_BECS_(Book_E-Commerce_System)_gpt-5.6-terra_rep3.json,BECS (Book E-Commerce System),gpt-5.6-terra,gpt-5-mini,0.9788,,0.3553,,0.5477,,0.8667,,0.3458,31,True
+2026-08-20 11:34:57,ragas_Core_Financial_System_(FFMIA_Compliance_Initiative)_gpt-5.6-terra.json,Core Financial System (FFMIA Compliance Initiative),gpt-5.6-terra,gpt-5-mini,0.9689,,0.4951,,0.6509,,0.8824,,0.3647,35,True
+2026-08-20 11:38:06,ragas_Core_Financial_System_gpt-5.6-luna.json,Core Financial System,gpt-5.6-luna,gpt-5-mini,0.9444,,0.3776,,0.5164,,0.8824,,0.4273,31,True
+2026-08-20 11:39:15,ragas_Core_Financial_System_gpt-5.6-sol.json,Core Financial System,gpt-5.6-sol,gpt-5-mini,0.9677,,0.5095,,0.4715,,0.8824,,0.5207,34,True
+2026-08-20 11:54:56,ragas_GRD_-_Sistema_de_Gestão_de_Riscos_de_Desastres_gpt-5.6-luna.json,GRD - Sistema de Gestão de Riscos de Desastres,gpt-5.6-luna,gpt-5-mini,0.9946,,0.4232,,0.8145,,0.9,,0.459,24,True
+2026-08-20 11:54:58,ragas_GRD_-_Sistema_de_Gestão_de_Riscos_de_Desastres_gpt-5.6-sol.json,GRD - Sistema de Gestão de Riscos de Desastres,gpt-5.6-sol,gpt-5-mini,0.9803,,0.3671,,0.8057,,0.9,,0.4221,28,True
+2026-08-20 11:58:03,ragas_GRD_-_Sistema_de_Gestão_de_Riscos_de_Desastres_gpt-5.6-terra.json,GRD - Sistema de Gestão de Riscos de Desastres,gpt-5.6-terra,gpt-5-mini,1.0,,0.261,,0.698,,0.9,,0.4195,26,True
+2026-08-20 12:06:39,ragas_IPG_Job_Manager_gpt-5.6-luna.json,IPG Job Manager,gpt-5.6-luna,gpt-5-mini,1.0,,0.5464,,0.4199,,0.9,,0.3787,38,True
+2026-08-20 12:07:39,ragas_IPG_Job_Manager_gpt-5.6-sol.json,IPG Job Manager,gpt-5.6-sol,gpt-5-mini,0.9958,,0.494,,0.5642,,0.9,,0.3313,32,True
+2026-08-20 12:09:42,ragas_IPG_Job_Manager_gpt-5.6-terra.json,IPG Job Manager,gpt-5.6-terra,gpt-5-mini,1.0,,0.4711,,0.7994,,0.9,,0.3305,33,True
+2026-08-20 12:23:20,ragas_Minutia_Deviation_Tool_(MDT)_gpt-5.6-sol.json,Minutia Deviation Tool (MDT),gpt-5.6-sol,gpt-5-mini,1.0,,0.4356,,0.4936,,0.8667,,0.6835,27,True
+2026-08-20 12:24:11,ragas_Minutia_Deviation_Tool_(MDT)_gpt-5.6-terra.json,Minutia Deviation Tool (MDT),gpt-5.6-terra,gpt-5-mini,0.9065,,0.4305,,0.523,,0.8667,,0.3487,32,True
+2026-08-20 12:22:05,ragas_Minutia_Deviation_Tool_(MDT)_gpt-5.6-luna.json,Minutia Deviation Tool (MDT),gpt-5.6-luna,gpt-5-mini,0.9933,,0.4364,,0.1911,,0.8667,,0.5188,36,True
+2026-08-20 12:36:27,ragas_SIMDE_-_Sistema_Móvel_de_Diário_Escolar_gpt-5.6-luna.json,SIMDE - Sistema Móvel de Diário Escolar,gpt-5.6-luna,gpt-5-mini,0.25,,0.4016,,0.6413,,0.8889,,0.4506,29,True
+2026-08-20 12:39:18,ragas_SIMDE_-_Sistema_Móvel_de_Diário_Escolar_gpt-5.6-terra.json,SIMDE - Sistema Móvel de Diário Escolar,gpt-5.6-terra,gpt-5-mini,1.0,,0.3323,,0.6436,,1.0,,0.4518,27,True
+2026-08-20 12:38:37,ragas_SIMDE_-_Sistema_Móvel_de_Diário_Escolar_gpt-5.6-sol.json,SIMDE - Sistema Móvel de Diário Escolar,gpt-5.6-sol,gpt-5-mini,1.0,,0.4212,,0.7689,,1.0,,0.5064,33,True
+2026-08-20 12:49:15,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-luna_rep1.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-luna,gpt-5-mini,1.0,,0.5841,,0.628,,1.0,,0.4659,27,True
+2026-08-20 12:54:12,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-luna_rep3.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-luna,gpt-5-mini,1.0,,0.6006,,0.7836,,0.9167,,0.4732,26,True
+2026-08-20 12:51:47,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-luna_rep2.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-luna,gpt-5-mini,1.0,,0.5066,,0.8213,,0.8125,,0.4542,30,True
+2026-08-20 13:02:18,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-sol_rep1.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-sol,gpt-5-mini,1.0,,0.5894,,0.6401,,0.8667,,0.5195,34,True
+2026-08-20 13:06:14,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-sol_rep3.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-sol,gpt-5-mini,1.0,,0.5324,,0.4676,,1.0,,0.646,24,True
+2026-08-20 13:06:14,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-sol_rep2.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-sol,gpt-5-mini,0.9956,,0.4605,,0.6571,,0.8667,,0.5927,24,True
+2026-08-20 13:20:47,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-terra_rep2.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-terra,gpt-5-mini,0.9948,,0.3931,,0.691,,0.8667,,0.4464,20,True
+2026-08-20 13:20:45,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-terra_rep1.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-terra,gpt-5-mini,0.9786,,0.4134,,0.5455,,0.8667,,0.4647,27,True
+2026-08-20 13:21:09,ragas_Sistema_de_Bilhetagem_Digital_(SBD)_—_Rio_de_Janeiro_gpt-5.6-terra_rep3.json,Sistema de Bilhetagem Digital (SBD) — Rio de Janeiro,gpt-5.6-terra,gpt-5-mini,0.9865,,0.4104,,0.5669,,0.8667,,0.4603,28,True
+2026-08-20 13:35:21,ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-luna_rep3.json,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-luna,gpt-5-mini,0.9935,,0.3471,,0.708,,0.8824,,0.3725,20,True
+2026-08-20 13:34:16,ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-luna_rep1.json,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-luna,gpt-5-mini,0.9548,,0.3151,,0.6795,,0.8824,,0.3819,34,True
+2026-08-20 13:35:21,ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-luna_rep2.json,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-luna,gpt-5-mini,1.0,,0.318,,0.5853,,0.8824,,0.3498,30,True
+2026-08-20 13:48:44,ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-terra_rep2.json,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-terra,gpt-5-mini,0.9932,,0.3067,,0.709,,0.8824,,0.3516,20,True
+2026-08-20 13:46:32,ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-terra_rep1.json,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-terra,gpt-5-mini,0.8966,,0.3609,,0.3421,,0.8824,,0.4341,33,True
+2026-08-20 13:50:32,ragas_SLCCI_(Sea_Level_Climate_Change_Initiative)_gpt-5.6-terra_rep3.json,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-terra,gpt-5-mini,0.9787,,0.2843,,0.6425,,0.8824,,0.3808,32,True
+2026-08-20 14:02:53,ragas_SLCCI_Operational_Production_System_gpt-5.6-sol_rep2.json,SLCCI Operational Production System,gpt-5.6-sol,gpt-5-mini,1.0,,0.3976,,0.4505,,0.8824,,0.4396,36,True
+2026-08-20 14:03:30,ragas_SLCCI_Operational_Sea_Level_Production_System_gpt-5.6-sol_rep1.json,SLCCI Operational Sea Level Production System,gpt-5.6-sol,gpt-5-mini,0.9911,,0.4745,,0.2409,,0.9412,,0.5092,33,True
+2026-08-20 14:09:06,ragas_SLCCI_Operational_Sea_Level_Production_System_gpt-5.6-sol_rep3.json,SLCCI Operational Sea Level Production System,gpt-5.6-sol,gpt-5-mini,0.9948,,0.4801,,0.3406,,0.8824,,0.6416,22,True
+2026-08-20 14:20:12,ragas_Unified_University_Inventory_System_(UUIS)_gpt-5.6-luna.json,Unified University Inventory System (UUIS),gpt-5.6-luna,gpt-5-mini,0.9905,,0.3337,,0.5605,,1.0,,0.4302,31,True
+2026-08-20 14:24:00,ragas_Unified_University_Inventory_System_(UUIS)_gpt-5.6-sol.json,Unified University Inventory System (UUIS),gpt-5.6-sol,gpt-5-mini,0.9643,,0.4036,,0.5705,,1.0,,0.3565,33,True
+2026-08-20 14:26:01,ragas_Unified_University_Inventory_System_(UUIS)_gpt-5.6-terra.json,Unified University Inventory System (UUIS),gpt-5.6-terra,gpt-5-mini,0.9387,,0.3251,,0.5938,,0.9231,,0.3753,32,True

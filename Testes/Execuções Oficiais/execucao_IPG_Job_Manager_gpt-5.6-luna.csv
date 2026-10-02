@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 08:51:51,IPG Job Manager,gpt-5.6-luna,0.3787,86.8,47454,4095,10571,1219,58025,3,0.008754,0.012685,0.0075,0.028939,22,9,22,22

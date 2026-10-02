@@ -1,0 +1,102 @@
+{
+  "sistema": "GRD - Sistema de Gestão de Riscos de Desastres",
+  "cenario_fonte": "Project Scenario 1.pdf",
+  "observacoes": "Rico em RF, mas quase sem RNF numericamente mensuravel no texto original — os 4 RNF abaixo sao reais (tolerancia a falhas, SSO, auditoria, flexibilidade da matriz de risco) mas ficam com metrica [TBD] por falta de numero explicito no cenario. Isso e esperado, nao e erro do gabarito.",
+
+  "escopo": {
+    "em_escopo": [
+      "Envio automatizado de alertas por e-mail, SMS e site da Defesa Civil",
+      "Cadastro de planos de contingência por municípios e Estado (áreas de risco, recursos, abrigos)",
+      "Módulo de gestão de incidente em estilo comando de operações, com mapa e acompanhamento em tempo real (inclusive via celular de agentes em campo)",
+      "Controle de estoque de doações e material de ajuda humanitária, com rastreabilidade",
+      "Prestação de contas dos municípios sobre o material recebido",
+      "Aplicativo de celular para o pessoal de campo",
+      "Parametrização/customização da matriz de risco sem depender de desenvolvedor",
+      "Login único do governo (SOEWEB)",
+      "Auditoria de inclusões/alterações de registro (quem, quando, onde)",
+      "Tolerância a falhas, preservando dados em caso de queda de energia ou conexão"
+    ],
+    "fora_de_escopo": [
+      "Integração profunda com o S2ID (sistema federal de informação de desastre) — não é prioridade nesta fase",
+      "Visualização de mapa com camadas geográficas complexas (bacia hidrográfica, zoneamento ecológico) — não é prioridade nesta fase"
+    ],
+    "premissas": [
+      "PA-01: O governo já possui um sistema de login único (SOEWEB) disponível para integração.",
+      "PA-02: [INFERIDO] Os municípios têm acesso à internet para cadastrar planos de contingência e consultar o sistema."
+    ],
+    "restricoes": [
+      "REST-01 (Idioma): A interface (telas e manuais) deve estar em português do Brasil.",
+      "REST-02 (Segurança): O acesso deve ser feito exclusivamente pelo login único do governo (SOEWEB).",
+      "REST-03 (Escopo): Integração com o S2ID e camadas cartográficas complexas ficam fora do escopo inicial."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Equipe da Sala de Situação (meteorologista, engenheiro ambiental) — monitora modelos de previsão climática." },
+    { "id": "STK-02", "descricao": "Defesa Civil estadual — coordena a resposta central a eventos climáticos e o disparo de alertas." },
+    { "id": "STK-03", "descricao": "Coordenadorias regionais — recebem alertas e coordenam a resposta em nível regional." },
+    { "id": "STK-04", "descricao": "Municípios — cadastram planos de contingência, recebem doações e prestam contas do que receberam." },
+    { "id": "STK-05", "descricao": "Imprensa — recebe alertas quando aplicável, para divulgação pública." },
+    { "id": "STK-06", "descricao": "População — recebe os alertas emitidos pelo sistema." },
+    { "id": "STK-07", "descricao": "Agentes de campo — usam o aplicativo de celular para registrar e consultar informações em tempo real durante um incidente." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "Alertas devem ser enviados automaticamente por e-mail, SMS e no site da Defesa Civil, sem montagem manual." },
+    { "id": "RN-002", "descricao": "Alertas devem avisar município, regional e, quando aplicável, a imprensa." },
+    { "id": "RN-003", "descricao": "O plano de contingência de um município ou do Estado inclui áreas de risco, recursos disponíveis (pessoal, veículo, material) e abrigos disponíveis." },
+    { "id": "RN-004", "descricao": "Municípios devem prestar contas sobre o material de ajuda humanitária recebido." },
+    { "id": "RN-005", "descricao": "Mudanças na matriz de risco devem poder ser feitas sem depender de um desenvolvedor." },
+    { "id": "RN-006", "descricao": "Toda inclusão ou alteração de registro deve ser auditada, registrando quem fez, quando fez e de onde foi feita." },
+    { "id": "RN-007", "descricao": "O acesso ao sistema é controlado exclusivamente pelo login único do governo (SOEWEB), sem senha própria separada." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "O sistema deve automatizar o envio de alertas por e-mail, SMS e no site da Defesa Civil." },
+    { "id": "RF-02", "descricao": "O sistema deve direcionar os alertas a município, regional e, quando aplicável, à imprensa." },
+    { "id": "RF-03", "descricao": "O sistema deve permitir que municípios e o Estado cadastrem planos de contingência." },
+    { "id": "RF-04", "descricao": "O sistema deve registrar, dentro do plano de contingência, as áreas de risco, os recursos disponíveis (pessoal, veículo, material) e os abrigos disponíveis." },
+    { "id": "RF-05", "descricao": "O sistema deve fornecer um módulo de gestão de incidente em estilo comando de operações, com visualização em mapa." },
+    { "id": "RF-06", "descricao": "O sistema deve permitir o acompanhamento em tempo real da gestão de incidente, inclusive pelo celular de agentes em campo." },
+    { "id": "RF-07", "descricao": "O sistema deve indicar no mapa quais abrigos foram acionados durante um incidente." },
+    { "id": "RF-08", "descricao": "O sistema deve controlar o estoque de doações e material de ajuda humanitária, com rastreabilidade de entrada, saída e destino." },
+    { "id": "RF-09", "descricao": "O sistema deve suportar a prestação de contas dos municípios sobre o material recebido." },
+    { "id": "RF-10", "descricao": "O sistema deve fornecer um aplicativo de celular para o pessoal de campo registrar e consultar informações." },
+    { "id": "RF-11", "descricao": "O sistema deve permitir a parametrização/customização da matriz de risco sem exigir intervenção de um desenvolvedor." },
+    { "id": "RF-12", "descricao": "O sistema deve controlar o acesso via login único do governo (SOEWEB)." },
+    { "id": "RF-13", "descricao": "O sistema deve registrar auditoria de quem fez, quando fez e de onde foi feita cada inclusão/alteração de registro." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Reliability", "descricao": "O sistema deve ter tolerância a falhas, preservando a integridade dos dados em caso de queda de energia ou de conexão durante um cadastro.", "metrica_aceitacao": "[TBD] — cenário não define RPO/RTO numérico, só exige 'não perder informação'" },
+    { "id": "RNF-02", "categoria_iso25010": "Flexibility", "descricao": "A matriz de risco deve poder ser parametrizada/customizada por um usuário de negócio, sem depender de um desenvolvedor para cada mudança.", "metrica_aceitacao": "[TBD] — cenário não define métrica numérica, é verificável qualitativamente (alteração sem código)" },
+    { "id": "RNF-03", "categoria_iso25010": "Security", "descricao": "O acesso ao sistema deve ser controlado exclusivamente pelo login único do governo (SOEWEB), sem senha própria separada.", "metrica_aceitacao": "100% dos acessos autenticados via SOEWEB" },
+    { "id": "RNF-04", "categoria_iso25010": "Security", "descricao": "Toda inclusão ou alteração de registro deve manter log de auditoria com responsável, data/hora e origem.", "metrica_aceitacao": "100% das operações de escrita auditadas" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "Como membro da equipe da Sala de Situação, quero acompanhar alertas e o mapa de incidentes, para monitorar eventos climáticos extremos em tempo real." },
+    { "id": "HU-02", "descricao": "Como Defesa Civil estadual, quero disparar alertas automáticos por e-mail, SMS e site, para avisar municípios e regionais rapidamente." },
+    { "id": "HU-03", "descricao": "Como representante de um município, quero cadastrar meu plano de contingência (áreas de risco, recursos, abrigos), para estar preparado para eventos climáticos." },
+    { "id": "HU-04", "descricao": "Como representante de um município, quero prestar contas sobre o material humanitário recebido, para manter transparência no uso dos recursos." },
+    { "id": "HU-05", "descricao": "Como agente de campo, quero registrar e consultar informações pelo celular, para atuar em tempo real durante um incidente." },
+    { "id": "HU-06", "descricao": "Como gestor, quero ajustar a matriz de risco sem depender de um desenvolvedor, para adaptar o sistema rapidamente a novas necessidades." },
+    { "id": "HU-07", "descricao": "Como auditor/gestor, quero consultar quem alterou um registro, quando e de onde, para investigar inconsistências quando necessário." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Emitir alerta — a Defesa Civil identifica um evento (chuva forte, deslizamento) e o sistema envia automaticamente alertas por e-mail, SMS e site aos destinatários relevantes (município, regional, imprensa)." },
+    { "id": "UC-02", "descricao": "Cadastrar plano de contingência — um município ou o Estado cadastra áreas de risco, recursos disponíveis e abrigos." },
+    { "id": "UC-03", "descricao": "Gerenciar incidente — a equipe de comando visualiza o incidente no mapa, aciona abrigos e acompanha a situação em tempo real, inclusive via celular dos agentes de campo." },
+    { "id": "UC-04", "descricao": "Controlar estoque de doações — a equipe registra entrada e saída de material de ajuda humanitária, associando o destino de cada item." },
+    { "id": "UC-05", "descricao": "Prestar contas — um município presta contas do material de ajuda humanitária recebido." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-01", "descricao": "Dado um evento climático identificado, quando o alerta é disparado, então o sistema envia automaticamente notificações por e-mail, SMS e no site da Defesa Civil, sem montagem manual." },
+    { "id": "CA-02", "rf_hu_ref": "RF-08", "descricao": "Dado um item de ajuda humanitária recebido, quando ele é registrado no estoque, então o sistema rastreia sua entrada, saída e destino." },
+    { "id": "CA-03", "rf_hu_ref": "RNF-01", "descricao": "Dado um cadastro em andamento, quando há queda de energia ou de conexão, então os dados já inseridos não são perdidos." },
+    { "id": "CA-04", "rf_hu_ref": "RNF-03", "descricao": "Dado um usuário tentando acessar o sistema, quando ele se autentica, então o acesso só é concedido via login único do governo (SOEWEB)." },
+    { "id": "CA-05", "rf_hu_ref": "RF-13", "descricao": "Dado um registro incluído ou alterado, quando a operação é concluída, então o sistema registra quem fez, quando fez e de onde foi feita." }
+  ]
+}

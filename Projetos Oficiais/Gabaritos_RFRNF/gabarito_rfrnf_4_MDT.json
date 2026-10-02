@@ -1,0 +1,83 @@
+{
+  "sistema": "MDT (Minutia Deviation Tool)",
+  "cenario_fonte": "Project Scenario 4.pdf",
+  "observacoes": "Cenario mais simples e delimitado dos 9 — um unico tipo de usuario, fluxo central bem definido (abrir-comparar-calcular), exclusoes explicitas e incomuns (contas de usuario, seguranca, rede). RNF raso, parecido com o BECS. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+
+  "escopo": {
+    "em_escopo": [
+      "Opening a pair of fingerprint files",
+      "Viewing the image with minutiae points overlaid",
+      "Selecting corresponding points between the two prints and calculating the spatial deviation",
+      "Viewing details of an individual minutia (x/y position, angle, classification, annotations)",
+      "Saving the session as a reopenable session file",
+      "Exporting a table-format log (e.g., openable in Excel) with the compared pairs and calculated deviations",
+      "Fully offline and local operation"
+    ],
+    "fora_de_escopo": [
+      "Marking/filtering pairs by a deviation threshold and exporting filtered minutiae — nice-to-have, not required for the first version",
+      "User accounts, per-user permissions, and security layers",
+      "Simplifying the interface for non-expert users",
+      "Ongoing developer support after delivery (prototype/beta-stage tool)",
+      "Network or server communication"
+    ],
+    "premissas": [
+      "PA-01: Users already have prior familiarity with minutiae and EBTS-format files.",
+      "PA-02: [INFERRED] The tool runs as a local desktop utility, with no need for server installation."
+    ],
+    "restricoes": [
+      "REST-01 (Scope): It is a prototype/beta-stage tool, not intended for general release nor for ongoing developer support after delivery.",
+      "REST-02 (Technical): The system must operate entirely offline and locally, with no dependency on network or server."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Biometrics researcher (academia, government labs, industry) — the sole user type, already familiar with minutiae and EBTS files; the interface does not need to be simplified for them." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "The pair marking/filtering-by-deviation-threshold and filtered export feature is optional (nice-to-have) — only the open-compare-calculate flow is required for the first version." },
+    { "id": "RN-002", "descricao": "The tool must operate entirely offline and locally — network or server communication is not permitted." },
+    { "id": "RN-003", "descricao": "The interface does not need to be simplified for non-expert users — the target audience already understands minutiae and EBTS files." },
+    { "id": "RN-004", "descricao": "User accounts, per-user permissions, and security layers are explicitly out of scope." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "The system must allow the researcher to open a pair of fingerprint files." },
+    { "id": "RF-02", "descricao": "The system must display each fingerprint image with its minutiae points overlaid." },
+    { "id": "RF-03", "descricao": "The system must allow the researcher to click a point on one print and the corresponding point on the other print." },
+    { "id": "RF-04", "descricao": "The system must calculate and display the spatial deviation between two selected corresponding minutiae points." },
+    { "id": "RF-05", "descricao": "The system must allow the researcher to click an individual minutia and view its details (x/y position, angle, classification, annotations)." },
+    { "id": "RF-06", "descricao": "The system must allow the researcher to save the current session as a session file that can be reopened later." },
+    { "id": "RF-07", "descricao": "The system must allow the researcher to save the session as a table-format log file (e.g., openable in Excel), listing the compared pairs and calculated deviations." },
+    { "id": "RF-08", "descricao": "The system must allow the researcher to mark/filter deviation pairs by a threshold entered during the session — optional, nice-to-have (see RN-001)." },
+    { "id": "RF-09", "descricao": "The system must allow the researcher to export, to a new file, only the minutiae that pass the threshold filter — optional, nice-to-have (see RN-001)." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Compatibility", "descricao": "The system must operate entirely offline and locally, without requiring any network or server communication.", "metrica_aceitacao": "All core functions (open, compare, save) work with the network disconnected" },
+    { "id": "RNF-02", "categoria_iso25010": "Reliability", "descricao": "The tool, even at prototype/beta stage, must be stable enough for an experienced researcher to rely on it without ongoing developer support after delivery.", "metrica_aceitacao": "[TBD] — scenario does not define a failure rate or stability metric" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "As a biometrics researcher, I want to open a pair of fingerprint files, so that I can compare their minutiae." },
+    { "id": "HU-02", "descricao": "As a biometrics researcher, I want to see minutiae points overlaid on the images, so that I can visually identify corresponding points." },
+    { "id": "HU-03", "descricao": "As a biometrics researcher, I want to click matching points on both prints and see the calculated spatial deviation, so that I can objectively measure how much the minutiae drifted between captures." },
+    { "id": "HU-04", "descricao": "As a biometrics researcher, I want to click an individual minutia and see its details, so that I can inspect it closely." },
+    { "id": "HU-05", "descricao": "As a biometrics researcher, I want to save my session and reopen it later, so that I can continue my work without losing progress." },
+    { "id": "HU-06", "descricao": "As a biometrics researcher, I want to export a log with the compared pairs and deviations, so that I can analyze the results in a spreadsheet." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Compare fingerprint pair — the researcher opens two files, views the overlaid minutiae, selects corresponding points, and the system calculates and displays the deviation." },
+    { "id": "UC-02", "descricao": "Save and resume session — the researcher saves the current session to a file and reopens it later to continue the work." },
+    { "id": "UC-03", "descricao": "Export comparison log — the researcher exports a table-format log with all compared pairs and their deviations." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-04", "descricao": "Given two fingerprint files open with minutiae overlaid, when the researcher clicks a point on each print, then the system calculates and displays the spatial deviation between them." },
+    { "id": "CA-02", "rf_hu_ref": "RF-05", "descricao": "Given a selected minutia point, when the researcher clicks it, then the system displays its x/y position, angle, classification, and any annotations." },
+    { "id": "CA-03", "rf_hu_ref": "RF-06", "descricao": "Given an active session, when the researcher saves it as a session file, then the session can later be reopened with all prior comparisons intact." },
+    { "id": "CA-04", "rf_hu_ref": "RF-07", "descricao": "Given a completed session, when the researcher exports the log, then the file lists all compared pairs and their calculated deviations in a table format openable in a spreadsheet." },
+    { "id": "CA-05", "rf_hu_ref": "RNF-01", "descricao": "Given the tool is running with no network connection, when the researcher performs any core operation (open, compare, save), then the tool functions normally without requiring network access." }
+  ]
+}

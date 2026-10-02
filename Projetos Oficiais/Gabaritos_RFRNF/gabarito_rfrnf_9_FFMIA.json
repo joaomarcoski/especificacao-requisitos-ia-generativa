@@ -1,0 +1,99 @@
+{
+  "sistema": "Core Financial System (FFMIA Compliance Initiative)",
+  "cenario_fonte": "Project Scenario 9.pdf",
+  "observacoes": "Jargao regulatorio/contabil abstrato — claims mantidas o mais literais possivel ao texto original para reduzir risco de interpretacao subjetiva. Fornecedores/beneficiarios e pagadores de valores devidos NAO sao stakeholders (nao logam no sistema, sao partes externas afetadas pelas transacoes). Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+
+  "escopo": {
+    "em_escopo": [
+      "General ledger as the central component of the system",
+      "Classifying and tracking transactions by fund, program, organization, project, and cost center",
+      "Funds control (preventing obligation/spending above the appropriated amount)",
+      "Processing payments to vendors/payees, with confirmation of destination",
+      "Recording and following up on amounts owed to the agency, including chasing missed payments",
+      "Cost management (what each program costs and produces)",
+      "Producing formal financial statements and reports for management, oversight bodies, and eventual public release",
+      "A real audit trail and security controls over who can access what",
+      "Web access, not restricted to a single terminal",
+      "Integration with other existing agency systems"
+    ],
+    "fora_de_escopo": [
+      "Optional ('nice to have') features not required by law or regulation — deprioritized in the first round in favor of mandatory requirements"
+    ],
+    "premissas": [
+      "PA-01: [INFERRED] The agency already has other existing systems that the financial system needs to integrate with.",
+      "PA-02: The system needs to be in substantial compliance with FFMIA before any eventual formal audit."
+    ],
+    "restricoes": [
+      "REST-01 (Regulatory): The system must be in substantial compliance with FFMIA (Federal Financial Management Improvement Act) requirements.",
+      "REST-02 (Prioritization): Optional features not required by law or regulation are left out of the first round of development.",
+      "REST-03 (Usability): The system must be operable by non-technical finance staff, not only by IT staff."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Financial systems analyst — day-to-day user of the system." },
+    { "id": "STK-02", "descricao": "Accountant — day-to-day user, responsible for accounting records." },
+    { "id": "STK-03", "descricao": "Program manager — consults cost and performance data of programs for budget decisions." },
+    { "id": "STK-04", "descricao": "Agency operations staff — needs to pull numbers from the system to run the agency." },
+    { "id": "STK-05", "descricao": "Auditor — periodically reviews the system to verify compliance and control." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "The system must never allow obligating or spending more than what was actually appropriated (funds control) — a hard, non-negotiable rule." },
+    { "id": "RN-002", "descricao": "The general ledger is the central component of the system; every other function depends on it." },
+    { "id": "RN-003", "descricao": "Optional features not required by law or regulation are deprioritized relative to mandatory requirements in the first round." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "The system must maintain a general ledger as its central component, on which the other functions depend." },
+    { "id": "RF-02", "descricao": "The system must classify and track transactions by fund, program, organization, project, and cost center." },
+    { "id": "RF-03", "descricao": "The system must prevent an obligation or expenditure from exceeding the amount actually appropriated (funds control)." },
+    { "id": "RF-04", "descricao": "The system must process payments to vendors/payees." },
+    { "id": "RF-05", "descricao": "The system must track and confirm that a payment reached the correct destination." },
+    { "id": "RF-06", "descricao": "The system must record amounts owed to the agency (receivables)." },
+    { "id": "RF-07", "descricao": "The system must support following up on/collecting receivables when payment is not made." },
+    { "id": "RF-08", "descricao": "The system must support cost management, measuring what each program costs and what it produces." },
+    { "id": "RF-09", "descricao": "The system must produce formal financial statements and reports for agency management." },
+    { "id": "RF-10", "descricao": "The system must produce formal financial statements and reports for oversight bodies." },
+    { "id": "RF-11", "descricao": "The system must support the eventual public release of financial statements and reports." },
+    { "id": "RF-12", "descricao": "The system must maintain a real audit trail of who accessed or changed what." },
+    { "id": "RF-13", "descricao": "The system must enforce security controls over who can access what." },
+    { "id": "RF-14", "descricao": "The system must provide web access to users, instead of restricting them to a single terminal." },
+    { "id": "RF-15", "descricao": "The system must integrate with other systems already existing at the agency, instead of operating in isolation." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Performance Efficiency", "descricao": "The system must handle its operational workload without performance failure.", "metrica_aceitacao": "[TBD] — scenario does not define a numeric volume/throughput target" },
+    { "id": "RNF-02", "categoria_iso25010": "Security", "descricao": "The system must maintain a real audit trail and effective security controls over who can access each piece of information.", "metrica_aceitacao": "[TBD] — scenario does not define a specific access-control standard, but requires a 'real audit trail'" },
+    { "id": "RNF-03", "categoria_iso25010": "Compatibility", "descricao": "The system must properly integrate with other systems already existing at the agency, instead of operating in isolation.", "metrica_aceitacao": "[TBD] — scenario does not name the specific systems to integrate with" },
+    { "id": "RNF-04", "categoria_iso25010": "Interaction Capability", "descricao": "The system must be usable by non-technical finance staff, not only by IT staff.", "metrica_aceitacao": "[TBD] — scenario does not define a usability metric (e.g., training time or task completion rate)" },
+    { "id": "RNF-05", "categoria_iso25010": "Interaction Capability", "descricao": "The system must provide adequate web access, rather than restricting users to a single physical terminal.", "metrica_aceitacao": "Accessible via browser from multiple access points" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "As a financial systems analyst, I want to classify and track transactions by fund, program, organization, project, and cost center, so that program and budget managers can analyze the data." },
+    { "id": "HU-02", "descricao": "As an accountant, I want the system to prevent obligations or spending beyond the appropriated amount, so that the agency stays within its funding limits." },
+    { "id": "HU-03", "descricao": "As an accounts-payable owner, I want to process payments to vendors/payees and confirm they reached the correct destination, so that disbursements are accurate and traceable." },
+    { "id": "HU-04", "descricao": "As an accounts-receivable owner, I want to record amounts owed to the agency and chase overdue payments, so that outstanding amounts are collected." },
+    { "id": "HU-05", "descricao": "As a program manager, I want to see cost management data (what a program costs and produces), so that I can support budget decisions." },
+    { "id": "HU-06", "descricao": "As agency management, I want formal financial statements and reports, so that I can report to oversight bodies and, eventually, the public." },
+    { "id": "HU-07", "descricao": "As an auditor, I want to review a real audit trail and the system's access security controls, so that I can verify compliance during periodic reviews." },
+    { "id": "HU-08", "descricao": "As agency operations staff, I want to access the system over the web from multiple locations, so that I'm not restricted to a single terminal." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Record and classify transaction — a user records a financial transaction in the general ledger, classified by fund, program, organization, project, and cost center." },
+    { "id": "UC-02", "descricao": "Process vendor payment — the system processes a payment to a vendor/payee and confirms it reached the correct destination, respecting the funds control limit." },
+    { "id": "UC-03", "descricao": "Track receivable — the system records an amount owed to the agency and flags it for follow-up when payment is not made." },
+    { "id": "UC-04", "descricao": "Generate financial report — a user generates formal financial statements/reports for management, oversight bodies, or public release." },
+    { "id": "UC-05", "descricao": "Audit system access — an auditor reviews the system's audit trail and access controls." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-03", "descricao": "Given a transaction that would exceed the funds appropriated for its fund/program, when it is submitted, then the system prevents the obligation/expenditure from being recorded." },
+    { "id": "CA-02", "rf_hu_ref": "RF-05", "descricao": "Given a payment issued to a vendor/payee, when the payment is processed, then the system tracks and confirms that it reached the correct destination." },
+    { "id": "CA-03", "rf_hu_ref": "RF-07", "descricao": "Given a receivable with an overdue payment, when the due date passes without payment, then the system flags the case for follow-up." },
+    { "id": "CA-04", "rf_hu_ref": "RF-09 / RF-10", "descricao": "Given a request for a formal financial statement, when it is generated, then the result is suitable for submission to management and to oversight bodies." },
+    { "id": "CA-05", "rf_hu_ref": "RNF-02", "descricao": "Given a user accessing the system, when any action is performed, then the system records it in an audit trail that identifies who did what." }
+  ]
+}

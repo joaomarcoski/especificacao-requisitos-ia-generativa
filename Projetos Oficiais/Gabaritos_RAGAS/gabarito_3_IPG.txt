@@ -1,0 +1,23 @@
+GABARITO — Project Scenario 3: IPG Job Manager
+Use: "ground_truth" field for RAGAS (context_precision / context_recall).
+Each line is an atomic, checkable claim against the scenario text and the
+knowledge base — not a full SRS, just the set of facts a well-grounded SRS
+for this scenario should be able to cover.
+
+- Users can move/copy files between systems and launch applications on authorized machines, via API or command line.
+- A job consists of a main sequence of file and execution operations, executed reliably in order.
+- An optional cleanup step can run after the main sequence, whether the job succeeded or failed.
+- On failure partway through the main sequence, the system must run cleanup for the failed step and for all previously completed steps, in reverse order.
+- The system must integrate with the existing Grid Security Infrastructure (GSI) proxy/credential mechanism.
+- Only authorized users can access the systems the Job Manager manages.
+- The system must maintain a resource list; users can only submit jobs to registered machines.
+- Regular users interact through a client: find a server, submit a job, check on it, cancel it, look up old runs.
+- Admin roles include: server installer/maintainer, hardware/OS manager, and software repository server manager.
+- Admins need their own way to manage access, manage the resource list, browse jobs, and view a log of admin actions.
+- Co-scheduling (running one application split across two machines simultaneously) is explicitly out of scope for this version.
+- A full workflow/DAG language with a GUI is explicitly out of scope for this version.
+- Parallel file staging, cross-OS file permission handling during staging, and file caching are explicitly out of scope for this version.
+- This version is not a drop-in replacement for the old Job Manager; existing users need transition support.
+- Error reporting must include a real error name, a message, and ideally the reason, plus file-based error logging.
+- The system must implement timeouts so operations don't hang forever waiting on a response.
+- As federal software built for NASA's IPG program, the whole system must meet Section 508 accessibility requirements.

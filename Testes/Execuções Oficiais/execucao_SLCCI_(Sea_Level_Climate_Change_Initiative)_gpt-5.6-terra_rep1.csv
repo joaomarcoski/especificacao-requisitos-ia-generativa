@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 09:14:11,SLCCI (Sea Level Climate Change Initiative),gpt-5.6-terra,0.4341,80.2,33781,4095,7956,1235,41737,2,0.060191,0.095472,0.005,0.160663,14,6,12,14

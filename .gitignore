@@ -1,0 +1,16 @@
+# Ambientes virtuais Python
+venv/
+venv_ragas/
+
+# Cache e bytecode do Python
+__pycache__/
+*.pyc
+
+# Variáveis de ambiente e chaves de API
+.env
+
+# Base de conhecimento da vector store B (documentos de terceiros, não redistribuídos)
+Agente/ref/
+
+# Arquivos temporários do Office
+~$*

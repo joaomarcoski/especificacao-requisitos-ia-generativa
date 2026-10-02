@@ -1,0 +1,21 @@
+GABARITO — Project Scenario 5: SIMDE (Sistema Móvel de Diário Escolar)
+Uso: campo "ground_truth" do RAGAS (context_precision / context_recall).
+Cada linha é uma afirmação atômica, checável contra o texto do cenário e a
+base de conhecimento — não é um SRS completo, é o conjunto de fatos que um
+SRS bem fundamentado para este cenário deveria conseguir cobrir.
+
+- O professor deve poder consultar suas turmas e o cronograma de aulas pelo aplicativo móvel.
+- O professor deve poder registrar a aula dada, lançar falta e lançar notas pelo aplicativo.
+- O aplicativo deve sincronizar com o sistema acadêmico da escola: exporta aula/falta/nota e importa turmas/alunos/disciplinas/cronograma.
+- A sincronização não deve ultrapassar 30 segundos.
+- A troca de tela dentro do aplicativo deve ocorrer em no máximo cerca de 5 segundos.
+- Um professor deve conseguir usar o sistema após cerca de 3 horas de treinamento.
+- Consultar ou lançar uma informação não deve demorar mais que meio minuto.
+- O sistema deve funcionar em qualquer escola, não apenas numa instituição específica.
+- Coordenador e diretor também acompanham os dados de frequência e desempenho gerados pelo sistema.
+- Login e senha são obrigatórios; cada professor só vê e lança dados das suas próprias turmas.
+- O professor não deve poder cadastrar turma, disciplina ou aluno diretamente no aparelho.
+- O sistema não deve permitir registrar aula ou falta com data futura.
+- O sistema não deve permitir alterar o planejamento de uma aula já planejada.
+- O sistema não deve permitir importar novamente um dado que já foi exportado.
+- O sistema deve funcionar em paralelo com o processo manual existente durante um período de transição (ex.: um trimestre).

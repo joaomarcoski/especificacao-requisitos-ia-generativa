@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 08:50:10,Unified University Inventory System (UUIS),gpt-5.6-sol,0.3565,164.1,33490,4095,15715,2572,49205,2,0.149023,0.47145,0.005,0.625472,27,9,27,27

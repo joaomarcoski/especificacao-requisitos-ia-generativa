@@ -1,0 +1,132 @@
+{
+  "sistema": "BECS (Book E-Commerce System)",
+  "cenario_fonte": "Project Scenario 8.pdf",
+  "observacoes": "Cenario deliberadamente raso em RNF (poucos atributos de qualidade mensuraveis no texto original) e explicito sobre exclusoes (pagamento real, criptografia, recuperacao de senha). Interpretacao: busca/carrinho/checkout exigem conta criada (\"once they're in they can search...\"), mesma leitura usada no gabarito RAGAS (Testes/Gabaritos/gabarito_8_BECS.txt).",
+
+  "escopo": {
+    "em_escopo": [
+      "Account creation for any visitor, with no verification process",
+      "Book search by exact title match (logged-in users)",
+      "Viewing book title, author, and price",
+      "Shopping cart with a limit of one copy per book per order",
+      "Checkout flow that collects a card number, generates a receipt, and logs the purchase",
+      "Member signup to receive promotion notifications and use promo codes at checkout",
+      "Manager login to manage inventory (add books, edit prices, view stock)",
+      "Automatic low-stock email alert to the manager, with per-book opt-out",
+      "Manager-created percentage-off promotions with automatic email to all members"
+    ],
+    "fora_de_escopo": [
+      "Real credit card / payment processing — deferred to a later phase",
+      "Encryption — not a priority for this version",
+      "Password recovery — not a priority for this version",
+      "Multiple manager accounts or manager roles — only one manager",
+      "Partial/fuzzy search or search by author — title search is exact-match only",
+      "Multiple copies of the same book per order — limited to one"
+    ],
+    "premissas": [
+      "PA-01: Only one person will operate the manager account for the store."
+    ],
+    "restricoes": [
+      "REST-01 (Tecnica): The system must be usable through a normal web browser, with no exotic client-side requirements."
+    ]
+  },
+
+  "stakeholders": [
+    {
+      "id": "STK-01",
+      "descricao": "Store Manager — the single account responsible for managing inventory (add books, edit prices, view stock) and creating promotions; must never also be a regular customer account."
+    },
+    {
+      "id": "STK-02",
+      "descricao": "Visitor — anyone arriving at the site who can create an account with no verification process."
+    },
+    {
+      "id": "STK-03",
+      "descricao": "Registered User / Customer — logged-in user who can search for books, add them to a cart, and check out."
+    },
+    {
+      "id": "STK-04",
+      "descricao": "Member — a registered user who opted in to promotion notifications; the only type of user who can apply promo codes at checkout."
+    }
+  ],
+
+  "regras_de_negocio": [
+    {
+      "id": "RN-001",
+      "descricao": "A cart may contain at most one copy of each distinct book per order."
+    },
+    {
+      "id": "RN-002",
+      "descricao": "A manager account must never also function as a regular customer account."
+    },
+    {
+      "id": "RN-003",
+      "descricao": "Only members (not all registered users) can apply promo codes at checkout."
+    },
+    {
+      "id": "RN-004",
+      "descricao": "The low-stock email alert to the manager is suppressed for a given book if the manager has disabled notifications for that specific book."
+    },
+    {
+      "id": "RN-005",
+      "descricao": "Creating a new percentage-off promotion automatically triggers an email to all members."
+    }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "The system must allow any visitor to create an account with no verification process." },
+    { "id": "RF-02", "descricao": "The system must allow logged-in users to search for books by title using an exact match only (no partial match, no search by author)." },
+    { "id": "RF-03", "descricao": "The system must display each book's title, author, and price." },
+    { "id": "RF-04", "descricao": "The system must allow users to add a book to their shopping cart." },
+    { "id": "RF-05", "descricao": "The system must prevent a user from adding more than one copy of the same book to their cart in a single order." },
+    { "id": "RF-06", "descricao": "The system must allow users to complete checkout for the items in their cart." },
+    { "id": "RF-07", "descricao": "The system must allow a registered user to sign up as a member to receive promotion notifications." },
+    { "id": "RF-08", "descricao": "The system must allow members to apply a promo code during checkout." },
+    { "id": "RF-09", "descricao": "The system must provide a login for the manager, separate from customer accounts." },
+    { "id": "RF-10", "descricao": "The system must allow the manager to add new books to the inventory." },
+    { "id": "RF-11", "descricao": "The system must allow the manager to edit the price of existing books." },
+    { "id": "RF-12", "descricao": "The system must allow the manager to view current stock levels." },
+    { "id": "RF-13", "descricao": "The system must send an email notification to the manager when a book's stock is low, unless notifications are disabled for that book." },
+    { "id": "RF-14", "descricao": "The system must allow the manager to create percentage-off promotions." },
+    { "id": "RF-15", "descricao": "The system must automatically email all members when a new promotion is created." },
+    { "id": "RF-16", "descricao": "The system must collect a card number during checkout without processing an actual payment." },
+    { "id": "RF-17", "descricao": "The system must generate a receipt after checkout." },
+    { "id": "RF-18", "descricao": "The system must log each purchase, including the item, the buyer, and the timestamp." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    {
+      "id": "RNF-01",
+      "categoria_iso25010": "Compatibility",
+      "descricao": "The system must be usable through a standard web browser, with no exotic or non-standard client-side requirements.",
+      "metrica_aceitacao": "[TBD] — cenário não define métrica numérica; único RNF defensável neste cenário, o restante do texto só descreve exclusões (segurança/criptografia) tratadas em fora_de_escopo, não como atributo de qualidade a cumprir"
+    }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "As a visitor, I want to create an account with no verification process, so that I can start using the site quickly." },
+    { "id": "HU-02", "descricao": "As a registered user, I want to search for a book by its exact title, so that I can find the book I'm looking for." },
+    { "id": "HU-03", "descricao": "As a registered user, I want to view a book's title, author, and price, so that I can decide whether to buy it." },
+    { "id": "HU-04", "descricao": "As a registered user, I want to add a book to my cart, so that I can purchase it later." },
+    { "id": "HU-05", "descricao": "As a registered user, I want to check out my cart, so that I can complete my purchase." },
+    { "id": "HU-06", "descricao": "As a member, I want to apply a promo code at checkout, so that I can get a discount." },
+    { "id": "HU-07", "descricao": "As the manager, I want to add new books and edit their prices, so that I can keep the catalog up to date." },
+    { "id": "HU-08", "descricao": "As the manager, I want to be notified when a book's stock is low, so that I can restock in time." },
+    { "id": "HU-09", "descricao": "As the manager, I want to create percentage-off promotions, so that I can attract more sales." },
+    { "id": "HU-10", "descricao": "As a member, I want to receive an email when a new promotion is created, so that I know about current deals." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Search and Purchase Book — a logged-in user searches for a book by exact title, adds it to the cart, and completes checkout." },
+    { "id": "UC-02", "descricao": "Manage Inventory — the manager logs in and adds new books, edits prices, or views current stock levels." },
+    { "id": "UC-03", "descricao": "Create Promotion — the manager creates a percentage-off promotion, and the system automatically emails all members." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-02 / HU-02", "descricao": "Given a logged-in user, when they search for a book title that exactly matches an existing book, then the system returns that book with its title, author, and price." },
+    { "id": "CA-02", "rf_hu_ref": "RF-05 / HU-04", "descricao": "Given a user already has one copy of a book in their cart, when they try to add another copy of the same book, then the system prevents the second copy from being added." },
+    { "id": "CA-03", "rf_hu_ref": "RF-08 / HU-06", "descricao": "Given a member is at checkout with a valid promo code, when they apply the code, then the system applies the corresponding discount." },
+    { "id": "CA-04", "rf_hu_ref": "RF-13 / HU-08", "descricao": "Given a book's stock drops below the defined threshold and notifications are enabled for that book, when the stock update occurs, then the system sends an email to the manager." },
+    { "id": "CA-05", "rf_hu_ref": "RF-14 / RF-15 / HU-09", "descricao": "Given the manager creates a new percentage-off promotion, when the promotion is saved, then the system automatically sends an email to all members." }
+  ]
+}

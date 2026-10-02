@@ -1,0 +1,2 @@
+﻿data_execucao,sistema,modelo,rag_score,tempo_execucao_s,tokens_input,tokens_cached,tokens_output,tokens_reasoning,tokens_total,file_search_chamadas,custo_input_usd,custo_output_usd,custo_file_search_usd,custo_total_usd,total_rfs,total_rnfs,total_hus,total_cas
+2026-08-20 09:50:38,BECS (Book E-Commerce System),gpt-5.6-luna,0.4143,72.5,18566,4862,11590,1186,30156,1,0.002838,0.013908,0.0025,0.019246,25,7,15,25

@@ -1,0 +1,19 @@
+GABARITO — Project Scenario 8: BECS (Book E-Commerce System)
+Use: "ground_truth" field for RAGAS (context_precision / context_recall).
+Each line is an atomic, checkable claim against the scenario text and the
+knowledge base — not a full SRS, just the set of facts a well-grounded SRS
+for this scenario should be able to cover.
+
+- Any visitor can create an account with no verification process.
+- Logged-in users can search for books by title only, with an exact match (no partial matches, no search by author).
+- Users can view a book's title, author, and price, add it to a cart, and check out.
+- Only one copy of each book can be purchased per order.
+- Members (a subset of registered users) can apply promo codes at checkout.
+- The manager (a single login-based account) can add books, edit prices, and view stock levels.
+- The system must automatically notify the manager by email when a book's stock is low, unless notifications are disabled for that specific book.
+- The manager can create percentage-off promotions; creating one automatically emails all members.
+- The system does not process real credit card payments; it only collects a card number, produces a receipt, and logs the purchase (item, buyer, timestamp).
+- Encryption and password recovery are explicitly out of scope for this version.
+- There is only one manager account; no multi-manager roles are needed.
+- A manager account must never also be a regular customer account.
+- The system must run as a normal browser-accessible web application, with no exotic technical requirements.

@@ -1,0 +1,972 @@
+{
+  "sistema": "SIMDE - Sistema Móvel de Diário Escolar",
+  "modelo": "gpt-5.6-terra",
+  "data_execucao": "2026-08-20 09:05:29",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 5.pdf ---\nSIMDE - Sistema Móvel de Diário Escolar\nOlha, a ideia surgiu de uma dor bem prática que a gente vê no \ndia a dia das escolas: o professor ainda lida com diário de \npapel, ou fica preso a um sistema de computador fixo pra \nlançar frequência, nota e conteúdo de aula. Isso consome tempo \ndele que podia estar sendo usado em sala, e ainda gera \nretrabalho, porque depois alguém precisa digitar tudo de novo \nno sistema acadêmico da escola. Queremos resolver isso dando \npro professor um aparelho móvel, tipo um PDA, com um \naplicativo que ele carrega junto pra dentro da sala de aula. \n \nPensando no que esse app vai fazer: ele precisa deixar o \nprofessor consultar as turmas que são dele, ver o cronograma \ndas aulas, registrar a aula que deu naquele dia, lançar a \nfalta dos alunos e lançar as notas. E o pulo do gato é que \ndepois disso tudo isso precisa ser sincronizado com o sistema \nacadêmico que a escola já usa no computador — então o aparelho \nexporta o que o professor lançou (aula, falta, nota) e importa \nde volta as turmas, alunos, disciplinas e o cronograma que já \nestão cadastrados lá no sistema da escola. Isso tem que ser \nrápido, ninguém quer ficar esperando o aparelho sincronizar \numa eternidade, e tem que dar pra usar em qualquer escola, não \nsó numa instituição específica, porque os sistemas acadêmicos \nvariam de lugar pra lugar. \n \nE tem uns detalhes práticos que fazem diferença no dia a dia: \nessa sincronização não pode passar de uns 30 segundos, senão o \nprofessor fica ali parado esperando e perde a paciência, e \ntrocar de tela dentro do aplicativo tem que ser praticamente \nna hora, no máximo uns 5 segundos, sem ficar travando. Também \nquero que qualquer professor consiga aprender a mexer nisso \ncom umas 3 horas de treinamento, sem precisar de manual \ngrosso, e consultar ou lançar uma informação não pode demorar \nmais que meio minuto. \n \nQuem vai usar isso na prática é o professor, mas coordenador e \ndiretor também são interessados porque eles acompanham esses \ndados de frequência e desempenho. E óbvio, login e senha são \nobrigatórios, cada professor só pode ver e lançar informação \ndas turmas que são dele mesmo — segurança e privacidade são \nimportantes aqui, ninguém pode bisbilhotar nota ou falta de \nturma de outro professor. \n \nAgora, uma coisa que quero deixar clara: a gente não quer que \no professor cadastre turma, disciplina ou aluno no aparelho — \nisso é lá no sistema da escola, no PC, o aparelho só importa \nessas informações já prontas. Também não faz sentido permitir \nque ele registre aula ou falta de uma data futura, isso \nbagunça tudo, então isso tem que ser bloqueado. E depois que a \naula foi planejada, não deixa ele alterar o planejamento por \nali, isso também não é prioridade agora. E uma última trava \nimportante: se um dado já foi exportado pro sistema da escola, \nnão pode deixar importar ele de novo depois, isso duplica ou \nbagunça a informação lá no PC. \n \nTem uma fase de transição que eu acho importante: durante um \ntempo, talvez um trimestre, esse sistema vai funcionar em \nparalelo com o processo manual que já existe, pra gente ir \ncorrigindo o que não funcionar direito antes de depender 100% \ndele. E não precisa se preocupar agora com retirar \ncompletamente o processo antigo nem com integrações mais \nsofisticadas de outros módulos da escola — o foco inicial é \nmesmo essa ponta de frequência, aula e nota saindo do \nprofessor e indo pro sistema central, e voltando o básico de \ncadastro pra ele poder trabalhar.",
+  "answer": "Sistema: SIMDE - Sistema Móvel de Diário Escolar\n\nResumo executivo: O SIMDE é um aplicativo móvel para professores registrarem aulas ministradas, frequência e notas diretamente em sala de aula, reduzindo o uso de diário em papel e a redigitação no sistema acadêmico. O sistema sincroniza dados cadastrais recebidos do sistema acadêmico escolar e envia os registros pedagógicos realizados pelo professor, preservando a segregação de acesso por turma.\n\nEscopo: O SIMDE permite ao professor consultar dados acadêmicos importados, registrar informações pedagógicas e sincronizá-las com o sistema acadêmico da escola.\n  Em escopo: Autenticação de professores por login e senha\n  Em escopo: Consulta de turmas, alunos, disciplinas e cronograma importados\n  Em escopo: Registro de aula ministrada, faltas e notas\n  Em escopo: Importação de dados cadastrais e cronograma do sistema acadêmico\n  Em escopo: Exportação de aulas, faltas e notas ao sistema acadêmico\n  Em escopo: Controle de acesso às turmas atribuídas ao professor\n  Fora de escopo: Cadastro de turmas, disciplinas ou alunos no dispositivo móvel — esses dados são mantidos no sistema acadêmico\n  Fora de escopo: Alteração de planejamento de aula no dispositivo móvel — funcionalidade não priorizada nesta versão\n  Fora de escopo: Eliminação imediata do processo manual — haverá operação paralela temporária\n  Fora de escopo: Integrações com módulos escolares além de turmas, alunos, disciplinas, cronograma, aulas, faltas e notas — não fazem parte do foco inicial\n  Premissa: PA-01: Cada escola possui um sistema acadêmico com turmas, alunos, disciplinas e cronogramas previamente cadastrados.\n  Premissa: PA-02: O sistema acadêmico disponibilizará um mecanismo de integração para importação e exportação dos dados definidos no escopo. [INFERIDO]\n  Premissa: PA-03: Os professores receberão até 3 horas de treinamento para uso do aplicativo.\n  Restrição: REST-01 (Plataforma): O sistema deverá ser utilizado em aparelho móvel do tipo PDA ou equivalente.\n  Restrição: REST-02 (Integração): A solução deverá ser adaptável a sistemas acadêmicos distintos utilizados pelas escolas.\n  Restrição: REST-03 (Transição): O sistema operará em paralelo ao processo manual por um período de até um trimestre. [TBD: confirmar duração]\n\nStakeholders:\n  STK-01 - Professor (Usuário primário): Consultar exclusivamente suas turmas, cronograma, alunos e disciplinas; registrar aulas, faltas e notas; sincronizar registros com o sistema acadêmico.\n  STK-02 - Coordenador pedagógico (Usuário secundário): Acompanhar frequência e desempenho registrados pelos professores por meio do sistema acadêmico.\n  STK-03 - Diretor escolar (Usuário secundário): Acompanhar dados de frequência e desempenho consolidados no sistema acadêmico.\n  STK-04 - Sistema acadêmico escolar (Stakeholder externo): Fornecer dados cadastrais e receber registros pedagógicos sem duplicação de dados.\n\nRegras de negócio:\n  RN-001 - Vinculação de turmas ao professor: Cada professor somente pode consultar ou registrar informações referentes às turmas que lhe foram atribuídas.\n  RN-002 - Gestão central de cadastros acadêmicos: Turmas, disciplinas e alunos são cadastrados e mantidos exclusivamente no sistema acadêmico da escola.\n  RN-003 - Vedação de registro futuro: Aulas ministradas e faltas não podem ser registradas para datas futuras.\n  RN-004 - Imutabilidade do planejamento: O planejamento de aula não pode ser alterado pelo professor após seu estabelecimento.\n  RN-005 - Origem dos dados cadastrais: Turmas, alunos, disciplinas e cronogramas disponibilizados ao professor devem ser originados no sistema acadêmico da escola.\n  RN-006 - Não reimportação de registro exportado: Um registro pedagógico já enviado ao sistema acadêmico não pode retornar como uma nova importação.\n  RN-007 - Operação paralela de transição: O processo manual de diário escolar permanecerá em operação paralela ao sistema móvel por até um trimestre.\n\nRequisitos funcionais:\n  RF-001 - Autenticar professor: O sistema deve autenticar o professor mediante login e senha válidos. [Must have]\n  RF-002 - Exibir turmas atribuídas: O sistema deve exibir ao professor somente as turmas a ele atribuídas. [Must have]\n  RF-003 - Exibir cronograma de aulas: O sistema deve exibir o cronograma das aulas das turmas atribuídas ao professor. [Must have]\n  RF-004 - Registrar aula ministrada: O sistema deve registrar a aula ministrada em uma data não futura. [Must have]\n  RF-005 - Registrar falta de aluno: O sistema deve registrar a falta de um aluno em uma data não futura. [Must have]\n  RF-006 - Registrar nota: O sistema deve registrar uma nota para um aluno de turma atribuída ao professor. [Must have]\n  RF-007 - Importar turmas: O sistema deve importar turmas do sistema acadêmico escolar. [Must have]\n  RF-008 - Importar alunos: O sistema deve importar alunos do sistema acadêmico escolar. [Must have]\n  RF-009 - Importar disciplinas: O sistema deve importar disciplinas do sistema acadêmico escolar. [Must have]\n  RF-010 - Importar cronograma: O sistema deve importar cronogramas de aulas do sistema acadêmico escolar. [Must have]\n  RF-011 - Exportar aulas ministradas: O sistema deve exportar registros de aulas ministradas ao sistema acadêmico escolar. [Must have]\n  RF-012 - Exportar faltas: O sistema deve exportar registros de faltas ao sistema acadêmico escolar. [Must have]\n  RF-013 - Exportar notas: O sistema deve exportar registros de notas ao sistema acadêmico escolar. [Must have]\n  RF-014 - Bloquear reimportação de registro exportado: O sistema deve impedir a reimportação de um registro pedagógico já exportado. [Must have]\n  RF-015 - Bloquear cadastro acadêmico no dispositivo: O sistema deve bloquear o cadastro de turma, disciplina ou aluno no dispositivo móvel. [Must have]\n  RF-016 - Bloquear alteração de planejamento: O sistema deve bloquear a alteração do planejamento de aula no dispositivo móvel. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Performance Efficiency) - O sistema deve concluir cada sincronização de importação ou exportação em até 30 segundos. | Métrica: 100% de 30 sincronizações de teste concluídas em até 30 segundos cada.\n  RNF-002 (Performance Efficiency) - O sistema deve concluir a transição entre telas em até 5 segundos. | Métrica: Percentil 95 de 100 transições de tela em até 5 segundos.\n  RNF-003 (Performance Efficiency) - O sistema deve concluir uma consulta ou lançamento de informação em até 30 segundos. | Métrica: 100% das tarefas de consulta, lançamento de aula, falta e nota concluídas em até 30 segundos, excluído o tempo de digitação do professor. [TBD: confirmar critério de medição]\n  RNF-004 (Interaction Capability) - O sistema deve permitir que professores concluam as tarefas essenciais após até 3 horas de treinamento. | Métrica: 100% dos participantes do teste de usabilidade [TBD: confirmar amostra] concluem consulta de turma, registro de aula, falta e nota após até 3 horas de treinamento.\n  RNF-005 (Security) - O sistema deve negar acesso a dados de turmas não atribuídas ao professor autenticado. | Métrica: 100% das tentativas de consulta ou lançamento em turmas não atribuídas resultam em acesso negado.\n  RNF-006 (Compatibility) - O sistema deve interoperar com o sistema acadêmico adotado por cada escola para transferir os dados definidos no escopo. | Métrica: 100% dos campos de turmas, alunos, disciplinas, cronogramas, aulas, faltas e notas definidos para a escola são importados ou exportados sem erro em 10 sincronizações consecutivas. [TBD: validar mapeamento de campos]\n\nHistórias de usuário:\n  HU-001 - Como professor, quero autenticar-me com login e senha, para acessar minhas informações acadêmicas de forma controlada\n  HU-002 - Como professor, quero consultar minhas turmas, para selecionar a turma correta antes de realizar registros\n  HU-003 - Como professor, quero consultar o cronograma das minhas aulas, para organizar os registros do diário escolar\n  HU-004 - Como professor, quero registrar uma aula ministrada, para manter o diário escolar atualizado sem redigitação\n  HU-005 - Como professor, quero registrar faltas dos alunos, para atualizar a frequência da turma durante a aula\n  HU-006 - Como professor, quero registrar notas dos alunos, para atualizar o desempenho acadêmico da turma\n  HU-007 - Como professor, quero receber turmas, alunos, disciplinas e cronogramas do sistema acadêmico, para trabalhar com dados acadêmicos já cadastrados pela escola\n  HU-008 - Como professor, quero sincronizar aulas ministradas, para enviar o conteúdo registrado ao sistema acadêmico\n  HU-009 - Como professor, quero sincronizar faltas, para enviar a frequência registrada ao sistema acadêmico\n  HU-010 - Como professor, quero sincronizar notas, para enviar o desempenho registrado ao sistema acadêmico\n  HU-011 - Como professor, quero ser impedido de cadastrar dados acadêmicos no dispositivo, para preservar o sistema acadêmico como fonte dos cadastros\n  HU-012 - Como professor, quero ser impedido de alterar o planejamento de aula no dispositivo, para preservar o planejamento pedagógico estabelecido\n\nCasos de uso:\n  UC-001 - Autenticar professor | Ator: Professor\n    1. O professor informa login e senha.\n    2. O sistema valida as credenciais.\n    3. O sistema inicia a sessão do professor.\n  UC-002 - Consultar turmas e cronograma | Ator: Professor\n    1. O professor acessa a lista de turmas.\n    2. O sistema exibe somente as turmas atribuídas ao professor.\n    3. O professor seleciona uma turma.\n    4. O sistema exibe o cronograma da turma selecionada.\n  UC-003 - Registrar aula ministrada | Ator: Professor\n    1. O professor seleciona a data da aula.\n    2. O sistema valida a data selecionada.\n    3. O professor informa o registro da aula ministrada.\n    4. O sistema grava o registro com status pendente de exportação.\n  UC-004 - Registrar falta de aluno | Ator: Professor\n    1. O professor seleciona uma turma e uma data.\n    2. O sistema valida a data.\n    3. O professor identifica o aluno faltoso.\n    4. O sistema grava a falta.\n  UC-005 - Registrar nota | Ator: Professor\n    1. O professor seleciona a turma.\n    2. O sistema exibe os alunos da turma.\n    3. O professor informa uma nota para um aluno.\n    4. O sistema grava a nota.\n  UC-006 - Importar dados acadêmicos | Ator: Professor\n    1. O professor inicia a sincronização de importação.\n    2. O sistema solicita dados ao sistema acadêmico.\n    3. O sistema importa turmas, alunos, disciplinas e cronogramas recebidos.\n    4. O sistema apresenta a conclusão da sincronização.\n  UC-007 - Exportar registros pedagógicos | Ator: Professor\n    1. O professor inicia a sincronização de exportação.\n    2. O sistema identifica os registros pedagógicos pendentes.\n    3. O sistema envia os registros ao sistema acadêmico.\n    4. O sistema marca os registros enviados como exportados.\n  UC-008 - Tentar alterar planejamento de aula | Ator: Professor\n    1. O professor acessa o planejamento de uma aula.\n    2. O sistema exibe o planejamento em modo de consulta.\n    3. O professor encerra a consulta.\n\nCritérios de aceite:\n  CA-001 - Dado que o professor possui login e senha válidos, quando informar essas credenciais na tela de acesso, então o sistema deve iniciar uma sessão autenticada para o professor\n  CA-002 - Dado que o professor autenticado possui duas turmas atribuídas, quando acessar a lista de turmas, então o sistema deve exibir exatamente as duas turmas atribuídas e nenhuma turma adicional\n  CA-003 - Dado que existe cronograma importado para uma turma atribuída, quando o professor selecionar essa turma, então o sistema deve exibir o cronograma importado da turma em até 30 segundos\n  CA-004 - Dado que o professor selecionou uma turma atribuída e uma data atual, quando salvar o registro da aula ministrada, então o sistema deve gravar o registro com status pendente de exportação\n  CA-005 - Dado que o professor selecionou uma data posterior à data atual, quando tentar registrar a falta de um aluno, então o sistema deve rejeitar o registro e informar que faltas futuras não podem ser registradas\n  CA-006 - Dado que o professor selecionou um aluno de turma atribuída, quando informar e salvar uma nota, então o sistema deve gravar a nota para o aluno selecionado com status pendente de exportação\n  CA-007 - Dado que o sistema acadêmico disponibiliza turmas para o professor, quando a sincronização de importação for concluída, então o sistema deve disponibilizar as turmas recebidas na lista de turmas do professor\n  CA-008 - Dado que o sistema acadêmico disponibiliza alunos vinculados a uma turma, quando a sincronização de importação for concluída, então o sistema deve disponibilizar os alunos recebidos para a turma correspondente\n  CA-009 - Dado que o sistema acadêmico disponibiliza disciplinas, quando a sincronização de importação for concluída, então o sistema deve disponibilizar as disciplinas recebidas para consulta\n  CA-010 - Dado que o sistema acadêmico disponibiliza cronogramas de aulas, quando a sincronização de importação for concluída, então o sistema deve disponibilizar o cronograma recebido para a turma correspondente\n  CA-011 - Dado que existe uma aula ministrada pendente de exportação, quando a sincronização de exportação for concluída com sucesso, então o sistema deve enviar o registro ao sistema acadêmico e marcá-lo como exportado\n  CA-012 - Dado que existe uma falta pendente de exportação, quando a sincronização de exportação for concluída com sucesso, então o sistema deve enviar o registro de falta ao sistema acadêmico e marcá-lo como exportado\n  CA-013 - Dado que existe uma nota pendente de exportação, quando a sincronização de exportação for concluída com sucesso, então o sistema deve enviar o registro de nota ao sistema acadêmico e marcá-lo como exportado\n  CA-014 - Dado que um registro pedagógico está identificado como exportado, quando uma sincronização de importação receber esse mesmo registro, então o sistema deve excluir o registro recebido da importação e manter apenas o registro já exportado\n  CA-015 - Dado que o professor está autenticado no dispositivo móvel, quando acessar as funções disponíveis para turmas, disciplinas ou alunos, então o sistema deve não disponibilizar comando de cadastro para esses dados\n  CA-016 - Dado que o professor visualiza um planejamento de aula importado, quando tentar alterar seu conteúdo, então o sistema deve rejeitar a alteração e manter o planejamento sem modificação\n\nGlossário:\n  Diário escolar: Registro acadêmico que consolida aulas ministradas, frequência dos alunos e notas.\n  Sistema acadêmico escolar: Sistema central da escola que mantém os cadastros acadêmicos e recebe os registros exportados pelo SIMDE.\n  Cronograma de aulas: Conjunto de datas, horários ou planejamentos de aula disponibilizados pelo sistema acadêmico.\n  Registro pedagógico: Registro de aula ministrada, falta de aluno ou nota realizado no SIMDE.\n  Sincronização: Processo de importar dados do sistema acadêmico ou exportar registros pedagógicos para esse sistema.\n  PDA: Dispositivo móvel portátil utilizado pelo professor para executar o aplicativo em sala de aula.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "[Derivado de: 'dentro da \r\nLGPD']\r\nRNF-003 (Reliability — Fault Tolerance):\r\nO sistema deve operar em modo offline com funcionalidade de criação de propostas, sincronizando \r\nautomaticamente com latência máxima de 30 segundos após reconexão. [Derivado de: 'funcionar quando \r\ninternet tiver ruim']\r\nRNF-004 (Compatibility — Interoperability):\r\nA integração com SAP deve ser bidirecional via API REST/JSON, sem modificações na configuração atual do \r\nSAP. [Derivado de: 'vira pedido automaticamente no SAP']\r\nRNF-005 (Flexibility — Installability):\r\nO sistema deve ser responsivo e funcional em dispositivos móveis (Android/iOS) sem necessidade de \r\naplicativo nativo. [Derivado de: 'usam no celular em campo']\r\nHistórias de Usuário\r\nHU-001: Como vendedor, quero criar propostas com preços atualizados automaticamente, para evitar erros \r\nde precificação e retrabalho.\r\nHU-002: Como diretora comercial, quero ver todas as propostas abertas em tempo real em um painel, para \r\nnão precisar ligar para cada vendedor para saber a situação.\r\nHU-003: Como vendedor, quero criar propostas no celular mesmo sem internet, para não perder \r\noportunidades quando estou em campo.\r\nCritérios de Aceite\r\nCA-001 (RF-001):\r\nDado que o vendedor está criando uma nova proposta,\r\nQuando selecionar um produto,\r\nEntão o sistema deve exibir o preço da tabela de preços com data de vigência atual, sem necessidade de \r\nconsulta manual.\r\nCA-002 (RF-002):\r\nDado que uma proposta com valor R$ 60.000,00 foi finalizada pelo vendedor,\r\nQuando clicar em 'Enviar ao cliente',\r\nEntão o sistema deve redirecionar para status 'Aguardando aprovação', notificar a diretora por e-mail e \r\nbloquear o envio até aprovação registrada.CA-003 (RF-006 / HU-003):\r\nDado que o vendedor está sem conexão à internet,\r\nQuando criar e salvar uma proposta no modo offline,\r\nEntão o sistema deve armazená-la localmente e sincronizá-la com o servidor em até 30 segundos após a \r\nreconexão, sem perda de dados.PARTE 6 — Protocolo de Extração: Passo a Passo para o Agente\r\nAo receber um documento de projeto, executar nesta ordem:\r\n1. PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5.",
+    "pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.\r\n[ ] Priorizado: Tem prioridade MoSCoW explicitamente definida.PARTE 5 — Exemplo Completo Integrado (Sistema de Agendamento \r\nMédico)\r\nEsta parte demonstra todos os artefatos integrados para um único domínio (sistema de \r\nagendamento de consultas médicas), mostrando como eles se relacionam e se rastreiam entre si. \r\nUse como modelo de escrita e consistência.\r\nEscopo\r\nEXEMPLO — Escopo — Sistema de Agendamento Médico (SAM)\r\nIN: agendamento de consultas, cadastro de pacientes, cadastro de médicos por especialidade, envio de \r\nlembretes por SMS/e-mail, cancelamento de consultas, relatório de ocupação.\r\nOUT: prontuário eletrônico (sistema separado), faturamento convênio (sistema legado), telemedicina (v2.0).\r\nPREMISSAS: Pacientes possuem acesso à internet. Clínica possui serviço SMTP ativo.\r\nRESTRIÇÕES: LGPD (dados de saúde são dados sensíveis — art. 11). Banco: PostgreSQL (infraestrutura \r\nexistente). Prazo MVP: 60 dias.\r\nStakeholders\r\nEXEMPLO — Stakeholders — SAM\r\nSTK-01 | Recepcionista | Usuário primário | Total\r\n Cadastrar pacientes, agendar/cancelar consultas, consultar disponibilidade médica.\r\nSTK-02 | Paciente | Usuário primário | Parcial (portal self-service)\r\n Agendar/cancelar próprias consultas, receber lembretes.\r\nSTK-03 | Médico | Usuário secundário | Consulta (agenda própria)\r\n Visualizar própria agenda, confirmar/recusar consultas.",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    "3\r\n\"WBMJBS\u0001PT\u00013JTDPT\r\n6.1\r\n\"OBMJTBS\u0001P\u0001\u0001\r\n&TUBEP\u0001\"UVBM\r\n5BSFGBT\r\n6.2\r\n%FGJOJS\u0001P\u0001&TUBEP\u0001\r\n'VUVSP\r\n6.4\r\n%FGJOJS\u0001B\u0001\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n3.2\r\n\"CPSEBHFN\u0001EF\u0001\r\n&OHBKBNFOUP\u0001EF\u0001\r\nStakeholder \r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n6.1 \r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001\"UVBM\r\n6.1\r\n3FRVJTJUPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n0CKFUJWPT\u0001EF\u0001\r\n/FHØDJPT\r\n6.2\r\n7BMPS\u00011PUFODJBM\r\n6.2\r\n%FTDSJÎÍP\u0001EP\u0001\r\n&TUBEP\u0001'VUVSP\u0001\r\n6.3\u00013FTVMUBEPT\u0001\r\nEB\u0001\"OÈMJTF\u0001EF\u0001\r\n3JTDP\r\n6.4\r\n&TUSBUÏHJB\u0001EF\u0001\r\n.VEBOÎB\r\n6.4\r\n&TDPQP\u0001EB\u00014PMVÎÍP\r\n/FDFTTJEBEFT\r\n4.2\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\r\n(OÍP\u0001DPOGJSNBEPT\n\r\n&OUSBEB\r\n*OGMVÐODJBT\r\n(JOUFSOBT\r\u0001FYUFSOBT)\r\n4.3\r\n3FTVMUBEPT\u0001EB\u0001\r\n&MJDJUBÎÍP\u0001\r\n\tDPOGJSNBEPT\n\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT)Análise da Estratégia PE (6) AƵreas de Conhecimento do Padrão Essencial\r\n32\r\nAnalisar o Estado Atual PE (6.1)\r\nPropósito\r\nO objetivo de Analisar o Estado Atual é compreender as razões pelas quais \r\numa corporação precisa mudar algum aspecto de como ela funciona e o que \r\nseria direta ou indiretamente afetado pela mudança.\r\nDescrição\r\nAnalisar o Estado Atual compreende a necessidade do negócio e como ela se \r\nrelaciona com a maneira como a corporação funciona hoje. Define uma linha \r\nde base e contexto para a mudança.\r\nEntradas\r\n• Resultados de Elicitação: usado para definir e entender o estado atual.\r\n• Necessidades: o problema ou a oportunidade enfrentada por uma \r\ncorporação ou organização com frequência inicia um trabalho de análise \r\nde negócios para melhor entender essas necessidades.\r\nSaídas \r\n• Descrição do Estado Atual: o contexto do escopo, capacidades, recursos, \r\ndesempenho, cultura, dependências, infraestrutura, influências externas \r\nda corporação e relações significativas entre estes elementos.\r\n• Requisitos de Negócio: o problema, a oportunidade ou a restrição \r\ndefinida com base em um entendimento do estado atual.\r\nDefinir o Estado Futuro PE (6.2)\r\nPropósito\r\nO objetivo de Definir o Estado Futuro é determinar o conjunto de condições \r\nnecessárias para atender às necessidades do negócio.",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    "SIMDE - Sistema Móvel de Diário Escolar\r\nOlha, a ideia surgiu de uma dor bem prática que a gente vê no \r\ndia a dia das escolas: o professor ainda lida com diário de \r\npapel, ou fica preso a um sistema de computador fixo pra \r\nlançar frequência, nota e conteúdo de aula. Isso consome tempo \r\ndele que podia estar sendo usado em sala, e ainda gera \r\nretrabalho, porque depois alguém precisa digitar tudo de novo \r\nno sistema acadêmico da escola. Queremos resolver isso dando \r\npro professor um aparelho móvel, tipo um PDA, com um \r\naplicativo que ele carrega junto pra dentro da sala de aula. \r\nPensando no que esse app vai fazer: ele precisa deixar o \r\nprofessor consultar as turmas que são dele, ver o cronograma \r\ndas aulas, registrar a aula que deu naquele dia, lançar a \r\nfalta dos alunos e lançar as notas. E o pulo do gato é que \r\ndepois disso tudo isso precisa ser sincronizado com o sistema \r\nacadêmico que a escola já usa no computador — então o aparelho \r\nexporta o que o professor lançou (aula, falta, nota) e importa \r\nde volta as turmas, alunos, disciplinas e o cronograma que já \r\nestão cadastrados lá no sistema da escola. Isso tem que ser \r\nrápido, ninguém quer ficar esperando o aparelho sincronizar \r\numa eternidade, e tem que dar pra usar em qualquer escola, não \r\nsó numa instituição específica, porque os sistemas acadêmicos \r\nvariam de lugar pra lugar. \r\nE tem uns detalhes práticos que fazem diferença no dia a dia: \r\nessa sincronização não pode passar de uns 30 segundos, senão o \r\nprofessor fica ali parado esperando e perde a paciência, e \r\ntrocar de tela dentro do aplicativo tem que ser praticamente \r\nna hora, no máximo uns 5 segundos, sem ficar travando. Também \r\nquero que qualquer professor consiga aprender a mexer nisso \r\ncom umas 3 horas de treinamento, sem precisar de manual \r\ngrosso, e consultar ou lançar uma informação não pode demorar \r\nmais que meio minuto. \r\nQuem vai usar isso na prática é o professor, mas coordenador e \r\ndiretor também são interessados porque eles acompanham esses \r\ndados de frequência e desempenho. E óbvio, login e senha são \r\nobrigatórios, cada professor só pode ver e lançar informação \r\ndas turmas que são dele mesmo — segurança e privacidade são importantes aqui, ninguém pode bisbilhotar nota ou falta de \r\nturma de outro professor. \r\nAgora, uma coisa que quero deixar clara: a gente não quer que \r\no professor cadastre turma, disciplina ou aluno no aparelho — \r\nisso é lá no sistema da escola, no PC, o aparelho só importa \r\nessas informações já prontas. Também não faz sentido permitir \r\nque ele registre aula ou falta de uma data futura, isso \r\nbagunça tudo, então isso tem que ser bloqueado. E depois que a \r\naula foi planejada, não deixa ele alterar o planejamento por \r\nali, isso também não é prioridade agora.",
+    "• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.: RF-001, RNF-003, RN-002, HU-005,\r\nCA-008, UC-002).\r\nREGRA: IDs nunca devem ser reutilizados. Se um requisito é removido, seu ID fica obsoleto — não é \r\nreatribuído a outro requisito.\r\n1.3 Princípios Fundamentais de Qualidade de Requisitos\r\nBase: ISO/IEC/IEEE 29148:2018 §5.2 — Características do requisito individual\r\n• Necessário: Existe uma necessidade real que o justifica. Sem o requisito, há uma lacuna de negócio.\r\n• Não ambíguo: Tem uma única interpretação possível. Evitar: 'eficiente', 'fácil', 'rápido', 'amigável'.\r\n• Verificável: Pode ser testado objetivamente com critério mensurável. 'Rápido' não é verificável; '< 2 s' é.\r\n• Singular: Descreve uma única coisa. Nunca usar 'e' ou 'ou' para combinar dois comportamentos em um \r\nRF.\r\n• Viável: Tecnicamente e financeiramente possível dentro das restrições do projeto.\r\n• Rastreável: Tem origem (stakeholder ou RN) e destino (caso de teste) identificados.\r\n• Completo: Contém todas as informações necessárias para implementação sem consultas adicionais.\r\n• Consistente: Não conflita com nenhum outro requisito do documento.\r\n• Priorizado: Tem um nível de prioridade definido (MoSCoW: Must/Should/Could/Won't).PARTE 2 — Padrões de Escrita por Artefato\r\n2.1 Escopo do Projeto\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6.3 — 'Scope'; Wiegers & Beatty (2013, cap.",
+    "Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO. \r\nTipicamente aparecem em frases com sujeito humano + verbo de necessidade/desejo + objetivo.\r\n[Necessidade direta] 'eu preciso', 'o vendedor precisa', 'o cliente quer', 'o gestor gostaria'\r\n[Objetivo de negócio] 'para poder', 'a fim de', 'para que eu consiga', 'de modo que'\r\n[Reclamação implícita] 'hoje é difícil', 'atualmente levamos X horas para', 'perdemos tempo com'\r\n[Processo manual descrito] 'hoje fazemos isso no Excel', 'anotamos à mão', 'enviamos por e-mail \r\nmanualmente'\r\n[Pedido de visibilidade] 'quero ver', 'preciso acompanhar', 'quero saber em tempo real', 'dashboard'\r\nREGRA DE TRANSFORMAÇÃO: texto bruto → HU no formato Connextra\r\n 1. Identificar QUEM faz o pedido (persona/papel)\r\n 2. Identificar O QUE a pessoa quer fazer (ação concreta)\r\n 3. Identificar O PORQUÊ (benefício de negócio — frequentemente implícito no texto)\r\n 4. Formatar: 'Como [persona], quero [ação], para [benefício].'\r\nEXEMPLO — Texto bruto → Histórias de Usuário\r\nTEXTO: 'Hoje o vendedor anota os pedidos em papel e depois digita no Excel, o que atrasa muito o \r\nfaturamento. O gerente não tem como saber a situação das vendas sem ligar para cada vendedor. O cliente às\r\nvezes liga perguntando onde está o pedido dele.'\r\nHU-001: Como vendedor, quero registrar pedidos diretamente no sistema, para eliminar a redigitação e \r\nacelerar o faturamento.",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    "O gerenciamento de requisitos não termina quando uma solução é \r\nimplementada. Ao longo da vida de uma solução, os requisitos continuam a \r\nfornecer valor quando são gerenciados adequadamente.\r\nDentro da área de conhecimento Gerenciamento do Ciclo de Vida de \r\nRequisitos, o conceito de ciclo de vida é distinto da metodologia ou processo \r\nusado para controlar o trabalho de análise de negócios. O ciclo de vida refere￾se à existência de várias fases ou estados pelos quais os requisitos passam \r\ncomo parte de qualquer alteração. Os requisitos podem estar em vários \r\nestados ao mesmo tempo.\r\nA área de conhecimento Gerenciamento do Ciclo de Vida de Requisitos inclui \r\nas seguintes tarefas:\r\n• Rastrear os Requisitos\r\n• Manter os Requisitos\r\n• Priorizar os Requisitos\r\n• Avaliar as Mudanças de Requisitos\r\n• Aprovar os RequisitosAƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n25\r\nDiagrama de Entrada/Saída do Gerenciamento do Ciclo de Vida de Requisitos\r\n5BSFGBT\r\n4BÓEB\r\n5.3\r\n1SJPSJ[BS \u0001PT\r\n3FRVJTJUPT\u0001\r\n5.2\r\n.BOUFS\u0001PT\u0001\r\n3FRVJTJUPT\u0001\r\n5.1\r\n3BTUSFBS\u0001\u0001PT\r\n3FRVJTJUPT\r\n5.4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.",
+    "Elicitação de Requisitos | Syllabus | ©IREB 7 | 43\r\nSumário\r\n1 Uma estrutura para estruturar e gerenciar a elicitação de \r\nrequisitos e a resolução de conflitos (L4) . 9\r\n1.1 O escopo da elicitação e da resolução de conflitos na Engenharia de \r\nRequisitos (L2). 9\r\n1.2 Fatores relevantes para a abordagem de elicitação de planejamento e \r\nresolução de conflitos (L2) . 10\r\n1.3 Planejamento e execução de elicitação de requisitos eresolução de \r\nconflitos (L4). 10\r\n1.4 Padrões de processo (L2) . 11\r\n2 Fontes de requisitos (L3) . 13\r\n2.1 Fundamentos das fontes de requisitos (L3) . 13\r\n2.2 Identificar, classificar, gerenciar stakeholders (L3) . 14\r\n2.2.1 Identificação e seleção de stakeholders como fontes de requisitos (L3). 14\r\n2.2.2 Gerenciamento do relacionamento com os stakeholders (L3) . 15\r\n2.2.3 Esquema de documentação para os stakeholders envolvidos (L3) . 15\r\n2.2.4 Os usuários como um grupo especial de stakeholders (L3) . 16\r\n2.3 Identificar, classificar e gerenciar documentos (L3) . 17\r\n2.3.1 Identificação e seleção de documentos como fontes de requisitos (L3). 17\r\n2.3.2 Esquema de documentação para os documentos (L3) . 18\r\n2.4 Identificar, classificar, gerenciar sistemas (L3) . 18\r\n2.4.1 Identificação e seleção de sistemas como fontes de requisitos (L3). 18\r\n2.4.2 Esquema de documentação para sistemas (L3) . 19\r\n3 Técnicas de Elicitação (L4) . 21\r\n3.1 Técnicas de coleta (L4) . 21\r\n3.1.1 Técnicas de questionamento (L3) . 22\r\n3.1.2 Técnicas de observação (L3) . 22\r\n3.1.3 Técnicas de colaboração (L3) . 23\r\n3.1.4 Técnicas baseadas em artefatos (L3) . 24",
+    "6. Security (Segurança)\r\n Confidentiality — dados acessíveis apenas por autorizados.\r\n Integrity — dados protegidos contra alteração não autorizada.\r\n Non-repudiation — ações não podem ser negadas.\r\n Accountability — ações rastreáveis ao usuário.\r\n Authenticity — identidade verificável.\r\n Resistance — proteção contra ataques.\r\nEXEMPLO — RNF — 6. Security\r\nO sistema deve registrar em log imutável toda ação de escrita (criação, edição, exclusão) com: ID do usuário, \r\ndata/hora UTC, IP de origem e estado anterior do registro (não-repúdio e accountability).\r\n7. Maintainability (Manutenibilidade)\r\n Modularity — componentes independentes com impacto isolado de mudanças.\r\n Reusability — componentes reutilizáveis em outros contextos.\r\n Analysability — facilidade de diagnóstico de falhas.\r\n Modifiability — facilidade de modificação sem introduzir defeitos. Testability — facilidade de criar critérios de teste.\r\nEXEMPLO — RNF — 7. Maintainability\r\nO sistema deve ter cobertura de testes automatizados de no mínimo 80% das linhas de código da camada de \r\nnegócio (domínio), medida com ferramenta de cobertura integrada ao pipeline CI/CD.\r\n8. Flexibility (Flexibilidade) — antes parte de 'Portabilidade'\r\n Adaptability — adaptável a diferentes ambientes sem ações além das previstas.\r\n Scalability — capacidade de lidar com crescimento de carga.\r\n Installability — instalável/desinstalável nos ambientes especificados.\r\n Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.",
+    "PASSO 1 — Identificar o tipo de documento\r\n BRD, charter, ata, e-mail, proposta? Ajusta a expectativa de riqueza e formalidade.\r\n2. PASSO 2 — Varrer por stakeholders e sistema externo\r\n Identificar TODOS os papéis humanos e sistemas externos mencionados. Criar lista STK-NN antes de \r\nqualquer outra extração.\r\n3. PASSO 3 — Delimitar o escopo\r\n Identificar o que está IN e OUT. Anotar premissas e restrições. Restrições de prazo, orçamento e tecnologia \r\nsão frequentes em charters.\r\n4. PASSO 4 — Extrair Regras de Negócio\r\n Procurar condições numéricas, políticas corporativas, leis, fórmulas. Registrar RN-NNN antes de escrever \r\nos RFs que as implementam.\r\n5. PASSO 5 — Extrair Requisitos Funcionais\r\n Para cada verbo de ação do sistema: criar um RF. Desdobrar genéricos ('gerenciar') em múltiplos RFs \r\natômicos. Referenciar RNs quando aplicável.\r\n6. PASSO 6 — Identificar e quantificar RNFs\r\n Varrer o documento inteiro por adjetivos de qualidade. Classificar cada um pela ISO 25010 e propor \r\nmétrica. Marcar [TBD] se necessário.\r\n7. PASSO 7 — Escrever Histórias de Usuário\r\n Para cada necessidade identificada por um stakeholder: escrever HU no formato Connextra. Vincular ao RF\r\ncorrespondente.\r\n8. PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7.",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    "Nível Fundamental | Syllabus ©IREB 21 | 50\r\n1. Os requisitos são classificados pelo seu tipo (1.1) em:\r\na) Requisitos funcionais\r\nb) Requisitos de qualidade\r\nc) Restrições\r\n2. Os requisitos funcionais concentram-se em diferentes aspectos da funcionalidade \r\nde um sistema:\r\na) Estrutura e dados\r\nb) Função e fluxo\r\nc) Estado e comportamento\r\n3. Finalmente, os requisitos só serão entendidos no contexto (Princípio 4 em 2):\r\na) Contexto do sistema, incluindo atores externos\r\nb) Limites do sistema e interfaces externas\r\nHá muitas relações e dependências entre os aspectos mencionados. Por exemplo, uma \r\nsolicitação emitida por um usuário (contexto) pode levar a uma transição de estado (estado \r\ne comportamento) que inicia ações em cadeia (função e fluxo) que requerem dados \r\n(estrutura e dados) para fornecer um resultado ao usuário (contexto) dentro de um intervalo \r\nde tempo (qualidade).\r\nAlguns produtos de trabalho focam em um aspecto específico e abstraem os outros \r\naspectos. Este é particularmente o caso dos modelos de requisitos (3.4). Outros produtos de \r\ntrabalho, como uma especificação dos requisitos do sistema, cobrem todos os aspectos \r\ncitados. Quando aspectos diferentes são documentados em produtos de trabalho \r\nseparados ou em capítulos separados do mesmo produto de trabalho, esses produtos de \r\ntrabalho ou capítulos de trabalho devem ser mantidos consistentes entre si.\r\n3.1.5 Diretrizes Gerais de Documentação (L1)\r\nIndependentemente das técnicas utilizadas, as seguintes diretrizes aplicam-se na criação \r\nde produtos de trabalho:\r\n▪ Selecionar um tipo de produto de trabalho que se adapte à finalidade pretendida.\r\n▪ Evitar a redundância referenciando o conteúdo em vez de repetir o mesmo conteúdo.\r\n▪ Assegurar que não existem inconsistências entre os produtos de trabalho, \r\nparticularmente quando cobrem aspectos diferentes.\r\n▪ Usar termos de forma consistente, conforme definido no glossário.\r\n▪ Estruturar produtos de trabalho de forma apropriada.\r\n3.1.6 Planejar os produtos de trabalho a serem utilizados \r\n(L1)\r\nCada cenário de projeto e cada domínio são diferentes, portanto, o conjunto de produtos de \r\ntrabalho resultante deve ser definido para cada empreendimento. Portanto, as seguintes \r\nquestões devem ser acordadas:\r\n▪ Em que produtos de trabalho devem ser registados os requisitos e para que fins?",
+    "Os requisitos \r\nfocam em entender que tipo de valor pode ser entregue se um requisito for \r\natendido. A natureza da representação pode ser um documento (ou conjunto \r\nde documentos), mas pode variar muito dependendo das circunstâncias. \r\nPara obter mais informações, consulte Requisitos e Designs.\r\nRisco\r\nRisco é o efeito da incerteza sobre o valor de uma mudança, de uma solução \r\nou de uma corporação. Os analistas de negócios colaboram com outros \r\nstakeholders para identificar, avaliar e priorizar riscos, e para lidar com esses \r\nriscos alterando a probabilidade das condições ou eventos que levam à \r\nincerteza: mitigando as consequências, removendo a fonte do risco, evitando \r\no risco completamente ao decidir não iniciar ou continuar com uma atividade \r\nque conduza ao risco, compartilhando o risco com outras partes, ou \r\naceitando ou mesmo aumentando o risco para lidar com uma oportunidade.\r\n1.5 Esquema de Classificação de Requisitos\r\nPara os propósitos do Guia BABOK®\r\n o seguinte esquema de classificação \r\ndescreve os requisitos:\r\n• Requisitos de negócios: declarações de metas, objetivos e resultados que \r\ndescrevem por que uma mudança foi iniciada. Podem se aplicar a toda \r\numa corporação, uma área de negócios ou uma iniciativa específica.\r\n• Requisitos de stakeholders: descrevem as necessidades dos \r\nstakeholders que devem ser atendidas para atingir os requisitos de \r\nnegócios. Podem servir como uma ponte entre os requisitos de negócios \r\ne os da solução.\r\n• Requisitos da solução: descrevem as capacidades e as qualidades de \r\numa solução que atenda aos requisitos dos stakeholders. Fornecem o \r\nnível apropriado de detalhes para permitir o desenvolvimento e a \r\nimplementação da solução. Os requisitos da solução podem ser divididos \r\nem duas subcategorias:\r\n• requisitos funcionais: descrevem as capacidades que uma solução \r\ndeve ter em termos do comportamento e das informações que a \r\nsolução gerenciará e\r\n• requisitos não-funcionais ou requisitos de qualidade de serviço: \r\nnão se relacionam diretamente com o comportamento de \r\nfuncionalidade da solução, mas sim às condições sob as quais a \r\nsolução deve permanecer eficaz ou qualidades que uma solução \r\ndeve ter.Stakeholders Conceitos Chave da Análise de Negócios\r\n8\r\n• Requisitos de transição: descrevem as capacidades que a solução deve \r\nter e as condições que a solução deve atender para facilitar a transição do \r\nestado atual para o estado futuro, mas que não serão necessárias após a \r\nconclusão da mudança. Eles se diferenciam de outros tipos de requisitos \r\nporque são de natureza temporária. Os requisitos de transição abordam \r\ntópicos como conversão de dados, treinamento e continuidade de \r\nnegócios.\r\n1.6 Stakeholders\r\nCada tarefa inclui uma lista de stakeholders que provavelmente participarão \r\nda execução dessa tarefa ou que serão afetados por ela.",
+    "Nível Fundamental | Syllabus ©IREB 18 | 50\r\n3 Produtos de Trabalho e Práticas de \r\nDocumentação (L3)\r\nObjetivo: Entender o papel fundamental dos produtos de trabalho na ER e ser capaz de \r\ncriá-los\r\nDuração: 7 horas\r\nTermos: Produto de trabalho, produtos de trabalho em linguagem natural, produtos de\r\ntrabalho baseados em templates, produtos de trabalho baseados em modelos, \r\nglossário, critérios de qualidade, especificação de requisitos\r\nObjetivos Educacionais\r\nOE 3.1.1 Saber as características dos produtos de trabalho ER e enumerar os tipos de \r\nprodutos de trabalho frequentemente utilizados (L1)\r\nOE 3.1.2 Saber o uso de cada produto de trabalho e conhecer o seu tempo de vida útil (L1)\r\nOE 3.1.3 Explicar os diferentes níveis de abstração para os requisitos, incluindo como \r\nescolher os níveis apropriados e níveis de detalhe (L2)\r\nOE 3.1.4 Conhecer os aspectos a considerar nos produtos de trabalho e suas relações (L1)\r\nOE 3.1.5 Nomear as diretrizes gerais de documentação (L1)\r\nOE 3.1.6 Descrever por que vale a pena planejar o uso dos produtos de trabalho (L1)\r\nOE 3.2.1 Conhecer os produtos de trabalho em linguagem natural, suas vantagens e \r\ndesvantagens (L1)\r\nOE 3.2.2 Explicar as regras para escrever bons requisitos em linguagem natural (L2)\r\nOE 3.3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.",
+    "• Designs: quaisquer designs na forma de texto, protótipos ou diagramas \r\nque estejam prontos para priorizar.\r\nSaídas \r\n• Requisitos (priorizados): requisitos priorizados ou classificados estão \r\ndisponíveis para trabalho adicional, garantindo que os requisitos de \r\nmaior valor sejam abordados primeiro.\r\n• Designs (priorizados): designs priorizados ou classificados estão \r\ndisponíveis para trabalho adicional, garantindo que os designs de maior \r\nvalor sejam abordados primeiro.Gerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n28\r\nAvaliar as Mudanças de Requisitos PE (5.4)\r\nPropósito\r\nO objetivo de Avaliar as Mudanças de Requisitos é avaliar as implicações das \r\nalterações propostas aos requisitos e designs.\r\nDescrição\r\nAvaliar as Mudanças de Requisitos examina os requisitos de stakeholder \r\nnovos e alterados para determinar se precisam ser considerados no escopo \r\nde uma mudança.\r\nEntradas\r\n• Mudança proposta: pode ser identificada a qualquer momento e afetar \r\nqualquer aspecto do trabalho de análise de negócios ou de entregáveis \r\nconcluídos até a data. Há muitos gatilhos para uma mudança proposta, \r\nincluindo mudanças na estratégia de negócios, stakeholders, requisitos \r\nlegais ou mudanças regulatórias.\r\n• Requisitos: podem precisar ser avaliados para identificar o impacto de \r\numa modificação proposta.\r\n• Designs: podem precisar ser avaliados para identificar o impacto de uma \r\nmodificação proposta.\r\nSaídas \r\n• Avaliação de Mudanças de Requisitos: a recomendação para aprovar, \r\nmodificar ou negar uma mudança proposta aos requisitos.\r\n• Avaliação de Mudanças de Designs: a recomendação para aprovar, \r\nmodificar ou negar uma alteração proposta para um ou mais \r\ncomponentes de design.\r\nAprovar os Requisitos PE (5.5)\r\nPropósito\r\nA finalidade de Aprovar os Requisitos é obter o acordo e a aprovação de \r\nrequisitos e designs para o trabalho de análise de negócios continuar e/ou a \r\nconstrução da solução prosseguir.\r\nDescrição\r\nAprovar os Requisitos trabalha com os stakeholders envolvidos no processo \r\nde governança para alcançar aprovação e acordo sobre requisitos e designs.\r\nEntradas\r\n• Requisitos (verificados): um conjunto de requisitos que foram verificados \r\ncomo sendo de qualidade suficiente para serem usados como um \r\ncorpo confiável de trabalho para especificação e desenvolvimento \r\nadicionais.AƵreas de Conhecimento do Padrão Essencial Análise da Estratégia PE (6)\r\n29\r\n• Designs: um conjunto de designs que foram determinados como prontos \r\npara serem usados em outra especificação e desenvolvimento.\r\nSaídas \r\n• Requisitos (aprovados): requisitos que foram aprovados pelos \r\nstakeholders e estão prontos para uso em esforços subsequentes de \r\nanálise de negócios.\r\n• Designs (aprovados): designs que foram aprovados pelos stakeholders e \r\nestão prontos para uso em esforços subsequentes de análise de negócios \r\nou de desenvolvimento de soluções.",
+    "Descrição\r\nAvaliar as Limitações da Corporação investiga questões fora do escopo de \r\numa solução que podem estar impedindo a corporação de obter o valor total \r\nque uma solução é capaz de prover.\r\nEntradas\r\n• Descrição do Estado Atual: o ambiente interno atual da solução, \r\nincluindo os fatores ambientais, culturais e internos que influenciam as \r\nlimitações da solução.\r\n• Solução Implementada (externa) (ou Construída) : uma solução \r\nexistente. A solução pode ou não estar em uso operacional; pode ser um \r\nprotótipo. A solução deve ser utilizada de alguma forma para ser avaliada.\r\n• Análise de Desempenho da Solução: resultados da análise das medições \r\ncoletadas e recomendações para solucionar lacunas de desempenho e \r\nalavancar oportunidades para melhorar o valor.Avaliação da Solução PE (8) AƵreas de Conhecimento do Padrão Essencial\r\n44\r\nSaídas \r\n• Limitação da Corporação: uma descrição das limitações atuais da \r\ncorporação, incluindo o modo como o desempenho da solução está \r\nimpactando a corporação.\r\nRecomendar as Ações para Aumentar o Valor da Solução PE \r\n(8.5)\r\nPropósito\r\nO propósito de Recomendar as Ações para Aumentar o Valor da Solução é \r\nentender os fatores que criam diferenças entre valor potencial e valor real e \r\nrecomendar um curso de ação para alinhá-los.\r\nDescrição\r\nRecomendar as Ações para Aumentar o Valor da Solução identifica e define \r\nações que a corporação pode adotar para aumentar o valor que pode ser \r\nentregue por uma solução.\r\nEntradas\r\n• Limitação da Corporação: uma descrição das limitações atuais da \r\ncorporação, incluindo como o desempenho da solução a está afetando.\r\n• Limitação da Solução: uma descrição das limitações atuais da solução, \r\nincluindo restrições e defeitos.\r\nSaídas \r\n• Ações Recomendadas: recomendação sobre o que deve ser feito para \r\nmelhorar o valor da solução dentro da corporação.",
+    "EXEMPLO — Histórias de Usuário do SGP\r\nHU-001\r\nComo administrador do sistema,\r\nquero cadastrar e gerenciar usuários com diferentes perfis de acesso,para controlar quem pode visualizar e modificar cada módulo do sistema.\r\nRF associado: RF-001 | Prioridade: Must have\r\nHU-002\r\nComo vendedor,\r\nquero registrar um pedido com múltiplos produtos em uma única tela,\r\npara não precisar navegar entre janelas e agilizar o atendimento ao cliente.\r\nRF associado: RF-003 | Prioridade: Must have\r\nHU-003\r\nComo cliente final,\r\nquero receber um e-mail de confirmação imediatamente após minha compra,\r\npara ter um registro da transação e maior confiança no processo.\r\nRF associado: RF-004 | Prioridade: Should have\r\nHU-004\r\nComo gerente de vendas,\r\nquero visualizar um relatório consolidado de vendas por vendedor e por período,\r\npara acompanhar o desempenho da equipe e tomar decisões estratégicas.\r\nRF associado: RF-006 (a ser detalhado) | Prioridade: Should have\r\nANTI-PADRÃO — Histórias mal escritas\r\nERRADO: 'HU-005: Como usuário, quero um sistema bom.'\r\n → 'Usuário' é genérico demais; 'bom' não é verificável.\r\nERRADO: 'HU-006: Como vendedor, quero cadastrar clientes E registrar pedidos E gerar relatórios.'\r\n → Uma história deve descrever UMA necessidade. Dividir em HU-006, HU-007 e HU-008.\r\nERRADO: 'HU-007: Como desenvolvedor, quero usar PostgreSQL.'\r\n → Histórias de usuário são da perspectiva do usuário de negócio, não da equipe técnica.\r\n2.7 Casos de Uso (UC)\r\nBase: Sommerville (2016, cap. 4); Wiegers & Beatty (2013, cap. 8); Cockburn (2001) — Writing Effective Use Cases\r\nCasos de uso descrevem a interação entre um ator e o sistema para atingir um objetivo específico. \r\nEles complementam as histórias de usuário adicionando fluxos alternativos e de exceção, tornando\r\no comportamento do sistema completamente especificado.\r\nCASO DE USO — Template completo\r\nID: UC-NNN — [Nome do caso de uso]Ator principal: [quem inicia a interação]\r\nHU relacionada: HU-NNN\r\nPré-condição: [o que deve ser verdadeiro antes do início]\r\nPós-condição (sucesso): [estado do sistema após conclusão bem-sucedida]\r\nPós-condição (falha): [estado do sistema após falha]\r\nFLUXO PRINCIPAL (caminho feliz):\r\n 1. O ator [ação 1].\r\n 2. O sistema [resposta 2].\r\n 3. O ator [ação 3].\r\n 4. O sistema [resposta 4 — resultado final].\r\nFLUXOS ALTERNATIVOS:\r\n 2a. [Condição alternativa] → [o sistema faz Y]; retorna ao passo N.\r\nFLUXOS DE EXCEÇÃO:\r\n 2b. [Condição de erro] → [o sistema exibe mensagem Z e faz W] (ref. RN￾NNN, RF-NNN).",
+    "[Necessidade direta] 'eu preciso', 'o vendedor precisa', 'o cliente quer', 'o gestor gostaria'\r\n[Objetivo de negócio] 'para poder', 'a fim de', 'para que eu consiga', 'de modo que'\r\n[Reclamação implícita] 'hoje é difícil', 'atualmente levamos X horas para', 'perdemos tempo com'\r\n[Processo manual descrito] 'hoje fazemos isso no Excel', 'anotamos à mão', 'enviamos por e-mail \r\nmanualmente'\r\n[Pedido de visibilidade] 'quero ver', 'preciso acompanhar', 'quero saber em tempo real', 'dashboard'\r\nREGRA DE TRANSFORMAÇÃO: texto bruto → HU no formato Connextra\r\n 1. Identificar QUEM faz o pedido (persona/papel)\r\n 2. Identificar O QUE a pessoa quer fazer (ação concreta)\r\n 3. Identificar O PORQUÊ (benefício de negócio — frequentemente implícito no texto)\r\n 4. Formatar: 'Como [persona], quero [ação], para [benefício].'\r\nEXEMPLO — Texto bruto → Histórias de Usuário\r\nTEXTO: 'Hoje o vendedor anota os pedidos em papel e depois digita no Excel, o que atrasa muito o \r\nfaturamento. O gerente não tem como saber a situação das vendas sem ligar para cada vendedor. O cliente às\r\nvezes liga perguntando onde está o pedido dele.'\r\nHU-001: Como vendedor, quero registrar pedidos diretamente no sistema, para eliminar a redigitação e \r\nacelerar o faturamento.\r\nHU-002: Como gerente de vendas, quero visualizar um painel consolidado de pedidos em aberto, para \r\nacompanhar as vendas sem precisar contatar cada vendedor individualmente.\r\nHU-003: Como cliente, quero consultar o status do meu pedido pelo portal, para não precisar ligar para a \r\nempresa e ter transparência sobre o andamento da entrega.\r\nATENÇÃO — Um processo manual descrito ('hoje fazemos X no Excel') quase sempre contém múltiplas HUs\r\nimplícitas. Desdobrar cada necessidade em uma história separada.2.7 Critérios de Aceite Implícitos — Reconhecer no Texto\r\nCritérios de aceite às vezes aparecem implicitamente no texto como condições, exemplos ou \r\nexpectativas de comportamento. O agente deve reconhecê-los e formatá-los em \r\nDado/Quando/Então.\r\n[Condição de sucesso] 'quando funcionar', 'ao finalizar com sucesso', 'após a confirmação'\r\n[Exemplo de cenário] 'por exemplo, se o cliente...', 'no caso em que...', 'quando o usuário fizer X'\r\n[Expectativa negativa] 'não deve acontecer', 'deve evitar', 'não pode permitir', 'impede que'\r\n[Limite numérico] qualquer valor numérico associado a um comportamento: 'em até 5 min', 'máximo 3 \r\ntentativas'\r\n[Mensagem esperada] 'deve mostrar mensagem de erro', 'exibe confirmação', 'notifica com'\r\nEXEMPLO — Texto bruto → Critérios de Aceite\r\nTEXTO: 'Se o usuário errar a senha 3 vezes, trava por 10 minutos.",
+    "Nível Fundamental | Syllabus ©IREB 22 | 50\r\n▪ Quais os níveis de abstração devem ser considerados?\r\n▪ Até que nível de detalhe deve ser documentado os requisitos em cada nível de \r\nabstração?\r\n▪ Como devem ser representados os requisitos nestes produtos de trabalho?\r\nOs produtos de trabalho a serem utilizados devem ser definidos numa fase inicial de um \r\nprojeto. Isto tem várias vantagens, como:\r\n▪ Ajudar a planejar esforços e recursos.\r\n▪ Assegurar que são utilizadas as notações apropriadas.\r\n▪ Assegurar que todos os resultados são registrados nos produtos de trabalho \r\ncorretos.\r\n▪ Assegurar que não é necessária uma grande remodelação de informação e \"edição \r\nfinal\".\r\n▪ Ajuda a evitar a redundância, resultando em menos trabalho e facilidade na \r\nmanutenção.\r\n3.2 Produtos de Trabalho com Base em Linguagem Natural (L2)\r\nDesde o início da ER sistemática, os requisitos em linguagem natural têm sido um meio \r\nessencial para especificar os requisitos na prática.\r\nOs produtos de trabalho em linguagem natural têm grandes vantagens:\r\n▪ A linguagem natural sem restrições é extremamente expressiva e flexível.\r\n▪ Quase qualquer requisito concebível em qualquer aspecto pode ser expresso em \r\nlinguagem natural.\r\n▪ A linguagem natural é usada na vida cotidiana e ensinada na escola, não é necessário \r\nnenhum treinamento específico para ler e compreender textos em linguagem natural.\r\nEm contrapartida, os textos escritos na linguagem natural, podem frequentemente ser \r\ninterpretados de diferentes maneiras, o que constitui um problema ao especificar requisitos. \r\nAlém disso, a detecção de ambiguidades, omissões e inconsistências em tais textos é difícil \r\ne cara.\r\nA escrita de bons requisitos em linguagem natural pode ser suportada por:\r\n▪ Escrever frases curtas e bem estruturadas.\r\n▪ Definição e uso consistente de uma terminologia uniforme (3.5).\r\n▪ Evitar termos e frases vagos ou ambíguos.\r\n▪ Conhecendo as armadilhas da escrita técnica listada abaixo.\r\nAo escrever documentos técnicos em linguagem natural, há algumas armadilhas bem \r\nconhecidas que devem ser evitadas ou usadas com cuidado [GoRu2003].\r\nCoisas a evitar:\r\n▪ Descrições incompletas\r\n▪ Substantivos inespecíficos\r\n▪ Condições incompletas",
+    "Nível Fundamental | Syllabus ©IREB 35 | 50\r\nÉ útil distinguir entre diferentes tipos [Moor2014] de conflitos. Os seguintes tipos de conflito \r\nfrequentemente requerem a atenção do Engenheiro de Requisitos:\r\n▪ Conflito de temas\r\n▪ Conflito de dados\r\n▪ Conflito de interesses\r\n▪ Conflito de valor\r\n▪ Conflito de relacionamento\r\n▪ Conflito estrutural\r\nPara resolver conflitos com sucesso, técnicas comuns podem ser aplicadas:\r\n▪ Acordo (Agreement)\r\n▪ Compromisso (Compromise)\r\n▪ Votação (Voting)\r\n▪ Imposição (Overruling)\r\n▪ Análise de alternativas\r\nAlém disso, existem várias técnicas auxiliares, por exemplo:\r\n▪ \"Obter mais informações”\r\n▪ Pontos fortes e pontos fracos\r\n▪ Matriz de Decisão\r\n4.4 Validação dos Requisitos (L2)\r\nA validação dos requisitos é um passo importante para um sistema bem-sucedido (Princípio \r\n6 em 2). Garantir a qualidade dos requisitos no início reduzirá o desperdício de esforços \r\nposteriores. Validar os requisitos significa verificar os produtos de trabalho mais disponíveis, \r\nbem como os requisitos individuais que os mesmos exigem em termos de qualidade (ver 3.8\r\npara detalhes).\r\nAspectos importantes a serem considerados na validação dos requisitos são:\r\n▪ Envolvimento dos stakeholders certos\r\n▪ Separar a identificação e a correção de defeitos\r\n▪ Validar de diferentes perspectivas\r\n▪ Validações Adicionais\r\nExistem várias técnicas para validação (p. ex., [GiGr1993], [OleA2018]). Estas técnicas de \r\nvalidação são frequentemente classificadas em:\r\n▪ Técnicas de revisão, incluindo:\r\n▪ Walkthrough\r\n▪ Inspeção\r\n▪ Técnicas exploratórias, por exemplo:\r\n▪ Protótipos\r\n▪ Testes alfa e beta\r\n▪ Teste A/B [KoTh2017]",
+    "Nível Fundamental | Syllabus ©IREB 11 | 50\r\n▪ Restrições são requisitos que limitam o espaço da solução além do que é necessário \r\npara atender aos requisitos funcionais e de qualidade.\r\n1.2 Engenharia de Requisitos: Porquê (L2)\r\nA ER adequada agrega valor no processo de desenvolvimento e evolução de um sistema:\r\n▪ Reduzindo o risco de desenvolver o sistema errado\r\n▪ Melhorando a compreensão do problema\r\n▪ Sendo base na estimativa de esforço e custo de desenvolvimento\r\n▪ Sendo pré-requisito no teste de sistema\r\nSintomas típicos de uma ER inadequada são requisitos não especificados, sem clareza ou \r\nincorretos. Isto é particularmente devido a:\r\n▪ Pressa para construção do sistema\r\n▪ Problemas de comunicação entre stakeholders\r\n▪ O pressuposto de que os requisitos são evidentes por si mesmos\r\n▪ Capacitação e competências inadequadas na ER\r\n1.3 Engenharia de Requisitos: Onde (L2)\r\nA ER pode ser aplicada aos requisitos de qualquer sistema. No entanto, a aplicação \r\ndominante da ER hoje é basicamente em sistemas nas quais o software desempenha um \r\npapel importante. Tais sistemas normalmente consistem em componentes de software, \r\nelementos físicos e organizacionais.\r\nOs requisitos podem ocorrer como:\r\n▪ Requisitos do sistema - o que um sistema deve fazer\r\n▪ Requisitos de stakeholders - o que os stakeholders querem de sua perspectiva\r\n▪ Requisitos de usuário - o que os usuários querem de sua perspectiva\r\n▪ Requisitos de domínio - propriedades de domínio necessárias\r\n▪ Requisitos de negócio - metas de negócio, objetivos, e necessidades de uma \r\norganização\r\n1.4 Engenharia de Requisitos: Como (L1)\r\nAs principais tarefas na ER são a elicitação (4.2), documentação (3), validação (4.4) e \r\ngerenciamento (6) de requisitos. O uso de ferramentas (7) pode ajudar a realizar estas \r\ntarefas. A análise de requisitos e a resolução de conflitos de requisitos (4.3) são \r\nconsiderados parte da elicitação. Para executar corretamente as atividades da ER, um \r\nprocesso da ER deve ser adaptado a partir de um leque de possibilidades (5)."
+  ],
+  "ground_truth": "GABARITO — Project Scenario 5: SIMDE (Sistema Móvel de Diário Escolar)\nUso: campo \"ground_truth\" do RAGAS (context_precision / context_recall).\nCada linha é uma afirmação atômica, checável contra o texto do cenário e a\nbase de conhecimento — não é um SRS completo, é o conjunto de fatos que um\nSRS bem fundamentado para este cenário deveria conseguir cobrir.\n\n- O professor deve poder consultar suas turmas e o cronograma de aulas pelo aplicativo móvel.\n- O professor deve poder registrar a aula dada, lançar falta e lançar notas pelo aplicativo.\n- O aplicativo deve sincronizar com o sistema acadêmico da escola: exporta aula/falta/nota e importa turmas/alunos/disciplinas/cronograma.\n- A sincronização não deve ultrapassar 30 segundos.\n- A troca de tela dentro do aplicativo deve ocorrer em no máximo cerca de 5 segundos.\n- Um professor deve conseguir usar o sistema após cerca de 3 horas de treinamento.\n- Consultar ou lançar uma informação não deve demorar mais que meio minuto.\n- O sistema deve funcionar em qualquer escola, não apenas numa instituição específica.\n- Coordenador e diretor também acompanham os dados de frequência e desempenho gerados pelo sistema.\n- Login e senha são obrigatórios; cada professor só vê e lança dados das suas próprias turmas.\n- O professor não deve poder cadastrar turma, disciplina ou aluno diretamente no aparelho.\n- O sistema não deve permitir registrar aula ou falta com data futura.\n- O sistema não deve permitir alterar o planejamento de uma aula já planejada.\n- O sistema não deve permitir importar novamente um dado que já foi exportado.\n- O sistema deve funcionar em paralelo com o processo manual existente durante um período de transição (ex.: um trimestre).\n",
+  "rag_score": 0.4518,
+  "artefatos": {
+    "escopo": {
+      "descricao": "O SIMDE permite ao professor consultar dados acadêmicos importados, registrar informações pedagógicas e sincronizá-las com o sistema acadêmico da escola.",
+      "em_escopo": [
+        "Autenticação de professores por login e senha",
+        "Consulta de turmas, alunos, disciplinas e cronograma importados",
+        "Registro de aula ministrada, faltas e notas",
+        "Importação de dados cadastrais e cronograma do sistema acadêmico",
+        "Exportação de aulas, faltas e notas ao sistema acadêmico",
+        "Controle de acesso às turmas atribuídas ao professor"
+      ],
+      "fora_de_escopo": [
+        "Cadastro de turmas, disciplinas ou alunos no dispositivo móvel — esses dados são mantidos no sistema acadêmico",
+        "Alteração de planejamento de aula no dispositivo móvel — funcionalidade não priorizada nesta versão",
+        "Eliminação imediata do processo manual — haverá operação paralela temporária",
+        "Integrações com módulos escolares além de turmas, alunos, disciplinas, cronograma, aulas, faltas e notas — não fazem parte do foco inicial"
+      ],
+      "premissas": [
+        "PA-01: Cada escola possui um sistema acadêmico com turmas, alunos, disciplinas e cronogramas previamente cadastrados.",
+        "PA-02: O sistema acadêmico disponibilizará um mecanismo de integração para importação e exportação dos dados definidos no escopo. [INFERIDO]",
+        "PA-03: Os professores receberão até 3 horas de treinamento para uso do aplicativo."
+      ],
+      "restricoes": [
+        "REST-01 (Plataforma): O sistema deverá ser utilizado em aparelho móvel do tipo PDA ou equivalente.",
+        "REST-02 (Integração): A solução deverá ser adaptável a sistemas acadêmicos distintos utilizados pelas escolas.",
+        "REST-03 (Transição): O sistema operará em paralelo ao processo manual por um período de até um trimestre. [TBD: confirmar duração]"
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Professor",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Consultar exclusivamente suas turmas, cronograma, alunos e disciplinas; registrar aulas, faltas e notas; sincronizar registros com o sistema acadêmico."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Coordenador pedagógico",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Acompanhar frequência e desempenho registrados pelos professores por meio do sistema acadêmico."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Diretor escolar",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Acompanhar dados de frequência e desempenho consolidados no sistema acadêmico."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Sistema acadêmico escolar",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Fornecer dados cadastrais e receber registros pedagógicos sem duplicação de dados."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Vinculação de turmas ao professor",
+        "descricao": "Cada professor somente pode consultar ou registrar informações referentes às turmas que lhe foram atribuídas.",
+        "fonte": "Política escolar de privacidade e atribuição docente",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Gestão central de cadastros acadêmicos",
+        "descricao": "Turmas, disciplinas e alunos são cadastrados e mantidos exclusivamente no sistema acadêmico da escola.",
+        "fonte": "Processo acadêmico escolar",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Vedação de registro futuro",
+        "descricao": "Aulas ministradas e faltas não podem ser registradas para datas futuras.",
+        "fonte": "Política de controle do diário escolar",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Imutabilidade do planejamento",
+        "descricao": "O planejamento de aula não pode ser alterado pelo professor após seu estabelecimento.",
+        "fonte": "Processo pedagógico escolar",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Origem dos dados cadastrais",
+        "descricao": "Turmas, alunos, disciplinas e cronogramas disponibilizados ao professor devem ser originados no sistema acadêmico da escola.",
+        "fonte": "Processo acadêmico escolar",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Não reimportação de registro exportado",
+        "descricao": "Um registro pedagógico já enviado ao sistema acadêmico não pode retornar como uma nova importação.",
+        "fonte": "Política de integridade de dados acadêmicos",
+        "excecoes": "Nenhuma"
+      },
+      {
+        "id": "RN-007",
+        "titulo": "Operação paralela de transição",
+        "descricao": "O processo manual de diário escolar permanecerá em operação paralela ao sistema móvel por até um trimestre.",
+        "fonte": "Plano de transição do projeto",
+        "excecoes": "Duração do período sujeita à confirmação [TBD]"
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Autenticar professor",
+        "descricao": "O sistema deve autenticar o professor mediante login e senha válidos.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "Exibir turmas atribuídas",
+        "descricao": "O sistema deve exibir ao professor somente as turmas a ele atribuídas.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Exibir cronograma de aulas",
+        "descricao": "O sistema deve exibir o cronograma das aulas das turmas atribuídas ao professor.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Registrar aula ministrada",
+        "descricao": "O sistema deve registrar a aula ministrada em uma data não futura.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "Registrar falta de aluno",
+        "descricao": "O sistema deve registrar a falta de um aluno em uma data não futura.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "Registrar nota",
+        "descricao": "O sistema deve registrar uma nota para um aluno de turma atribuída ao professor.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Importar turmas",
+        "descricao": "O sistema deve importar turmas do sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Importar alunos",
+        "descricao": "O sistema deve importar alunos do sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Importar disciplinas",
+        "descricao": "O sistema deve importar disciplinas do sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Importar cronograma",
+        "descricao": "O sistema deve importar cronogramas de aulas do sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Exportar aulas ministradas",
+        "descricao": "O sistema deve exportar registros de aulas ministradas ao sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-007"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Exportar faltas",
+        "descricao": "O sistema deve exportar registros de faltas ao sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Exportar notas",
+        "descricao": "O sistema deve exportar registros de notas ao sistema acadêmico escolar.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Bloquear reimportação de registro exportado",
+        "descricao": "O sistema deve impedir a reimportação de um registro pedagógico já exportado.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-04",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Bloquear cadastro acadêmico no dispositivo",
+        "descricao": "O sistema deve bloquear o cadastro de turma, disciplina ou aluno no dispositivo móvel.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Bloquear alteração de planejamento",
+        "descricao": "O sistema deve bloquear a alteração do planejamento de aula no dispositivo móvel.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-004"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Tempo de sincronização",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve concluir cada sincronização de importação ou exportação em até 30 segundos.",
+        "metrica_aceitacao": "100% de 30 sincronizações de teste concluídas em até 30 segundos cada.",
+        "metodo_verificacao": "Teste de integração cronometrado"
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Tempo de transição de tela",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve concluir a transição entre telas em até 5 segundos.",
+        "metrica_aceitacao": "Percentil 95 de 100 transições de tela em até 5 segundos.",
+        "metodo_verificacao": "Teste de desempenho cronometrado"
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Tempo de execução de operação",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "O sistema deve concluir uma consulta ou lançamento de informação em até 30 segundos.",
+        "metrica_aceitacao": "100% das tarefas de consulta, lançamento de aula, falta e nota concluídas em até 30 segundos, excluído o tempo de digitação do professor. [TBD: confirmar critério de medição]",
+        "metodo_verificacao": "Teste funcional cronometrado"
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Aprendizado do aplicativo",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "O sistema deve permitir que professores concluam as tarefas essenciais após até 3 horas de treinamento.",
+        "metrica_aceitacao": "100% dos participantes do teste de usabilidade [TBD: confirmar amostra] concluem consulta de turma, registro de aula, falta e nota após até 3 horas de treinamento.",
+        "metodo_verificacao": "Teste de usabilidade com professores"
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Confidencialidade por turma",
+        "categoria_iso25010": "Security",
+        "descricao": "O sistema deve negar acesso a dados de turmas não atribuídas ao professor autenticado.",
+        "metrica_aceitacao": "100% das tentativas de consulta ou lançamento em turmas não atribuídas resultam em acesso negado.",
+        "metodo_verificacao": "Teste de autorização funcional"
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Interoperabilidade com sistemas acadêmicos",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "O sistema deve interoperar com o sistema acadêmico adotado por cada escola para transferir os dados definidos no escopo.",
+        "metrica_aceitacao": "100% dos campos de turmas, alunos, disciplinas, cronogramas, aulas, faltas e notas definidos para a escola são importados ou exportados sem erro em 10 sincronizações consecutivas. [TBD: validar mapeamento de campos]",
+        "metodo_verificacao": "Teste de integração com sistema acadêmico"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "professor",
+        "quero": "autenticar-me com login e senha",
+        "para": "acessar minhas informações acadêmicas de forma controlada",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "professor",
+        "quero": "consultar minhas turmas",
+        "para": "selecionar a turma correta antes de realizar registros",
+        "rf_associado": "RF-002",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "professor",
+        "quero": "consultar o cronograma das minhas aulas",
+        "para": "organizar os registros do diário escolar",
+        "rf_associado": "RF-003",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "professor",
+        "quero": "registrar uma aula ministrada",
+        "para": "manter o diário escolar atualizado sem redigitação",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "professor",
+        "quero": "registrar faltas dos alunos",
+        "para": "atualizar a frequência da turma durante a aula",
+        "rf_associado": "RF-005",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "professor",
+        "quero": "registrar notas dos alunos",
+        "para": "atualizar o desempenho acadêmico da turma",
+        "rf_associado": "RF-006",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "professor",
+        "quero": "receber turmas, alunos, disciplinas e cronogramas do sistema acadêmico",
+        "para": "trabalhar com dados acadêmicos já cadastrados pela escola",
+        "rf_associado": "RF-007",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "professor",
+        "quero": "sincronizar aulas ministradas",
+        "para": "enviar o conteúdo registrado ao sistema acadêmico",
+        "rf_associado": "RF-011",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "professor",
+        "quero": "sincronizar faltas",
+        "para": "enviar a frequência registrada ao sistema acadêmico",
+        "rf_associado": "RF-012",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "professor",
+        "quero": "sincronizar notas",
+        "para": "enviar o desempenho registrado ao sistema acadêmico",
+        "rf_associado": "RF-013",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "professor",
+        "quero": "ser impedido de cadastrar dados acadêmicos no dispositivo",
+        "para": "preservar o sistema acadêmico como fonte dos cadastros",
+        "rf_associado": "RF-015",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-012",
+        "como": "professor",
+        "quero": "ser impedido de alterar o planejamento de aula no dispositivo",
+        "para": "preservar o planejamento pedagógico estabelecido",
+        "rf_associado": "RF-016",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Autenticar professor",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "O professor possui credenciais cadastradas.",
+        "pos_condicao_sucesso": "O professor autenticado acessa somente dados de suas turmas.",
+        "pos_condicao_falha": "Nenhum dado acadêmico é disponibilizado.",
+        "fluxo_principal": [
+          "1. O professor informa login e senha.",
+          "2. O sistema valida as credenciais.",
+          "3. O sistema inicia a sessão do professor."
+        ],
+        "fluxos_alternativos": [
+          "2a. Credenciais inválidas → o sistema informa que a autenticação não foi concluída; retorna ao passo 1."
+        ],
+        "fluxos_excecao": [
+          "2b. Falha na validação de credenciais → o sistema encerra a tentativa sem iniciar sessão (ref. RF-001)."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Consultar turmas e cronograma",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-002",
+        "pre_condicao": "O professor está autenticado e há dados acadêmicos importados.",
+        "pos_condicao_sucesso": "A turma selecionada e seu cronograma são exibidos.",
+        "pos_condicao_falha": "Nenhum dado de turma não atribuída é exibido.",
+        "fluxo_principal": [
+          "1. O professor acessa a lista de turmas.",
+          "2. O sistema exibe somente as turmas atribuídas ao professor.",
+          "3. O professor seleciona uma turma.",
+          "4. O sistema exibe o cronograma da turma selecionada."
+        ],
+        "fluxos_alternativos": [
+          "2a. Não há turmas atribuídas → o sistema exibe lista vazia; encerra o caso de uso."
+        ],
+        "fluxos_excecao": [
+          "3b. O professor tenta acessar turma não atribuída → o sistema nega o acesso (ref. RN-001, RF-002)."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Registrar aula ministrada",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-004",
+        "pre_condicao": "O professor está autenticado e selecionou uma turma atribuída.",
+        "pos_condicao_sucesso": "O registro de aula ministrada fica disponível para exportação.",
+        "pos_condicao_falha": "Nenhum registro de aula é criado.",
+        "fluxo_principal": [
+          "1. O professor seleciona a data da aula.",
+          "2. O sistema valida a data selecionada.",
+          "3. O professor informa o registro da aula ministrada.",
+          "4. O sistema grava o registro com status pendente de exportação."
+        ],
+        "fluxos_alternativos": [
+          "2a. A data é a data atual ou anterior → o sistema permite o preenchimento; retorna ao passo 3."
+        ],
+        "fluxos_excecao": [
+          "2b. A data é futura → o sistema rejeita o registro e informa que aulas futuras não podem ser registradas (ref. RN-003, RF-004)."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Registrar falta de aluno",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-005",
+        "pre_condicao": "O professor está autenticado e selecionou uma turma atribuída.",
+        "pos_condicao_sucesso": "A falta é gravada com status pendente de exportação.",
+        "pos_condicao_falha": "Nenhuma falta é registrada.",
+        "fluxo_principal": [
+          "1. O professor seleciona uma turma e uma data.",
+          "2. O sistema valida a data.",
+          "3. O professor identifica o aluno faltoso.",
+          "4. O sistema grava a falta."
+        ],
+        "fluxos_alternativos": [
+          "3a. O professor seleciona outro aluno da turma → o sistema permite registrar a falta para o aluno selecionado; retorna ao passo 4."
+        ],
+        "fluxos_excecao": [
+          "2b. A data é futura → o sistema rejeita a falta e informa que faltas futuras não podem ser registradas (ref. RN-003, RF-005)."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Registrar nota",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-006",
+        "pre_condicao": "O professor está autenticado e selecionou uma turma atribuída.",
+        "pos_condicao_sucesso": "A nota é gravada com status pendente de exportação.",
+        "pos_condicao_falha": "Nenhuma nota é registrada.",
+        "fluxo_principal": [
+          "1. O professor seleciona a turma.",
+          "2. O sistema exibe os alunos da turma.",
+          "3. O professor informa uma nota para um aluno.",
+          "4. O sistema grava a nota."
+        ],
+        "fluxos_alternativos": [
+          "2a. A turma não possui alunos importados → o sistema informa a ausência de alunos; encerra o caso de uso."
+        ],
+        "fluxos_excecao": [
+          "1b. A turma não é atribuída ao professor → o sistema nega o acesso (ref. RN-001, RF-006)."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Importar dados acadêmicos",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "O professor está autenticado e o sistema acadêmico está disponível para integração.",
+        "pos_condicao_sucesso": "Os dados importados ficam disponíveis ao professor conforme sua atribuição.",
+        "pos_condicao_falha": "Os dados locais existentes permanecem inalterados.",
+        "fluxo_principal": [
+          "1. O professor inicia a sincronização de importação.",
+          "2. O sistema solicita dados ao sistema acadêmico.",
+          "3. O sistema importa turmas, alunos, disciplinas e cronogramas recebidos.",
+          "4. O sistema apresenta a conclusão da sincronização."
+        ],
+        "fluxos_alternativos": [
+          "3a. Não há alterações recebidas → o sistema mantém os dados locais e informa que não há novos dados; encerra o caso de uso."
+        ],
+        "fluxos_excecao": [
+          "3b. O dado recebido corresponde a registro previamente exportado → o sistema não o reimporta (ref. RN-006, RF-014)."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Exportar registros pedagógicos",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-008",
+        "pre_condicao": "Há registros de aula, falta ou nota pendentes de exportação.",
+        "pos_condicao_sucesso": "Os registros enviados são identificados como exportados.",
+        "pos_condicao_falha": "Os registros permanecem pendentes de exportação.",
+        "fluxo_principal": [
+          "1. O professor inicia a sincronização de exportação.",
+          "2. O sistema identifica os registros pedagógicos pendentes.",
+          "3. O sistema envia os registros ao sistema acadêmico.",
+          "4. O sistema marca os registros enviados como exportados."
+        ],
+        "fluxos_alternativos": [
+          "2a. Não há registros pendentes → o sistema informa que não há dados para exportação; encerra o caso de uso."
+        ],
+        "fluxos_excecao": [
+          "3b. O sistema acadêmico rejeita o envio → o sistema mantém os registros pendentes e informa a falha (ref. RF-011, RF-012, RF-013)."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Tentar alterar planejamento de aula",
+        "ator_principal": "Professor",
+        "hu_relacionada": "HU-012",
+        "pre_condicao": "O professor está autenticado e visualiza um planejamento de aula importado.",
+        "pos_condicao_sucesso": "O planejamento permanece inalterado.",
+        "pos_condicao_falha": "Nenhuma alteração é gravada.",
+        "fluxo_principal": [
+          "1. O professor acessa o planejamento de uma aula.",
+          "2. O sistema exibe o planejamento em modo de consulta.",
+          "3. O professor encerra a consulta."
+        ],
+        "fluxos_alternativos": [
+          "2a. O professor seleciona uma opção de edição → o sistema não disponibiliza campos editáveis; retorna ao passo 2."
+        ],
+        "fluxos_excecao": [
+          "2b. Uma requisição de alteração é recebida → o sistema a rejeita e mantém o planejamento inalterado (ref. RN-004, RF-016)."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Autenticação válida",
+        "dado": "que o professor possui login e senha válidos",
+        "quando": "informar essas credenciais na tela de acesso",
+        "entao": "o sistema deve iniciar uma sessão autenticada para o professor",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002 / HU-002",
+        "titulo": "Restrição de turmas",
+        "dado": "que o professor autenticado possui duas turmas atribuídas",
+        "quando": "acessar a lista de turmas",
+        "entao": "o sistema deve exibir exatamente as duas turmas atribuídas e nenhuma turma adicional",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003 / HU-003",
+        "titulo": "Consulta de cronograma",
+        "dado": "que existe cronograma importado para uma turma atribuída",
+        "quando": "o professor selecionar essa turma",
+        "entao": "o sistema deve exibir o cronograma importado da turma em até 30 segundos",
+        "metodo_verificacao": "Teste funcional cronometrado"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-004",
+        "titulo": "Registro de aula em data válida",
+        "dado": "que o professor selecionou uma turma atribuída e uma data atual",
+        "quando": "salvar o registro da aula ministrada",
+        "entao": "o sistema deve gravar o registro com status pendente de exportação",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005 / HU-005",
+        "titulo": "Bloqueio de falta futura",
+        "dado": "que o professor selecionou uma data posterior à data atual",
+        "quando": "tentar registrar a falta de um aluno",
+        "entao": "o sistema deve rejeitar o registro e informar que faltas futuras não podem ser registradas",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006 / HU-006",
+        "titulo": "Registro de nota",
+        "dado": "que o professor selecionou um aluno de turma atribuída",
+        "quando": "informar e salvar uma nota",
+        "entao": "o sistema deve gravar a nota para o aluno selecionado com status pendente de exportação",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007 / HU-007",
+        "titulo": "Importação de turmas",
+        "dado": "que o sistema acadêmico disponibiliza turmas para o professor",
+        "quando": "a sincronização de importação for concluída",
+        "entao": "o sistema deve disponibilizar as turmas recebidas na lista de turmas do professor",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008",
+        "titulo": "Importação de alunos",
+        "dado": "que o sistema acadêmico disponibiliza alunos vinculados a uma turma",
+        "quando": "a sincronização de importação for concluída",
+        "entao": "o sistema deve disponibilizar os alunos recebidos para a turma correspondente",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009",
+        "titulo": "Importação de disciplinas",
+        "dado": "que o sistema acadêmico disponibiliza disciplinas",
+        "quando": "a sincronização de importação for concluída",
+        "entao": "o sistema deve disponibilizar as disciplinas recebidas para consulta",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010",
+        "titulo": "Importação de cronogramas",
+        "dado": "que o sistema acadêmico disponibiliza cronogramas de aulas",
+        "quando": "a sincronização de importação for concluída",
+        "entao": "o sistema deve disponibilizar o cronograma recebido para a turma correspondente",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011 / HU-008",
+        "titulo": "Exportação de aula ministrada",
+        "dado": "que existe uma aula ministrada pendente de exportação",
+        "quando": "a sincronização de exportação for concluída com sucesso",
+        "entao": "o sistema deve enviar o registro ao sistema acadêmico e marcá-lo como exportado",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012 / HU-009",
+        "titulo": "Exportação de falta",
+        "dado": "que existe uma falta pendente de exportação",
+        "quando": "a sincronização de exportação for concluída com sucesso",
+        "entao": "o sistema deve enviar o registro de falta ao sistema acadêmico e marcá-lo como exportado",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-010",
+        "titulo": "Exportação de nota",
+        "dado": "que existe uma nota pendente de exportação",
+        "quando": "a sincronização de exportação for concluída com sucesso",
+        "entao": "o sistema deve enviar o registro de nota ao sistema acadêmico e marcá-lo como exportado",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014",
+        "titulo": "Não reimportação de registro exportado",
+        "dado": "que um registro pedagógico está identificado como exportado",
+        "quando": "uma sincronização de importação receber esse mesmo registro",
+        "entao": "o sistema deve excluir o registro recebido da importação e manter apenas o registro já exportado",
+        "metodo_verificacao": "Teste de integração"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-011",
+        "titulo": "Bloqueio de cadastro acadêmico",
+        "dado": "que o professor está autenticado no dispositivo móvel",
+        "quando": "acessar as funções disponíveis para turmas, disciplinas ou alunos",
+        "entao": "o sistema deve não disponibilizar comando de cadastro para esses dados",
+        "metodo_verificacao": "Teste funcional manual"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016 / HU-012",
+        "titulo": "Bloqueio de alteração de planejamento",
+        "dado": "que o professor visualiza um planejamento de aula importado",
+        "quando": "tentar alterar seu conteúdo",
+        "entao": "o sistema deve rejeitar a alteração e manter o planejamento sem modificação",
+        "metodo_verificacao": "Teste funcional manual"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "SIMDE - Sistema Móvel de Diário Escolar",
+    "cenario_fonte": "Project Scenario 5.pdf",
+    "observacoes": "Fluxo de sincronizacao bem definido, com varias metricas de desempenho explicitas no texto (30s sincronizacao, 5s troca de tela, 30s consulta/lancamento, 3h treinamento) — RNF mais rico do que a tabela de dificuldade original sugeria (possivel efeito da edicao de RNF faltando aplicada nos cenarios PT numa sessao anterior).",
+    "escopo": {
+      "em_escopo": [
+        "Consulta de turmas e cronograma de aulas pelo aplicativo móvel",
+        "Registro de aula dada, lançamento de falta e de notas",
+        "Sincronização bidirecional com o sistema acadêmico da escola (exporta aula/falta/nota, importa turmas/alunos/disciplinas/cronograma)",
+        "Login e senha, com acesso restrito às próprias turmas do professor",
+        "Acompanhamento de frequência e desempenho por coordenador e diretor",
+        "Bloqueio de lançamento de aula/falta com data futura",
+        "Bloqueio de alteração de planejamento de aula já planejada",
+        "Bloqueio de reimportação de um dado já exportado",
+        "Funcionamento em qualquer escola, não vinculado a uma instituição específica",
+        "Operação em paralelo com o processo manual existente durante o período de transição"
+      ],
+      "fora_de_escopo": [
+        "Cadastro de turma, disciplina ou aluno diretamente pelo professor no aparelho — só é feito no sistema acadêmico da escola",
+        "Retirada completa do processo manual existente — não é foco desta fase",
+        "Integrações mais sofisticadas com outros módulos da escola"
+      ],
+      "premissas": [
+        "PA-01: A escola já possui um sistema acadêmico funcionando no computador, com turmas/alunos/disciplinas/cronograma cadastrados.",
+        "PA-02: O professor terá acesso a um aparelho móvel (tipo PDA) para carregar consigo em sala de aula."
+      ],
+      "restricoes": [
+        "REST-01 (Desempenho): A sincronização não deve ultrapassar 30 segundos; a troca de tela deve ocorrer em até cerca de 5 segundos; consultar ou lançar uma informação não deve passar de meio minuto.",
+        "REST-02 (Usabilidade): Um professor deve conseguir usar o sistema após cerca de 3 horas de treinamento.",
+        "REST-03 (Prazo/Transição): O sistema deve rodar em paralelo com o processo manual existente por um período de transição (ex.: um trimestre)."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Professor — usuário principal; consulta turmas e cronograma, registra aula, lança falta e notas pelo aplicativo móvel."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Coordenador — acompanha os dados de frequência e desempenho gerados pelo sistema."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Diretor — acompanha os dados de frequência e desempenho gerados pelo sistema."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "Cada professor só vê e lança dados das próprias turmas — não pode acessar dados de turmas de outros professores."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "O professor não pode cadastrar turma, disciplina ou aluno diretamente no aparelho — só recebe (importa) esses dados já cadastrados no sistema acadêmico."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "O sistema não permite registrar aula ou falta com data futura."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "O sistema não permite alterar o planejamento de uma aula já planejada."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "O sistema não permite importar novamente um dado que já foi exportado, para evitar duplicação."
+      },
+      {
+        "id": "RN-006",
+        "descricao": "Durante o período de transição (ex.: um trimestre), o sistema funciona em paralelo com o processo manual existente."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "O sistema deve permitir que o professor consulte suas turmas pelo aplicativo móvel."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "O sistema deve permitir que o professor consulte o cronograma de aulas pelo aplicativo móvel."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "O sistema deve permitir que o professor registre a aula dada."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "O sistema deve permitir que o professor lance a falta dos alunos."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "O sistema deve permitir que o professor lance as notas dos alunos."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "O sistema deve exportar os dados lançados pelo professor (aula, falta, nota) para o sistema acadêmico da escola."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "O sistema deve importar do sistema acadêmico da escola as turmas, alunos, disciplinas e o cronograma já cadastrados."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "O sistema deve exigir login e senha para acesso."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "O sistema deve restringir cada professor a visualizar e lançar dados apenas das suas próprias turmas."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "O sistema deve bloquear o registro de aula ou falta com data futura."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "O sistema deve bloquear a alteração do planejamento de uma aula já planejada."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "O sistema deve bloquear a reimportação de um dado já exportado anteriormente."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "O sistema deve permitir que coordenador e diretor acompanhem os dados de frequência e desempenho gerados."
+      },
+      {
+        "id": "RF-14",
+        "descricao": "O sistema deve funcionar em paralelo com o processo manual existente durante um período de transição."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "A sincronização entre o aplicativo e o sistema acadêmico não deve ultrapassar um tempo máximo definido.",
+        "metrica_aceitacao": "≤ 30 segundos por sincronização"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "A troca de tela dentro do aplicativo deve ocorrer de forma quase instantânea.",
+        "metrica_aceitacao": "≤ cerca de 5 segundos por troca de tela"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "Consultar ou lançar uma informação no aplicativo não deve demorar mais que um tempo máximo definido.",
+        "metrica_aceitacao": "≤ 30 segundos (meio minuto) por consulta/lançamento"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "O aplicativo deve ser simples o suficiente para que um professor consiga aprender a usá-lo com pouco treinamento.",
+        "metrica_aceitacao": "Uso funcional após cerca de 3 horas de treinamento"
+      },
+      {
+        "id": "RNF-05",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "O sistema deve funcionar em qualquer escola, não apenas numa instituição específica, adaptando-se a diferentes sistemas acadêmicos.",
+        "metrica_aceitacao": "[TBD] — cenário não especifica quantos/quais sistemas acadêmicos distintos devem ser suportados"
+      },
+      {
+        "id": "RNF-06",
+        "categoria_iso25010": "Security",
+        "descricao": "Dados de frequência e notas de um professor não podem ser acessíveis a outro professor.",
+        "metrica_aceitacao": "Controle de acesso restringindo 100% dos dados de uma turma ao professor responsável"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "Como professor, quero consultar minhas turmas e o cronograma de aulas pelo aplicativo, para me preparar antes de dar aula."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "Como professor, quero registrar a aula dada, lançar falta e lançar notas pelo aplicativo, para não depender do sistema fixo do computador."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "Como professor, quero que meus lançamentos sejam sincronizados automaticamente com o sistema acadêmico da escola, para não precisar digitar tudo de novo depois."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "Como coordenador ou diretor, quero acompanhar os dados de frequência e desempenho gerados pelo sistema, para monitorar o andamento das turmas."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "Como professor, quero fazer login com usuário e senha e ver só as minhas turmas, para manter a privacidade dos dados dos meus alunos e das outras turmas."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Registrar aula/falta/nota — o professor abre o app, seleciona a turma, registra a aula dada, lança falta e notas."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Sincronizar com sistema acadêmico — o aplicativo exporta os dados lançados pelo professor e importa turmas/alunos/disciplinas/cronograma atualizados do sistema da escola, em até 30 segundos."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Consultar cronograma e turmas — o professor consulta suas turmas e o cronograma de aulas pelo aplicativo."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RNF-01",
+        "descricao": "Dado que o professor inicia a sincronização, quando o processo é executado, então ele é concluído em no máximo 30 segundos."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-10",
+        "descricao": "Dado que o professor tenta registrar uma aula ou falta com data futura, quando ele confirma o lançamento, então o sistema bloqueia a ação."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RF-12",
+        "descricao": "Dado um dado já exportado para o sistema acadêmico, quando o professor tenta importá-lo novamente, então o sistema impede a reimportação."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RNF-03",
+        "descricao": "Dado que o professor consulta ou lança uma informação, quando a ação é executada, então ela é concluída em no máximo meio minuto."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RF-09",
+        "descricao": "Dado um professor autenticado, quando ele acessa o sistema, então ele só visualiza e lança dados das suas próprias turmas."
+      }
+    ]
+  }
+}

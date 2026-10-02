@@ -1,0 +1,96 @@
+{
+  "sistema": "SLCCI (Sea Level Climate Change Initiative)",
+  "cenario_fonte": "Project Scenario 6.pdf",
+  "observacoes": "Cenario cientifico/tecnico, denso, mas com poucas metricas numericas explicitas — a maioria dos RNF fica [TBD] de proposito, coerente com o texto original (jargao cientifico sem quantificacao explicita). Nao confundir com um sistema NRT (near-real-time): o cenario exclui isso explicitamente. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+
+  "escopo": {
+    "em_escopo": [
+      "Ingesting altimetry data from multiple satellite missions",
+      "Calibration, validation, and cross-calibration between missions",
+      "Generating the per-mission along-track product",
+      "Generating the merged multi-mission gridded product",
+      "Archiving baseline and intermediate data to support repeated reprocessing",
+      "Workflows for scientists (deeper validation / product definition), quality reviewers (sign-off), catalog/metadata staff, and operational staff (monitoring, incidents, user requests)",
+      "Making data available to the climate research community (external users)",
+      "Metadata and documentation attached to each output product",
+      "Ability to absorb new satellite missions and updated processing algorithms over time"
+    ],
+    "fora_de_escopo": [
+      "Near-real-time (NRT) delivery — the system is exclusively for reprocessed/delayed-time data",
+      "Formal IT service management processes and incident ticketing frameworks (ITIL-style)",
+      "Serving the general public or commercial customers — the target audience is only the climate research community"
+    ],
+    "premissas": [
+      "PA-01: [INFERRED] Proven infrastructure already exists for broader ocean data that can be reused.",
+      "PA-02: The science (algorithms, validation, prototyping) has already been developed by another team; the project starts from an existing prototype, not from scratch."
+    ],
+    "restricoes": [
+      "REST-01 (Financial): The system must be financially sustainable for long-term operation, not just a one-off build.",
+      "REST-02 (Technological): The system should, wherever it makes sense, reuse already-proven infrastructure rather than being built entirely from scratch.",
+      "REST-03 (Organizational): The system is part of a larger ESA effort (Climate Change Initiative), with about eleven parallel projects covering different climate variables."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Scientists — brought in for deeper validation or definition of new products." },
+    { "id": "STK-02", "descricao": "Quality reviewers — evaluate and sign off on generated products before release." },
+    { "id": "STK-03", "descricao": "Catalog/metadata staff — maintain the product catalog and metadata." },
+    { "id": "STK-04", "descricao": "Operational staff — monitor the system, handle incidents, and respond to user requests." },
+    { "id": "STK-05", "descricao": "Climate research community (external users) — researchers doing climate modelling who need reliable, well-documented sea level data." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "The system is one of about eleven parallel ESA Climate Change Initiative projects, each covering a different climate variable — this project covers sea level." },
+    { "id": "RN-002", "descricao": "Products must go through calibration, validation, and cross-calibration between missions before being considered consistent." },
+    { "id": "RN-003", "descricao": "Reprocessing happens repeatedly as algorithms and calibration methods evolve, so baseline and intermediate data must never be lost." },
+    { "id": "RN-004", "descricao": "The target audience is exclusively the climate research community — not the general public or commercial customers." },
+    { "id": "RN-005", "descricao": "Near-real-time (NRT) delivery use cases are explicitly excluded — the system only serves the reprocessed/delayed-time data flow." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "The system must ingest altimetry data from multiple satellite missions." },
+    { "id": "RF-02", "descricao": "The system must perform calibration and validation of ingested altimetry data." },
+    { "id": "RF-03", "descricao": "The system must perform cross-calibration between different satellite missions to ensure consistency." },
+    { "id": "RF-04", "descricao": "The system must generate the per-mission along-track product." },
+    { "id": "RF-05", "descricao": "The system must generate the merged multi-mission gridded product, blending data from multiple missions into a single climate record." },
+    { "id": "RF-06", "descricao": "The system must archive baseline and intermediate data to support future reprocessing without loss." },
+    { "id": "RF-07", "descricao": "The system must allow scientists to perform deeper validation or define new products when needed." },
+    { "id": "RF-08", "descricao": "The system must allow quality reviewers to evaluate and sign off on products before release." },
+    { "id": "RF-09", "descricao": "The system must maintain a catalog with metadata for generated products." },
+    { "id": "RF-10", "descricao": "The system must allow operational staff to monitor the system, handle incidents, and respond to user requests." },
+    { "id": "RF-11", "descricao": "The system must attach metadata and documentation to output data, ensuring quality and traceability." },
+    { "id": "RF-12", "descricao": "The system must support onboarding new satellite missions over time." },
+    { "id": "RF-13", "descricao": "The system must support swapping in updated processing algorithms without interrupting existing operations." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Flexibility", "descricao": "The system must be flexible enough to absorb new satellite missions and updated processing algorithms over the life of the project, without requiring a full rebuild.", "metrica_aceitacao": "[TBD] — scenario does not define a numeric flexibility metric" },
+    { "id": "RNF-02", "categoria_iso25010": "Maintainability", "descricao": "The system should, wherever it makes sense, reuse already-proven infrastructure (existing for broader ocean data) rather than being built entirely from scratch.", "metrica_aceitacao": "[TBD] — scenario does not define a target reuse percentage" },
+    { "id": "RNF-03", "categoria_iso25010": "Reliability", "descricao": "The system's archive must fully preserve baseline and intermediate data across successive reprocessing cycles, without loss.", "metrica_aceitacao": "[TBD] — scenario does not define a retention/backup policy" },
+    { "id": "RNF-04", "categoria_iso25010": "Maintainability", "descricao": "Output data must include metadata and documentation sufficient to ensure quality and traceability for the international climate change community.", "metrica_aceitacao": "[TBD] — scenario does not define a specific metadata standard/format" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "As a scientist, I want to perform deeper validation or define new products when needed, so that scientific quality is maintained as the system evolves." },
+    { "id": "HU-02", "descricao": "As a quality reviewer, I want to evaluate and approve products, so that only validated data is released." },
+    { "id": "HU-03", "descricao": "As a member of the catalog/metadata team, I want to maintain the product catalog and metadata, so that the data stays discoverable and well-documented." },
+    { "id": "HU-04", "descricao": "As a member of the operational staff, I want to monitor the system, handle incidents, and respond to user requests, so that day-to-day operations keep running." },
+    { "id": "HU-05", "descricao": "As a climate research community member, I want to access reliable, well-documented sea level data, so that I can trust it and build my research on it." },
+    { "id": "HU-06", "descricao": "As a system operator, I want to reprocess historical data when algorithms or calibration methods improve, without losing baseline or intermediate data, so that the climate record stays accurate over time." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Process satellite altimetry data — the system ingests data from multiple missions, calibrates and validates it, cross-calibrates between missions, and generates the per-mission and multi-mission gridded products." },
+    { "id": "UC-02", "descricao": "Review and release product — a quality reviewer evaluates a newly generated product and approves it for release, or flags it for correction." },
+    { "id": "UC-03", "descricao": "Reprocess historical data — an operator triggers reprocessing of archived baseline/intermediate data using an updated algorithm or calibration method, without losing prior data." },
+    { "id": "UC-04", "descricao": "Onboard new satellite mission — an operator or scientist configures the system to ingest data from a newly available satellite mission." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-03", "descricao": "Given altimetry data from two or more satellite missions, when cross-calibration is performed, then the resulting measurements are consistent across missions." },
+    { "id": "CA-02", "rf_hu_ref": "RF-06", "descricao": "Given a reprocessing run using an updated algorithm, when processing completes, then the baseline and intermediate data from previous runs remain intact and accessible." },
+    { "id": "CA-03", "rf_hu_ref": "RF-08 / HU-02", "descricao": "Given a newly generated product, when a quality reviewer evaluates it, then the product is approved for release or flagged for correction." },
+    { "id": "CA-04", "rf_hu_ref": "RF-11 / HU-05", "descricao": "Given a released dataset, when a climate research community member accesses it, then the dataset includes metadata and documentation sufficient to trace its origin and processing history." },
+    { "id": "CA-05", "rf_hu_ref": "RF-12", "descricao": "Given a new satellite mission becomes available, when it is onboarded, then that mission's data is processed without requiring a rebuild of the existing processing pipelines." }
+  ]
+}

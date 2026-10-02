@@ -1,0 +1,111 @@
+{
+  "sistema": "UUIS (Unified University Inventory System)",
+  "cenario_fonte": "Project Scenario 2.pdf",
+  "observacoes": "Cenario denso e rico, com hierarquia de acesso de 4 niveis (departamento/faculdade/universidade/usuario base) e RNFs bem explicitos e mensuraveis (200 usuarios, 30min timeout, SSL, CAPTCHA) — raro entre os 9 cenarios. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+
+  "escopo": {
+    "em_escopo": [
+      "Unified login for all user types, with an extra verification step (voice check) for higher-access users",
+      "Looking up, adding, and editing people, assets, locations, and licenses",
+      "Marking deleted records as inactive (never physical removal, to preserve history)",
+      "Grouping and splitting assets and rooms into subgroups",
+      "Importing legacy data from CSV files",
+      "Request-and-approval flow (move item, report broken, request new asset) with hierarchical routing and mandatory explanation on rejection",
+      "4-level access hierarchy (department, faculty, university, base user)",
+      "Quick search and advanced/filtered search with combinable conditions",
+      "Basic report comparing a room's capacity against its actual chairs/computers",
+      "Audit log of all user actions",
+      "Permission and role management (admin)"
+    ],
+    "fora_de_escopo": [
+      "Multi-language support — version 1 is English-only",
+      "Deeper department/faculty-specific functions — deferred to a later version"
+    ],
+    "premissas": [
+      "PA-01: [INFERRED] A voice-check verification provider is available for integration into the login of higher-access users.",
+      "PA-02: Legacy inventory data exists in CSV files exportable from each faculty's current systems."
+    ],
+    "restricoes": [
+      "REST-01 (Scope): Version 1 is English-only; multi-language support is deferred to a later version.",
+      "REST-02 (Performance): The system must support at least 200 concurrent users.",
+      "REST-03 (Technical): The system must be a browser-accessible web application, requiring no special software installation."
+    ]
+  },
+
+  "stakeholders": [
+    { "id": "STK-01", "descricao": "Base user (students, staff) — logs in with a password, access restricted to what is relevant to them." },
+    { "id": "STK-02", "descricao": "Department admin — sees and manages only their own department's data; approves requests from base users below them." },
+    { "id": "STK-03", "descricao": "Faculty admin — sees and manages all departments under their faculty; login requires an extra verification step (voice check)." },
+    { "id": "STK-04", "descricao": "University-level admin — top of the hierarchy; their requests are approved automatically, since there is no approver above them; manages permissions and roles." }
+  ],
+
+  "regras_de_negocio": [
+    { "id": "RN-001", "descricao": "Higher-access users (department, faculty, and university admins) require an extra verification step (voice check) at login, in addition to a password." },
+    { "id": "RN-002", "descricao": "Deleted records are never physically removed — only marked as inactive, to preserve history." },
+    { "id": "RN-003", "descricao": "Requests to move an item, report something broken, or request a new asset go to the approver exactly one level above the requester." },
+    { "id": "RN-004", "descricao": "Rejected requests require an explanation from the approver." },
+    { "id": "RN-005", "descricao": "Requests from university-level admins are automatically approved, since there is no approver above them." },
+    { "id": "RN-006", "descricao": "A faculty admin can access all departments in their faculty; a department admin only sees their own department." },
+    { "id": "RN-007", "descricao": "Permission and role management is an admin-only feature." }
+  ],
+
+  "requisitos_funcionais": [
+    { "id": "RF-01", "descricao": "The system must allow all user types to log in through a unified system." },
+    { "id": "RF-02", "descricao": "The system must require an extra verification step (voice check) at login for higher-access users, in addition to a password." },
+    { "id": "RF-03", "descricao": "The system must allow users to look up people, assets, locations, and licenses." },
+    { "id": "RF-04", "descricao": "The system must allow users to add new people, assets, locations, and licenses." },
+    { "id": "RF-05", "descricao": "The system must allow users to edit existing people, assets, locations, and licenses." },
+    { "id": "RF-06", "descricao": "The system must mark a record as inactive when deleted, instead of physically removing it." },
+    { "id": "RF-07", "descricao": "The system must allow assets and rooms to be grouped and split into subgroups." },
+    { "id": "RF-08", "descricao": "The system must support importing legacy data from CSV files." },
+    { "id": "RF-09", "descricao": "The system must allow users to submit requests to move an item, report something broken, or request a new asset." },
+    { "id": "RF-10", "descricao": "The system must route each request to the approver exactly one level above the requester." },
+    { "id": "RF-11", "descricao": "The system must require an explanation from the approver when a request is rejected." },
+    { "id": "RF-12", "descricao": "The system must automatically approve requests submitted by university-level admins." },
+    { "id": "RF-13", "descricao": "The system must restrict a department admin's access to only their own department's data." },
+    { "id": "RF-14", "descricao": "The system must allow a faculty admin to access data for all departments in their faculty." },
+    { "id": "RF-15", "descricao": "The system must offer a quick search (simple text)." },
+    { "id": "RF-16", "descricao": "The system must offer an advanced/filtered search with combinable conditions across different fields." },
+    { "id": "RF-17", "descricao": "The system must provide a basic report comparing a room's stated capacity against its actual number of chairs/computers." },
+    { "id": "RF-18", "descricao": "The system must log all user actions for audit purposes, retrievable by users with appropriate permission." },
+    { "id": "RF-19", "descricao": "The system must allow admins to manage permissions and create/edit roles." }
+  ],
+
+  "requisitos_nao_funcionais": [
+    { "id": "RNF-01", "categoria_iso25010": "Performance Efficiency", "descricao": "The system must support at least 200 concurrent users without noticeable degradation.", "metrica_aceitacao": "≥ 200 concurrent users" },
+    { "id": "RNF-02", "categoria_iso25010": "Security", "descricao": "Inactive sessions must automatically time out after a period of inactivity.", "metrica_aceitacao": "Automatic timeout after 30 minutes of inactivity" },
+    { "id": "RNF-03", "categoria_iso25010": "Reliability", "descricao": "Unsaved data must be recoverable without loss if the session or connection is interrupted.", "metrica_aceitacao": "[TBD] — scenario does not define a maximum recovery window, only requires 'without loss'" },
+    { "id": "RNF-04", "categoria_iso25010": "Security", "descricao": "All network communication in the system must be encrypted.", "metrica_aceitacao": "SSL/TLS on 100% of network traffic" },
+    { "id": "RNF-05", "categoria_iso25010": "Security", "descricao": "Automated (bot) actions must be blocked using CAPTCHA, especially on login.", "metrica_aceitacao": "CAPTCHA present on the login flow" },
+    { "id": "RNF-06", "categoria_iso25010": "Compatibility", "descricao": "The system must be a browser-accessible web application, requiring no special software installation.", "metrica_aceitacao": "Accessible via a standard browser, no plugin/additional installation" }
+  ],
+
+  "historias_de_usuario": [
+    { "id": "HU-01", "descricao": "As a base user (student/staff), I want to log in and see only what's relevant to me, so that I can manage my own view of the inventory without irrelevant data." },
+    { "id": "HU-02", "descricao": "As a higher-access user, I want to complete an extra verification step (voice check) at login, so that my elevated access is protected beyond just a password." },
+    { "id": "HU-03", "descricao": "As a user, I want to look up, add, and edit people, assets, locations, and licenses, so that the inventory stays up to date." },
+    { "id": "HU-04", "descricao": "As a user, I want to submit a request to move an item, report something broken, or request a new asset, so that the right approver can review it." },
+    { "id": "HU-05", "descricao": "As an approver, I want to approve or reject requests from users one level below me, explaining any rejection, so that the requester understands the decision." },
+    { "id": "HU-06", "descricao": "As a department admin, I want to see and manage only my own department's data, so that I don't interfere with other departments." },
+    { "id": "HU-07", "descricao": "As a faculty admin, I want to see and manage all departments in my faculty, so that I have full oversight of it." },
+    { "id": "HU-08", "descricao": "As a user, I want to search using quick search or advanced/filtered search, so that I can find records efficiently." },
+    { "id": "HU-09", "descricao": "As a user with reporting access, I want to compare a room's capacity against its actual chairs/computers, so that I can identify discrepancies." },
+    { "id": "HU-10", "descricao": "As an admin, I want to manage permissions and roles, so that I can control what each role is allowed to access." }
+  ],
+
+  "casos_de_uso": [
+    { "id": "UC-01", "descricao": "Submit and approve request — a user submits a request (move item/report broken/new asset), the system routes it to the approver one level above, who approves or rejects it with an explanation (or it is auto-approved if the requester is a university-level admin)." },
+    { "id": "UC-02", "descricao": "Search inventory — a user performs a quick or advanced/filtered search across people, assets, locations, and licenses." },
+    { "id": "UC-03", "descricao": "Import legacy data — an admin imports historical inventory data from a CSV file." },
+    { "id": "UC-04", "descricao": "Generate room capacity report — a user runs a report comparing a room's stated capacity against its actual chairs/computers." },
+    { "id": "UC-05", "descricao": "Manage roles and permissions — an admin creates or edits roles and adjusts what each role can access." }
+  ],
+
+  "criterios_de_aceite": [
+    { "id": "CA-01", "rf_hu_ref": "RF-02 / HU-02", "descricao": "Given a higher-access user attempting to log in, when they enter their password, then the system requires an additional voice verification before granting access." },
+    { "id": "CA-02", "rf_hu_ref": "RF-10", "descricao": "Given a user submits a request, when it is sent, then the system routes it to the approver exactly one level above the requester." },
+    { "id": "CA-03", "rf_hu_ref": "RF-12", "descricao": "Given a university-level admin submits a request, when it is sent, then the system approves it automatically, without requiring further approval." },
+    { "id": "CA-04", "rf_hu_ref": "RNF-01", "descricao": "Given 200 concurrent users accessing the system, when they perform normal operations, then the system remains responsive without failing." },
+    { "id": "CA-05", "rf_hu_ref": "RNF-02", "descricao": "Given a user session with no activity, when 30 minutes pass, then the system automatically ends the session." }
+  ]
+}

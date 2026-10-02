@@ -1,0 +1,1225 @@
+{
+  "sistema": "IPG Job Manager",
+  "modelo": "gpt-5.6-terra",
+  "data_execucao": "2026-08-20 08:53:42",
+  "question": "Analise o(s) documento(s) de cenário do projeto e gere o SRS completo no formato especificado, seguindo o processo de trabalho: buscas dedicadas na base de conhecimento para cada tipo de artefato, rastreabilidade validada entre os artefatos.\n\nDocumento(s) de cenário:\n--- Project Scenario 3.pdf ---\nIPG Job Manager\nSo the thing is, right now our grid users rely on Globus GRAM \nto run their jobs on remote machines across IPG, and honestly \nit just doesn't cut it anymore. People keep asking for things \nlike being able to stage several sets of files at once, run \nmore than one executable as part of the same submission, and \nactually look back at what happened with a job after the fact \n— none of that is really there today. We keep hearing \ncomplaints that there's no good history of executions, so when \nsomething goes wrong nobody can tell what happened or why. \n \nWhat I'm picturing is a Job Manager that lets users move and \ncopy files between systems and kick off applications on \nwhatever machine they're authorized to use, and they should be \nable to do this either through an API or from the command \nline, whichever fits their workflow. The core idea is a job \nmade up of a main sequence of steps — file operations and \nexecution operations chained together reliably — and then, if \nthey want, an optional cleanup part that fires afterwards to \ndelete temp files and directories whether the job succeeded or \nblew up halfway through. If something fails partway through \nthe main sequence, I'd expect the system to stop, run the \ncleanup tied to whatever failed plus the cleanup for \neverything that already ran, going backwards, so we don't \nleave junk scattered across machines. \n \nIt also needs to play nice with how the grid already handles \nsecurity — there's a proxy/credential thing tied into the Grid \nSecurity Infrastructure that has to be respected, and only \nauthorized users should ever be able to touch the systems on \nthe list the Job Manager manages. And whatever we build, it \nhas to keep some kind of resource list so people can only \nsubmit to machines that are actually registered, not just \nanywhere. \n \nOn the people side, we've basically got two kinds of usage. \nRegular users will connect through the client side — find a \nserver, submit a job, check on it, cancel it, look up old \nruns, that sort of thing. Then there's the admin side: someone \nhas to install and keep the server itself running, someone \nmanages the actual hardware and OS underneath it (might be the \nsame person, might not), and there's also whoever takes care \nof the software repository server. Worth keeping in mind these \nadmin folks need their own way to manage who has access, \nmanage that resource list, browse jobs, and have some kind of \nlog of what admin actions were taken. \n \nA couple of things I want to be upfront about not worrying \nabout right now. Running one application split across two \nmachines at the same time with them talking to each other — \nco-scheduling, that kind of multi-machine parallel execution — \nthat's interesting but not something we need for this round. \nSame with building out a full workflow/DAG language with a GUI \nto draw out job flows, staging files in parallel instead of \none at a time, juggling file permissions across different OS \ntypes when staging, or any kind of file caching to speed \nthings up — all of that can wait, it's not critical for what \nwe need delivered now. Also heads up, this version won't be a \ndrop-in replacement for whatever the old Job Manager did \nbefore, so we'll need to help existing users transition rather \nthan assume their old scripts just keep working. \n \nOne more practical thing: whatever we ship needs to actually \ntell people when something breaks — a real error name, a \nmessage, and ideally the reason behind it, plus a way to log \nerrors to a file users can point to themselves. And it should \nhave some sense of timeouts so things don't just hang forever \nwaiting on a response. \n \nOne more thing since this is federal software built for NASA's \nIPG program, the whole thing has to meet Section 508 \naccessibility requirements, not just some corner of it, so \nthat's not something we can skip just because most of our \nusers are pretty technical.",
+  "answer": "Sistema: IPG Job Manager\n\nResumo executivo: IPG Job Manager is a job orchestration service for NASA IPG grid users. It replaces limitations of Globus GRAM by enabling sequenced file operations and application executions on authorized registered resources, with optional cleanup, execution history, diagnostics, API and command-line access, and administrative controls.\n\nEscopo: The system manages sequential jobs composed of file operations and application executions on authorized registered grid resources.\n  Em escopo: Job submission through an API and command-line client\n  Em escopo: Sequential file move, file copy, and application execution steps\n  Em escopo: Multiple file sets and multiple executables in one job\n  Em escopo: Optional cleanup after successful or failed execution\n  Em escopo: Job status, cancellation, execution history, and error logging\n  Em escopo: GSI proxy credential authentication and resource authorization\n  Em escopo: Administrative access, resource, job browsing, and audit management\n  Em escopo: Section 508 accessibility conformance\n  Fora de escopo: Co-scheduling or parallel execution of one application across multiple communicating machines — excluded from this release\n  Fora de escopo: Workflow/DAG language and graphical workflow editor — excluded from this release\n  Fora de escopo: Parallel file staging — file operations are executed sequentially in this release\n  Fora de escopo: Cross-operating-system file-permission management during staging — excluded from this release\n  Fora de escopo: File caching — excluded from this release\n  Fora de escopo: Drop-in compatibility with previous Job Manager scripts — explicitly not provided\n  Premissa: PA-01: Registered resources expose the capabilities required to perform authorized file and application operations. [INFERRED]\n  Premissa: PA-02: IPG provides Grid Security Infrastructure credentials for authorized users. [INFERRED]\n  Premissa: PA-03: Migration guidance for users of previous Job Manager scripts will be defined outside this software scope. [TBD]\n  Restrição: REST-01 (Security): Authentication and authorization must respect the existing Grid Security Infrastructure proxy/credential model.\n  Restrição: REST-02 (Compliance): The delivered system must meet all applicable Section 508 accessibility requirements.\n  Restrição: REST-03 (Interface): User operations must be available through both an API and a command-line client.\n\nStakeholders:\n  STK-01 - Grid user (Usuário primário): Discover servers, submit and monitor jobs, cancel jobs, review prior executions, and receive actionable errors.\n  STK-02 - Job Manager administrator (Usuário primário): Manage user access, registered resources, job records, and administrative audit records.\n  STK-03 - Job Manager server administrator (Usuário secundário): Install, operate, and maintain the Job Manager server.\n  STK-04 - Resource hardware and operating-system administrator (Stakeholder externo): Maintain the hardware and operating systems hosting registered resources.\n  STK-05 - Software repository server administrator (Stakeholder externo): Operate the software repository server used by the environment.\n  STK-06 - NASA IPG program (Stakeholder externo): Receive an accessible, controlled, and auditable job-management capability for the IPG program.\n\nRegras de negócio:\n  RN-001 - Authorized resource access: Only users authorized through the grid security model may access managed resources.\n  RN-002 - Registered-resource submission: Jobs may be submitted only to resources included in the managed resource list.\n  RN-003 - Sequential main execution: A job main sequence executes its file-operation and execution-operation steps in their defined order.\n  RN-004 - Failure cleanup order: When a main-sequence step fails, main execution stops; cleanup for the failed step and cleanup for previously completed steps execute in reverse execution order.\n  RN-005 - Completion cleanup: Defined cleanup operations execute after the main sequence whether the job succeeds or fails.\n  RN-006 - Administrative accountability: Administrative access-management and resource-management actions must be attributable to the administrator who performed them.\n\nRequisitos funcionais:\n  RF-001 - Server discovery: The system shall allow a grid user to discover an available Job Manager server through the client interface. [Must have]\n  RF-002 - API job submission: The system shall accept a job submission through its API. [Must have]\n  RF-003 - Command-line job submission: The system shall accept a job submission through its command-line client. [Must have]\n  RF-004 - Main-sequence definition: The system shall accept a job definition containing an ordered main sequence of steps. [Must have]\n  RF-005 - File move operation: The system shall execute a defined file move operation between systems in a job step. [Must have]\n  RF-006 - File copy operation: The system shall execute a defined file copy operation between systems in a job step. [Must have]\n  RF-007 - Application execution: The system shall execute a defined application on the selected resource in a job step. [Must have]\n  RF-008 - Multiple file sets: The system shall accept multiple file sets within one job submission. [Must have]\n  RF-009 - Multiple executables: The system shall accept multiple application execution steps within one job submission. [Must have]\n  RF-010 - Cleanup definition: The system shall accept an optional cleanup definition for a job step. [Must have]\n  RF-011 - Successful-job cleanup: The system shall execute defined cleanup operations after successful completion of a job main sequence. [Must have]\n  RF-012 - Failed-job cleanup: The system shall stop the main sequence and execute applicable cleanup operations in reverse order after a main-sequence step fails. [Must have]\n  RF-013 - Job status query: The system shall return the current status of a submitted job. [Must have]\n  RF-014 - Job cancellation: The system shall allow a grid user to cancel a submitted job. [Must have]\n  RF-015 - Execution-history retrieval: The system shall provide a grid user with records of previous job executions. [Must have]\n  RF-016 - Error diagnostics: The system shall report an error name, message, and reason when an operation fails. [Must have]\n  RF-017 - User-designated error log: The system shall write reported errors to a file location designated by the user. [Must have]\n  RF-018 - Operation timeout: The system shall terminate an operation when its configured timeout expires. [Must have]\n  RF-019 - GSI proxy validation: The system shall validate the submitting user's Grid Security Infrastructure proxy credential before accepting a job request. [Must have]\n  RF-020 - Resource authorization validation: The system shall verify that the submitting user is authorized for the selected resource before executing a job step. [Must have]\n  RF-021 - Registered-resource validation: The system shall reject a job step whose selected resource is not in the managed resource list. [Must have]\n  RF-022 - Access management: The system shall allow an administrator to manage user access to managed resources. [Must have]\n  RF-023 - Resource-list management: The system shall allow an administrator to manage the list of registered resources. [Must have]\n  RF-024 - Administrative job browsing: The system shall allow an administrator to browse submitted job records. [Must have]\n  RF-025 - Administrative audit logging: The system shall record each administrative access-management and resource-management action in an audit log. [Must have]\n\nRequisitos não funcionais:\n  RNF-001 (Interaction Capability) - The system shall satisfy 100% of applicable Section 508 accessibility test criteria. [TBD: confirm applicable criteria baseline] | Métrica: 100% pass rate for applicable Section 508 test criteria.\n  RNF-002 (Security) - The system shall reject 100% of job requests submitted with missing, invalid, or expired GSI proxy credentials. | Métrica: 100% rejection rate across the invalid-credential test suite.\n  RNF-003 (Performance Efficiency) - The system shall return a job-status query within 2 seconds at the 95th percentile under 100 concurrent status-query requests. [TBD: validate load volume] | Métrica: 95th-percentile response time of 2 seconds or less under 100 concurrent requests.\n  RNF-004 (Reliability) - The system shall record an operation timeout and begin applicable failure handling within 5 seconds after the configured timeout expires. [TBD: validate threshold] | Métrica: Failure handling begins within 5 seconds in 100% of timeout test cases.\n  RNF-005 (Reliability) - The system shall invoke every applicable cleanup operation in the defined reverse order in 100% of injected main-sequence failure tests. | Métrica: 100% of applicable cleanup operations are invoked in reverse order across the failure-injection suite.\n  RNF-006 (Compatibility) - The system shall make all supported job-submission operations available through both the API and command-line client with 100% pass rate in interface conformance tests. [TBD: define API contract] | Métrica: 100% pass rate for the supported-operation conformance suite on both interfaces.\n\nHistórias de usuário:\n  HU-001 - Como grid user, quero discover an available Job Manager server, para connect my client to a server that can manage my jobs\n  HU-002 - Como grid user, quero submit an ordered job sequence, para coordinate file operations and application executions as one job\n  HU-003 - Como grid user, quero stage multiple file sets, para prepare all required inputs for my job submission\n  HU-004 - Como grid user, quero run multiple executables in a job, para complete a multi-step processing task in one submission\n  HU-005 - Como grid user, quero define cleanup operations, para remove temporary files and directories after my job finishes or fails\n  HU-006 - Como grid user, quero check a job status, para know the current execution state of my submitted job\n  HU-007 - Como grid user, quero cancel a submitted job, para stop work that is no longer required\n  HU-008 - Como grid user, quero review prior executions and their errors, para diagnose why a job failed\n  HU-009 - Como Job Manager administrator, quero manage user access to resources, para ensure that only authorized users can use managed resources\n  HU-010 - Como Job Manager administrator, quero manage registered resources, para control where jobs may be submitted\n  HU-011 - Como Job Manager administrator, quero review administrative audit records, para trace administrative changes\n\nCasos de uso:\n  UC-001 - Discover Job Manager server | Ator: Grid user\n    1. The grid user requests server discovery.\n    2. The system searches for available Job Manager servers.\n    3. The system returns an available server identifier.\n  UC-002 - Submit sequential job | Ator: Grid user\n    1. The grid user submits an ordered job definition through the API or command-line client.\n    2. The system validates the GSI proxy credential.\n    3. The system validates the selected resource and user authorization.\n    4. The system records and starts the main sequence in its defined order.\n  UC-003 - Stage multiple file sets | Ator: Grid user\n    1. The grid user submits a job containing multiple file sets.\n    2. The system processes the first defined file operation.\n    3. The system processes each subsequent file operation in sequence.\n  UC-004 - Execute multiple applications | Ator: Grid user\n    1. The grid user submits a job containing multiple execution steps.\n    2. The system executes the first application step.\n    3. The system executes each subsequent application step after the preceding step completes.\n  UC-005 - Define cleanup operations | Ator: Grid user\n    1. The grid user associates a cleanup operation with a job step.\n    2. The system validates the cleanup definition.\n    3. The system stores the cleanup definition with the job.\n  UC-006 - Check job status | Ator: Grid user\n    1. The grid user requests the status of a job.\n    2. The system locates the job record.\n    3. The system returns the current job status.\n  UC-007 - Cancel job | Ator: Grid user\n    1. The grid user requests cancellation of a job.\n    2. The system validates access to the job.\n    3. The system records cancellation and stops remaining main-sequence processing.\n    4. The system starts applicable cleanup.\n  UC-008 - Review execution history | Ator: Grid user\n    1. The grid user requests prior execution records.\n    2. The system retrieves accessible job history.\n    3. The system returns execution records including recorded errors when present.\n  UC-009 - Manage user resource access | Ator: Job Manager administrator\n    1. The administrator selects a user and a registered resource.\n    2. The administrator creates, changes, or removes an access assignment.\n    3. The system updates the assignment.\n    4. The system records the administrative action in the audit log.\n  UC-010 - Manage registered resources | Ator: Job Manager administrator\n    1. The administrator requests to add, modify, or remove a resource.\n    2. The system validates the requested resource-list change.\n    3. The system updates the managed resource list.\n    4. The system records the administrative action in the audit log.\n  UC-011 - Review administrative audit records | Ator: Job Manager administrator\n    1. The administrator requests administrative audit records.\n    2. The system retrieves the requested accessible audit records.\n    3. The system returns the records.\n\nCritérios de aceite:\n  CA-001 - Dado a supported client is running and one Job Manager server is available, quando the grid user requests server discovery, então the system returns one available server identifier\n  CA-002 - Dado a valid API job request is prepared, quando the client sends the request to the API, então the system returns a job identifier and an accepted status\n  CA-003 - Dado a valid command-line job definition is prepared, quando the user runs the submission command, então the system returns a job identifier and an accepted status\n  CA-004 - Dado a job definition contains three ordered main-sequence steps, quando the user submits the job, então the stored job record contains the same three steps in the submitted order\n  CA-005 - Dado a job contains a valid file move step, quando the step executes, então the source file is absent and the destination file is present\n  CA-006 - Dado a job contains a valid file copy step, quando the step executes, então the source and destination files are both present with identical content\n  CA-007 - Dado a job contains an authorized application execution step on a registered resource, quando the step executes, então the system records the application's exit status in the job record\n  CA-008 - Dado a job submission contains two file sets, quando the user submits the job, então the system records both file sets in the job definition\n  CA-009 - Dado a job submission contains two application execution steps, quando the user submits the job, então the system records both execution steps in the defined sequence\n  CA-010 - Dado a job step has a valid cleanup operation, quando the user submits the job, então the system stores the cleanup operation associated with that step\n  CA-011 - Dado a successful job contains a cleanup operation that deletes a temporary directory, quando the main sequence completes successfully, então the temporary directory is absent after cleanup completes\n  CA-012 - Dado a three-step job has cleanup definitions and its third main-sequence step fails, quando the failure occurs, então the system does not execute later main steps and invokes applicable cleanup in reverse order beginning with the failed step\n  CA-013 - Dado an accessible submitted job exists, quando the grid user requests its status, então the system returns one current job status\n  CA-014 - Dado an accessible job is executing, quando the grid user requests cancellation, então the system records a cancellation status and starts applicable cleanup\n  CA-015 - Dado the grid user has two accessible completed job records, quando the user requests execution history, então the system returns both job records with their final statuses\n  CA-016 - Dado a job operation fails, quando the system detects the failure, então the returned diagnostic contains a nonempty error name, message, and reason\n  CA-017 - Dado the user designates a writable error-log file and a job operation fails, quando the system reports the failure, então the designated file contains the error name, message, and reason\n  CA-018 - Dado an operation has a configured timeout of 10 seconds and does not respond, quando 10 seconds elapse, então the system terminates the operation and records a timeout error\n  CA-019 - Dado a job request contains an expired GSI proxy credential, quando the user submits the request, então the system rejects the request before creating a job record\n  CA-020 - Dado a user has a valid GSI proxy but lacks authorization for the selected resource, quando the system validates the job step, então the system prevents execution on that resource\n  CA-021 - Dado a job step selects a resource absent from the managed resource list, quando the user submits the job, então the system rejects the job step and reports an error\n  CA-022 - Dado an authenticated administrator selects a user and registered resource, quando the administrator grants access, então the system stores the access assignment for that user-resource pair\n  CA-023 - Dado an authenticated administrator provides valid resource data, quando the administrator adds the resource, então the resource appears in the managed resource list\n  CA-024 - Dado job records exist and an administrator is authenticated, quando the administrator requests job browsing, então the system returns the existing job records\n  CA-025 - Dado an administrator changes a user-resource access assignment, quando the system completes the change, então the audit log contains the administrator identity, action type, affected user-resource pair, and timestamp\n\nGlossário:\n  API: Programmatic interface through which a client submits and manages jobs.\n  Cleanup operation: An optional operation associated with a job step to remove temporary files or directories after job completion or failure.\n  GSI proxy credential: Grid Security Infrastructure proxy or credential used to authenticate a grid user.\n  Grid resource: A machine managed by the Job Manager on which authorized job operations may occur.\n  Job: A submitted unit of work containing an ordered main sequence of file and application-execution steps and optional cleanup operations.\n  Main sequence: The ordered set of job steps executed before cleanup operations.\n  Managed resource list: The administrator-maintained list of grid resources eligible to receive job submissions.\n  Section 508: United States federal accessibility requirements applicable to this NASA IPG software.",
+  "contexts": [
+    "Base de Conhecimento em Engenharia\r\nde Requisitos\r\nPadrões, modelos e exemplos para elicitação e especificação de requisitos de software\r\nconforme ISO/IEC/IEEE 29148:2018 · ISO/IEC 25010:2023 · SWEBOK v4.0 · BABOK® v3\r\nEste documento é a base de conhecimento fixa (Vector Store B) do sistema de elicitação de requisitos. Ele ensina ao agente\r\nde IA os padrões de escrita, templates, exemplos e regras de qualidade que devem ser aplicados ao analisar documentos \r\nde projeto.PARTE 1 — Estrutura do Documento de Especificação de Requisitos (SRS)\r\nBase: ISO/IEC/IEEE 29148:2018 §9.6 · IEEE 830-1998 §3 · Sommerville (2016, cap. 4)\r\nO Documento de Especificação de Requisitos de Software (SRS) é o contrato técnico que descreve o \r\nque o sistema deve fazer e sob quais condições de qualidade. Ele serve de referência para \r\ndesenvolvedores, testadores, gerentes e clientes durante todo o ciclo de vida do projeto.\r\n1.1 Artefatos Obrigatórios e sua Ordem\r\nUm SRS completo e formal deve conter os seguintes artefatos, nesta ordem:\r\n• ESCOPO: Define o que está DENTRO e FORA do projeto. Evita scope creep.\r\n• STAKEHOLDERS: Lista todos os envolvidos: quem usa, quem financia, quem é afetado.\r\n• PREMISSAS E RESTRIÇÕES: Fatos assumidos como verdadeiros e limites impostos ao projeto.\r\n• REGRAS DE NEGÓCIO (RN): Políticas, fórmulas e condições de negócio que existem independentemente \r\ndo software.\r\n• REQUISITOS FUNCIONAIS (RF): O que o sistema DEVE FAZER — comportamentos, serviços, respostas a \r\nentradas.\r\n• REQUISITOS NÃO FUNCIONAIS (RNF): Como o sistema deve SER — atributos de qualidade \r\nquantificáveis.\r\n• HISTÓRIAS DE USUÁRIO (HU): Necessidades na perspectiva do usuário: Como [perfil], quero [ação], para\r\n[benefício].\r\n• CASOS DE USO (UC): Interações detalhadas ator-sistema com fluxo principal, alternativo e exceções.\r\n• CRITÉRIOS DE ACEITE (CA): Condições testáveis em formato BDD (Dado/Quando/Então) que definem \r\nquando o requisito está concluído.\r\n• GLOSSÁRIO: Termos do domínio com definição precisa para eliminar ambiguidades.\r\n1.2 Como os Artefatos se Interconectam\r\nOs artefatos formam uma cadeia de rastreabilidade. Cada RF deve ter origem em um STK \r\n(stakeholder) ou RN. Cada HU deve ter pelo menos um RF associado. Cada RF e HU devem ter pelo menos um CA. Esta rastreabilidade garante que nada seja implementado sem justificativa de \r\nnegócio e que tudo que foi prometido seja testável.\r\nCadeia de rastreabilidade mínima:\r\nSTK → (RN →) RF → HU → CA\r\nREGRA: Todo requisito deve ter um ID único no formato TIPO-NNN (ex.",
+    "IPG Job Manager\r\nSo the thing is, right now our grid users rely on Globus GRAM \r\nto run their jobs on remote machines across IPG, and honestly \r\nit just doesn't cut it anymore. People keep asking for things \r\nlike being able to stage several sets of files at once, run \r\nmore than one executable as part of the same submission, and \r\nactually look back at what happened with a job after the fact \r\n— none of that is really there today. We keep hearing \r\ncomplaints that there's no good history of executions, so when \r\nsomething goes wrong nobody can tell what happened or why. \r\nWhat I'm picturing is a Job Manager that lets users move and \r\ncopy files between systems and kick off applications on \r\nwhatever machine they're authorized to use, and they should be \r\nable to do this either through an API or from the command \r\nline, whichever fits their workflow. The core idea is a job \r\nmade up of a main sequence of steps — file operations and \r\nexecution operations chained together reliably — and then, if \r\nthey want, an optional cleanup part that fires afterwards to \r\ndelete temp files and directories whether the job succeeded or \r\nblew up halfway through. If something fails partway through \r\nthe main sequence, I'd expect the system to stop, run the \r\ncleanup tied to whatever failed plus the cleanup for \r\neverything that already ran, going backwards, so we don't \r\nleave junk scattered across machines. \r\nIt also needs to play nice with how the grid already handles \r\nsecurity — there's a proxy/credential thing tied into the Grid \r\nSecurity Infrastructure that has to be respected, and only \r\nauthorized users should ever be able to touch the systems on \r\nthe list the Job Manager manages. And whatever we build, it \r\nhas to keep some kind of resource list so people can only \r\nsubmit to machines that are actually registered, not just \r\nanywhere. \r\nOn the people side, we've basically got two kinds of usage. \r\nRegular users will connect through the client side — find a \r\nserver, submit a job, check on it, cancel it, look up old \r\nruns, that sort of thing. Then there's the admin side: someone \r\nhas to install and keep the server itself running, someone manages the actual hardware and OS underneath it (might be the \r\nsame person, might not), and there's also whoever takes care \r\nof the software repository server. Worth keeping in mind these \r\nadmin folks need their own way to manage who has access, \r\nmanage that resource list, browse jobs, and have some kind of \r\nlog of what admin actions were taken. \r\nA couple of things I want to be upfront about not worrying \r\nabout right now. Running one application split across two \r\nmachines at the same time with them talking to each other — \r\nco-scheduling, that kind of multi-machine parallel execution — \r\nthat's interesting but not something we need for this round. \r\nSame with building out a full workflow/DAG language with a GUI \r\nto draw out job flows, staging files in parallel instead of \r\none at a time, juggling file permissions across different OS \r\ntypes when staging, or any kind of file caching to speed \r\nthings up — all of that can wait, it's not critical for what \r\nwe need delivered now. Also heads up, this version won't be a \r\ndrop-in replacement for whatever the old Job Manager did \r\nbefore, so we'll need to help existing users transition rather \r\nthan assume their old scripts just keep working. \r\nOne more practical thing: whatever we ship needs to actually \r\ntell people when something breaks — a real error name, a \r\nmessage, and ideally the reason behind it, plus a way to log \r\nerrors to a file users can point to themselves.",
+    ". . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193\r\n3. System features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 194\r\n4. Data requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195\r\n5. External interface requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . 196\r\n6. Quality attributes. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197\r\n7. Internationalization and localization requirements. . . . . . . . . . . 198\r\n8. [Other requirements]. . . . . . . .",
+    " Replaceability — substituível por outro produto equivalente.\r\nEXEMPLO — RNF — 8. Flexibility\r\nO sistema deve ser implantável em qualquer provedor de nuvem (AWS, GCP, Azure) utilizando contêineres \r\nDocker, sem necessidade de alterações no código-fonte ou nos arquivos de configuração de aplicação.\r\n9. Safety (Segurança Funcional) — NOVO na edição 2023\r\n Operational Constraint — limita operação a intervalos seguros.\r\n Risk Identification — identifica riscos em tempo de execução.\r\n Fail Safe — modo seguro em caso de falha.\r\n Hazard Warning — alerta sobre condições perigosas.\r\n Safe Integration — integração segura com outros sistemas.\r\nEXEMPLO — RNF — 9. Safety\r\nAPLICÁVEL a sistemas críticos: saúde, industrial, financeiro, automotivo.\r\nEm sistemas de monitoramento médico, o sistema deve entrar automaticamente em modo de alerta visual e \r\nsonoro quando a frequência cardíaca do paciente sair do intervalo [40, 180] bpm, sem latência superior a \r\n500ms.PARTE 4 — Regras de Qualidade e Checklist de Validação\r\nBase: ISO/IEC/IEEE 29148:2018 §9 (atributos do requisito); IEEE 830-1998 §4 (atributos do bom SRS); Wiegers & Beatty \r\n(2013, cap. 11)\r\n4.1 Palavras Proibidas em Requisitos\r\nAs palavras abaixo indicam requisitos ambíguos, subjetivos ou não verificáveis. Quando \r\nencontradas, o requisito deve ser reescrito com métricas objetivas.\r\n• rápido / veloz / ágil: Substituir por: 'tempo de resposta inferior a X ms/s'\r\n• fácil / simples / intuitivo: Substituir por: métrica de usabilidade (ex.: task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN.",
+    "2ª ed. Geneva: ISO, \r\n2023. A edição 2023 substituiu a de 2011 e acrescentou a característica Safety.\r\nA ISO/IEC 25010:2023 define 9 características de qualidade do produto. Todo RNF deve ser \r\nclassificado em uma dessas características. A seguir, cada característica com seus sub-atributos e \r\nexemplo de RNF.\r\n1. Functional Suitability (Adequação Funcional)\r\n Functional Completeness — o sistema oferece todas as funções necessárias.\r\n Functional Correctness — as funções produzem os resultados corretos.\r\n Functional Appropriateness — as funções facilitam a realização das tarefas.\r\nEXEMPLO — RNF — 1. Functional Suitability\r\nO sistema deve calcular o imposto sobre o valor do pedido aplicando corretamente a alíquota de ICMS \r\nvigente para o estado de destino, conforme tabela oficial CONFAZ, com variação máxima de R$ 0,01 em \r\nrelação ao valor de referência da Receita Estadual.\r\n2. Performance Efficiency (Eficiência de Desempenho)\r\n Time Behaviour — tempo de resposta e throughput.\r\n Resource Utilisation — uso de CPU, memória, rede.\r\n Capacity — limites máximos suportados.\r\nEXEMPLO — RNF — 2. Performance Efficiency\r\nO sistema deve processar no mínimo 200 pedidos por minuto sob carga de 1.000 usuários simultâneos, com \r\ntempo de resposta inferior a 2 segundos no percentil 95.\r\n3. Compatibility (Compatibilidade)\r\n Co-existence — coexiste com outros sistemas sem degradação.\r\n Interoperability — troca dados com outros sistemas.\r\nEXEMPLO — RNF — 3. Compatibility\r\nA API do sistema deve expor endpoints REST/JSON compatíveis com o padrão OpenAPI 3.0, permitindo \r\nintegração com o ERP legado via OAuth 2.0 sem modificações no ERP.4. Interaction Capability (Capacidade de Interação) — antes 'Usabilidade'\r\n Appropriateness Recognisability — usuário reconhece a adequação do sistema.\r\n Learnability — facilidade de aprendizado.\r\n Operability — facilidade de operação.\r\n User Error Protection — proteção contra erros do usuário.\r\n User Engagement — interface envolvente e motivadora.\r\n Inclusivity — acessível a pessoas com diferentes capacidades.\r\n User Assistance — suporte ao usuário.\r\n Self-Descriptiveness — interface autoexplicativa.\r\nEXEMPLO — RNF — 4. Interaction Capability\r\nUm usuário sem treinamento prévio deve ser capaz de registrar seu primeiro pedido completo em até 10 \r\nminutos. A interface deve seguir as diretrizes WCAG 2.1 nível AA.\r\n5. Reliability (Confiabilidade)\r\n Faultlessness — ausência de falhas em condições normais.\r\n Availability — proporção de tempo em que o sistema está operacional.\r\n Fault Tolerance — operação correta mesmo com falhas parciais.\r\n Recoverability — recuperação após falha.\r\nEXEMPLO — RNF — 5. Reliability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês (máx. 3,6h de downtime não planejado). Em \r\ncaso de falha crítica, o sistema deve restaurar a operação normal em até 4 horas (RTO = 4h).",
+    ": task completion em < N min)\r\n• amigável / bonito / moderno: Atributo subjetivo — vai para diretrizes de UI, não para RF/RNF\r\n• eficiente: Substituir por: consumo de CPU < X%, throughput > Y req/s\r\n• seguro: Substituir por: característica específica da ISO 25010 Security com métrica\r\n• geralmente / normalmente: Indica exceções não documentadas — especificar todas as condições\r\n• etc. / e assim por diante: Indica incompletude — listar todos os itens explicitamente\r\n• e/ou em um único requisito: Indica dois requisitos distintos — separar em dois IDs diferentes\r\n• deve ser possível: Ambíguo — usar 'O sistema deve [ação específica]'\r\n• pode / poderá: 'Pode' = opcional. Use 'deve' para obrigatoriedade\r\n4.2 Convenções de Escrita\r\n1. Use SEMPRE 'O sistema deve...' (verbo 'dever' no presente — indica obrigatoriedade). Em inglês:\r\n'shall' = obrigatório; 'should' = desejável; 'may' = opcional.\r\n2. Cada RF descreve UMA e apenas UMA funcionalidade. Se o texto contém 'e' ligando dois \r\ncomportamentos distintos, divida em dois RFs com IDs diferentes.\r\n3. Todo RF referencia o STK de origem. Isso garante rastreabilidade bidirecional.4. Toda RN usa IDs do tipo RN-NNN. RFs referenciam RNs no campo 'RN associada'. Nunca copie o\r\ntexto da RN dentro do RF — apenas referencie.\r\n5. Toda HU usa a estrutura: 'Como [persona], quero [ação], para [benefício].' Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um",
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . 175\r\nDiscovering business rules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177\r\nBusiness rules and requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178\r\nTying everything together. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180\r\nChapter 10 Documenting the requirements 181\r\nThe software requirements specification. . . . . . . . . . . . . . . . . . . . . . . . . . . 183\r\nLabeling requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186\r\nDealing with incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188\r\nUser interfaces and the SRS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189\r\nA software requirements specification template. . . . . . . . . . . . . . . . . . . . 190\r\n1. Introduction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192\r\n2. Overall description. . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários? prazo? tipo de sistema?\r\n 3. Se não há dados suficientes: propor métrica razoável para o tipo de sistema e sinalizar como TBD\r\n 4. Nunca deixar o RNF sem métrica — isso viola ISO/IEC/IEEE 29148:2018EXEMPLO — Adjetivos vagos → RNFs com métricas propostas\r\nTEXTO: 'O sistema precisa ser rápido e seguro. Esperamos que aguentem muitos usuários ao mesmo tempo. \r\nA interface tem que ser fácil para o pessoal do almoxarifado que não tem muita experiência com \r\ncomputador.'\r\nRNF-001 (Performance Efficiency — Time Behaviour):\r\nO sistema deve responder a consultas de estoque em menos de 2 segundos.\r\nMétrica: percentil 95 com carga de 200 usuários simultâneos. [TBD: validar volume]\r\nRNF-002 (Security — Confidentiality):\r\nTodos os dados em trânsito devem ser criptografados via TLS 1.2+.\r\nMétrica: 100% HTTPS; TLS < 1.2 bloqueado. Verificação: OWASP ZAP.\r\nRNF-003 (Reliability — Availability):\r\nO sistema deve ter disponibilidade de 99% nos dias úteis 07h–18h. [TBD: confirmar SLA]\r\nRNF-004 (Interaction Capability — Learnability):\r\nUsuários sem experiência prévia devem conseguir registrar uma entrada de estoque em até 15 minutos sem \r\ntreinamento formal.\r\nMétodo de verificação: teste de usabilidade com 3 usuários do perfil almoxarife.2.6 Histórias de Usuário (HU) — Identificar e Formatar\r\nHistórias de usuário surgem no texto como NECESSIDADES DO PONTO DE VISTA DO USUÁRIO.",
+    "398 PART III Requirements for specific project classes\r\nWhen old requirements don’t exist\r\nMost older systems do not have documented—let alone accurate—requirements. In the absence of \r\nreliable documentation, teams might reverse-engineer an understanding of what the system does \r\nfrom the user interfaces, code, and database. We think of this as “software archaeology.” To maximize \r\nthe benefit from reverse engineering, the archaeology expedition should record what it learns in \r\nthe form of requirements and design descriptions. Accumulating accurate information about certain \r\nportions of the current system positions the team to enhance a system with low risk, to replace a \r\nsystem without missing critical functionality, and to perform future enhancements efficiently. It halts \r\nthe knowledge drain, so future maintainers better understand the changes that were just made.\r\nIf updating the requirements is overly burdensome, it will fall by the wayside as busy people rush \r\non to the next change request. Obsolete requirements aren’t helpful for future enhancements. There’s \r\na widespread fear in the software industry that writing documentation will consume too much time; \r\nthe knee-jerk reaction is to neglect all opportunities to update requirements documentation. But \r\nwhat’s the cost if you don’t update the requirements and a future maintainer (perhaps you!) has to \r\nregenerate that information? The answer to this question will let you make a thoughtful business \r\ndecision concerning whether to revise the requirements documentation when you change or \r\nre-create the software.\r\nWhen the team performs additional enhancements and maintenance over time, it can extend \r\nthese fractional knowledge representations, steadily improving the system documentation. The \r\nincremental cost of recording this newly found knowledge is small compared with the cost of \r\nsomeone having to rediscover it later on. Implementing enhancements almost always necessitates \r\nfurther requirements development, so add those new requirements to an existing requirements \r\nrepository, if there is one. If you’re replacing an old system, you have an opportunity to document \r\nthe requirements for the new one and to keep the requirements up to date with what you learn \r\nthroughout the project. Try to leave the requirements in better shape than you found them.\r\nWhich requirements should you specify?\r\nIt’s not always worth taking the time to generate a complete set of requirements for an entire \r\nproduction system. Many options lie between the two extremes of continuing forever with no \r\nrequirements documentation and reconstructing a perfect requirements set. Knowing why you’d like \r\nto have written requirements available lets you judge whether the cost of rebuilding all—or even \r\npart—of the specification is a sound investment.\r\nPerhaps your current system is a shapeless mass of history and mystery like the one in Figure 21-2. \r\nImagine that you’ve been asked to implement some new functionality in region A in this figure. \r\nBegin by recording the new requirements in a structured SRS or in a requirements management tool. \r\nWhen you add the new functionality, you’ll have to figure out how it interfaces to or fits in with the \r\nexisting system. The bridges in Figure 21-2 between region A and your current system represent these \r\ninterfaces. This analysis provides insight into the white portion of the current system, region B. In \r\naddition to the requirements for region A, this insight is the new knowledge you need to capture.CHAPTER 21 Enhancement and replacement projects 399\r\nFIGURE 21-2 Adding enhancement A to an ill-documented existing system provides some visibility into the \r\nB area.\r\nRarely do you need to document the entire existing system. Focus detailed requirements efforts \r\non the changes needed to meet the business objectives. If you’re replacing a system, start by \r\ndocumenting the areas prioritized as most important to achieve the business objectives or those that \r\npose the highest implementation risk.",
+    "106 PART II Requirements development\r\nFIGURE 6-2 A portion of the organization chart for Contoso Pharmaceuticals.\r\nDocument the user classes and their characteristics, responsibilities, and physical locations in \r\nthe software requirements specification (SRS) or in a requirements plan for your project. Check that \r\ninformation against any information you might already have about stakeholder profiles in the vision \r\nand scope document to avoid conflicts and duplication. Include all pertinent information you have \r\nabout each user class, such as its relative or absolute size and which classes are favored. This will \r\nhelp the team prioritize change requests and conduct impact assessments later on. Estimates of \r\nthe volume and type of system transactions help the testers develop a usage profile for the system \r\nso that they can plan their verification activities. The project manager and business analyst of the \r\nChemical Tracking System discussed in earlier chapters identified the user classes and characteristics \r\nshown in Table 6-1.\r\nTABLE 6-1 User classes for the Chemical Tracking System\r\nName Number Description\r\nChemists \r\n(favored)\r\nApproximately \r\n1,000 located in \r\n6 buildings\r\nChemists will request chemicals from vendors and from the chemical \r\nstockroom. Each chemist will use the system several times per day, mainly for \r\nrequesting chemicals and tracking chemical containers into and out of the \r\nlaboratory. The chemists need to search vendor catalogs for specific chemical \r\nstructures imported from the tools they use for drawing structures.\r\nBuyers 5 Buyers in the purchasing department process chemical requests. They place \r\nand track orders with external vendors. They know little about chemistry and \r\nneed simple query facilities to search vendor catalogs. Buyers will not use \r\nthe system’s container-tracking features. Each buyer will use the system an \r\naverage of 25 times per day.\r\nChemical \r\nstockroom staff\r\n6 technicians, \r\n1 supervisor\r\nThe chemical stockroom staff manages an inventory of more than 500,000 \r\nchemical containers. They will supply containers from three stockrooms, \r\nrequest new chemicals from vendors, and track the movement of all \r\ncontainers into and out of the stockrooms. They are the only users of the \r\ninventory-reporting feature. Because of their high transaction volume, \r\nfeatures that are used only by the chemical stockroom staff must be \r\nautomated and efficient.\r\nHealth \r\nand Safety \r\nDepartment staff \r\n(favored)\r\n1 manager The Health and Safety Department staff will use the system only to generate \r\npredefined quarterly reports that comply with federal and state chemical \r\nusage and disposal reporting regulations. The Health and Safety Department \r\nmanager will request changes in the reports periodically as government \r\nregulations change. These report changes are of the highest priority, and \r\nimplementation will be time critical.",
+    "Descrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.\r\nDescrição\r\nManter os Requisitos garante que os requisitos e designs sejam precisos e \r\natualizados durante todo o ciclo de vida e facilita a reutilização quando \r\napropriado.AƵreas de Conhecimento do Padrão Essencial Gerenciamento do Ciclo de Vida de Requisitos PE (5)\r\n27\r\nEntradas\r\n• Requisitos: incluem metas, objetivos, requisitos de negócios, requisitos \r\nde stakeholder, requisitos de solução e requisitos de transição. Estes \r\ndevem ser mantidos durante todo o seu ciclo de vida.\r\n• Designs: podem ser mantidos durante todo o seu ciclo de vida, conforme \r\nnecessário.\r\nSaídas \r\n• Requisitos (mantidos): definidos uma vez e disponíveis para uso de longo \r\nprazo pela organização. Eles podem se tornar ativos do processo \r\norganizacional ou serem usados em iniciativas futuras. Em alguns casos, \r\num requisito que não foi aprovado ou implementado pode ser mantido \r\npara uma possível iniciativa futura.\r\n• Designs (mantidos): podem ser reutilizados uma vez definidos. Por \r\nexemplo, como um componente autônomo que pode ser disponibilizado \r\npara possível uso futuro.\r\nPriorizar os Requisitos PE (5.3)\r\nPropósito\r\nO objetivo de Priorizar os Requisitos é classificar os requisitos na ordem de \r\nimportância relativa.\r\nDescrição\r\nPriorizar os Requisitos avalia o valor, a urgência e os riscos associados a \r\nrequisitos e designs específicos para garantir que o trabalho de análise e/ou \r\nde entrega seja feito focado no que for mais importante no momento.",
+    "On the people side, we've basically got two kinds of usage. \r\nRegular users will connect through the client side — find a \r\nserver, submit a job, check on it, cancel it, look up old \r\nruns, that sort of thing. Then there's the admin side: someone \r\nhas to install and keep the server itself running, someone manages the actual hardware and OS underneath it (might be the \r\nsame person, might not), and there's also whoever takes care \r\nof the software repository server. Worth keeping in mind these \r\nadmin folks need their own way to manage who has access, \r\nmanage that resource list, browse jobs, and have some kind of \r\nlog of what admin actions were taken. \r\nA couple of things I want to be upfront about not worrying \r\nabout right now. Running one application split across two \r\nmachines at the same time with them talking to each other — \r\nco-scheduling, that kind of multi-machine parallel execution — \r\nthat's interesting but not something we need for this round. \r\nSame with building out a full workflow/DAG language with a GUI \r\nto draw out job flows, staging files in parallel instead of \r\none at a time, juggling file permissions across different OS \r\ntypes when staging, or any kind of file caching to speed \r\nthings up — all of that can wait, it's not critical for what \r\nwe need delivered now. Also heads up, this version won't be a \r\ndrop-in replacement for whatever the old Job Manager did \r\nbefore, so we'll need to help existing users transition rather \r\nthan assume their old scripts just keep working. \r\nOne more practical thing: whatever we ship needs to actually \r\ntell people when something breaks — a real error name, a \r\nmessage, and ideally the reason behind it, plus a way to log \r\nerrors to a file users can point to themselves. And it should \r\nhave some sense of timeouts so things don't just hang forever \r\nwaiting on a response. \r\nOne more thing since this is federal software built for NASA's \r\nIPG program, the whole thing has to meet Section 508 \r\naccessibility requirements, not just some corner of it, so \r\nthat's not something we can skip just because most of our \r\nusers are pretty technical.",
+    "4\r\n\"WBMJBS\u0001BT\u0001\r\n.VEBOÎBT\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\nAprovBS\u0001PT\u0001\r\n3FRVJTJUPT\r\nRequisJUPT Designs .VEBOÎB\u00011SPQPTUB\r\n7.2\r\n3FRVJTJUPT\r\n\tWFSJGJDBEPT\n\r\n5.1\r\nDesigns (SBTUSFBEPT\n\r\n5.2 \r\n3FRVJTJUPT\r\n(NBOUJEPT)\r\n5.3\r\n3FRVJTJUPT\r\n(QSJPSJ[BEPT\n\r\n5.3\r\nDesigns \r\n(QSJPSJ[BEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\nDesigns \r\n5.1\r\n3FRVJTJUPT\u0001\r\n\tSBTUSFBEPT\n\r\n5.2 \r\nDesigns \r\n(NBOUJEPT)\r\n5.4\r\n\"WBMJBÎÍP\u0001EF\u0001\r\n.VEBOÎB\u0001EF\u0001\r\n3FRVJTJUPT\r\n5.5\r\n3FRVJTJUPT\r\n(BQSPWBEPT)\r\n5.5\r\nDesigns \r\n(BQSPWBEPT)\r\n&OUSBEBGerenciamento do Ciclo de Vida de Requisitos PE (5) AƵreas de Conhecimento do Padrão Essencial\r\n26\r\nRastrear os Requisitos PE (5.1)\r\nPropósito\r\nO objetivo de Rastrear os Requisitos é garantir que os requisitos e designs em \r\ndiferentes níveis estejam alinhados entre si e gerenciar os efeitos da \r\nmudança em um nível nos requisitos relacionados.\r\nDescrição\r\nRastrear os Requisitos: analisa e mantém os relacionamentos entre \r\nrequisitos, designs, componentes de solução e outros produtos de trabalho \r\npara análise de impacto, cobertura e alocação.\r\nEntradas\r\n• Requisitos: podem ser rastreados para outros requisitos (incluindo \r\nmetas, objetivos, requisitos de negócio, requisitos de stakeholder, \r\nrequisitos de solução e requisitos de transição), componentes de \r\nsolução, recursos visuais, regras de negócio e outros produtos de \r\ntrabalho.\r\n• Designs: podem ser rastreados para outros requisitos, componentes de \r\nsolução e outros produtos de trabalho.\r\nSaídas \r\n• Requisitos (rastreados): têm relações claramente definidas com outros \r\nrequisitos, componentes de solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nmudança sejam claramente identificáveis.\r\n• Designs (rastreados): relacionamentos claramente definidos com outros \r\nrequisitos, componentes da solução ou versões, fases ou iterações, \r\ndentro de um escopo de solução, de modo que a cobertura e os efeitos da \r\nalteração sejam claramente identificáveis.\r\nManter os Requisitos PE (5.2)\r\nPropósito\r\nA finalidade de Manter os Requisitos é manter a precisão e a consistência dos \r\nrequisitos ao longo e além da alteração durante todo o ciclo de vida de \r\nrequisitos e apoiar a reutilização de requisitos em outras soluções.",
+    "If you’re replacing an old system, you have an opportunity to document \r\nthe requirements for the new one and to keep the requirements up to date with what you learn \r\nthroughout the project. Try to leave the requirements in better shape than you found them.\r\nWhich requirements should you specify?\r\nIt’s not always worth taking the time to generate a complete set of requirements for an entire \r\nproduction system. Many options lie between the two extremes of continuing forever with no \r\nrequirements documentation and reconstructing a perfect requirements set. Knowing why you’d like \r\nto have written requirements available lets you judge whether the cost of rebuilding all—or even \r\npart—of the specification is a sound investment.\r\nPerhaps your current system is a shapeless mass of history and mystery like the one in Figure 21-2. \r\nImagine that you’ve been asked to implement some new functionality in region A in this figure. \r\nBegin by recording the new requirements in a structured SRS or in a requirements management tool. \r\nWhen you add the new functionality, you’ll have to figure out how it interfaces to or fits in with the \r\nexisting system. The bridges in Figure 21-2 between region A and your current system represent these \r\ninterfaces. This analysis provides insight into the white portion of the current system, region B. In \r\naddition to the requirements for region A, this insight is the new knowledge you need to capture.CHAPTER 21 Enhancement and replacement projects 399\r\nFIGURE 21-2 Adding enhancement A to an ill-documented existing system provides some visibility into the \r\nB area.\r\nRarely do you need to document the entire existing system. Focus detailed requirements efforts \r\non the changes needed to meet the business objectives. If you’re replacing a system, start by \r\ndocumenting the areas prioritized as most important to achieve the business objectives or those that \r\npose the highest implementation risk. Any new requirements identified during the gap analysis will \r\nneed to be specified at the same level of precision and using the same techniques as you would for a \r\nnew system.\r\nLevel of detail\r\nOne of the biggest challenges is determining the appropriate level of detail at which to document \r\nrequirements gleaned from the existing system. For enhancements, defining requirements for the \r\nnew functionality alone might be sufficient. However, you will usually benefit from documenting all of \r\nthe functionality that closely relates to the enhancement, to ensure that the change fits in seamlessly \r\n(region B in Figure 21-2). You might want to create business processes, user requirements, and/or \r\nfunctional requirements for those related areas. For example, let’s say you are adding a discount code \r\nfeature to an existing shopping cart function, but you don’t have any documented requirements for \r\nthe shopping cart. You might be tempted to write just a single user story: “As a customer, I need to be \r\nable to enter a discount code so I can get the cheapest price for the product.” However, this user story \r\nalone lacks context, so consider capturing other user stories about shopping cart operations. That \r\ninformation could be valuable the next time you need to modify the shopping cart function.\r\nI worked with one team that was just beginning to develop the requirements for version 2 of \r\na major product with embedded software. They hadn’t done a good job on the requirements for \r\nversion 1, which was currently being implemented. The lead BA wondered, “Is it worth going back \r\nto improve the SRS for version 1?” The company anticipated that this product line would be a major \r\nrevenue generator for at least 10 years. They also planned to reuse some of the core requirements \r\nin several spin-off products. In this case, it made sense to improve the requirements documentation \r\nfor version 1 because it was the foundation for all subsequent development work in this product line.",
+    "Só \r\no gerente pode aprovar pedidos acima de R$ 10.000.'\r\nRF-001: O sistema deve permitir que o vendedor registre pedidos com múltiplos itens em uma única \r\noperação.\r\nRF-002: O sistema deve calcular automaticamente o valor total do pedido aplicando os descontos informados\r\npor item.\r\nRF-003: O sistema deve enviar e-mail de confirmação ao cliente após a criação bem-sucedida de um pedido.\r\nRF-004: O sistema deve restringir a aprovação de pedidos com valor > R$ 10.000,00 ao perfil de gerente \r\ncomercial (RN-001).\r\nATENÇÃO — Não copiar o texto do documento diretamente como RF. Todo RF deve ser reformulado no \r\npadrão: 'O sistema deve [verbo no infinitivo] [complemento verificável].'\r\nCOMO DESDOBRAR UM RF GENÉRICO:\r\n Texto original: 'O sistema deve gerenciar clientes.' → Isso são pelo menos 4 RFs distintos:\r\n RF-010: O sistema deve permitir o cadastro de novos clientes.\r\n RF-011: O sistema deve permitir a edição dos dados de clientes existentes.\r\n RF-012: O sistema deve permitir a consulta de clientes por nome ou CPF.\r\n RF-013: O sistema deve permitir a inativação de clientes.\r\n2.5 Requisitos Não Funcionais (RNF) — Identificar e Quantificar\r\nRNFs são os mais difíceis de identificar porque frequentemente aparecem como ADJETIVOS VAGOS\r\nno texto ('rápido', 'seguro', 'fácil'). A tarefa do agente é: (1) detectar o adjetivo, (2) identificar a \r\ncategoria ISO 25010, (3) propor uma métrica razoável baseada no contexto do projeto.\r\n[Desempenho] rápido, veloz, ágil, tempo de resposta, instantâneo, sem lentidão, performance, throughput, \r\ncapacidade, carga, X usuários simultâneos\r\n[Segurança] seguro, protegido, criptografado, autenticação, autorização, LGPD, confidencial, auditável, \r\nrastreável, sem vulnerabilidade\r\n[Disponibilidade] sempre disponível, 24/7, alta disponibilidade, SLA, uptime, sem downtime, contingência,\r\nbackup, recuperação de desastres\r\n[Usabilidade] fácil, intuitivo, amigável, sem treinamento, acessível, simples de usar, auto-explicativo, \r\nWCAG, responsivo\r\n[Compatibilidade] compatível com, integra com, funciona no navegador X, API REST, mobile, cross￾platform, legado\r\n[Manutenibilidade] fácil de manter, bem documentado, testes automatizados, modular, desacoplado, \r\ncódigo limpo\r\n[Escalabilidade] crescer, suportar mais usuários, expansível, escalar, cloud, contêiner, Docker, Kubernetes\r\n[Conformidade] conformidade com, atende à norma, certificação, auditoria, ISO, ABNT, LGPD, PCI-DSS, \r\nHIPAA, SOC2\r\nPROTOCOLO DE QUANTIFICAÇÃO: quando o texto diz um adjetivo vago, usar este processo:\r\n 1. Identificar a categoria ISO 25010 do adjetivo\r\n 2. Buscar no contexto: há SLA mencionado? volume de usuários?",
+    "PASSO 8 — Escrever Critérios de Aceite\r\n Para cada RF e HU: escrever pelo menos um CA em formato BDD Dado/Quando/Então. Todo RF sem CA é \r\numa lacuna — sempre completar.9. PASSO 9 — Verificar cobertura\r\n Conferir: todo STK tem pelo menos uma HU? Toda RN tem pelo menos um RF? Todo RF tem CA? Algum \r\nRNF sem métrica?Referências\r\n1. IREB. CPRE — Elicitação de Requisitos: Syllabus Practitioner/Specialist. v3.2.0. IREB e.V., 2025. \r\n(Tradução BR: Ana Moreira et al.)\r\n2. IREB. CPRE — Nível Fundamental: Syllabus. v3.2.1. IREB e.V., 2024.\r\n3. WIEGERS, Karl; BEATTY, Joy. Software Requirements. 3. ed. Redmond: Microsoft Press, 2013. Caps. 7–9.\r\n4. SOMMERVILLE, Ian. Software Engineering. 10. ed. Harlow: Pearson, 2016. Cap. 4.\r\n5. IIBA. A Guide to the Business Analysis Body of Knowledge (BABOK® Guide). 3. ed. Toronto: IIBA, 2015. \r\n§10.48 (User Stories), §10.9 (Business Rules).\r\n6. WASHIZAKI, H. (Ed.). Guide to the Software Engineering Body of Knowledge (SWEBOK Guide). v4.0a. \r\nIEEE Computer Society, 2025. Cap. 1 (Software Requirements).\r\n7. ISO/IEC/IEEE 29148:2018. Systems and software engineering — Life cycle processes — Requirements \r\nengineering. Geneva: ISO, 2018.\r\n8. ISO/IEC 25010:2023. SQuaRE — Product quality model. Geneva: ISO, 2023.",
+    "1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.\r\nRNF-002 | Criptografia em trânsito\r\nCaracterística: Security — Confidentiality\r\nO sistema deve criptografar todos os dados em trânsito utilizando TLS 1.2 ou superior.\r\nMétrica: 100% das conexões HTTPS; protocolo TLS < 1.2 recusado.\r\nVerificação: Teste com SSL Labs ou OWASP ZAP.\r\nRNF-003 | Disponibilidade\r\nCaracterística: Reliability — Availability\r\nO sistema deve ter disponibilidade mínima de 99,5% ao mês, excluídas janelas de manutenção programadas \r\ne comunicadas com 48h de antecedência.\r\nMétrica: Máximo de 3,6 horas de indisponibilidade não planejada por mês.\r\nVerificação: Monitoramento com uptime tracking (ex.: UptimeRobot).\r\nRNF-004 | Armazenamento de senhas\r\nCaracterística: Security — Integrity\r\nO sistema deve armazenar senhas de usuário usando hash bcrypt com fator de custo mínimo 12; nenhuma \r\nsenha deve ser armazenada em texto plano.\r\nMétrica: Auditoria de código — zero ocorrências de senha em texto plano.\r\nVerificação: Revisão de código + teste de penetração.\r\nRNF-005 | Compatibilidade de navegadores\r\nCaracterística: Compatibility — Interoperability\r\nO sistema deve funcionar corretamente nos navegadores Chrome 120+, Firefox 115+, Edge 120+ e Safari 16+, \r\nem resoluções de tela a partir de 1024×768.\r\nMétrica: 0 erros críticos em suíte de testes cross-browser.\r\nVerificação: Testes automatizados com Selenium ou BrowserStack.ANTI-PADRÃO — RNF sem métrica (inválido)\r\nERRADO: 'RNF-006: O sistema deve ser seguro.'",
+    "Elicitação de Requisitos | Syllabus | ©IREB 26 | 43\r\nUm protótipo pode ser avaliado pela aplicação de um passo a passo do usuário [ShRP2007]\r\nou de um teste de usuário/usabilidade [RuCh2008]. Muitas vezes, o resultado dessa \r\navaliação é um conjunto de novos requisitos.\r\n3.2.4 Cenários e storyboards (L3)\r\nOs cenários de uso descrevem, na forma de um exemplo realista, como um usuário \r\ninteragirá com o sistema proposto [RoCa2002].\r\nUm storyboard é um cenário visualizado. Ele se parece com uma história em quadrinhos, \r\ncom um conjunto de imagens e/ou capturas de tela e, portanto, visualiza como um sistema \r\nou produto deve ser usado. A reflexão sobre um exemplo concreto permite que clientes e \r\nusuários visualizem os requisitos na situação real do aplicativo e, assim, os revisem e alterem \r\n[RiFl2014].\r\n3.3 Ferramentas de pensamento (L2)\r\nAs técnicas de elicitação apresentadas até agora representam técnicas que descrevem \r\numa determinada maneira de coletar informações ou produzir um determinado produto de \r\ntrabalho para fins de elicitação de requisitos.\r\nNesta seção, são apresentadas técnicas que cruzam esses tipos de técnicas, pois \r\npromovem uma determinada maneira de pensar. Nós as chamamos de técnicas de apoio e \r\nferramentas de pensamento, porque elas não são aplicadas sozinhas, mas em conjunto com \r\noutras técnicas.\r\n3.3.1 Pensamento em níveis de abstração (L2)\r\nOs níveis de abstração são uma poderosa ferramenta de raciocínio na elicitação de \r\nrequisitos [GoWo2005], [Laue2014]. Eles costumam ser usados como um tipo de modelo de \r\nprocesso para estruturar o trabalho de elicitação, ou seja, primeiro elicite os requisitos \r\napenas no nível mais alto e continue com os níveis seguintes. Além disso, pode ser usado \r\npara estruturar as informações de requisitos obtidas, para identificar lacunas nos requisitos \r\nou requisitos desnecessários e para concentrar as atividades de elicitação em um \r\ndeterminado nível de abstração. Por exemplo, em um workshop com usuários, é \r\naconselhável concentrar-se no contexto do sistema, pois os usuários são os especialistas no \r\ncontexto do sistema. Falar sobre as estruturas de dados de um sistema pode não ser \r\napropriado, pois os usuários não se importam com as estruturas de dados internas.\r\n3.3.2 Pensar em termos de problemas e metas (L2)\r\nPensar em termos de problemas e metas é uma competência essencial para o Engenheiro \r\nde Requisitos.\r\nUm problema é \"uma dificuldade, uma questão em aberto ou uma condição indesejável que \r\nprecisa de investigação, consideração ou solução\" [Glin2024]; em outras palavras, o estado",
+    "STK-03 | Médico | Usuário secundário | Consulta (agenda própria)\r\n Visualizar própria agenda, confirmar/recusar consultas.\r\nSTK-04 | Administrador da clínica | Usuário primário | Total\r\n Cadastrar médicos, gerenciar especialidades, visualizar relatórios de ocupação.\r\nRegras de Negócio\r\nEXEMPLO — Regras de Negócio — SAM\r\nRN-001 | Antecedência mínima de agendamento\r\nConsultas só podem ser agendadas com no mínimo 2 horas de antecedência do horário.\r\nFonte: Política operacional da clínica.\r\nRN-002 | Cancelamento sem custo\r\nO paciente pode cancelar sem custo até 24 horas antes da consulta. Cancelamentos com menos de 24h de antecedência geram taxa de R$ 50,00.\r\nFonte: Regulamento interno — Diretoria.\r\nRN-003 | Conflito de agenda médica\r\nNenhum médico pode ter dois agendamentos no mesmo horário na mesma clínica.\r\nFonte: Operacional.\r\nRN-004 | Dados sensíveis de saúde\r\nDados de saúde dos pacientes são classificados como dados sensíveis conforme LGPD art. 11 e só podem ser \r\nacessados por profissionais de saúde habilitados ou pelo próprio paciente.\r\nFonte: Lei 13.709/2018 (LGPD).\r\nRequisitos Funcionais\r\nEXEMPLO — Requisitos Funcionais — SAM\r\nRF-001 | Agendamento de consulta\r\nO sistema deve permitir que a recepcionista registre um agendamento de consulta informando: paciente, \r\nmédico, especialidade, data, horário e tipo de consulta.\r\nPrioridade: Must have | STK-01 | RN-001, RN-003\r\nRF-002 | Validação de conflito de agenda\r\nO sistema deve impedir o agendamento de uma consulta em horário já ocupado na agenda do médico \r\nselecionado, exibindo os próximos 3 horários disponíveis.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Envio de lembrete automático\r\nO sistema deve enviar lembrete por e-mail e SMS ao paciente com 24 horas e 1 hora de antecedência da \r\nconsulta agendada.\r\nPrioridade: Should have | STK-02 | N/A\r\nRF-004 | Cancelamento de consulta pelo paciente\r\nO sistema deve permitir que o paciente cancele sua consulta pelo portal self-service, aplicando \r\nautomaticamente a taxa de cancelamento quando o prazo de RN-002 não for respeitado.\r\nPrioridade: Must have | STK-02 | RN-002\r\nRequisitos Não Funcionais\r\nEXEMPLO — Requisitos Não Funcionais — SAM\r\nRNF-001 | Desempenho de consulta de disponibilidade\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve exibir a disponibilidade de agenda de um médico em menos de 1,5 segundo.\r\nMétrica: Percentil 95 com 300 usuários simultâneos. Verificação: JMeter.\r\nRNF-002 | Proteção de dados sensíveis (LGPD)\r\nCaracterística: Security — ConfidentialityOs dados de saúde dos pacientes devem ser armazenados com criptografia AES-256 e acessíveis apenas por \r\nperfis autorizados (RN-004).\r\nMétrica: 0 dados de saúde expostos em logs ou APIs sem autenticação.\r\nVerificação: Teste de penetração + auditoria de código.",
+    "3.1 Conhecer as categorias de produtos de trabalho baseados em template, suas \r\nvantagens e desvantagens (L1)\r\nOE 3.3.2 Especificar um requisito individual e uma história de usuário usando um template \r\nde frase (L3)\r\nOE 3.3.3 Especificar um caso de uso usando um template de formulário (L3)\r\nOE 3.4.1 Entender o papel, a finalidade e o uso de modelos na ER (L2)\r\nOE 3.4.2 Entender as vantagens e limitações da modelagem na ER (L2)\r\nOE 3.4.3 Conhecer os termos: modelo, linguagem de modelo, modelo de atividade, \r\ndiagrama de atividade, modelo de classe, diagrama de classe, modelo de \r\ncontexto, diagrama de contexto, modelo de domínio, modelo de objetivo, modelo \r\nde interação, modelo de processo, diagrama de sequência, gráfico de estados, \r\nmáquina de estados, diagrama de máquina de estados, caso de uso, diagrama de \r\ncaso de uso (L1)\r\nOE 3.4.4 Entender como selecionar um modelo apropriado para especificar requisitos em \r\numa determinada situação (L2)\r\nOE 3.4.5 Compreender e interpretar modelos simples, escritos em UML onde aplicável, \r\ndos seguintes tipos: modelos de contexto, de domínio, de classe, de atividade, de \r\nprocessos; casos de uso; e diagramas de caso de uso, e de estado (L2)\r\nOE 3.4.6 Especificar um modelo simples de dados de um sistema ou os objetos de um \r\ndomínio usando um diagrama de classes UML (L3)\r\nOE 3.4.7 Especificar uma função simples do sistema ou processo de negócio usando um \r\ndiagrama de atividade UML (L3)\r\nOE 3.5.1 Explicar a função dos glossários e como criar um (L2)\r\nOE 3.6.1 Conhecer os documentos de especificação de requisitos comumente usados (L1)\r\nOE 3.6.2 Explicar a função e os critérios de construção das estruturas de documentação \r\n(L2)\r\nOE 3.7.1 Conhecer os diferentes tipos de protótipos e suas funções (L1)\r\nOE 3.8.1 Conhecer os critérios de qualidade para requisitos individuais (L1)",
+    "112 PART II Requirements development\r\nCategory Activities\r\nValidation and \r\nverification\r\n■ Review requirements specifications.\r\n■ Define acceptance criteria.\r\n■ Develop user acceptance tests from usage scenarios.\r\n■ Provide test data sets from the business.\r\n■ Perform beta testing or user acceptance testing.\r\nUser aids ■ Write portions of user documentation and help text.\r\n■ Contribute to training materials or tutorials.\r\n■ Demonstrate the system to peers.\r\nChange management ■ Evaluate and prioritize defect corrections and enhancement requests.\r\n■ Dynamically adjust the scope of future releases or iterations.\r\n■ Evaluate the impact of proposed changes on users and business processes.\r\n■ Participate in making change decisions.\r\nMultiple product champions\r\nOne person can rarely describe the needs for all users of an application. The Chemical Tracking \r\nSystem had four major user classes, so it needed four product champions selected from the internal \r\nuser community at Contoso Pharmaceuticals. Figure 6-4 illustrates how the project manager set up \r\na team of BAs and product champions to elicit the right requirements from the right sources. These \r\nchampions were not assigned full time, but each one spent several hours per week working on the \r\nproject. Three BAs worked with the four product champions to elicit, analyze, and document their \r\nrequirements. (One BA worked with two product champions because the Buyer and the Health and \r\nSafety Department user classes were small and had few requirements.) One of the BAs assembled all \r\nthe input into a unified SRS.\r\nFIGURE 6-4 Product champion model for the Chemical Tracking System.\r\nWe didn’t expect a single person to provide all the diverse requirements for the hundreds of \r\nchemists at Contoso. Don, the product champion for the Chemist user class, assembled a backup",
+    "Os três campos são \r\nobrigatórios. Persona deve ser específica (não 'usuário' genérico).\r\n6. Todo CA usa estrutura BDD: Dado / Quando / Então. O Então deve conter resultado verificável: \r\nvalor numérico, status, mensagem exata.\r\n7. IDs são sequenciais e imutáveis. RF-001 criado e depois removido não é reatribuído.\r\n8. Prioridades MoSCoW: Must (obrigatório para MVP), Should (importante), Could (desejável), \r\nWon't (fora desta versão).\r\n9. RNFs são classificados pela ISO 25010:2023. A categoria deve ser explicitada. Todo RNF tem \r\nmétrica numérica e método de verificação.\r\n4.3 Checklist Final — Por Documento\r\n [ ] Todos os requisitos têm ID único e seguem o padrão RF-NNN, RNF-NNN, RN-NNN, HU-NNN, CA￾NNN\r\n [ ] Nenhum RF usa termos subjetivos não mensuráveis (rápido, fácil, amigável, eficiente)\r\n [ ] Todo RF usa o verbo 'deve' (não 'pode', 'deveria', 'é possível')\r\n [ ] Todo RF tem exatamente uma funcionalidade (sem 'e' ligando dois comportamentos)\r\n [ ] Todo RF tem pelo menos um Critério de Aceite (CA) associado\r\n [ ] Toda HU usa o formato Connextra completo (Como / quero / para)\r\n [ ] Toda HU tem pelo menos um RF e um CA vinculados\r\n [ ] Toda RN está referenciada por pelo menos um RF\r\n [ ] Todo RNF tem métrica de aceitação numérica ou condição objetiva testável\r\n [ ] Todo RNF especifica o método de verificação\r\n [ ] Todo RNF está classificado por característica ISO 25010:2023\r\n [ ] O escopo define explicitamente o que está OUT (não apenas o que está IN)\r\n [ ] Os stakeholders cobrem todos os perfis que interagem com o sistema\r\n [ ] O glossário cobre todos os termos de domínio que podem gerar ambiguidade\r\n [ ] Não há requisitos contraditórios entre si\r\n [ ] Todos os TBDs (To Be Determined) foram resolvidos antes da aprovação4.4 Checklist Final — Por Requisito Individual (ISO 29148:2018)\r\n[ ] Necessário: Existe uma necessidade real de negócio ou stakeholder que justifica este requisito.\r\n[ ] Não ambíguo: O requisito tem uma única interpretação possível para qualquer leitor.\r\n[ ] Verificável: Existe um teste ou critério objetivo para confirmar que o requisito foi atendido.\r\n[ ] Singular: O requisito descreve uma única capacidade ou restrição.\r\n[ ] Viável: É tecnicamente possível implementar dentro das restrições do projeto.\r\n[ ] Rastreável: Tem origem (stakeholder ou RN) e pode ser vinculado a um caso de teste.\r\n[ ] Completo: Contém todas as informações necessárias sem referências pendentes (TBD).\r\n[ ] Consistente: Não conflita com nenhum outro requisito do documento.",
+    ". . . . . . . . . . . . . . . . . . . 212\r\nAvoiding ambiguity. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 213\r\nAvoiding incompleteness. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 216\r\nSample requirements, before and after. . . . . . . . . . . . . . . . . . . . . . . . . . . . 217\r\nChapter 12 A picture is worth 1024 words 221\r\nModeling the requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 222\r\nFrom voice of the customer to analysis models. . . . . . . . . . . . . . . . . . . . . 223\r\nSelecting the right representations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 225\r\nData flow diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 226\r\nSwimlane diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 230\r\nState-transition diagram and state table. . . . . . . . . . . . . . . . . . . . . . . . . . . 232\r\nDialog map. . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "Mudanças também podem causar necessidades ao reduzir ou \r\naumentar o valor entregue por soluções existentes.\r\nSolução\r\nUma forma especı́fica de satisfazer uma ou mais necessidades em um \r\ncontexto.\r\nUma solução satisfaz uma necessidade por meio da resolução de um \r\nproblema enfrentado pelos stakeholders ou habilitando os stakeholders \r\na aproveitar uma oportunidade.\r\nStakeholder\r\nUm grupo ou indivı́duo com uma relação com a mudança, com a \r\nnecessidade, ou com a solução.\r\nOs stakeholders são frequentemente definidos em termos de interesse, \r\nimpacto e influência sobre a mudança. Os stakeholders são agrupados \r\ncom base em sua relação com as necessidades, mudanças e soluções.\r\nValor\r\nO quanto algo vale a pena, sua importância ou utilidade para um \r\nstakeholder dentro de um contexto.\r\nValor pode ser visto como retornos potenciais ou realizados, ganhos e \r\nmelhorias. Também é possıvel haver uma diminuiça ́ ̃o no valor sob a \r\nforma de perdas, riscos e custos.\r\nValor pode ser tangıvel ou intangı ́ vel. Valor tangı ́ vel e ́ ́ diretamente \r\nmensurável. Valor tangıvel muitas vezes t ́ em um componente \r\nmonetário significativo. Valor intangıvel e ́ ́ medido indiretamente. Valor \r\nintangıvel muitas vezes tem um componente motivacional significativo, ́\r\ncomo o da reputação de uma companhia ou moral do funcionário.\r\nEm alguns casos, o valor pode ser avaliado em termos absolutos, mas \r\nem muitos casos é avaliado em termos relativos: uma opção de solução \r\né mais valiosa do que outra, na perspectiva de um determinado \r\nconjunto de stakeholders.\r\nContexto\r\nAs circunstâncias que influenciam, são influenciadas e proporcionam \r\ncompreensão da mudança.\r\nAs mudanças ocorrem dentro de um contexto. O contexto é tudo que é\r\nrelevante para a mudança que está dentro do ambiente. O contexto pode \r\nincluir atitudes, comportamentos, crenças, concorrentes, cultura, \r\ndemografia, metas, governos, infraestrutura, idiomas, perdas, \r\nprocessos, produtos, projetos, vendas, estações do ano, terminologia, \r\ntecnologia, clima, e quaisquer outros elementos que atendam à\r\ndefinição.",
+    ". . . . . . . . . . . . . . . . . . . . 139\r\nAssumed and implied requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 140\r\nFinding missing requirements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 141\r\nChapter 8 Understanding user requirements 143\r\nUse cases and user stories. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 144\r\nThe use case approach. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 147\r\nUse cases and usage scenarios. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 149\r\nIdentifying use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157Contents xiii\r\nExploring use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 158\r\nValidating use cases. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 160\r\nUse cases and functional requirements. . . . . . . . . . . . . . . . . . . . . . . 161\r\nUse case traps to avoid. . . . . . . . . . . . . . . . . . . .",
+    "393\r\nCHAPTER 21\r\nEnhancement and replacement \r\nprojects\r\nMost of this book describes requirements development as though you are beginning a new software \r\nor system development project, sometimes called a green-field project. However, many organizations \r\ndevote much of their effort to enhancing or replacing existing information systems or building \r\nnew releases of established commercial products. Most of the practices described in this book are \r\nappropriate for enhancement and replacement projects. This chapter provides specific suggestions as \r\nto which practices are most relevant and how to use them.\r\nAn enhancement project is one in which new capabilities are added to an existing system. \r\nEnhancement projects might also involve correcting defects, adding new reports, and modifying \r\nfunctionality to comply with revised business rules or needs.\r\nA replacement (or reengineering) project replaces an existing application with a new custom-built \r\nsystem, a commercial off-the-shelf (COTS) system, or a hybrid of those. Replacement projects are \r\nmost commonly implemented to improve performance, cut costs (such as maintenance costs or \r\nlicense fees), take advantage of modern technologies, or meet regulatory requirements. If your \r\nreplacement project will involve a COTS solution, the guidance presented in Chapter 22, “Packaged \r\nsolution projects,” will also be helpful.\r\nReplacement and enhancement projects face some particular requirements issues. The original \r\ndevelopers who held all the critical information in their heads might be long gone. It’s tempting to \r\nclaim that a small enhancement doesn’t warrant writing any requirements. Developers might believe \r\nthat they don’t need detailed requirements if they are replacing an existing system’s functionality. \r\nThe approaches described in this chapter can help you to deal with the challenges of enhancing or \r\nreplacing an existing system to improve its ability to meet the organization’s current business needs.\r\nThe case of the missing spec\r\nThe requirements specification for the next release of a mature system often says, essentially, \r\n“The new system should do everything the old system does, except add these new features \r\nand fix those bugs.” A business analyst once received just such a specification for version 5 of \r\na major product. To find out exactly what the current release did, she looked at the SRS for \r\nversion 4. Unfortunately, it also said, in essence, “Version 4 should do everything that version 3 \r\ndoes, except add these new features and fix those bugs.” She followed the trail back, but every",
+    "Prioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável. Pode ser incluído se houver tempo e recursos.\r\n Won't have (this release) — Fora desta versão. Documentado para versão futura.\r\n2.5 Requisitos Não Funcionais (RNF)\r\nBase: ISO/IEC 25010:2023 — Modelo de Qualidade (9 características); ISO/IEC/IEEE 29148:2018 §9.6.14; SWEBOK v4.0 Cap. 1\r\n§1.5\r\nRequisitos não funcionais definem COMO o sistema deve ser — propriedades emergentes que \r\nrestringem o espaço de soluções. A ISO/IEC 25010:2023 organiza a qualidade em 9 características. \r\nTodo RNF deve ser quantificável: 'rápido' não é um requisito; 'tempo de resposta inferior a 2 \r\nsegundos no percentil 95' é.\r\nREGRA: Todo RNF deve conter: (1) a característica ISO 25010 a que pertence, (2) a métrica de aceitação \r\nobjetiva e mensurável, (3) o método de verificação (teste de carga, auditoria, etc.).REQUISITO NÃO FUNCIONAL — Estrutura\r\nID: RNF-NNN\r\nTítulo: [Nome curto]\r\nCaracterística (ISO 25010:2023): [ver lista na Parte 3]\r\nDescrição: O sistema deve [atributo de qualidade] [métrica objetiva e \r\nverificável].\r\nMétrica de aceitação: [valor numérico, percentual ou condição testável]\r\nMétodo de verificação: [teste de desempenho / auditoria de código / \r\nrevisão manual / etc.]\r\nEXEMPLO — Requisitos Não Funcionais do SGP\r\nRNF-001 | Desempenho de listagem\r\nCaracterística: Performance Efficiency — Time Behaviour\r\nO sistema deve responder a consultas de listagem de pedidos em menos de 2 segundos.\r\nMétrica: Percentil 95 com 500 usuários simultâneos simulados.\r\nVerificação: Teste de carga com Apache JMeter.",
+    "1 §1.4; Sommerville (2016, cap. 4)\r\nRequisitos funcionais descrevem o que o sistema DEVE FAZER — serviços, comportamentos e \r\nrespostas esperadas a entradas. Usam sempre o verbo 'deve' (em inglês: 'shall'), que indica \r\nobrigatoriedade.\r\nREQUISITO FUNCIONAL — Estrutura\r\nID: RF-NNN\r\nTítulo: [Nome curto e descritivo]\r\nDescrição: O sistema deve [verbo no infinitivo] [complemento completo e \r\npreciso].\r\nPrioridade: Must have | Should have | Could have | Won't have (MoSCoW)\r\nStakeholder (Origem): STK-NN\r\nRegra de Negócio associada: RN-NNN (ou 'N/A')\r\nObservações: [informações adicionais, como restrições de implementação]\r\nEXEMPLO — Requisitos Funcionais do SGP\r\nRF-001 | Autenticação de usuário\r\nO sistema deve permitir que o usuário realize login utilizando e-mail e senha previamente cadastrados.\r\nPrioridade: Must have | STK-01, STK-02 | N/A\r\nRF-002 | Bloqueio por tentativas excessivas\r\nO sistema deve bloquear temporariamente o acesso de um usuário por 15 minutos após 5 (cinco) tentativas \r\nconsecutivas de login malsucedidas.\r\nPrioridade: Must have | STK-01 | RN-003\r\nRF-003 | Registro de pedido\r\nO sistema deve permitir que o vendedor registre um pedido contendo um ou mais produtos, com quantidade,\r\npreço unitário e desconto por item.\r\nPrioridade: Must have | STK-02 | RN-001, RN-002\r\nRF-004 | Notificação de confirmação\r\nO sistema deve enviar automaticamente um e-mail de confirmação ao cliente após a criação bem-sucedida \r\nde um pedido.Prioridade: Should have | STK-02 | N/A\r\nRF-005 | Aprovação de pedido de alto valor\r\nO sistema deve submeter para aprovação do gerente comercial todo pedido cujo valor total supere R$ \r\n10.000,00, impedindo a confirmação ao cliente até que a aprovação seja registrada.\r\nPrioridade: Must have | STK-02, STK-04 | RN-001\r\nANTI-PADRÃO — Requisitos funcionais mal escritos\r\nERRADO: 'RF-006: O sistema deve ser fácil de usar e ter boa performance.'\r\n → Dois atributos distintos em um único RF (não singular) + termos subjetivos.\r\nERRADO: 'RF-007: O sistema deve ter uma tela de login bonita.'\r\n → 'Bonita' é subjetivo e não verificável. Requisito de UI vai na seção de interfaces.\r\nERRADO: 'RF-008: O sistema pode enviar e-mails.'\r\n → 'Pode' indica opcionalidade. Use 'deve' para obrigatoriedade.\r\nCORRETO: Use sempre 'O sistema DEVE [verbo preciso] [complemento mensurável].'\r\nEscala de prioridade MoSCoW (Clegg & Barker, 1994; DSDM Consortium):\r\n Must have — Obrigatório. Sem este requisito, o sistema não pode ser entregue.\r\n Should have — Importante. Deve ser incluído se possível; sem ele o sistema funciona, mas de forma \r\nlimitada.\r\n Could have — Desejável.",
+    "Elicitação de Requisitos | Syllabus | ©IREB 17 | 43\r\nConhecer as ideias e os princípios da experiência do usuário é valioso para o \r\ndesenvolvimento de sistemas interativos.\r\n2.3 Identificar, classificar e gerenciar documentos (L3)\r\nOs documentos são outra fonte valiosa de requisitos. Eles são usados para transferir \r\nconceitos entre humanos ao longo do tempo e à distância.\r\n2.3.1 Identificação e seleção de documentos como fontes de \r\nrequisitos (L3)\r\nOs tipos possíveis de documentos usados como fontes de requisitos são:\r\n▪ Normas técnicas, legislação, regulamentos internos\r\n▪ Documentos de requisitos (p. ex., de sistemas semelhantes ou do sistema a ser \r\nsubstituído)\r\n▪ Manuais do usuário (p. ex., de sistemas concorrentes)\r\n▪ Documentos de estratégia\r\n▪ Documentação do objetivo\r\n▪ Documentação do processo de negócio\r\nAo identificar documentos de forma pragmática, os engenheiros de requisitos usam seu \r\nconhecimento e experiência atuais do contexto (p. ex., domínio) para nomear documentos e \r\ntipos de documentos relevantes.\r\nDurante a identificação sistemática de documentos, o Engenheiro de Requisitos define os \r\nobjetivos da elicitação com um foco dedicado à identificação de documentos. Dois tipos \r\ndiferentes de objetivos de elicitação devem ser considerados:\r\n▪ Focado em informações: encontrar documentos para determinadas informações \r\nnecessárias\r\n▪ Focado em documentos: encontrar documentos de determinados tipos considerados \r\nrelevantes para o desenvolvimento\r\nPara a identificação sistemática de documentos, o Engenheiro de Requisitos pode:\r\n▪ Pesquisar representantes de categorias típicas de documentos\r\n▪ Pesquisar referências em documentos já identificados para outros documentos \r\npossivelmente relevantes\r\n▪ Solicitar documentação relevante aos stakeholders já identificados\r\n▪ Procurar documentação sobre sistemas relevantes já identificados (consulte 2.4)\r\nPara decidir se um documento é relevante como fonte de requisitos ou não, o Engenheiro de \r\nRequisitos precisa estabelecer critérios específicos.",
+    "Level of detail\r\nOne of the biggest challenges is determining the appropriate level of detail at which to document \r\nrequirements gleaned from the existing system. For enhancements, defining requirements for the \r\nnew functionality alone might be sufficient. However, you will usually benefit from documenting all of \r\nthe functionality that closely relates to the enhancement, to ensure that the change fits in seamlessly \r\n(region B in Figure 21-2). You might want to create business processes, user requirements, and/or \r\nfunctional requirements for those related areas. For example, let’s say you are adding a discount code \r\nfeature to an existing shopping cart function, but you don’t have any documented requirements for \r\nthe shopping cart. You might be tempted to write just a single user story: “As a customer, I need to be \r\nable to enter a discount code so I can get the cheapest price for the product.” However, this user story \r\nalone lacks context, so consider capturing other user stories about shopping cart operations. That \r\ninformation could be valuable the next time you need to modify the shopping cart function.\r\nI worked with one team that was just beginning to develop the requirements for version 2 of \r\na major product with embedded software. They hadn’t done a good job on the requirements for \r\nversion 1, which was currently being implemented. The lead BA wondered, “Is it worth going back \r\nto improve the SRS for version 1?” The company anticipated that this product line would be a major \r\nrevenue generator for at least 10 years. They also planned to reuse some of the core requirements \r\nin several spin-off products. In this case, it made sense to improve the requirements documentation \r\nfor version 1 because it was the foundation for all subsequent development work in this product line. \r\nHad they been working on version 5.3 of a well-worn system that they expected to retire within a \r\nyear, reconstructing a comprehensive set of requirements wouldn’t have been a wise investment.",
+    "EXEMPLO — Histórias de Usuário do SGP\r\nHU-001\r\nComo administrador do sistema,\r\nquero cadastrar e gerenciar usuários com diferentes perfis de acesso,para controlar quem pode visualizar e modificar cada módulo do sistema.\r\nRF associado: RF-001 | Prioridade: Must have\r\nHU-002\r\nComo vendedor,\r\nquero registrar um pedido com múltiplos produtos em uma única tela,\r\npara não precisar navegar entre janelas e agilizar o atendimento ao cliente.\r\nRF associado: RF-003 | Prioridade: Must have\r\nHU-003\r\nComo cliente final,\r\nquero receber um e-mail de confirmação imediatamente após minha compra,\r\npara ter um registro da transação e maior confiança no processo.\r\nRF associado: RF-004 | Prioridade: Should have\r\nHU-004\r\nComo gerente de vendas,\r\nquero visualizar um relatório consolidado de vendas por vendedor e por período,\r\npara acompanhar o desempenho da equipe e tomar decisões estratégicas.\r\nRF associado: RF-006 (a ser detalhado) | Prioridade: Should have\r\nANTI-PADRÃO — Histórias mal escritas\r\nERRADO: 'HU-005: Como usuário, quero um sistema bom.'\r\n → 'Usuário' é genérico demais; 'bom' não é verificável.\r\nERRADO: 'HU-006: Como vendedor, quero cadastrar clientes E registrar pedidos E gerar relatórios.'\r\n → Uma história deve descrever UMA necessidade. Dividir em HU-006, HU-007 e HU-008.\r\nERRADO: 'HU-007: Como desenvolvedor, quero usar PostgreSQL.'\r\n → Histórias de usuário são da perspectiva do usuário de negócio, não da equipe técnica.\r\n2.7 Casos de Uso (UC)\r\nBase: Sommerville (2016, cap. 4); Wiegers & Beatty (2013, cap. 8); Cockburn (2001) — Writing Effective Use Cases\r\nCasos de uso descrevem a interação entre um ator e o sistema para atingir um objetivo específico. \r\nEles complementam as histórias de usuário adicionando fluxos alternativos e de exceção, tornando\r\no comportamento do sistema completamente especificado.\r\nCASO DE USO — Template completo\r\nID: UC-NNN — [Nome do caso de uso]Ator principal: [quem inicia a interação]\r\nHU relacionada: HU-NNN\r\nPré-condição: [o que deve ser verdadeiro antes do início]\r\nPós-condição (sucesso): [estado do sistema após conclusão bem-sucedida]\r\nPós-condição (falha): [estado do sistema após falha]\r\nFLUXO PRINCIPAL (caminho feliz):\r\n 1. O ator [ação 1].\r\n 2. O sistema [resposta 2].\r\n 3. O ator [ação 3].\r\n 4. O sistema [resposta 4 — resultado final].\r\nFLUXOS ALTERNATIVOS:\r\n 2a. [Condição alternativa] → [o sistema faz Y]; retorna ao passo N.\r\nFLUXOS DE EXCEÇÃO:\r\n 2b. [Condição de erro] → [o sistema exibe mensagem Z e faz W] (ref. RN￾NNN, RF-NNN).",
+    "Examine existing system interfaces to determine what \r\ndata is exchanged between systems today. Understand how users use the current system. If no one \r\nunderstands the functionality and business rules behind the user interface, someone will need to look \r\nat the code or database to understand what’s going on. Analyze any documentation that does \r\nexist—design documents, help screens, user manuals, training materials—to identify requirements.\r\nYou might not need to specify functional requirements for the existing system at all, instead \r\ncreating models to fill the information void. Swimlane diagrams can describe how users do their jobs \r\nwith the system today. Context diagrams, data flow diagrams, and entity-relationship diagrams are \r\nalso useful. You might create user requirements, specifying them only at a high level without filling \r\nin all of the details. Another way to begin closing the information gap is to create data dictionary \r\nentries when you add new data elements to the system and modify existing definitions. The test suite \r\nmight be useful as an initial source of information to recover the software requirements, because tests \r\nrepresent an alternative view of requirements.CHAPTER 21 Enhancement and replacement projects 401\r\nSometimes “good enough” is enough\r\nA third-party assessment of current business analysis practices in one organization revealed \r\nthat their teams did a fairly good job of writing requirements for new projects, but they failed \r\nto update the requirements as the products evolved through a series of enhancement releases. \r\nThe BAs did create requirements for each enhancement project. However, they did not merge \r\nall of those revisions back into the requirements baseline. The organization’s manager couldn’t \r\nthink of a measurable benefit from keeping the existing documentation 100 percent updated \r\nto reflect the implemented systems. He assumed that his requirements always reflected only \r\n80 to 90 percent of the working software anyway, so there was little value in trying to perfect \r\nthe requirements for an enhancement. This meant that future enhancement project teams \r\nwould have to work with some uncertainty and close the gaps when needed, but that price was \r\ndeemed acceptable.\r\nEncouraging new system adoption\r\nYou’re bound to run into resistance when changing or replacing an existing system. People are \r\nnaturally reluctant to change. Introducing a new feature that will make users’ jobs easier is a good \r\nthing. But users are accustomed to how the system works today, and you plan to modify that, which \r\nis not so good from the user’s point of view. The issue is even bigger when you’re replacing a system, \r\nbecause now you’re changing more than just a bit of functionality. You’re potentially changing the \r\nentire application’s look and feel, its menus, the operating environment, and possibly the user’s \r\nwhole job. If you're a business analyst, project manager, or project sponsor, you have to anticipate the \r\nresistance and plan how you will overcome it, so the users will accept the new features or system.\r\nAn existing, established system is probably stable, fully integrated with surrounding systems, and \r\nwell understood by users. A new system with all the same functionality might be none of these upon \r\nits initial release. Users might fear that the new system will disrupt their normal operations while \r\nthey learn how to use it. Even worse, it might not support their current operations. Users might even \r\nbe afraid of losing their jobs if the system automates tasks they perform manually today. It’s not \r\nuncommon to hear users say that they will accept the new system only if it does everything the old \r\nsystem does—even if they don’t personally use all of that functionality at present.\r\nTo mitigate the risk of user resistance, you first need to understand the business objectives and \r\nthe user requirements. If either of these misses the mark, you will lose the users’ trust quickly.",
+    ". . . . . . 223\r\nSelecting the right representations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 225\r\nData flow diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 226\r\nSwimlane diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 230\r\nState-transition diagram and state table. . . . . . . . . . . . . . . . . . . . . . . . . . . 232\r\nDialog map. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 235\r\nDecision tables and decision trees. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 239\r\nEvent-response tables. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 240\r\nA few words about UML diagrams. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 243\r\nModeling on agile projects. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 243\r\nA final reminder. . . . . . . . ."
+  ],
+  "ground_truth": "GABARITO — Project Scenario 3: IPG Job Manager\nUse: \"ground_truth\" field for RAGAS (context_precision / context_recall).\nEach line is an atomic, checkable claim against the scenario text and the\nknowledge base — not a full SRS, just the set of facts a well-grounded SRS\nfor this scenario should be able to cover.\n\n- Users can move/copy files between systems and launch applications on authorized machines, via API or command line.\n- A job consists of a main sequence of file and execution operations, executed reliably in order.\n- An optional cleanup step can run after the main sequence, whether the job succeeded or failed.\n- On failure partway through the main sequence, the system must run cleanup for the failed step and for all previously completed steps, in reverse order.\n- The system must integrate with the existing Grid Security Infrastructure (GSI) proxy/credential mechanism.\n- Only authorized users can access the systems the Job Manager manages.\n- The system must maintain a resource list; users can only submit jobs to registered machines.\n- Regular users interact through a client: find a server, submit a job, check on it, cancel it, look up old runs.\n- Admin roles include: server installer/maintainer, hardware/OS manager, and software repository server manager.\n- Admins need their own way to manage access, manage the resource list, browse jobs, and view a log of admin actions.\n- Co-scheduling (running one application split across two machines simultaneously) is explicitly out of scope for this version.\n- A full workflow/DAG language with a GUI is explicitly out of scope for this version.\n- Parallel file staging, cross-OS file permission handling during staging, and file caching are explicitly out of scope for this version.\n- This version is not a drop-in replacement for the old Job Manager; existing users need transition support.\n- Error reporting must include a real error name, a message, and ideally the reason, plus file-based error logging.\n- The system must implement timeouts so operations don't hang forever waiting on a response.\n- As federal software built for NASA's IPG program, the whole system must meet Section 508 accessibility requirements.\n",
+  "rag_score": 0.3305,
+  "artefatos": {
+    "escopo": {
+      "descricao": "The system manages sequential jobs composed of file operations and application executions on authorized registered grid resources.",
+      "em_escopo": [
+        "Job submission through an API and command-line client",
+        "Sequential file move, file copy, and application execution steps",
+        "Multiple file sets and multiple executables in one job",
+        "Optional cleanup after successful or failed execution",
+        "Job status, cancellation, execution history, and error logging",
+        "GSI proxy credential authentication and resource authorization",
+        "Administrative access, resource, job browsing, and audit management",
+        "Section 508 accessibility conformance"
+      ],
+      "fora_de_escopo": [
+        "Co-scheduling or parallel execution of one application across multiple communicating machines — excluded from this release",
+        "Workflow/DAG language and graphical workflow editor — excluded from this release",
+        "Parallel file staging — file operations are executed sequentially in this release",
+        "Cross-operating-system file-permission management during staging — excluded from this release",
+        "File caching — excluded from this release",
+        "Drop-in compatibility with previous Job Manager scripts — explicitly not provided"
+      ],
+      "premissas": [
+        "PA-01: Registered resources expose the capabilities required to perform authorized file and application operations. [INFERRED]",
+        "PA-02: IPG provides Grid Security Infrastructure credentials for authorized users. [INFERRED]",
+        "PA-03: Migration guidance for users of previous Job Manager scripts will be defined outside this software scope. [TBD]"
+      ],
+      "restricoes": [
+        "REST-01 (Security): Authentication and authorization must respect the existing Grid Security Infrastructure proxy/credential model.",
+        "REST-02 (Compliance): The delivered system must meet all applicable Section 508 accessibility requirements.",
+        "REST-03 (Interface): User operations must be available through both an API and a command-line client."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "nome": "Grid user",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Parcial",
+        "necessidades": "Discover servers, submit and monitor jobs, cancel jobs, review prior executions, and receive actionable errors."
+      },
+      {
+        "id": "STK-02",
+        "nome": "Job Manager administrator",
+        "tipo": "Usuário primário",
+        "nivel_acesso": "Total",
+        "necessidades": "Manage user access, registered resources, job records, and administrative audit records."
+      },
+      {
+        "id": "STK-03",
+        "nome": "Job Manager server administrator",
+        "tipo": "Usuário secundário",
+        "nivel_acesso": "Total",
+        "necessidades": "Install, operate, and maintain the Job Manager server."
+      },
+      {
+        "id": "STK-04",
+        "nome": "Resource hardware and operating-system administrator",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Maintain the hardware and operating systems hosting registered resources."
+      },
+      {
+        "id": "STK-05",
+        "nome": "Software repository server administrator",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Operate the software repository server used by the environment."
+      },
+      {
+        "id": "STK-06",
+        "nome": "NASA IPG program",
+        "tipo": "Stakeholder externo",
+        "nivel_acesso": "Nenhum",
+        "necessidades": "Receive an accessible, controlled, and auditable job-management capability for the IPG program."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "titulo": "Authorized resource access",
+        "descricao": "Only users authorized through the grid security model may access managed resources.",
+        "fonte": "NASA IPG grid security policy",
+        "excecoes": "None"
+      },
+      {
+        "id": "RN-002",
+        "titulo": "Registered-resource submission",
+        "descricao": "Jobs may be submitted only to resources included in the managed resource list.",
+        "fonte": "IPG operational policy",
+        "excecoes": "None"
+      },
+      {
+        "id": "RN-003",
+        "titulo": "Sequential main execution",
+        "descricao": "A job main sequence executes its file-operation and execution-operation steps in their defined order.",
+        "fonte": "IPG Job Manager operational policy",
+        "excecoes": "None"
+      },
+      {
+        "id": "RN-004",
+        "titulo": "Failure cleanup order",
+        "descricao": "When a main-sequence step fails, main execution stops; cleanup for the failed step and cleanup for previously completed steps execute in reverse execution order.",
+        "fonte": "IPG Job Manager operational policy",
+        "excecoes": "No cleanup occurs for a step that has no cleanup definition."
+      },
+      {
+        "id": "RN-005",
+        "titulo": "Completion cleanup",
+        "descricao": "Defined cleanup operations execute after the main sequence whether the job succeeds or fails.",
+        "fonte": "IPG Job Manager operational policy",
+        "excecoes": "No cleanup occurs when the job contains no cleanup definition."
+      },
+      {
+        "id": "RN-006",
+        "titulo": "Administrative accountability",
+        "descricao": "Administrative access-management and resource-management actions must be attributable to the administrator who performed them.",
+        "fonte": "IPG operational policy",
+        "excecoes": "None"
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-001",
+        "titulo": "Server discovery",
+        "descricao": "The system shall allow a grid user to discover an available Job Manager server through the client interface.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-002",
+        "titulo": "API job submission",
+        "descricao": "The system shall accept a job submission through its API.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-003",
+        "titulo": "Command-line job submission",
+        "descricao": "The system shall accept a job submission through its command-line client.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-004",
+        "titulo": "Main-sequence definition",
+        "descricao": "The system shall accept a job definition containing an ordered main sequence of steps.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-005",
+        "titulo": "File move operation",
+        "descricao": "The system shall execute a defined file move operation between systems in a job step.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-006",
+        "titulo": "File copy operation",
+        "descricao": "The system shall execute a defined file copy operation between systems in a job step.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-007",
+        "titulo": "Application execution",
+        "descricao": "The system shall execute a defined application on the selected resource in a job step.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-008",
+        "titulo": "Multiple file sets",
+        "descricao": "The system shall accept multiple file sets within one job submission.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-009",
+        "titulo": "Multiple executables",
+        "descricao": "The system shall accept multiple application execution steps within one job submission.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-003"
+      },
+      {
+        "id": "RF-010",
+        "titulo": "Cleanup definition",
+        "descricao": "The system shall accept an optional cleanup definition for a job step.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-011",
+        "titulo": "Successful-job cleanup",
+        "descricao": "The system shall execute defined cleanup operations after successful completion of a job main sequence.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-005"
+      },
+      {
+        "id": "RF-012",
+        "titulo": "Failed-job cleanup",
+        "descricao": "The system shall stop the main sequence and execute applicable cleanup operations in reverse order after a main-sequence step fails.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "RN-004"
+      },
+      {
+        "id": "RF-013",
+        "titulo": "Job status query",
+        "descricao": "The system shall return the current status of a submitted job.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-014",
+        "titulo": "Job cancellation",
+        "descricao": "The system shall allow a grid user to cancel a submitted job.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-015",
+        "titulo": "Execution-history retrieval",
+        "descricao": "The system shall provide a grid user with records of previous job executions.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-016",
+        "titulo": "Error diagnostics",
+        "descricao": "The system shall report an error name, message, and reason when an operation fails.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-017",
+        "titulo": "User-designated error log",
+        "descricao": "The system shall write reported errors to a file location designated by the user.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-018",
+        "titulo": "Operation timeout",
+        "descricao": "The system shall terminate an operation when its configured timeout expires.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-01",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-019",
+        "titulo": "GSI proxy validation",
+        "descricao": "The system shall validate the submitting user's Grid Security Infrastructure proxy credential before accepting a job request.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-020",
+        "titulo": "Resource authorization validation",
+        "descricao": "The system shall verify that the submitting user is authorized for the selected resource before executing a job step.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-06",
+        "rn_associada": "RN-001"
+      },
+      {
+        "id": "RF-021",
+        "titulo": "Registered-resource validation",
+        "descricao": "The system shall reject a job step whose selected resource is not in the managed resource list.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-002"
+      },
+      {
+        "id": "RF-022",
+        "titulo": "Access management",
+        "descricao": "The system shall allow an administrator to manage user access to managed resources.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-023",
+        "titulo": "Resource-list management",
+        "descricao": "The system shall allow an administrator to manage the list of registered resources.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      },
+      {
+        "id": "RF-024",
+        "titulo": "Administrative job browsing",
+        "descricao": "The system shall allow an administrator to browse submitted job records.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "N/A"
+      },
+      {
+        "id": "RF-025",
+        "titulo": "Administrative audit logging",
+        "descricao": "The system shall record each administrative access-management and resource-management action in an audit log.",
+        "prioridade": "Must have",
+        "stakeholder_origem": "STK-02",
+        "rn_associada": "RN-006"
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-001",
+        "titulo": "Section 508 conformance",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "The system shall satisfy 100% of applicable Section 508 accessibility test criteria. [TBD: confirm applicable criteria baseline]",
+        "metrica_aceitacao": "100% pass rate for applicable Section 508 test criteria.",
+        "metodo_verificacao": "Accessibility audit using automated and manual assistive-technology testing."
+      },
+      {
+        "id": "RNF-002",
+        "titulo": "Credential enforcement",
+        "categoria_iso25010": "Security",
+        "descricao": "The system shall reject 100% of job requests submitted with missing, invalid, or expired GSI proxy credentials.",
+        "metrica_aceitacao": "100% rejection rate across the invalid-credential test suite.",
+        "metodo_verificacao": "Security integration test with valid, missing, invalid, and expired proxy credentials."
+      },
+      {
+        "id": "RNF-003",
+        "titulo": "Job-status response time",
+        "categoria_iso25010": "Performance Efficiency",
+        "descricao": "The system shall return a job-status query within 2 seconds at the 95th percentile under 100 concurrent status-query requests. [TBD: validate load volume]",
+        "metrica_aceitacao": "95th-percentile response time of 2 seconds or less under 100 concurrent requests.",
+        "metodo_verificacao": "Load test."
+      },
+      {
+        "id": "RNF-004",
+        "titulo": "Timeout response",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system shall record an operation timeout and begin applicable failure handling within 5 seconds after the configured timeout expires. [TBD: validate threshold]",
+        "metrica_aceitacao": "Failure handling begins within 5 seconds in 100% of timeout test cases.",
+        "metodo_verificacao": "Automated integration test with simulated nonresponsive operations."
+      },
+      {
+        "id": "RNF-005",
+        "titulo": "Cleanup reliability",
+        "categoria_iso25010": "Reliability",
+        "descricao": "The system shall invoke every applicable cleanup operation in the defined reverse order in 100% of injected main-sequence failure tests.",
+        "metrica_aceitacao": "100% of applicable cleanup operations are invoked in reverse order across the failure-injection suite.",
+        "metodo_verificacao": "Automated integration test with instrumented cleanup operations."
+      },
+      {
+        "id": "RNF-006",
+        "titulo": "Interface availability",
+        "categoria_iso25010": "Compatibility",
+        "descricao": "The system shall make all supported job-submission operations available through both the API and command-line client with 100% pass rate in interface conformance tests. [TBD: define API contract]",
+        "metrica_aceitacao": "100% pass rate for the supported-operation conformance suite on both interfaces.",
+        "metodo_verificacao": "API integration tests and command-line integration tests."
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-001",
+        "como": "grid user",
+        "quero": "discover an available Job Manager server",
+        "para": "connect my client to a server that can manage my jobs",
+        "rf_associado": "RF-001",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-002",
+        "como": "grid user",
+        "quero": "submit an ordered job sequence",
+        "para": "coordinate file operations and application executions as one job",
+        "rf_associado": "RF-004",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-003",
+        "como": "grid user",
+        "quero": "stage multiple file sets",
+        "para": "prepare all required inputs for my job submission",
+        "rf_associado": "RF-008",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-004",
+        "como": "grid user",
+        "quero": "run multiple executables in a job",
+        "para": "complete a multi-step processing task in one submission",
+        "rf_associado": "RF-009",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-005",
+        "como": "grid user",
+        "quero": "define cleanup operations",
+        "para": "remove temporary files and directories after my job finishes or fails",
+        "rf_associado": "RF-010",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-006",
+        "como": "grid user",
+        "quero": "check a job status",
+        "para": "know the current execution state of my submitted job",
+        "rf_associado": "RF-013",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-007",
+        "como": "grid user",
+        "quero": "cancel a submitted job",
+        "para": "stop work that is no longer required",
+        "rf_associado": "RF-014",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-008",
+        "como": "grid user",
+        "quero": "review prior executions and their errors",
+        "para": "diagnose why a job failed",
+        "rf_associado": "RF-015",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-009",
+        "como": "Job Manager administrator",
+        "quero": "manage user access to resources",
+        "para": "ensure that only authorized users can use managed resources",
+        "rf_associado": "RF-022",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-010",
+        "como": "Job Manager administrator",
+        "quero": "manage registered resources",
+        "para": "control where jobs may be submitted",
+        "rf_associado": "RF-023",
+        "prioridade": "Must have"
+      },
+      {
+        "id": "HU-011",
+        "como": "Job Manager administrator",
+        "quero": "review administrative audit records",
+        "para": "trace administrative changes",
+        "rf_associado": "RF-025",
+        "prioridade": "Must have"
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-001",
+        "nome": "Discover Job Manager server",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-001",
+        "pre_condicao": "The grid user has started a supported client.",
+        "pos_condicao_sucesso": "An available server is returned to the user.",
+        "pos_condicao_falha": "No server connection is established.",
+        "fluxo_principal": [
+          "1. The grid user requests server discovery.",
+          "2. The system searches for available Job Manager servers.",
+          "3. The system returns an available server identifier."
+        ],
+        "fluxos_alternativos": [
+          "2a. More than one server is available → the system returns the available server list."
+        ],
+        "fluxos_excecao": [
+          "2b. No server is available → the system reports an error name, message, and reason (ref. RF-016)."
+        ]
+      },
+      {
+        "id": "UC-002",
+        "nome": "Submit sequential job",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-002",
+        "pre_condicao": "The user has a valid GSI proxy credential and has selected a registered resource.",
+        "pos_condicao_sucesso": "The job is accepted and has a recorded initial status.",
+        "pos_condicao_falha": "The job is rejected without executing a main-sequence step.",
+        "fluxo_principal": [
+          "1. The grid user submits an ordered job definition through the API or command-line client.",
+          "2. The system validates the GSI proxy credential.",
+          "3. The system validates the selected resource and user authorization.",
+          "4. The system records and starts the main sequence in its defined order."
+        ],
+        "fluxos_alternativos": [
+          "1a. The job contains multiple file sets or execution steps → the system retains each submitted step in the defined order."
+        ],
+        "fluxos_excecao": [
+          "2b. The proxy credential is invalid → the system rejects the request and reports diagnostics (ref. RN-001, RF-019, RF-016).",
+          "3b. The resource is unregistered or unauthorized → the system rejects the request and reports diagnostics (ref. RN-001, RN-002, RF-020, RF-021)."
+        ]
+      },
+      {
+        "id": "UC-003",
+        "nome": "Stage multiple file sets",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-003",
+        "pre_condicao": "A submitted job contains two or more file sets.",
+        "pos_condicao_sucesso": "Each file-set operation has been processed in its defined sequence.",
+        "pos_condicao_falha": "Failure handling and applicable cleanup have been started.",
+        "fluxo_principal": [
+          "1. The grid user submits a job containing multiple file sets.",
+          "2. The system processes the first defined file operation.",
+          "3. The system processes each subsequent file operation in sequence."
+        ],
+        "fluxos_alternativos": [
+          "2a. A file set specifies a copy operation → the system executes the copy operation."
+        ],
+        "fluxos_excecao": [
+          "2b. A file operation fails → the system stops the main sequence and executes applicable cleanup in reverse order (ref. RN-004, RF-012)."
+        ]
+      },
+      {
+        "id": "UC-004",
+        "nome": "Execute multiple applications",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-004",
+        "pre_condicao": "A submitted job contains two or more application execution steps on authorized registered resources.",
+        "pos_condicao_sucesso": "All application steps have completed in their defined sequence.",
+        "pos_condicao_falha": "The main sequence has stopped and applicable cleanup has been started.",
+        "fluxo_principal": [
+          "1. The grid user submits a job containing multiple execution steps.",
+          "2. The system executes the first application step.",
+          "3. The system executes each subsequent application step after the preceding step completes."
+        ],
+        "fluxos_alternativos": [
+          "2a. A step has a cleanup definition → the system retains it for execution after completion or failure."
+        ],
+        "fluxos_excecao": [
+          "2b. An application step exceeds its timeout → the system terminates the operation and starts failure handling (ref. RF-018, RF-012)."
+        ]
+      },
+      {
+        "id": "UC-005",
+        "nome": "Define cleanup operations",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-005",
+        "pre_condicao": "The grid user is creating a job definition.",
+        "pos_condicao_sucesso": "The job definition contains the selected cleanup operation.",
+        "pos_condicao_falha": "The job definition is not accepted with an invalid cleanup operation.",
+        "fluxo_principal": [
+          "1. The grid user associates a cleanup operation with a job step.",
+          "2. The system validates the cleanup definition.",
+          "3. The system stores the cleanup definition with the job."
+        ],
+        "fluxos_alternativos": [
+          "1a. The user omits cleanup for a step → the system accepts the step without cleanup."
+        ],
+        "fluxos_excecao": [
+          "2b. The cleanup definition is invalid → the system reports diagnostics and rejects that definition (ref. RF-016)."
+        ]
+      },
+      {
+        "id": "UC-006",
+        "nome": "Check job status",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-006",
+        "pre_condicao": "The grid user has submitted or may access the target job.",
+        "pos_condicao_sucesso": "The current job status is returned.",
+        "pos_condicao_falha": "No status is disclosed for an inaccessible or unknown job.",
+        "fluxo_principal": [
+          "1. The grid user requests the status of a job.",
+          "2. The system locates the job record.",
+          "3. The system returns the current job status."
+        ],
+        "fluxos_alternativos": [
+          "2a. The job has completed → the system returns its final status."
+        ],
+        "fluxos_excecao": [
+          "2b. The job does not exist or is inaccessible → the system reports diagnostics (ref. RF-016)."
+        ]
+      },
+      {
+        "id": "UC-007",
+        "nome": "Cancel job",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-007",
+        "pre_condicao": "The grid user may access the target submitted job.",
+        "pos_condicao_sucesso": "The job cancellation is recorded and applicable cleanup is started.",
+        "pos_condicao_falha": "The job remains unchanged when cancellation is not accepted.",
+        "fluxo_principal": [
+          "1. The grid user requests cancellation of a job.",
+          "2. The system validates access to the job.",
+          "3. The system records cancellation and stops remaining main-sequence processing.",
+          "4. The system starts applicable cleanup."
+        ],
+        "fluxos_alternativos": [
+          "2a. The job is already complete → the system returns its final status without changing it."
+        ],
+        "fluxos_excecao": [
+          "2b. The user is not authorized for the job → the system rejects cancellation and reports diagnostics (ref. RN-001, RF-016)."
+        ]
+      },
+      {
+        "id": "UC-008",
+        "nome": "Review execution history",
+        "ator_principal": "Grid user",
+        "hu_relacionada": "HU-008",
+        "pre_condicao": "The grid user has access to prior job records.",
+        "pos_condicao_sucesso": "Prior execution records and available error diagnostics are returned.",
+        "pos_condicao_falha": "No records are disclosed for an inaccessible request.",
+        "fluxo_principal": [
+          "1. The grid user requests prior execution records.",
+          "2. The system retrieves accessible job history.",
+          "3. The system returns execution records including recorded errors when present."
+        ],
+        "fluxos_alternativos": [
+          "2a. No execution record exists → the system returns an empty result."
+        ],
+        "fluxos_excecao": [
+          "2b. The history request is unauthorized → the system rejects it and reports diagnostics (ref. RN-001, RF-016)."
+        ]
+      },
+      {
+        "id": "UC-009",
+        "nome": "Manage user resource access",
+        "ator_principal": "Job Manager administrator",
+        "hu_relacionada": "HU-009",
+        "pre_condicao": "The administrator is authenticated with administrative access.",
+        "pos_condicao_sucesso": "The user-resource access assignment is updated and audit-recorded.",
+        "pos_condicao_falha": "No access assignment is changed.",
+        "fluxo_principal": [
+          "1. The administrator selects a user and a registered resource.",
+          "2. The administrator creates, changes, or removes an access assignment.",
+          "3. The system updates the assignment.",
+          "4. The system records the administrative action in the audit log."
+        ],
+        "fluxos_alternativos": [
+          "2a. The requested assignment already exists → the system reports the current assignment."
+        ],
+        "fluxos_excecao": [
+          "3b. The selected resource is not registered → the system rejects the change and reports diagnostics (ref. RN-002, RF-016)."
+        ]
+      },
+      {
+        "id": "UC-010",
+        "nome": "Manage registered resources",
+        "ator_principal": "Job Manager administrator",
+        "hu_relacionada": "HU-010",
+        "pre_condicao": "The administrator is authenticated with administrative access.",
+        "pos_condicao_sucesso": "The resource list is updated and the action is audit-recorded.",
+        "pos_condicao_falha": "The resource list remains unchanged.",
+        "fluxo_principal": [
+          "1. The administrator requests to add, modify, or remove a resource.",
+          "2. The system validates the requested resource-list change.",
+          "3. The system updates the managed resource list.",
+          "4. The system records the administrative action in the audit log."
+        ],
+        "fluxos_alternativos": [
+          "1a. The administrator requests the current list → the system returns registered resources."
+        ],
+        "fluxos_excecao": [
+          "2b. The requested resource data is invalid → the system rejects the change and reports diagnostics (ref. RF-016)."
+        ]
+      },
+      {
+        "id": "UC-011",
+        "nome": "Review administrative audit records",
+        "ator_principal": "Job Manager administrator",
+        "hu_relacionada": "HU-011",
+        "pre_condicao": "The administrator is authenticated with administrative access.",
+        "pos_condicao_sucesso": "Administrative audit records are returned.",
+        "pos_condicao_falha": "No audit records are disclosed to an unauthorized requester.",
+        "fluxo_principal": [
+          "1. The administrator requests administrative audit records.",
+          "2. The system retrieves the requested accessible audit records.",
+          "3. The system returns the records."
+        ],
+        "fluxos_alternativos": [
+          "2a. No record matches the request → the system returns an empty result."
+        ],
+        "fluxos_excecao": [
+          "2b. The requester lacks administrative access → the system rejects the request and reports diagnostics (ref. RN-001, RF-016)."
+        ]
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-001",
+        "rf_hu_ref": "RF-001 / HU-001",
+        "titulo": "Discover available server",
+        "dado": "a supported client is running and one Job Manager server is available",
+        "quando": "the grid user requests server discovery",
+        "entao": "the system returns one available server identifier",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-002",
+        "rf_hu_ref": "RF-002",
+        "titulo": "Submit job through API",
+        "dado": "a valid API job request is prepared",
+        "quando": "the client sends the request to the API",
+        "entao": "the system returns a job identifier and an accepted status",
+        "metodo_verificacao": "API integration test"
+      },
+      {
+        "id": "CA-003",
+        "rf_hu_ref": "RF-003",
+        "titulo": "Submit job through command line",
+        "dado": "a valid command-line job definition is prepared",
+        "quando": "the user runs the submission command",
+        "entao": "the system returns a job identifier and an accepted status",
+        "metodo_verificacao": "Command-line integration test"
+      },
+      {
+        "id": "CA-004",
+        "rf_hu_ref": "RF-004 / HU-002",
+        "titulo": "Accept ordered main sequence",
+        "dado": "a job definition contains three ordered main-sequence steps",
+        "quando": "the user submits the job",
+        "entao": "the stored job record contains the same three steps in the submitted order",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-005",
+        "rf_hu_ref": "RF-005",
+        "titulo": "Move file",
+        "dado": "a job contains a valid file move step",
+        "quando": "the step executes",
+        "entao": "the source file is absent and the destination file is present",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-006",
+        "rf_hu_ref": "RF-006",
+        "titulo": "Copy file",
+        "dado": "a job contains a valid file copy step",
+        "quando": "the step executes",
+        "entao": "the source and destination files are both present with identical content",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-007",
+        "rf_hu_ref": "RF-007",
+        "titulo": "Execute application",
+        "dado": "a job contains an authorized application execution step on a registered resource",
+        "quando": "the step executes",
+        "entao": "the system records the application's exit status in the job record",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-008",
+        "rf_hu_ref": "RF-008 / HU-003",
+        "titulo": "Accept multiple file sets",
+        "dado": "a job submission contains two file sets",
+        "quando": "the user submits the job",
+        "entao": "the system records both file sets in the job definition",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-009",
+        "rf_hu_ref": "RF-009 / HU-004",
+        "titulo": "Accept multiple executables",
+        "dado": "a job submission contains two application execution steps",
+        "quando": "the user submits the job",
+        "entao": "the system records both execution steps in the defined sequence",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-010",
+        "rf_hu_ref": "RF-010 / HU-005",
+        "titulo": "Accept cleanup definition",
+        "dado": "a job step has a valid cleanup operation",
+        "quando": "the user submits the job",
+        "entao": "the system stores the cleanup operation associated with that step",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-011",
+        "rf_hu_ref": "RF-011",
+        "titulo": "Run cleanup after success",
+        "dado": "a successful job contains a cleanup operation that deletes a temporary directory",
+        "quando": "the main sequence completes successfully",
+        "entao": "the temporary directory is absent after cleanup completes",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-012",
+        "rf_hu_ref": "RF-012",
+        "titulo": "Run reverse cleanup after failure",
+        "dado": "a three-step job has cleanup definitions and its third main-sequence step fails",
+        "quando": "the failure occurs",
+        "entao": "the system does not execute later main steps and invokes applicable cleanup in reverse order beginning with the failed step",
+        "metodo_verificacao": "Automated integration test"
+      },
+      {
+        "id": "CA-013",
+        "rf_hu_ref": "RF-013 / HU-006",
+        "titulo": "Return job status",
+        "dado": "an accessible submitted job exists",
+        "quando": "the grid user requests its status",
+        "entao": "the system returns one current job status",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-014",
+        "rf_hu_ref": "RF-014 / HU-007",
+        "titulo": "Cancel submitted job",
+        "dado": "an accessible job is executing",
+        "quando": "the grid user requests cancellation",
+        "entao": "the system records a cancellation status and starts applicable cleanup",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-015",
+        "rf_hu_ref": "RF-015 / HU-008",
+        "titulo": "Retrieve execution history",
+        "dado": "the grid user has two accessible completed job records",
+        "quando": "the user requests execution history",
+        "entao": "the system returns both job records with their final statuses",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-016",
+        "rf_hu_ref": "RF-016",
+        "titulo": "Report operation error",
+        "dado": "a job operation fails",
+        "quando": "the system detects the failure",
+        "entao": "the returned diagnostic contains a nonempty error name, message, and reason",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-017",
+        "rf_hu_ref": "RF-017",
+        "titulo": "Write designated error log",
+        "dado": "the user designates a writable error-log file and a job operation fails",
+        "quando": "the system reports the failure",
+        "entao": "the designated file contains the error name, message, and reason",
+        "metodo_verificacao": "Integration test"
+      },
+      {
+        "id": "CA-018",
+        "rf_hu_ref": "RF-018",
+        "titulo": "Terminate timed-out operation",
+        "dado": "an operation has a configured timeout of 10 seconds and does not respond",
+        "quando": "10 seconds elapse",
+        "entao": "the system terminates the operation and records a timeout error",
+        "metodo_verificacao": "Automated integration test"
+      },
+      {
+        "id": "CA-019",
+        "rf_hu_ref": "RF-019",
+        "titulo": "Reject invalid GSI proxy",
+        "dado": "a job request contains an expired GSI proxy credential",
+        "quando": "the user submits the request",
+        "entao": "the system rejects the request before creating a job record",
+        "metodo_verificacao": "Security integration test"
+      },
+      {
+        "id": "CA-020",
+        "rf_hu_ref": "RF-020",
+        "titulo": "Validate resource authorization",
+        "dado": "a user has a valid GSI proxy but lacks authorization for the selected resource",
+        "quando": "the system validates the job step",
+        "entao": "the system prevents execution on that resource",
+        "metodo_verificacao": "Security integration test"
+      },
+      {
+        "id": "CA-021",
+        "rf_hu_ref": "RF-021",
+        "titulo": "Reject unregistered resource",
+        "dado": "a job step selects a resource absent from the managed resource list",
+        "quando": "the user submits the job",
+        "entao": "the system rejects the job step and reports an error",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-022",
+        "rf_hu_ref": "RF-022 / HU-009",
+        "titulo": "Manage user access",
+        "dado": "an authenticated administrator selects a user and registered resource",
+        "quando": "the administrator grants access",
+        "entao": "the system stores the access assignment for that user-resource pair",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-023",
+        "rf_hu_ref": "RF-023 / HU-010",
+        "titulo": "Manage resource list",
+        "dado": "an authenticated administrator provides valid resource data",
+        "quando": "the administrator adds the resource",
+        "entao": "the resource appears in the managed resource list",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-024",
+        "rf_hu_ref": "RF-024",
+        "titulo": "Browse job records",
+        "dado": "job records exist and an administrator is authenticated",
+        "quando": "the administrator requests job browsing",
+        "entao": "the system returns the existing job records",
+        "metodo_verificacao": "Functional integration test"
+      },
+      {
+        "id": "CA-025",
+        "rf_hu_ref": "RF-025 / HU-011",
+        "titulo": "Record administrative action",
+        "dado": "an administrator changes a user-resource access assignment",
+        "quando": "the system completes the change",
+        "entao": "the audit log contains the administrator identity, action type, affected user-resource pair, and timestamp",
+        "metodo_verificacao": "Functional integration test"
+      }
+    ]
+  },
+  "gabarito_artefatos": {
+    "sistema": "IPG Job Manager",
+    "cenario_fonte": "Project Scenario 3.pdf",
+    "observacoes": "Tem RNFs explicitas e verificaveis (raro entre os 9): timeout, conformidade com Section 508, estrutura de relato de erro. Vocabulario tecnico de grid computing (GSI, staging, DAG) exige cuidado ao formular claims. Conteudo em ingles porque o cenario-fonte e em ingles (mesma convencao dos gabaritos RAGAS existentes).",
+    "escopo": {
+      "em_escopo": [
+        "Moving and copying files between systems",
+        "Launching applications on authorized machines, via API or command line",
+        "A job composed of a main sequence of file and execution operations, executed reliably and in order",
+        "Optional cleanup step after the main sequence, on both success and failure",
+        "Reverse-order cleanup on partial failure of the main sequence",
+        "Integration with the Grid Security Infrastructure (GSI) proxy/credential mechanism",
+        "Resource list (registered machines) and restriction of submission to those machines",
+        "Client for regular users (find server, submit, check, cancel, look up history)",
+        "Administrative functionality (manage access, manage resource list, browse jobs, admin action log)",
+        "Structured error reporting (name, message, reason) and file-based error logging",
+        "Timeouts to prevent operations from hanging indefinitely",
+        "Compliance with Section 508 accessibility"
+      ],
+      "fora_de_escopo": [
+        "Co-scheduling (running one application split across two machines simultaneously)",
+        "A full workflow/DAG language with a GUI",
+        "Parallel file staging",
+        "Cross-OS file permission handling during staging",
+        "File caching",
+        "A drop-in replacement for the old Job Manager — existing users need transition support"
+      ],
+      "premissas": [
+        "PA-01: The GSI (Grid Security Infrastructure) already exists and is available for integration.",
+        "PA-02: [INFERRED] Regular users have enough technical familiarity to use the API or command line."
+      ],
+      "restricoes": [
+        "REST-01 (Regulatory): As federal software built for NASA's IPG program, the whole system must meet Section 508 accessibility requirements.",
+        "REST-02 (Scope): This version is not a drop-in replacement for the old Job Manager."
+      ]
+    },
+    "stakeholders": [
+      {
+        "id": "STK-01",
+        "descricao": "Regular user (grid user) — connects through the client to submit, check, cancel jobs, and look up old runs."
+      },
+      {
+        "id": "STK-02",
+        "descricao": "Server installer/maintainer (admin) — installs and keeps the Job Manager server running."
+      },
+      {
+        "id": "STK-03",
+        "descricao": "Hardware/OS manager (admin) — manages the underlying hardware and operating system."
+      },
+      {
+        "id": "STK-04",
+        "descricao": "Software repository server manager (admin) — manages the software repository."
+      }
+    ],
+    "regras_de_negocio": [
+      {
+        "id": "RN-001",
+        "descricao": "A job consists of a main sequence of file and execution operations, executed reliably and in order."
+      },
+      {
+        "id": "RN-002",
+        "descricao": "An optional cleanup step can run after the main sequence, regardless of success or failure."
+      },
+      {
+        "id": "RN-003",
+        "descricao": "On partial failure of the main sequence, cleanup must run for the failed step and for all previously completed steps, in reverse order."
+      },
+      {
+        "id": "RN-004",
+        "descricao": "Users can only submit jobs to machines registered in the resource list."
+      },
+      {
+        "id": "RN-005",
+        "descricao": "Only authorized users (via GSI credential) can access the systems managed by the Job Manager."
+      },
+      {
+        "id": "RN-006",
+        "descricao": "This version is not a drop-in replacement for the old Job Manager — existing users need transition support, with no guarantee that old scripts keep working."
+      }
+    ],
+    "requisitos_funcionais": [
+      {
+        "id": "RF-01",
+        "descricao": "The system must allow users to move/copy files between systems."
+      },
+      {
+        "id": "RF-02",
+        "descricao": "The system must allow users to launch applications on machines they are authorized to use."
+      },
+      {
+        "id": "RF-03",
+        "descricao": "The system must allow these operations to be performed via API or via command line."
+      },
+      {
+        "id": "RF-04",
+        "descricao": "The system must execute a job's main sequence of file and execution operations reliably and in order."
+      },
+      {
+        "id": "RF-05",
+        "descricao": "The system must support an optional cleanup step that runs after the main sequence, on either job success or failure."
+      },
+      {
+        "id": "RF-06",
+        "descricao": "The system must, on partial failure of the main sequence, run cleanup for the failed step and for all previously completed steps, in reverse order."
+      },
+      {
+        "id": "RF-07",
+        "descricao": "The system must integrate with the existing Grid Security Infrastructure (GSI) proxy/credential mechanism."
+      },
+      {
+        "id": "RF-08",
+        "descricao": "The system must maintain a resource list of registered machines."
+      },
+      {
+        "id": "RF-09",
+        "descricao": "The system must restrict job submission to machines registered in the resource list."
+      },
+      {
+        "id": "RF-10",
+        "descricao": "The system must allow regular users to find an available server."
+      },
+      {
+        "id": "RF-11",
+        "descricao": "The system must allow regular users to submit a job."
+      },
+      {
+        "id": "RF-12",
+        "descricao": "The system must allow regular users to check the status of a submitted job."
+      },
+      {
+        "id": "RF-13",
+        "descricao": "The system must allow regular users to cancel a job."
+      },
+      {
+        "id": "RF-14",
+        "descricao": "The system must allow regular users to look up old job runs."
+      },
+      {
+        "id": "RF-15",
+        "descricao": "The system must allow admins to manage user access."
+      },
+      {
+        "id": "RF-16",
+        "descricao": "The system must allow admins to manage the resource list."
+      },
+      {
+        "id": "RF-17",
+        "descricao": "The system must allow admins to browse existing jobs."
+      },
+      {
+        "id": "RF-18",
+        "descricao": "The system must maintain a log of administrative actions taken."
+      },
+      {
+        "id": "RF-19",
+        "descricao": "The system must report errors with a real error name and a message, and ideally the reason."
+      },
+      {
+        "id": "RF-20",
+        "descricao": "The system must log errors to a file that the user can consult themselves."
+      }
+    ],
+    "requisitos_nao_funcionais": [
+      {
+        "id": "RNF-01",
+        "categoria_iso25010": "Reliability",
+        "descricao": "System operations must implement timeouts, so they don't hang indefinitely waiting for a response.",
+        "metrica_aceitacao": "[TBD] — scenario does not define a numeric timeout duration"
+      },
+      {
+        "id": "RNF-02",
+        "categoria_iso25010": "Security",
+        "descricao": "The system must fully respect the Grid Security Infrastructure (GSI) proxy/credential mechanism to authorize access to managed resources.",
+        "metrica_aceitacao": "100% of accesses to managed systems validated via GSI credential"
+      },
+      {
+        "id": "RNF-03",
+        "categoria_iso25010": "Interaction Capability",
+        "descricao": "As federal software built for NASA's IPG program, the whole system — not just part of it — must meet Section 508 accessibility requirements.",
+        "metrica_aceitacao": "Full compliance with Section 508"
+      },
+      {
+        "id": "RNF-04",
+        "categoria_iso25010": "Maintainability",
+        "descricao": "Errors reported by the system must include a real error name, a message, and ideally the reason, and must be logged to a file accessible to the user.",
+        "metrica_aceitacao": "100% of reported errors include a name and message; file-based log available to the user"
+      }
+    ],
+    "historias_de_usuario": [
+      {
+        "id": "HU-01",
+        "descricao": "As a regular user, I want to move/copy files between systems and launch applications on authorized machines via API or command line, so that I can run my jobs in whatever way fits my workflow."
+      },
+      {
+        "id": "HU-02",
+        "descricao": "As a regular user, I want to submit a job with a main sequence and an optional cleanup step, so that temporary files are removed regardless of whether the job succeeds or fails."
+      },
+      {
+        "id": "HU-03",
+        "descricao": "As a regular user, I want to check, cancel, and look up old runs of my jobs, so that I can manage and audit my own work."
+      },
+      {
+        "id": "HU-04",
+        "descricao": "As a server installer/maintainer, I want to install and keep the server running, so that the Job Manager stays available."
+      },
+      {
+        "id": "HU-05",
+        "descricao": "As an admin, I want to manage user access and the resource list, so that only authorized users submit jobs to registered machines."
+      },
+      {
+        "id": "HU-06",
+        "descricao": "As an admin, I want to browse existing jobs and see a log of administrative actions, so that I can monitor usage and my own team's actions."
+      },
+      {
+        "id": "HU-07",
+        "descricao": "As a user, I want to receive clear error messages (name, message, reason) and have errors logged to a file, so that I can diagnose failures myself."
+      }
+    ],
+    "casos_de_uso": [
+      {
+        "id": "UC-01",
+        "descricao": "Submit and run job — a user submits a job (main sequence of file/execution operations), the system executes it reliably and runs cleanup afterward (success or failure), including reverse-order cleanup on partial failure."
+      },
+      {
+        "id": "UC-02",
+        "descricao": "Manage job status — a user checks, cancels, or looks up the history of a submitted job."
+      },
+      {
+        "id": "UC-03",
+        "descricao": "Manage access and resources (admin) — an admin manages user access and the list of registered machines."
+      },
+      {
+        "id": "UC-04",
+        "descricao": "Review admin log — an admin browses the log of administrative actions taken on the system."
+      }
+    ],
+    "criterios_de_aceite": [
+      {
+        "id": "CA-01",
+        "rf_hu_ref": "RF-06",
+        "descricao": "Given a job that fails partway through the main sequence, when the failure occurs, then the system runs cleanup for the failed step and for all previously completed steps, in reverse order."
+      },
+      {
+        "id": "CA-02",
+        "rf_hu_ref": "RF-09",
+        "descricao": "Given a user attempting to submit a job to an unregistered machine, when the submission is attempted, then the system rejects it."
+      },
+      {
+        "id": "CA-03",
+        "rf_hu_ref": "RNF-01",
+        "descricao": "Given an operation waiting for a response, when the timeout threshold is reached, then the system aborts the wait instead of hanging indefinitely."
+      },
+      {
+        "id": "CA-04",
+        "rf_hu_ref": "RNF-03",
+        "descricao": "Given any part of the system's interface, when it is evaluated for accessibility, then it complies with Section 508."
+      },
+      {
+        "id": "CA-05",
+        "rf_hu_ref": "RF-19 / RF-20",
+        "descricao": "Given an error occurs during job execution, when it is reported, then the system provides a real error name, a message, and logs the error to a file accessible to the user."
+      }
+    ]
+  }
+}
