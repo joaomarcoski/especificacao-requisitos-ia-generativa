@@ -30,6 +30,34 @@ Testes/
   Graficos/                     Script e figuras do artigo
 ```
 
+## Por onde começar
+
+1. **Resultados:** `Testes/Execuções Oficiais/RESULTADOS_CONSOLIDADOS.md` reúne todos os números das 45 execuções num único documento.
+2. **Protótipo:** em `Agente/main.py`, o prompt de sistema está em `PROMPT_SISTEMA`; a chamada ao modelo com as duas *vector stores* em `elicitar_requisitos()`; o RAG Score em `calcular_rag_score()`; o custo em `calcular_custo_usd()`; e o documento .docx em `gerar_docx()`.
+3. **Avaliação:** os três scripts `Agente/avaliar_*.py` leem os arquivos `ragas_*.json` de cada execução e gravam os `resultados_*.csv`.
+4. **Exemplo de saída:** qualquer `SRS_*.docx` em `Testes/Execuções Oficiais/` é um documento gerado pelo protótipo, sem edição.
+
+## Fluxo dos dados
+
+```
+Projetos Oficiais/Cenarios/Project Scenario N.pdf
+        │  rodar_lote.py → rodar_execucao.py → funções de main.py
+        ▼
+Testes/Execuções Oficiais/   SRS_*.docx · execucao_*.csv · ragas_*.json · _lote_manifest.json
+        │  avaliar_ragas.py · avaliar_classificacao.py · avaliar_qualidade.py
+        │  (usam os gabaritos de Projetos Oficiais/Gabaritos_RAGAS e Gabaritos_RFRNF)
+        ▼
+Testes/Execuções Oficiais/   resultados_ragas.csv · resultados_classificacao.csv · resultados_qualidade.csv
+        │  Testes/Validacao/*.py   (somente leitura, sem chamadas à API)
+        ▼
+base_consolidada_45.csv · valores_recalculados.json · analises_cap4.json · RESULTADOS_CONSOLIDADOS.md
+        │  Testes/Graficos/gerar_graficos.py
+        ▼
+Testes/Graficos/figura_01 … figura_07.png
+```
+
+Os nomes das pastas, inclusive os espaços e acentos, são usados pelos scripts para localizar cenários, gabaritos e resultados; renomeá-los impede a execução.
+
 ## Protótipo
 
 - **Modelos avaliados** (família GPT-5.6 da OpenAI): Lua (`gpt-5.6-luna`), Terra (`gpt-5.6-terra`) e Sol (`gpt-5.6-sol`), com esforço de raciocínio médio, verbosidade baixa e saída em JSON.
@@ -91,9 +119,11 @@ Somente leitura dos arquivos acima; não chamam a API. Dependências: `pip insta
 |---|---|
 | `validar_dados.py` | Confere os CSVs contra os dados brutos, recalcula custo, P/R/F1, coeficientes de variação e custo-benefício e gera `base_consolidada_45.csv` e `valores_recalculados.json` |
 | `cobertura_cenario_contexto.py` | Mede quanto do texto de cada cenário estava nos trechos recuperados avaliados pelo RAGAS |
-| `analises_complementares_cap4.py` | Análises complementares (context precision × posição dos trechos, marcações [TBD] nos requisitos não funcionais, ordem dos modelos por cenário, sobreposição dos trechos entre repetições) e gera `analises_cap4.json` |
+| `analises_complementares_cap4.py` | Análises complementares do capítulo 4 do artigo (context precision × posição dos trechos, marcações [TBD] nos requisitos não funcionais, ordem dos modelos por cenário, sobreposição dos trechos entre repetições) e gera `analises_cap4.json` |
 | `gerar_resultados_consolidados.py` | Gera `Testes/Execuções Oficiais/RESULTADOS_CONSOLIDADOS.md` |
 | `gerar_graficos.py` | Gera as sete figuras do artigo (`figura_01` a `figura_07`) |
+
+Saídas gravadas em `Testes/Validacao/`: `base_consolidada_45.csv` (uma linha por execução, com todas as métricas), `valores_recalculados.json` e `analises_cap4.json`.
 
 Ordem sugerida: `validar_dados.py` → `cobertura_cenario_contexto.py` e `analises_complementares_cap4.py` → `gerar_resultados_consolidados.py` → `gerar_graficos.py`.
 

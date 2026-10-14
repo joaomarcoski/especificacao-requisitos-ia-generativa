@@ -2,10 +2,11 @@
 #
 # Camada 1: integridade das fontes brutas (manifesto, execucao_*.csv,
 #           ragas_*.json, gabaritos) contra os CSVs de resultado.
+# Camada 2: conferência dos números citados no texto do artigo (feita a
+#           partir de valores_recalculados.json, fora deste script).
 # Camada 3: recalcula os valores que alimentam tabelas e figuras.
 #
-# Também grava valores_recalculados.json com todos os números canônicos,
-# usados na conferência das afirmações do texto (camada 2).
+# Também grava valores_recalculados.json com todos os números canônicos.
 #
 # Uso: python validar_dados.py
 

@@ -1,6 +1,6 @@
 """
 avaliar_classificacao.py — Precision / Recall / F1 clássicos (estilo sklearn)
-(Fase 3 do roadmap de métricas da pesquisa — Univille)
+(Fase 3 da avaliação da pesquisa — Univille)
 
 Compara, artefato por artefato (escopo em/fora, stakeholders, regras de
 negócio, RF, RNF, HU, casos de uso, critérios de aceite), a lista ESPERADA

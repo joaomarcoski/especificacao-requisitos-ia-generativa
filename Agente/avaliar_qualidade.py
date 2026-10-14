@@ -1,6 +1,6 @@
 """
 avaliar_qualidade.py — Avaliação de qualidade do SRS via LLM-as-judge
-(Fase 2 do roadmap de métricas da pesquisa — Univille)
+(Fase 2 da avaliação da pesquisa — Univille)
 
 Avalia cada execução em três dimensões, numa escala de 1 a 5:
   - correctness  (correção técnica dos artefatos gerados)

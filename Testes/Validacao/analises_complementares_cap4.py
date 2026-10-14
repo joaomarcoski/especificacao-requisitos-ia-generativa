@@ -1,5 +1,5 @@
-# Análises complementares do cap. 4 (revisão de 2026-10-02, v28). Somente leitura, não chama a API.
-# Grava analises_cap4.json, lido pelo registro_afirmacoes.py.
+# Análises complementares dos resultados (capítulo 4 do artigo). Somente leitura, não chama a API.
+# Grava analises_cap4.json nesta mesma pasta.
 #
 # 1. Context precision × posição do 1º trecho do cenário na ordem retornada pelo file_search
 #    (trecho "do cenário" = ao menos metade das suas sequências de 6 palavras está no texto do cenário).
